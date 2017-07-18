@@ -55,3 +55,10 @@ Il peut être nécessaire de redémarrer.
 Pour tester quels serveurs sont utilisés:
 
 	$ nmcli device show wlp3s0 | grep -i dns
+
+Autre solution:
+
+	$ sudo vim /etc/resolvconf/resolv.conf.d/base
+
+	nameserver 80.67.169.40;
+	nameserver 80.67.169.12;
