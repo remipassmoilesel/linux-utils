@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Sun Jul 31 15:17:41 CEST 2016
+
+# Create a bare repository in /git-rep
+# Need a 'git' user
+
+sudo -u git bash -c "cd /git-rep && mkdir '$@' && cd '$@' && git init --bare"
+

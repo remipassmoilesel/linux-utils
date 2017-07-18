@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# vendredi 2 décembre 2016, 15:26:20 (UTC+0100)
+
+git config --global user.email "remi.passmoilesel@gmail.com"
+git config --global user.name "Rémi Passmoilesel"
+
+

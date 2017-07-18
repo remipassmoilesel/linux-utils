@@ -1,0 +1,7 @@
+#!/bin/bash
+~/jboss-as-7.1.1.Final/bin/standalone.sh &>> ~/jboss-as-7.1.1.Final/log.txt &
+
+sleep 3
+
+tail -20 ~/jboss-as-7.1.1.Final/log.txt
+

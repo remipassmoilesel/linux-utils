@@ -1,0 +1,2 @@
+#!/bin/bash
+tail -20 ~/jboss-as-7.1.1.Final/log.txt 

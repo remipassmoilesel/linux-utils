@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo -u bash -c /home/remipassmoilesel/linux-utils/git-backup -b

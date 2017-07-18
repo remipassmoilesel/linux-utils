@@ -1,0 +1,37 @@
+#!/bin/bash
+
+export PATH="$PATH:/home/remipassmoilesel/linux-utils/"
+export PATH="$PATH:/home/remipassmoilesel/linux-utils/notes/"
+export PATH="$PATH:/home/remipassmoilesel/linux-utils/memo/"
+export PATH="$PATH:/home/remipassmoilesel/linux-utils/linux-rapid-install/"
+
+export PATH="$PATH:/opt/node/bin/"
+export PATH="$PATH:/opt/ruby/"
+export PATH="$PATH:/opt/android-sdk-linux/platform-tools"
+export PATH="$PATH:/opt/android-sdk-linux/tools"
+export PATH="$PATH:/opt/mongodb/bin"
+
+export GOPATH="/opt/gocode"
+
+# workaround
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+# Android SDK
+# export ANDROID_SDK_ROOT="/opt/android-sdk-linux/"
+
+# default editor
+export EDITOR=vim
+
+# history format and behavior
+export HISTTIMEFORMAT='%d %H:%M '
+PROMPT_COMMAND='history -a'
+
+# inclure le path courant dans la commande sudo
+# alias sudo='sudo env PATH=$PATH '
+
+# better git log with 'git lg'
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+# woooo !
+cmatrix -b  -C blue
+

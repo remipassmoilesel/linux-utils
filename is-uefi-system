@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Affiche le type de systeme
+
+[ -d /sys/firmware/efi ] && echo "Installed in UEFI mode" || echo "Installed in Legacy mode" 

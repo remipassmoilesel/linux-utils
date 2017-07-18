@@ -1,0 +1,81 @@
+{
+    "backup-location": "/git-rep",
+    "repositories": [
+        {
+            "name": "abcmap2",
+            "url": "https://github.com/remipassmoilesel/abcmap2"
+        },
+        {
+            "name": "heydjoe",
+            "url": "https://github.com/remipassmoilesel/heydjoe"
+        },
+        {
+            "name": "linux-utils",
+            "url": "https://github.com/remipassmoilesel/linux-utils"
+        },
+        {
+            "name": "python-scripts",
+            "url": "https://github.com/remipassmoilesel/python-scripts"
+        },
+        {
+            "name": "djoe-docker",
+            "url": "https://github.com/remipassmoilesel/djoe-docker"
+        },
+        {
+            "name": "personnal-website",
+            "url": "https://github.com/remipassmoilesel/personnal-website"
+        },
+        {
+            "name": "web-stats",
+            "url": "https://github.com/remipassmoilesel/web-stats"
+        },
+        {
+            "name": "docker-simple-ubuntu-image",
+            "url": "https://github.com/remipassmoilesel/docker-simple-ubuntu-image"
+        },
+        {
+            "name": "jquery.xmppinspector",
+            "url": "https://github.com/remipassmoilesel/jquery.xmppinspector"
+        },
+        {
+            "name": "jquery.eventconsole",
+            "url": "https://github.com/remipassmoilesel/jquery.eventconsole"
+        },
+        {
+            "name": "jquery.storageconsole",
+            "url": "https://github.com/remipassmoilesel/jquery.storageconsole"
+        },
+        {
+            "name": "abcmap",
+            "url": "https://github.com/remipassmoilesel/Abcmap"
+        },
+        {
+            "name": "web",
+            "url": "https://github.com/remipassmoilesel/web"
+        },
+        {
+            "name": "MarkDown-GitUp",
+            "url": "https://github.com/remipassmoilesel/MarkDown-GitUp"
+        },
+        {
+            "name": "ProjetAngular2016",
+            "url": "https://github.com/remipassmoilesel/ProjetAngular2016"
+        },
+        {
+            "name": "chipbox",
+            "url": "https://github.com/remipassmoilesel/chipbox"
+        },
+        {
+            "name": "chipbox-minimalchatextreme",
+            "url": "https://github.com/remipassmoilesel/chipbox-minimalchatextreme"
+        },
+        {
+            "name": "chipbox-simplephpupload",
+            "url": "https://github.com/remipassmoilesel/chipbox-simplephpupload"
+        },
+        {
+            "name": "geotools-experiments",
+            "url": "https://github.com/remipassmoilesel/geotools-experiments"
+        }
+    ]
+}

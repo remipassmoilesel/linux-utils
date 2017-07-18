@@ -1,0 +1,3 @@
+#!/bin/bash
+
+while true; do scrot -d 1 '%Y-%m-%d-%T-screenshot.jpg' -e 'mv $f ~/Images/'; done

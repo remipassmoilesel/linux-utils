@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# aucun argument: afficher l'aide
+if [ -z "$@" ]; then
+	echo "History search. Usage: hs keywords ...";
+	exit;
+fi
+
+# recherche dans l'historique
+echo "Last commands matching: '$@'"
+grep -i --color=auto $@ ~/.bash_history
+

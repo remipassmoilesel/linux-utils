@@ -1,0 +1,7 @@
+#!/bin/bash
+
+MODE=$([ $? = 0 ] && echo terminal || echo error);
+
+MESSAGE=$([ -z "$@" ] && echo "Alerte !" || echo $@);
+
+notify-send --urgency=low -i $MODE $MESSAGE

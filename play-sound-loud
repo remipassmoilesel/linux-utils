@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# vérifier les arguments
+if [ -z "$@" ]; then
+	echo "You must specify file."
+	exit 1
+fi
+
+# tester le fichier
+if [ -e "$@" ]; then 
+	echo Playing: $@
+
+	# monter le son
+	amixer -D pulse sset Master 100% > /dev/null
+
+	# jouer le son
+	mplayer $@ > /dev/null
+
+	exit 0
+
+# le fichier n'existe pas
+else
+	echo "Not a file: $@" 
+	exit 1
+fi
+

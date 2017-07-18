@@ -1,0 +1,107 @@
+#!/bin/bash
+
+echo
+echo "Switch sys !"
+
+# vérifier les droits
+if [ "$(whoami)" != 'root' ]; then
+	echo "Root root root ......."
+        exit 1;
+fi
+
+# envoi de fichiers vers le tmp de la partition
+# obtenir le chemin du script, ne fonctionne pas si l'appel se fait a partir d'un lien symbolique
+export SENDDIR="$(pwd)/switch-send"
+
+# entrée dans le repertoire de travail
+cd /tmp/
+
+while true; do
+
+	# afficher les partitions disponibles
+	echo
+	lsblk
+
+	# demander le nom de la partition cible
+	echo
+	echo "Nom de la partition cible: (ex: sda1, q = quit) "
+	read -e MAINP
+	
+	if [[ $MAINP =~ ^(quit|q) ]]; then
+                exit 1
+	fi
+
+	# monter la partition
+	mkdir $MAINP
+	mount /dev/$MAINP $MAINP
+
+	# afficher pour confirmation
+	echo
+	echo "Contenu de $MAINP:"
+	ls $MAINP
+
+	# confirmation
+	echo 
+	read -r -p "Poursuivre avec cette partition ? (y = yes, q = quit) " RESPONSE
+ 	RESPONSE=${RESPONSE,,}
+
+	if [[ $RESPONSE =~ ^(yes|y| ) ]]; then
+		break
+		
+	elif [[ $RESPONSE =~ ^(quit|q) ]]; then
+		umount /dev/$MAINP
+                rmdir $MAINP
+		exit 1
+		
+	else
+		umount /dev/$MAINP
+		rmdir $MAINP
+	fi
+
+done
+
+# montages supplementaires
+mount --bind /dev/ $MAINP/dev/
+mount --bind /proc/ $MAINP/proc/
+mount --bind /sys/ $MAINP/sys/
+
+# copie de fichiers, utiliser des chemins absolus
+cp "/etc/resolv.conf" "$MAINP/etc/resolv.conf"
+
+echo
+if [ -d "$SENDDIR" ]; then
+	echo "Copie des fichiers vers $MAINP/tmp/"
+	cp -R "$SENDDIR" "$MAINP/tmp/"
+else
+	echo "Pas d'envoi de fichier, puisque le dossier suivant n'existe pas: $SENDDIR"
+fi
+
+echo
+echo "Adieu monde cruel !"
+echo
+
+# changement de racine 
+# chroot $MAINP /bin/bash -c " su -;chmod +x $PART2; source $PART2"
+chroot $MAINP /bin/bash
+
+# confirmation avant démontage
+echo 
+read -r -p "Tu veux que je range tous nos accessoires grand fou ? (y = yes) " RESPONSE
+RESPONSE=${RESPONSE,,}
+
+if [[ $RESPONSE =~ ^(yes|y| ) ]]; then
+	
+	# effacer les fichiers temporaires
+	rm -rf $MAINP/tmp/*
+	
+	# demontage
+	umount $MAINP/dev/
+	umount $MAINP/proc/
+	umount $MAINP/sys/
+	umount /dev/$MAINP
+	
+	# suppression du dossier
+	rmdir $MAINP
+	
+fi
+

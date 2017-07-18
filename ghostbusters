@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -z "$@" ]; then
+        echo "You must specify something to say."
+	exit 1
+fi
+
+
+cowsay -f ghostbusters "$@"

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# dimanche 4 décembre 2016, 00:53:29 (UTC+0100)
+
+PACKAGE=$1
+
+if [ -z "$PACKAGE" ]; then
+	echo "You must specify a package name"
+	exit 1
+fi
+
+# get file url
+URI=`apt-cache show $PACKAGE | grep "Filename:" | head -n 1 | cut -f 2 -d " "`
+
+# download file
+wget "http://archive.ubuntu.com/ubuntu/$URI"
+
+# download depencencies
+apt-cache depends -i $PACKAGE | awk '/.+:/ {print $2}' | xargs wget
+
