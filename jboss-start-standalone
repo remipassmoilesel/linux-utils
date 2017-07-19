@@ -1,4 +1,0 @@
-#!/bin/bash
-~/jboss-as-7.1.1.Final/bin/standalone.sh 
-
-
