@@ -71,3 +71,7 @@ Pour faire tourner une app même si des fichiers ont des erreurs:
 ## Selection multiple
 	
 	CTRL + ALT + SHIFT + sélection à la souris
+
+## Mode présentation:
+
+	CTRL + MAJ + A / Toggle presentation mode

@@ -1770,3 +1770,18 @@ Fixer une partition ntfs qui n'a pas été fermé correctement pour montage écr
 # default :: mycli -u safranlices -p safranlices 
 Added: 2017-07-14 11:31
 Connexion via mycli à une base de données mysql
+
+
+# default :: curl -v -X DELETE localhost:3000 
+Added: 2017-07-19 18:13
+Faire une requête delete avec curl, possibilité de faire un post / put / etc ...
+
+
+# default :: toilet -f mono12 message 
+Added: 2017-07-20 18:19
+Afficher un message en ascii art avec une police définie
+
+
+# default :: sudo vim /etc/motd 
+Added: 2017-07-20 18:20
+Modifier la bannière du système
