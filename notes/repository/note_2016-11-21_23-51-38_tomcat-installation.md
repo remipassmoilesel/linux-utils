@@ -1,6 +1,6 @@
 # Installer et utiliser Apache Tomcat
 
-# Installation et démarrrage
+## Installation et démarrrage
 
 Télécharger et décompresser tomcat:
 
@@ -65,11 +65,11 @@ Pour démarrer le serveur manuellement à partir des scripts fournis:
 
 A l'écoute sur le port 8080 par défaut.
 
-# Déploiement
+## Déploiement
 
 Les déploiements se font sous forme d'archives ou dézippés dans le dossiers 'webapps'.
 
-# Administration
+## Administration
 
 Interface disponible à l'adresse http://127.0.0.1:8080.
 Pour ajouter un utilisateur:
@@ -80,7 +80,7 @@ Pour ajouter un utilisateur:
 	
 	<user username="tomcat" password="tomcat" roles="manager-gui"/>
 
-# Erreurs courantes
+## Erreurs courantes
 
 	L'application à été déployée mais le contexte n'a pas pu être démarré ...
 
@@ -92,7 +92,7 @@ Pour ajouter un utilisateur:
 	$ mvn tomcat7:undeploy
 	$ mvn tomcat7:deploy
 
-# Configuration
+## Configuration
 
 Configuration standard:
 
@@ -148,6 +148,20 @@ Accéder au manager web à partir d'une autre machine:
 	    <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="^.*$" />
 	</Context>
 
+## Augmenter le cache pour améliorer les performances
 
+La valeur de cache maximum est en kilobytes:
+
+	$ vim /opt/tomcat/conf/context.xml
+	
+	<Context>
+		...
+		 
+		 <Resources cachingAllowed="true" cacheMaxSize="120000" />
+
+		...
+	</Context>
+
+	
 
 
