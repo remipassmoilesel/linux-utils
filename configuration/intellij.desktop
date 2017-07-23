@@ -6,6 +6,6 @@ Version=13.0
 Type=Application
 Terminal=false
 Name=IntelliJ
-Exec=/home/remipassmoilesel/intellij/bin/idea.sh
-Icon=/home/remipassmoilesel/intellij/bin/idea.png
+Exec=/opt/intellij/bin/idea.sh
+Icon=/opt/intellij/bin/idea.png
 
