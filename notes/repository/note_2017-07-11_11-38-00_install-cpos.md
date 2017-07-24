@@ -25,7 +25,7 @@ Documentation disponible:
 
 Au préalable:
 	
-	- Installer docker et docker-compose
+	- Installer docker CE et docker-compose
 
 	- /!\ Penser à vérifier qu'aucun firewall ne gêne pas (DNS par exemple)
 	
@@ -142,11 +142,27 @@ En cas d'erreur d'accès à une adresse d'un autre réseau, créer une interface
 
 	$ sudo vim /etc/network/interfaces
 
+	# interface virtuelle wifi
 	auto wlp3s0:0
 	allow-hotplug wlp3s0:0
 	iface wlp3s0:0 inet static
 	address 192.168.2.32
 	netmask 255.255.248.0
+
+	# Configuration pour connexion cablée
+	auto eth0
+	allow-hotplug eth0
+	iface eth0 inet static 
+	address 10.0.1.138
+	netmask 255.255.248.0
+	gateway 10.0.0.254
+
+	auto eth0:0
+	allow-hotplug eth0:0
+	iface eth0:0 inet static
+	address 192.168.1.138
+	netmask 255.255.248.0
+
 
 	$ sudo service networking restart
 

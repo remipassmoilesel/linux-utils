@@ -1790,3 +1790,8 @@ Modifier la bannière du système
 # default :: nslookup 137.74.161.106 
 Added: 2017-07-20 21:53
 Obtenir un domaine associé à une adresse ip
+
+
+# default :: cat /etc/debian_version 
+Added: 2017-07-21 16:02
+Afficher la version de debian courante
