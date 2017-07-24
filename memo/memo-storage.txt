@@ -1791,7 +1791,10 @@ Modifier la bannière du système
 Added: 2017-07-20 21:53
 Obtenir un domaine associé à une adresse ip
 
-
 # default :: cat /etc/debian_version 
 Added: 2017-07-21 16:02
 Afficher la version de debian courante
+
+# default :: scp -P 443 repo-public.gpg login@host:/tmp 
+Added: 2017-07-20 22:06
+Envoyer un fichier par SSH, en utilisant un port différent
