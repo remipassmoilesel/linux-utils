@@ -1798,3 +1798,8 @@ Afficher la version de debian courante
 # default :: scp -P 443 repo-public.gpg login@host:/tmp 
 Added: 2017-07-20 22:06
 Envoyer un fichier par SSH, en utilisant un port différent
+
+
+# default :: apt-get install libavcodec-extra 
+Added: 2017-07-24 13:05
+Installer les codecs vidéo sur debian (testing)

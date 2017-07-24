@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "/IP	/Image	/Name"
+docker inspect --format '{{ .NetworkSettings.IPAddress  }}	{{ .Config.Image  }}	{{ .Name }}' $(docker ps -q)
