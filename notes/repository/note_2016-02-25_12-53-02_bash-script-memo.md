@@ -4,6 +4,10 @@ A utiliser sans modération:
 
 	set -o nounset # erreur si utilisation d'une variable non déclarée
 
+Désactiver les interactions utilisateurs:
+
+	export DEBIAN_FRONTEND=noninteractive 
+
 Conditions et tests:
 
 	Pour les tests toujours préferer [[ à [
