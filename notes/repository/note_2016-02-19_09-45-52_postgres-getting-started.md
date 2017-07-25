@@ -48,12 +48,13 @@ Importer à partir d'un dump
     
     $ psql databasename < data_base_dump
 
-Commandes psql
+Commandes psql:
     
     \q  : quitter
     \h  : aide
-    \d+ : nomtable
-    \l  : décrire une table 
+    \d+ : décrire une table
+    \l  : lister les bases de données
+    \dt : lister les tables d'une db
 
 Pour supprimer une base de donnée et un utilisateur
     

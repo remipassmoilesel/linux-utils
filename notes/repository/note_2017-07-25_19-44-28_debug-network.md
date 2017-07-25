@@ -1,0 +1,33 @@
+# Manipulations réseau GNU/Linux
+
+## Débugger une mauvaise connexion réseau
+
+	- essayer un ping
+	- essayer dig ou host
+	- essayer traceroute
+	- regarder si une route existe
+	- vérifier que les interfaces soit "up"
+	- vérifier /etc/hosts /etc/network/interfaces /etc/resolv.conf
+
+## Manipuler des routes avec ip
+
+Afficher les routes:
+
+	$ ip route show
+
+Ajoute une route par défaut:
+	
+	$ ip route add default via 192.168.1.254
+
+Ajouter une route vers un réseau, à travers l'interface eth0: 
+
+	$ ip route add 192.168.1.0/24 dev eth0
+
+Supprimer une route:
+
+	$ ip route delete 192.168.1.0/24 dev eth0
+
+Ne pas hésiter à se servir d'un calculateur de masque comme:
+
+	http://www.hobbesworld.com/reseaux/calcip.php
+
