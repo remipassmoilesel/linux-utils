@@ -11,6 +11,8 @@ export PATH="$PATH:/opt/android-sdk-linux/platform-tools"
 export PATH="$PATH:/opt/android-sdk-linux/tools"
 export PATH="$PATH:/opt/mongodb/bin"
 
+export PATH="$PATH:/home/remipassmoilesel/.minimesos/bin"
+
 export GOPATH="/opt/gocode"
 
 # workaround
