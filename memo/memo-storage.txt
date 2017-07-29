@@ -1813,3 +1813,8 @@ Requête DNS vers un serveur spécifique et sur un autre port que 53
 # default :: /sbin/vboxconfig 
 Added: 2017-07-25 18:44
 Configurer / réparer virtual box
+
+
+# default :: watch -n 5 free -mh 
+Added: 2017-07-29 13:04
+Afficher la mémoire ram disponible toutes les 5 secondes
