@@ -30,4 +30,17 @@ Supprimer une route:
 Ne pas hésiter à se servir d'un calculateur de masque comme:
 
 	http://www.hobbesworld.com/reseaux/calcip.php
+	http://www.subnet-calculator.com
+
+## Ajouter une route vers une machine virtuelle
+
+Utile par exemple pour DCOS-Vagrant. Afficher la route:
+
+	$ ip a 					# afficher l'adresse de l'interface pour calculer l'id reseau et masque
+
+	$ sudo ip link set dev vboxnet0 up 	# verifier que l'interface est up
+	$ sudo ip route add 192.168.65.0/24 dev vboxnet0	# enregistrer la route
+	$ ip route show				# verifier que tout est ok
+
+	$ ping vm.domain
 
