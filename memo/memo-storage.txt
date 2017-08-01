@@ -1823,3 +1823,13 @@ Afficher la mémoire ram disponible toutes les 5 secondes
 # default :: pstree 
 Added: 2017-07-27 10:23
 Afficher un arbre de processus
+
+
+# default :: watch -n 3 rsync -avz /path login@host:/path 
+Added: 2017-07-29 16:40
+Synchroniser toutes les 3 secondes un dossier par ssh
+
+
+# default :: docker run -p 80:80 --env-file <(sed -e 's/^/HOST_VAR_/' <(env)) node-sample 
+Added: 2017-07-30 09:47
+Lancher un docker avec toutes les variables d'environnement host préfixées
