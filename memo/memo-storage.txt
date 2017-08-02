@@ -1833,3 +1833,13 @@ Synchroniser toutes les 3 secondes un dossier par ssh
 # default :: docker run -p 80:80 --env-file <(sed -e 's/^/HOST_VAR_/' <(env)) node-sample 
 Added: 2017-07-30 09:47
 Lancher un docker avec toutes les variables d'environnement host préfixées
+
+
+# default :: pip install -r requirements.txt 
+Added: 2017-08-02 11:58
+Installer les pré-requis d'une application python
+
+
+# default :: umount -l /path/to/dir 
+Added: 2017-08-02 18:18
+Démonter un système de fichier en mode lazy. Pratique pour éviter les erreurs de démontage NFS
