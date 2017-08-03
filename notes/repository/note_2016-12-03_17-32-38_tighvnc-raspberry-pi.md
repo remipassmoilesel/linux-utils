@@ -1,4 +1,24 @@
-# Utiliser TighVNC avec un Raspberry PI
+# Caster un bureau sur un Raspberry PI
+
+## Avec X11VNC
+
+Installer le serveur:
+
+	$ sudo apt install x11vnc
+
+Générer un fichier password:
+
+	$ x11vnc -storepasswd "azerty" ~/.vnc_passwd 
+
+Commencer une session:
+
+	$ x11vnc -many -rfbauth ~/.vnc_passwd  
+
+/!\ Ne nécéssite pas les droits ROOT pour caster.
+
+## Avec TighVnc
+
+/!\ Nécéssite les droits root pour caster
 
 Installer un serveur X et un environnement de bureau:
 
