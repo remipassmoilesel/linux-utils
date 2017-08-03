@@ -23,7 +23,7 @@ linesDisplayedWhenList = 3
 
 # Editors
 GRAPHICAL_EDITOR = "xdg-open"
-CLI_EDITOR = "nvim"
+CLI_EDITOR = "vim"
 
 # Repository path
 notesRepName = "repository"

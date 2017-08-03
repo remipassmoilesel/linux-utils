@@ -24,7 +24,7 @@ PGRM_DESC += MEMO_FILE_PATH
 
 # editors
 GRAPHICAL_EDITOR = "xdg-open"
-CLI_EDITOR = "nvim"
+CLI_EDITOR = "vim"
 
 # name of default category
 DEFAULT_CATEG = "default".lower()

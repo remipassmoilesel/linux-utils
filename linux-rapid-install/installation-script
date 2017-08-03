@@ -138,7 +138,7 @@ if __name__ == "__main__":
     knownArgs, otherArgs = parser.parse_known_args()
     
     if knownArgs.edit :
-        subprocess.call(shlex.split("nvim " + installationFilePath))
+        subprocess.call(shlex.split("vim " + installationFilePath))
         exitProgram(0)
         
     if knownArgs.display:
