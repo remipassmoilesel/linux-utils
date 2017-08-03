@@ -1843,3 +1843,9 @@ Installer les pré-requis d'une application python
 # default :: umount -l /path/to/dir 
 Added: 2017-08-02 18:18
 Démonter un système de fichier en mode lazy. Pratique pour éviter les erreurs de démontage NFS
+
+
+# default :: export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+GPG_AGENT_INFO=/run/user/1000/keyring/gpg:0:1 
+Added: 2017-08-03 17:54
+Commande à ajouter dans le fichier zshrc ou bashrc pour retenir les clefs SSH durant une session
