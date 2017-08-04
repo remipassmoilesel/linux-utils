@@ -1,0 +1,36 @@
+#------------------------------------------------------------------------------#
+#                   OFFICIAL DEBIAN REPOS                    
+#------------------------------------------------------------------------------#
+
+###### Debian Main Repos
+deb http://deb.debian.org/debian/ stable main contrib non-free
+deb-src http://deb.debian.org/debian/ stable main contrib non-free
+
+deb http://deb.debian.org/debian/ stable-updates main contrib non-free
+deb-src http://deb.debian.org/debian/ stable-updates main contrib non-free
+
+deb http://deb.debian.org/debian-security stable/updates main
+deb-src http://deb.debian.org/debian-security stable/updates main
+
+deb http://ftp.debian.org/debian stretch-backports main
+deb-src http://ftp.debian.org/debian stretch-backports main
+
+#------------------------------------------------------------------------------#
+#                      UNOFFICIAL  REPOS                       
+#------------------------------------------------------------------------------#
+
+###### 3rd Party Binary Repos
+###Google Chrome Browser
+#deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+
+###TOR
+#deb [arch=i386,amd64,armel,armhf] http://deb.torproject.org/torproject.org stable main
+#deb-src [arch=i386,amd64,armel,armhf] http://deb.torproject.org/torproject.org stable main
+
+###Virtualbox
+#deb [arch=i386,amd64] http://download.virtualbox.org/virtualbox/debian stretch contrib
+
+###Vivaldi Browser
+#deb [arch=i386,amd64] http://repo.vivaldi.com/stable/deb/ stable main
+
+
