@@ -24,7 +24,7 @@ Désactiver les interactions utilisateurs:
 
 Conditions et tests:
 
-	Pour les tests toujours préferer [[ à [
+	Pour les tests toujours préferer [[ à [ (spécifique bash)
 	
 	# Tester le code de retour d'une commande
 	if [[ "$?" -ne "0" ]]; then
@@ -34,10 +34,22 @@ Conditions et tests:
 	    exit $?
 	fi
 
-	# tester si une variable est déclarée
+	# Tester si une variable est non vide
 	if [[ -z "$HEYHEY" ]] ; then
 		echo "$HEYHEY exist"
 	fi
+	
+	# Tester si une variable est non définie, mais peut être vide
+	if [[ -z ${variable+x} ]] ; then
+		echo "$HEYHEY exist"
+	fi
+	
+	# Tester si une variable est indéfinie
+	if ! [[ $GH_USER ]] ; then
+            echo You must specify a user name.
+            echo Example: clone-all-from-github remipassmoilesel
+            exit 1
+    fi
 
 	# Tester si une commande existe ou quitter
 	command -v foo >/dev/null 2>&1 || {     echo >&2 "I require foo but it's not installed.  Aborting."; exit 1;}
