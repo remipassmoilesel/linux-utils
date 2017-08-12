@@ -1849,3 +1849,8 @@ Démonter un système de fichier en mode lazy. Pratique pour éviter les erreurs
 GPG_AGENT_INFO=/run/user/1000/keyring/gpg:0:1 
 Added: 2017-08-03 17:54
 Commande à ajouter dans le fichier zshrc ou bashrc pour retenir les clefs SSH durant une session
+
+
+# default :: find . -name "*.jpg" -exec bash -c 'cp "{}" directory/image$RANDOM.jpg' \; 
+Added: 2017-08-12 10:23
+Copier toutes les images d'un répertoire dans un autre répertoire avec un nom aléatoire
