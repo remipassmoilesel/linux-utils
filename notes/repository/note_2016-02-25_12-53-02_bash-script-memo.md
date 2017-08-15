@@ -26,6 +26,17 @@ Conditions et tests:
 
 	Pour les tests toujours préferer [[ à [ (spécifique bash)
 	
+	# Tester si une commande existe
+
+	 if [[ $(which curl) ]]; then
+	    curl -fL --retry 3 --keepalive-time 2 "${url}" -o "${download_path}/${file}"
+	  elif [[ $(which wget) ]]; then
+	    wget "${url}" -O "${download_path}/${file}"
+	  else
+	    echo "Couldn't find curl or wget.  Bailing out." >&2
+	    exit 4
+	  fi
+
 	# Tester le code de retour d'une commande
 	if [[ "$?" -ne "0" ]]; then
 	    echo
