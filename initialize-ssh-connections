@@ -1,0 +1,99 @@
+#!/usr/bin/python2.7
+# encoding: utf-8
+
+import argparse
+import datetime
+import os
+import re
+from string import join
+import subprocess
+
+DEBUG = False;
+
+# simple description of script, displayed in help
+PGRM_DESC = '''
+Simple utility used to initialize lot of SSH connection by removing eventual old keys 
+and adding distant keys.
+
+Usage: initiliaze-ssh-connections -p file.txt 
+
+File example:
+10.0.2.201  ubuntu16-k3-master1.kubernete
+10.0.2.211  ubuntu16-k3-node1.kubernetes
+10.0.2.212  ubuntu16-k3-node2.kubernetes
+10.0.2.213  ubuntu16-k3-node3.kubernetes
+
+ 
+'''
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    ENDC = '\033[0m'
+
+def printClr(line, color):
+    print(color + line + bcolors.ENDC);
+
+def exitProgram(code=0, msg=""):
+    """
+    Exit program and show an optoonnal message
+    """
+    if msg != "":
+        print(msg)
+
+    exit(code)
+
+def processFile(path):
+
+    # load file
+    with open(path, "r") as inFile:
+
+        i = 0;
+        # iterate lines
+        lines = inFile.readlines()
+        for l in lines:
+            matcher = re.match("^\b*([0-9\.]+)\b*([a-zA-Z0-9_-]+)", l)
+
+            if matcher != None:
+                ip = matcher.group(1);
+                domain = matcher.group(2)
+                printClr("Processing line " + str(i) + ": ip=" + ip + " domain=" + domain, bcolors.OKBLUE);
+                i+=1
+
+
+
+if __name__ == "__main__":
+
+    # parse arguments
+    parser = argparse.ArgumentParser(description=PGRM_DESC)
+
+    parser.add_argument("-p", "--path",
+                        help="file path to parse")
+
+    knownArgs, unkArgs = parser.parse_known_args()
+
+    if DEBUG:
+        print("knownArgs: ")
+        print(knownArgs)
+        print("")
+
+    # parse a path, remove old keys, scan and add new keys
+    if knownArgs.path:
+
+        if os.path.isfile(knownArgs.path) == False:
+            printClr("Not a file: " + knownArgs.path, bcolors.WARNING)
+            exitProgram(1)
+
+        processFile(knownArgs.path);
+        exitProgram(0)
+
+    printClr("Invalid command.", bcolors.WARNING)
+    print("")
+    parser.print_help()
+    exitProgram(1)
+

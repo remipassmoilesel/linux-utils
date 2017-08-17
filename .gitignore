@@ -1,5 +1,6 @@
 .idea
 *.swp
 *.swo
+*.iml
 
 installation/log/*
