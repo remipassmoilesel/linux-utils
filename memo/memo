@@ -152,7 +152,7 @@ class MemoContainer:
                 
                 if DEBUG:
                     print("Line: '", l, "'")
-                    printt(matcher)
+                    print(matcher)
                 
                 # header line
                 if matcher:

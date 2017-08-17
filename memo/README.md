@@ -9,7 +9,7 @@ Simple utility used to memorize short commands.
 
 	optional arguments:
 	  -h, --help            show this help message and exit
-	  -s, --search          searh a memoy
+	  -s, --search          searh a memo
 	  -c CATEGORY, --category CATEGORY
 				use a category filter
 	  -l, --listcategory    display availables categories
