@@ -89,7 +89,7 @@ def processFile(path):
                 continue
 
             # parse line
-            matcher = re.match("^\s*([0-9\.]+)\s+([a-zA-Z0-9_\.-]+)\s+(\S+)\s+(\S+)", l)
+            matcher = re.match("^\s*([0-9\.]+)\s+([a-zA-Z0-9_\.-]+)\s+(\S+)\s+(\S+)(?:(?:\s+)+(\S+))?", l)
 
             if matcher == None or len(matcher.groups()) < 4:
                 printClr("Skipping line, invalid format: " + l, bcolors.WARNING)
@@ -100,9 +100,12 @@ def processFile(path):
             hostname = matcher.group(2)
             user = matcher.group(3)
             password = matcher.group(4)
+            identityFile = None
+            if len(matcher.groups()) > 4:
+                identityFile = matcher.group(5)
 
             printClr("Processing line " + str(i) + ": ip=" + ip + " hostname=" + hostname
-                     + " pwd=" + password, bcolors.OKBLUE)
+                     + " pwd=" + password + " identityFile=" + str(identityFile), bcolors.OKBLUE)
 
             # remove old keys
             try:
@@ -132,7 +135,16 @@ def processFile(path):
 
             # send keys to server
             try:
-                bashCommand("sshpass -p " + password + " ssh-copy-id " + user + "@" + hostname)
+                if identityFile != None:
+                    cmd = "sshpass -p " + password + " ssh-copy-id -i " + identityFile + " " + user + "@" + hostname
+                    print(cmd)
+                    print(cmd)
+                    print(cmd)
+                    print(cmd)
+                    print(cmd)
+                    bashCommand("sshpass -p " + password + " ssh-copy-id -i " + identityFile + " " + user + "@" + hostname)
+                else:
+                    bashCommand("sshpass -p " + password + " ssh-copy-id " + user + "@" + hostname)
                 printClr("Key sent: " + ip, bcolors.OKGREEN)
             except:
                 printClr("Key not sent: " + hostname, bcolors.WARNING)
