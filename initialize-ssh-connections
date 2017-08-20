@@ -97,7 +97,7 @@ def processFile(path):
             matcher = re.match("^\s*([0-9\.]+)\s+(\S+)\s+(\S+)\s+(\S+)(?:(?:\s+)+(\S+))?", l)
 
             if matcher == None or len(matcher.groups()) < 4:
-                printClr("Skipping line, invalid format: " + l, bcolors.WARNING)
+                printClr("Skipping line, invalid format: " + l, bcolors.FAIL)
                 continue
 
             # get items
@@ -120,28 +120,28 @@ def processFile(path):
                 bashCommand("ssh-keygen -R " + ip)
                 printClr("Key removed: " + ip, bcolors.OKGREEN)
             except:
-                printClr("Key not removed: " + ip, bcolors.WARNING)
+                printClr("Key not removed: " + ip, bcolors.FAIL)
 
             try:
                 if hostname:
                     bashCommand("ssh-keygen -R " + hostname)
                     printClr("Key removed: " + hostname, bcolors.OKGREEN)
             except:
-                printClr("Key not removed: " + hostname, bcolors.WARNING)
+                printClr("Key not removed: " + hostname, bcolors.FAIL)
 
             # add keys from distant servers
             try:
                 bashCommand("ssh-keyscan -H " + ip + " >> ~/.ssh/known_hosts")
                 printClr("Key added: " + ip, bcolors.OKGREEN)
             except:
-                printClr("Key not received: " + ip, bcolors.WARNING)
+                printClr("Key not received: " + ip, bcolors.FAIL)
 
             try:
                 if hostname:
                     bashCommand("ssh-keyscan -H " + hostname + " >> ~/.ssh/known_hosts")
                     printClr("Key added: " + hostname, bcolors.OKGREEN)
             except:
-                printClr("Key not received: " + hostname, bcolors.WARNING)
+                printClr("Key not received: " + hostname, bcolors.FAIL)
 
             # send keys to server
             try:
@@ -152,7 +152,7 @@ def processFile(path):
                     bashCommand("sshpass -p " + password + " ssh-copy-id " + user + "@" + ip)
                 printClr("Key sent: " + ip, bcolors.OKGREEN)
             except:
-                printClr("Key not sent: " + ip, bcolors.WARNING)
+                printClr("Key not sent: " + ip, bcolors.FAIL)
 
             i+=1
 
@@ -167,7 +167,7 @@ def checkPrerequisites():
             i+=1
 
     if i != 0:
-        printClr("Unable to execute this script without these utilities.", bcolors.WARNING)
+        printClr("Unable to execute this script without these utilities.", bcolors.FAIL)
         exitProgram(1)
 
 
@@ -192,13 +192,13 @@ if __name__ == "__main__":
     if knownArgs.path:
 
         if os.path.isfile(knownArgs.path) == False:
-            printClr("Not a file: " + knownArgs.path, bcolors.WARNING)
+            printClr("Not a file: " + knownArgs.path, bcolors.FAIL)
             exitProgram(1)
 
         processFile(knownArgs.path)
         exitProgram(0)
 
-    printClr("Invalid command.", bcolors.WARNING)
+    printClr("Invalid command.", bcolors.FAIL)
     print("")
     parser.print_help()
     exitProgram(1)
