@@ -80,6 +80,10 @@ def exitProgram(code=0, msg=""):
 
 def processFile(path):
 
+    errors=0
+    success=0
+    warnings=0
+
     # load file
     with open(path, "r") as inFile:
 
@@ -98,6 +102,7 @@ def processFile(path):
 
             if matcher == None or len(matcher.groups()) < 4:
                 printClr("Skipping line, invalid format: " + l, bcolors.FAIL)
+                warnings += 1
                 continue
 
             # get items
@@ -119,42 +124,57 @@ def processFile(path):
             try:
                 bashCommand("ssh-keygen -R " + ip)
                 printClr("Key removed: " + ip, bcolors.OKGREEN)
+                success += 1
             except:
                 printClr("Key not removed: " + ip, bcolors.FAIL)
+                errors += 1
 
             try:
                 if hostname:
                     bashCommand("ssh-keygen -R " + hostname)
                     printClr("Key removed: " + hostname, bcolors.OKGREEN)
+                    success += 1
             except:
                 printClr("Key not removed: " + hostname, bcolors.FAIL)
+                errors += 1
 
             # add keys from distant servers
             try:
                 bashCommand("ssh-keyscan -H " + ip + " >> ~/.ssh/known_hosts")
                 printClr("Key added: " + ip, bcolors.OKGREEN)
+                success += 1
             except:
                 printClr("Key not received: " + ip, bcolors.FAIL)
+                errors += 1
 
             try:
                 if hostname:
                     bashCommand("ssh-keyscan -H " + hostname + " >> ~/.ssh/known_hosts")
                     printClr("Key added: " + hostname, bcolors.OKGREEN)
+                    success += 1
             except:
                 printClr("Key not received: " + hostname, bcolors.FAIL)
+                errors += 1
 
             # send keys to server
             try:
+                cmd = "sshpass -p " + password + " ssh-copy-id " + user + "@" + ip
+
                 if identityFile != None:
                     cmd = "sshpass -p " + password + " ssh-copy-id -i " + identityFile + " " + user + "@" + ip
-                    bashCommand("sshpass -p " + password + " ssh-copy-id -i " + identityFile + " " + user + "@" + ip)
-                else:
-                    bashCommand("sshpass -p " + password + " ssh-copy-id " + user + "@" + ip)
+
+                bashCommand(cmd)
                 printClr("Key sent: " + ip, bcolors.OKGREEN)
+                success += 1
             except:
                 printClr("Key not sent: " + ip, bcolors.FAIL)
+                errors += 1
 
             i+=1
+
+    printClr("Success: " + str(success), bcolors.OKBLUE)
+    printClr("Errors: " + str(errors), bcolors.OKBLUE)
+    printClr("Warnings: " + str(warnings), bcolors.OKBLUE)
 
 def checkPrerequisites():
     list = ['sshpass', "ssh-keygen", "ssh-keyscan"]
