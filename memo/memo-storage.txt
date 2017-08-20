@@ -1864,3 +1864,20 @@ Ping de toutes les machines avec ansible, pour vérification de connexion
 # default :: ansible all -m shell -a "cat /tmp/sent-file.txt" 
 Added: 2017-08-18 13:27
 Executer une commande shell ansible adhoc (commandes éxecutées avec sh, utiliser bash-c au besoin)
+
+
+# default :: ansible-galaxy init role_name 
+Added: 2017-08-19 09:10
+Créer une arborescence standard et structurée de rôle ansible
+
+
+# default :: awk -F ',' '{print }' token/token.csv 
+Added: 2017-08-19 12:21
+Afficher la première colonne d'un fichier csv de la forme abcd,efgh,ijkl
+
+
+# default :: INTERNAL_IP=$(echo $line | cut -d' ' -f1)
+Added: 2017-08-19 12:21
+Stocker dans une variable une colonne (-f1) de sortie standard
+
+

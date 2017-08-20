@@ -54,9 +54,6 @@ ZSH_THEME="tjkirch-emoji"
 # plugins=(git)
 plugins=(compleat git git-extras python docker mvn gnu-utils bower npm pip tig kubectl)
 
-# User configuration
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
