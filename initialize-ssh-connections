@@ -22,10 +22,15 @@ and adding distant keys.
 Usage: initiliaze-ssh-connections -p file.txt 
 
 File example:
-10.0.2.201  ubuntu16-k3-master1.kubernete   user    password
-10.0.2.211  ubuntu16-k3-node1.kubernetes    user    password
-10.0.2.212  ubuntu16-k3-node2.kubernetes    user    password
-10.0.2.213  ubuntu16-k3-node3.kubernetes    user    password
+10.0.2.201  ubuntu16-k3-master1.kubernete   user    password    ~/.ssh/id_rsa.pub
+10.0.2.211  ubuntu16-k3-node1.kubernetes    user    password    ~/.ssh/id_rsa.pub
+10.0.2.212  ubuntu16-k3-node2.kubernetes    user    password    ~/.ssh/id_rsa.pub
+10.0.2.213  ubuntu16-k3-node3.kubernetes    user    password    ~/.ssh/id_rsa.pub
+
+You can skip hostname steps:
+
+10.0.2.213  ##no-host##                     user    password    ~/.ssh/id_rsa.pub
+
 '''
 
 class bcolors:
@@ -89,7 +94,7 @@ def processFile(path):
                 continue
 
             # parse line
-            matcher = re.match("^\s*([0-9\.]+)\s+([a-zA-Z0-9_\.-]+)\s+(\S+)\s+(\S+)(?:(?:\s+)+(\S+))?", l)
+            matcher = re.match("^\s*([0-9\.]+)\s+(\S+)\s+(\S+)\s+(\S+)(?:(?:\s+)+(\S+))?", l)
 
             if matcher == None or len(matcher.groups()) < 4:
                 printClr("Skipping line, invalid format: " + l, bcolors.WARNING)
@@ -104,7 +109,10 @@ def processFile(path):
             if len(matcher.groups()) > 4:
                 identityFile = matcher.group(5)
 
-            printClr("Processing line " + str(i) + ": ip=" + ip + " hostname=" + hostname
+            if hostname == "##no-host##":
+                hostname = None
+
+            printClr("Processing line " + str(i) + ": ip=" + ip + " hostname=" + str(hostname)
                      + " pwd=" + password + " identityFile=" + str(identityFile), bcolors.OKBLUE)
 
             # remove old keys
@@ -115,8 +123,9 @@ def processFile(path):
                 printClr("Key not removed: " + ip, bcolors.WARNING)
 
             try:
-                bashCommand("ssh-keygen -R " + hostname)
-                printClr("Key removed: " + hostname, bcolors.OKGREEN)
+                if hostname:
+                    bashCommand("ssh-keygen -R " + hostname)
+                    printClr("Key removed: " + hostname, bcolors.OKGREEN)
             except:
                 printClr("Key not removed: " + hostname, bcolors.WARNING)
 
@@ -128,26 +137,22 @@ def processFile(path):
                 printClr("Key not received: " + ip, bcolors.WARNING)
 
             try:
-                bashCommand("ssh-keyscan -H " + hostname + " >> ~/.ssh/known_hosts")
-                printClr("Key added: " + hostname, bcolors.OKGREEN)
+                if hostname:
+                    bashCommand("ssh-keyscan -H " + hostname + " >> ~/.ssh/known_hosts")
+                    printClr("Key added: " + hostname, bcolors.OKGREEN)
             except:
                 printClr("Key not received: " + hostname, bcolors.WARNING)
 
             # send keys to server
             try:
                 if identityFile != None:
-                    cmd = "sshpass -p " + password + " ssh-copy-id -i " + identityFile + " " + user + "@" + hostname
-                    print(cmd)
-                    print(cmd)
-                    print(cmd)
-                    print(cmd)
-                    print(cmd)
-                    bashCommand("sshpass -p " + password + " ssh-copy-id -i " + identityFile + " " + user + "@" + hostname)
+                    cmd = "sshpass -p " + password + " ssh-copy-id -i " + identityFile + " " + user + "@" + ip
+                    bashCommand("sshpass -p " + password + " ssh-copy-id -i " + identityFile + " " + user + "@" + ip)
                 else:
-                    bashCommand("sshpass -p " + password + " ssh-copy-id " + user + "@" + hostname)
+                    bashCommand("sshpass -p " + password + " ssh-copy-id " + user + "@" + ip)
                 printClr("Key sent: " + ip, bcolors.OKGREEN)
             except:
-                printClr("Key not sent: " + hostname, bcolors.WARNING)
+                printClr("Key not sent: " + ip, bcolors.WARNING)
 
             i+=1
 
