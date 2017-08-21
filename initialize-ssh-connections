@@ -120,48 +120,48 @@ def processFile(path):
             printClr("Processing line " + str(i) + ": ip=" + ip + " hostname=" + str(hostname)
                      + " pwd=" + password + " identityFile=" + str(identityFile), bcolors.OKBLUE)
 
-            # remove old keys
+            # remove old known hosts
             try:
                 bashCommand("ssh-keygen -R " + ip)
-                printClr("Key removed: " + ip, bcolors.OKGREEN)
+                printClr("Known host removed: " + ip, bcolors.OKGREEN)
                 success += 1
             except:
-                printClr("Key not removed: " + ip, bcolors.FAIL)
-                errors += 1
+                printClr("Known host not removed: " + ip, bcolors.FAIL)
+                warnings += 1
 
             try:
                 if hostname:
                     bashCommand("ssh-keygen -R " + hostname)
-                    printClr("Key removed: " + hostname, bcolors.OKGREEN)
+                    printClr("Known host removed: " + hostname, bcolors.OKGREEN)
                     success += 1
             except:
-                printClr("Key not removed: " + hostname, bcolors.FAIL)
-                errors += 1
+                printClr("Known host not removed: " + hostname, bcolors.FAIL)
+                warnings += 1
 
             # add keys from distant servers
             try:
                 bashCommand("ssh-keyscan -H " + ip + " >> ~/.ssh/known_hosts")
-                printClr("Key added: " + ip, bcolors.OKGREEN)
+                printClr("Known host added: " + ip, bcolors.OKGREEN)
                 success += 1
             except:
-                printClr("Key not received: " + ip, bcolors.FAIL)
+                printClr("Known host not added: " + ip, bcolors.FAIL)
                 errors += 1
 
             try:
                 if hostname:
                     bashCommand("ssh-keyscan -H " + hostname + " >> ~/.ssh/known_hosts")
-                    printClr("Key added: " + hostname, bcolors.OKGREEN)
+                    printClr("Known host added: " + hostname, bcolors.OKGREEN)
                     success += 1
             except:
-                printClr("Key not received: " + hostname, bcolors.FAIL)
+                printClr("Known host not added: " + hostname, bcolors.FAIL)
                 errors += 1
 
             # send keys to server
             try:
-                cmd = "sshpass -p " + password + " ssh-copy-id " + user + "@" + ip
+                cmd = "sshpass -p " + password + " ssh-copy-id -o PubkeyAuthentication=no " + user + "@" + ip
 
                 if identityFile != None:
-                    cmd = "sshpass -p " + password + " ssh-copy-id -i " + identityFile + " " + user + "@" + ip
+                    cmd = "sshpass -p " + password + " ssh-copy-id -o PubkeyAuthentication=no -i " + identityFile + " " + user + "@" + ip
 
                 bashCommand(cmd)
                 printClr("Key sent: " + ip, bcolors.OKGREEN)
