@@ -1884,3 +1884,8 @@ Stocker dans une variable une colonne (-f1) de sortie standard
 # default :: ssh -o PubkeyAuthentication=no user@host 
 Added: 2017-08-22 00:22
 Se connecter à un serveur sans utiliser de clef ssh
+
+
+# default :: yarn config set registry http://sinopia-lab.bbuzcloud.com:4873 
+Added: 2017-08-21 10:33
+Changer le registry yarn
