@@ -2,13 +2,8 @@
 # encoding: utf-8
 
 import argparse
-import datetime
 import os
 import re
-from string import join
-import subprocess
-import subprocess
-import threading
 import subprocess
 from argparse import RawTextHelpFormatter
 
@@ -22,14 +17,18 @@ and adding distant keys.
 Usage: initiliaze-ssh-connections -p file.txt 
 
 File example:
-10.0.2.201  ubuntu16-k3-master1.kubernete   user    password    ~/.ssh/id_rsa.pub
-10.0.2.211  ubuntu16-k3-node1.kubernetes    user    password    ~/.ssh/id_rsa.pub
-10.0.2.212  ubuntu16-k3-node2.kubernetes    user    password    ~/.ssh/id_rsa.pub
-10.0.2.213  ubuntu16-k3-node3.kubernetes    user    password    ~/.ssh/id_rsa.pub
+10.0.2.201  ubuntu16-k3-master1.kubernetes    user    password    ~/.ssh/id_rsa.pub
+10.0.2.211  ubuntu16-k3-node1.kubernetes      user    password    ~/.ssh/id_rsa.pub
+10.0.2.212  ubuntu16-k3-node2.kubernetes      user    password    ~/.ssh/id_rsa.pub
+10.0.2.213  ubuntu16-k3-node3.kubernetes      user    password    ~/.ssh/id_rsa.pub
 
 You can skip hostname steps:
 
-10.0.2.213  ##no-host##                     user    password    ~/.ssh/id_rsa.pub
+10.0.2.213  ##no-hostname##                   user    password    ~/.ssh/id_rsa.pub
+
+And you can skip key send step:
+
+10.0.2.213  ubuntu16-k3-node3.kubernetes      user    password    ##no-send-key##    
 
 '''
 
@@ -48,8 +47,7 @@ def printClr(line, color):
 
 def bashCommand(cmd):
 
-    if DEBUG == True:
-        print(cmd)
+    printClr("Executing command: " + cmd, bcolors.BOLD)
 
     # subprocess.call(cmd, shell=True, executable='/bin/bash')
     process = subprocess.Popen(cmd, shell=True, executable='/bin/bash', stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -114,7 +112,7 @@ def processFile(path):
             if len(matcher.groups()) > 4:
                 identityFile = matcher.group(5)
 
-            if hostname == "##no-host##":
+            if hostname == "##no-hostname##":
                 hostname = None
 
             printClr("Processing line " + str(i) + ": ip=" + ip + " hostname=" + str(hostname)
@@ -163,9 +161,10 @@ def processFile(path):
                 if identityFile != None:
                     cmd = "sshpass -p " + password + " ssh-copy-id -o PubkeyAuthentication=no -i " + identityFile + " " + user + "@" + ip
 
-                bashCommand(cmd)
-                printClr("Key sent: " + ip, bcolors.OKGREEN)
-                success += 1
+                if identityFile != "##no-send-key##":
+                    bashCommand(cmd)
+                    printClr("Key sent: " + ip, bcolors.OKGREEN)
+                    success += 1
             except:
                 printClr("Key not sent: " + ip, bcolors.FAIL)
                 errors += 1
