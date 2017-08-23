@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# mercredi 23 août 2017, 09:10:08 (UTC+0200)
+
+# Tester si une variable est non vide
+if [[ -z "$1" ]] ; then
+	echo -e "You must specify a document name. \n\nExample: gpg-symmetric-decrypt document.txt"
+	exit 1
+fi
+
+gpg --output $(basename "$1.decrypted") --decrypt "$1"
+

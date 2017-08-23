@@ -47,7 +47,8 @@ Conditions et tests:
 
 	# Tester si une variable est non vide
 	if [[ -z "$HEYHEY" ]] ; then
-		echo "$HEYHEY exist"
+		echo "$HEYHEY must exist !"
+		exit 1
 	fi
 	
 	# Tester si une variable est non définie, mais peut être vide
