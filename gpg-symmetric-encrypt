@@ -4,7 +4,7 @@
 
 # Tester si une variable est non vide
 if [[ -z "$1" ]] ; then
-	echo -e "You must specify a document name. \n\nExample: gpg-encrypt-doc-symmetric document.txt"
+	echo -e "You must specify a document name. \n\nExample: gpg-symmetric-encrypt document.txt"
 	exit 1
 fi
 
