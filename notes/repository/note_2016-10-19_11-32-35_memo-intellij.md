@@ -75,3 +75,7 @@ Pour faire tourner une app même si des fichiers ont des erreurs:
 ## Mode présentation:
 
 	CTRL + MAJ + A / Toggle presentation mode
+
+## Exclure les dossiers node_modules
+
+	Settings > Editor > File types > Ignore files and folders (en bas)

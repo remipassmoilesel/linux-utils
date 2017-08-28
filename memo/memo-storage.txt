@@ -1889,3 +1889,18 @@ Se connecter à un serveur sans utiliser de clef ssh
 # default :: yarn config set registry http://sinopia-lab.bbuzcloud.com:4873 
 Added: 2017-08-21 10:33
 Changer le registry yarn
+
+
+# default :: ./7_create-tls-certs.sh > >(tee -a logs/7.log) 2> >(tee -a logs/7.log >&2) 
+Added: 2017-08-23 14:40
+Enregistrer les sorties standard et erreur d'un script, tout en affichant en console
+
+
+# default :: id -u remipassmoilesel 
+Added: 2017-08-28 14:16
+Obtenir l'uid d'un utilisateur
+
+
+# default :: last bee 
+Added: 2017-08-28 14:50
+Voir la date de dernière connexion d'un utilisateur
