@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# mardi 29 août 2017, 13:54:59 (UTC+0200)
+
+function showHelp {
+	echo ""
+	echo "Repeat a command n times."
+	echo "Example: loop 100 'echo HeyHey!'"
+	echo ""
+}
+
+if [[ -z "$1" ]] ; then
+	echo "You must specify a number"
+	showHelp
+	exit 1
+fi
+
+if [[ -z "$2" ]] ; then
+	echo "You must specify a command"
+	showHelp
+	exit 1
+fi
+
+for i in $(seq $1); do
+	$2
+done
+

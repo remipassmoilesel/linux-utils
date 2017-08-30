@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# mercredi 30 août 2017, 13:33:00 (UTC+0200)
+
+date1=`date +%s`; 
+while true; do 
+	echo -e "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
+	sleep 1
+done
