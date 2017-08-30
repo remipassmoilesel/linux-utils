@@ -22,6 +22,22 @@ Désactiver les interactions utilisateurs:
 
 	export DEBIAN_FRONTEND=noninteractive 
 
+Itérer une liste de commandes:
+
+	COMMANDS=(
+	  "kubectl cluster-info"
+	  "kubectl get componentstatuses"
+	  "kubectl get nodes"
+	  "kubectl get pods -n kube-system"
+	);
+
+	for cmd in "${COMMANDS[@]}"; do
+	  echo ""
+	  echo "========== Executing: $cmd =========="
+	  echo ""
+	  $cmd || :
+	done
+
 Conditions et tests:
 
 	Pour les tests toujours préferer [[ à [ (spécifique bash)
