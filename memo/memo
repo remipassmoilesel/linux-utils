@@ -68,11 +68,15 @@ def appendMemo(memo):
         
 
 class MemoElement:
-    
+
+    i = 0
+
     def __init__(self, header, content, categ=""):
         self.header = header.strip()
         self.content = content.strip()
         self.categ = categ.strip().lower() if categ != None and categ != "" else DEFAULT_CATEG
+        MemoElement.i = MemoElement.i + 1;
+        self.id = MemoElement.i;
     
     def __repr__(self):
         return self.displayableRepresentation();
@@ -81,7 +85,7 @@ class MemoElement:
         """
         Return a colorized memo for console display
         """
-        output = bcolors.OKBLUE + HEADER_MARK + " "
+        output = bcolors.OKBLUE + HEADER_MARK + str(self.id) + ": "
         if self.categ != "" and self.categ != DEFAULT_CATEG:
             output += "[" + self.categ + "] "
         output += self.header + bcolors.ENDC + "\n" 
