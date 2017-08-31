@@ -16,10 +16,9 @@ MEMO_FILE_PATH = os.path.dirname(os.path.realpath(__file__)) + "/" + MEMO_FILE_N
 
 # simple description of script, displayed in help
 PGRM_DESC = '''
-Simple memo utility, used for short commands.
+Simple memo utility, usefull to store commands.
 
-All informations are stored in file: 
-'''
+All informations are stored in file: '''
 PGRM_DESC += MEMO_FILE_PATH
 
 # editors
@@ -45,12 +44,15 @@ class bcolors:
     UNDERLINE = '\033[4m'
     ENDC = '\033[0m'
 
+def printClr(line, color):
+    print(color + line + bcolors.ENDC)
+
 def exitProgram(code=0, msg=""):
     """
     Exit program and show an optoonnal message
     """
     if msg != "":
-        print(msg)
+        printClr(msg, bcolors.FAIL)
         
     exit(code)
     
@@ -128,7 +130,7 @@ class MemoContainer:
         """
         # check if file exist or create it
         if os.path.isfile(self.path) == False:
-            print("Memo file does not exist..")
+            printClr("Memo file does not exist..", bcolors.WARNING)
             try:
                 inFile = open(self.path, "a")
                 inFile.write("Memo" + os.linesep)
@@ -243,7 +245,7 @@ class MemoContainer:
 if __name__ == "__main__":
     
     # parse arguments
-    parser = argparse.ArgumentParser(description=PGRM_DESC)
+    parser = argparse.ArgumentParser(description=PGRM_DESC, formatter_class=argparse.RawTextHelpFormatter)
    
     parser.add_argument("-s", "--search",
                         action="store_true",
@@ -292,7 +294,7 @@ if __name__ == "__main__":
         exitProgram()
     
     # append a memo
-    if knownArgs.append :
+    if knownArgs.append:
         
         if len(unkArgs) < 2:
             exitProgram(1, "You must specify at least a header and a content to add a memo");
@@ -322,7 +324,7 @@ if __name__ == "__main__":
         print("")
         
         if knownArgs.category:
-            print(bcolors.OKGREEN + "Display only category: \"" + knownArgs.category + "\"" + bcolors.ENDC)
+            printClr("Display only category: \"" + knownArgs.category + "\"", bcolors.OKGREEN)
             print("")
         
         for memo in memoCtr.getContent(knownArgs.category):
@@ -334,7 +336,7 @@ if __name__ == "__main__":
     if knownArgs.search :
         
         if len(unkArgs) < 1:
-            print("You must specify keywords.")
+            printClr("You must specify keywords.", bcolors.FAIL)
             print("")
             parser.print_help()
             exitProgram(1)
@@ -344,17 +346,17 @@ if __name__ == "__main__":
         print("")
         
         if knownArgs.category:
-            print(bcolors.OKGREEN + "Display only category: \"" + knownArgs.category + "\"" + bcolors.ENDC)
+            printClr("Display only category: \"" + knownArgs.category + "\"", bcolors.WARNING)
         
         elements = memo.search(unkArgs, knownArgs.category)
         
         keywordsStr = ",".join(unkArgs)
         
         if len(elements) == 0:
-            print("Nothing found for: \"" + keywordsStr + "\"")
+            printClr("Nothing found for: \"" + keywordsStr + "\"", bcolors.FAIL)
     
         else:
-            print("Results for \"" + keywordsStr + "\":") 
+            printClr("Results for \"" + keywordsStr + "\":", bcolors.HEADER)
             print("")
     
             for m in elements:
@@ -390,8 +392,7 @@ if __name__ == "__main__":
         exitProgram(0)
         
         
-    print("Invalid command.")
+    printClr("Invalid command.", bcolors.FAIL)
     print("")
     parser.print_help()
     exitProgram(1)
-    
