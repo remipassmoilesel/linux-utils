@@ -8,7 +8,7 @@ import re
 from string import join
 import subprocess
 
-DEBUG = False;
+DEBUG = False
 
 # path and name of memo file
 MEMO_FILE_NAME = "memo-storage.txt"
@@ -63,7 +63,7 @@ def appendMemo(memo):
     try:
         inFile = open(MEMO_FILE_PATH, "a")
         inFile.write("\n")
-        inFile.write(memo.writableRepresentation());
+        inFile.write(memo.writableRepresentation())
         return True
     except:
         return False
@@ -77,11 +77,11 @@ class MemoElement:
         self.header = header.strip()
         self.content = content.strip()
         self.categ = categ.strip().lower() if categ != None and categ != "" else DEFAULT_CATEG
-        MemoElement.i = MemoElement.i + 1;
-        self.id = MemoElement.i;
+        MemoElement.i = MemoElement.i + 1
+        self.id = MemoElement.i
     
     def __repr__(self):
-        return self.displayableRepresentation();
+        return self.displayableRepresentation()
     
     def displayableRepresentation(self):
         """
@@ -106,7 +106,7 @@ class MemoElement:
         output += "Added: " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + "\n"
         output += self.content + "\n"
         
-        return output;
+        return output
         
     def getHeader(self):
         return self.header
@@ -196,7 +196,7 @@ class MemoContainer:
         Return a list of memos corresponding to specified keywords and category 
         """
         
-        rslt = [];
+        rslt = []
 
         if DEBUG:
             print("keywords")
@@ -234,7 +234,7 @@ class MemoContainer:
         
         else :
             categ = categ.strip().lower()
-            output = [];
+            output = []
             for memo in self.content:
                 if memo.getCategory() == categ:
                     output.append(memo)
@@ -297,13 +297,13 @@ if __name__ == "__main__":
     if knownArgs.append:
         
         if len(unkArgs) < 2:
-            exitProgram(1, "You must specify at least a header and a content to add a memo");
+            exitProgram(1, "You must specify at least a header and a content to add a memo")
             
         for i, val in enumerate(unkArgs):
             if len(val) < 1:
-                exitProgram(1, "Youcan not specify empty arguments.");
+                exitProgram(1, "Youcan not specify empty arguments.")
                 
-        memo = None;            
+        memo = None
         if len(unkArgs) > 2:
             memo = MemoElement(header=unkArgs[1], content=unkArgs[2], categ=unkArgs[0])
         
@@ -313,7 +313,7 @@ if __name__ == "__main__":
         success = appendMemo(memo)
             
         if success:
-            exitProgram(0, "Memo added with success.");
+            exitProgram(0, "Memo added with success.")
         else:
             exitProgram(1, "Error while adding memo to file:: " + MEMO_FILE_PATH)
 
@@ -363,7 +363,7 @@ if __name__ == "__main__":
                 print(str(m))
                 print("")
                 
-        exitProgram(0);
+        exitProgram(0)
         
     if knownArgs.listcategory :
         
@@ -378,16 +378,16 @@ if __name__ == "__main__":
             cat = memo.getCategory()
             val = categories.get(cat)
             val = val if val != None else 0
-            categories[cat] = val + 1;
+            categories[cat] = val + 1
 
-        colLen = 25;
+        colLen = 25
         
         for i, cat in enumerate(categories):
-            spaces = "";
+            spaces = ""
             for i in range(colLen - len(cat)):
-                spaces += " ";
+                spaces += " "
                 
-            print cat + spaces + " (" + str(categories[cat]) + ")";
+            print cat + spaces + " (" + str(categories[cat]) + ")"
         
         exitProgram(0)
         
