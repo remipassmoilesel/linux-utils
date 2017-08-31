@@ -78,4 +78,8 @@ Pour faire tourner une app même si des fichiers ont des erreurs:
 
 ## Exclure les dossiers node_modules
 
-	Settings > Editor > File types > Ignore files and folders (en bas)
+	Settings > Editor > File types > Ignore files and folders (en bas) -> Mais ils ne sont plus accessibles en lecture
+
+	Ou
+
+	Settings > Directories > Excldue files: node_modules
