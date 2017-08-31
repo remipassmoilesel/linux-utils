@@ -104,7 +104,7 @@ class MemoElement:
         output += "Added: " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + "\n"
         output += self.content + "\n"
         
-        return output;
+        return output
         
     def getHeader(self):
         return self.header
@@ -271,6 +271,10 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--display",
                         action="store_true",
                         help="display all")
+
+    parser.add_argument("-m", "--modify",
+                        action="store_true",
+                        help="modify a memo")
     
     
     knownArgs, unkArgs = parser.parse_known_args()
