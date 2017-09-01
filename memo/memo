@@ -273,6 +273,10 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--display",
                         action="store_true",
                         help="display all")
+
+    parser.add_argument("-m", "--modify",
+                        action="store_true",
+                        help="modify a memo")
     
     
     knownArgs, unkArgs = parser.parse_known_args()
