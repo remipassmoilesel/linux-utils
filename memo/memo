@@ -285,7 +285,7 @@ class MemoContainer:
             # first delete memo content
             i = memo.lineNumber
             end = False
-            while end != True:
+            while end != True and i < len(fileLines):
                 if re.search("\\w+", fileLines[i]):
                     del fileLines[i]
                 else:
@@ -293,7 +293,7 @@ class MemoContainer:
 
             # then delete blank lines
             end = False
-            while end != True:
+            while end != True and i < len(fileLines):
                 if re.search("^\\s*$", fileLines[i]):
                     del fileLines[i]
                 else:
@@ -304,7 +304,7 @@ class MemoContainer:
             memoWriteFile.close()
             return True
         except:
-            # print "Unexpected error:", sys.exc_info()[0]
+            print "Unexpected error:", sys.exc_info()[0]
             return False
 
     def appendMemo(self, memo):
