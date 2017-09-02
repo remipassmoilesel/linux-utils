@@ -1965,23 +1965,3 @@ Tirer et fusionner deux branches sans historique commun
 # default :: file row_000.tif
 Date: 2017-09-02 11:46
 Vérifier le type d'un fichier
-
-
-# default :: Example command 4
-Date: 2017-09-02 14:05
-Example memo
-
-
-# default :: Example command
-Date: 2017-09-02 14:17
-Example memo 4
-
-
-# default :: Example command
-Date: 2017-09-02 14:17
-Example memo 5
-
-
-# default :: Example command
-Date: 2017-09-02 14:17
-Example memo 6

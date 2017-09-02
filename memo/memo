@@ -343,9 +343,8 @@ if __name__ == "__main__":
                         action="store_true",
                         help="append a memo: ['category'] 'header' 'content'")
 
-    parser.add_argument("-r", "--replace",
-                        action="store_true",
-                        help="replace a memo: 'id' ['category'] 'header' 'content'")
+    parser.add_argument("-u", "--update",
+                        help="update a memo: 'id' ['category'] 'header' 'content'")
 
     parser.add_argument("-k", "--delete",
                         help="delete a memo: 'id'")
@@ -409,6 +408,40 @@ if __name__ == "__main__":
 
         if success == True:
             print("Category changed.")
+            exitProgram(0)
+        else:
+            exitProgram(1, "Error while changing category.")
+
+    # UPDATE
+    # UPDATE
+    # UPDATE
+    if knownArgs.update:
+
+        memoId = knownArgs.update
+
+        if len(unkArgs) < 2:
+            exitProgram(1, "You must specify at least a header and a content")
+
+        container = MemoContainer(MEMO_FILE_PATH)
+        memo = container.getById(memoId)
+
+        if not memo:
+            printClr("Unknown memo id: " + memoId, bcolors.FAIL)
+            exitProgram(1)
+
+        if len(unkArgs) > 2:
+            memo.header=unkArgs[1]
+            memo.content=unkArgs[2]
+            memo.categ=unkArgs[0]
+        else:
+            memo.header=unkArgs[0]
+            memo.content=unkArgs[1]
+            memo.categ="default"
+
+        success = container.modifyMemo(memo)
+
+        if success == True:
+            print("Memo updated.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while changing category.")
