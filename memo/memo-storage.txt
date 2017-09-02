@@ -1,4 +1,4 @@
-Mémo
+Memo
 ----
 
 # docker :: docker rmi $(docker images -q)
@@ -1919,3 +1919,13 @@ Afficher les journaux d'un service
 # default :: git clean -df 
 Added: 2017-08-30 18:38
 Enlever tous les fichiers non concernés par HEAD
+
+
+# default :: git pull --allow-unrelated-histories origin master 
+Added: 2017-09-02 10:33
+Tirer et fusionner deux branches sans historique commun
+
+
+# default :: file row_000.tif 
+Added: 2017-09-02 11:46
+Vérifier le type d'un fichier

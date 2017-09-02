@@ -251,22 +251,30 @@ if __name__ == "__main__":
                         action="store_true",
                         help="searh a memoy")
     
-    parser.add_argument("-c", "--category",
+    parser.add_argument("-f", "--filter-category",
                         help="use a category filter")
     
-    parser.add_argument("-l", "--listcategory",
+    parser.add_argument("-l", "--list-categories",
                         action="store_true",
                         help="display availables categories")
-    
+
+    parser.add_argument("-c", "--categorize",
+                        action="store_true",
+                        help="change categories of specified memo: 'id' 'category'")
+
     parser.add_argument("-a", "--append",
                         action="store_true",
                         help="append a memo: ['category'] 'header' 'content'")
    
-    parser.add_argument("-e", "--edit",
+    parser.add_argument("-r", "--replace",
                         action="store_true",
-                        help="edit memo storage")
-    
-    parser.add_argument("-g", "--graphicaleditor",
+                        help="replace a memo: 'id' ['category'] 'header' 'content'")
+
+    parser.add_argument("-e", "--edit-all",
+                        action="store_true",
+                        help="edit whole memo file")
+
+    parser.add_argument("-g", "--graphical-editor",
                         action="store_true",
                         help="use graphical editor")
     
@@ -289,9 +297,9 @@ if __name__ == "__main__":
         print("")
     
     # edit
-    if knownArgs.edit or knownArgs.graphicaleditor:
+    if knownArgs.edit_all or knownArgs.graphical_editor:
         
-        editor = GRAPHICAL_EDITOR if knownArgs.graphicaleditor == True else CLI_EDITOR
+        editor = GRAPHICAL_EDITOR if knownArgs.graphical_editor == True else CLI_EDITOR
         
         subprocess.call(editor + " " + MEMO_FILE_PATH, shell=True)
         
@@ -327,11 +335,11 @@ if __name__ == "__main__":
         
         print("")
         
-        if knownArgs.category:
-            printClr("Display only category: \"" + knownArgs.category + "\"", bcolors.OKGREEN)
+        if knownArgs.filter_category:
+            printClr("Display only category: \"" + knownArgs.filter_category + "\"", bcolors.OKGREEN)
             print("")
         
-        for memo in memoCtr.getContent(knownArgs.category):
+        for memo in memoCtr.getContent(knownArgs.filter_category):
             print(memo) 
             print("")
         
@@ -349,10 +357,10 @@ if __name__ == "__main__":
         
         print("")
         
-        if knownArgs.category:
-            printClr("Display only category: \"" + knownArgs.category + "\"", bcolors.WARNING)
+        if knownArgs.filter_category:
+            printClr("Display only category: \"" + knownArgs.filter_category + "\"", bcolors.WARNING)
         
-        elements = memo.search(unkArgs, knownArgs.category)
+        elements = memo.search(unkArgs, knownArgs.filter_category)
         
         keywordsStr = ",".join(unkArgs)
         
@@ -369,7 +377,7 @@ if __name__ == "__main__":
                 
         exitProgram(0)
         
-    if knownArgs.listcategory :
+    if knownArgs.list_categories :
         
         memoCtr = MemoContainer(MEMO_FILE_PATH)
         
@@ -385,8 +393,9 @@ if __name__ == "__main__":
             categories[cat] = val + 1
 
         colLen = 25
+        sortedKeys = sorted(categories.keys())
         
-        for i, cat in enumerate(categories):
+        for cat in sortedKeys:
             spaces = ""
             for i in range(colLen - len(cat)):
                 spaces += " "
