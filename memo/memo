@@ -55,30 +55,19 @@ def exitProgram(code=0, msg=""):
         printClr(msg, bcolors.FAIL)
         
     exit(code)
-    
-def appendMemo(memo):
-    """
-    Add a memo to path. Return false if an error occur.
-    """
-    try:
-        inFile = open(MEMO_FILE_PATH, "a")
-        inFile.write("\n")
-        inFile.write(memo.writableRepresentation())
-        return True
-    except:
-        return False
-        
+
 
 class MemoElement:
 
-    i = 0
+    # Incremental counter used to set ids
+    counter = 0
 
     def __init__(self, header, content, categ=""):
         self.header = header.strip()
         self.content = content.strip()
         self.categ = categ.strip().lower() if categ != None and categ != "" else DEFAULT_CATEG
-        MemoElement.i = MemoElement.i + 1
-        self.id = MemoElement.i
+        MemoElement.counter = MemoElement.counter + 1
+        self.id = MemoElement.counter
     
     def __repr__(self):
         return self.displayableRepresentation()
@@ -191,7 +180,7 @@ class MemoContainer:
                     content += l
                     
                     
-    def search(self, keywords, categ=None):
+    def searchByKeywords(self, keywords, categ=None):
         """
         Return a list of memos corresponding to specified keywords and category 
         """
@@ -226,6 +215,17 @@ class MemoContainer:
                 rslt.append(memo)
         
         return rslt
+
+    def getById(self, id, categ=None):
+        """
+        Return a memo corresponding to the specified ID
+        """
+
+        for memo in self.content:
+            if memo.id == id:
+                return memo
+
+        return None
     
     def getContent(self, categ=""):
         
@@ -241,6 +241,17 @@ class MemoContainer:
                     
             return output
 
+    def appendMemo(self, memo):
+        """
+        Add a memo to path. Return false if an error occur.
+        """
+        try:
+            inFile = open(self.path, "a")
+            inFile.write("\n")
+            inFile.write(memo.writableRepresentation())
+            return True
+        except:
+            return False
 
 if __name__ == "__main__":
     
@@ -259,8 +270,7 @@ if __name__ == "__main__":
                         help="display availables categories")
 
     parser.add_argument("-c", "--categorize",
-                        action="store_true",
-                        help="change categories of specified memo: 'id' 'category'")
+                        help="change categories of specified memo: 'category' 'id'")
 
     parser.add_argument("-a", "--append",
                         action="store_true",
@@ -296,7 +306,9 @@ if __name__ == "__main__":
         print(unkArgs)
         print("")
     
-    # edit
+    # EDIT MEMO
+    # EDIT MEMO
+    # EDIT MEMO
     if knownArgs.edit_all or knownArgs.graphical_editor:
         
         editor = GRAPHICAL_EDITOR if knownArgs.graphical_editor == True else CLI_EDITOR
@@ -304,8 +316,27 @@ if __name__ == "__main__":
         subprocess.call(editor + " " + MEMO_FILE_PATH, shell=True)
         
         exitProgram()
+
+    # CATEGORIZE
+    # CATEGORIZE
+    # CATEGORIZE
+    if knownArgs.categorize:
+
+        if len(unkArgs) < 1:
+            exitProgram(1, "You must specify a memo id")
+
+        category = knownArgs.categorize
+        memoId = unkArgs[0]
+
+        print("Add category '" + category + "' to memo " + memoId)
+
+        memo = MemoContainer(MEMO_FILE_PATH)
+
+        exitProgram()
     
-    # append a memo
+    # APPEND A MEMO
+    # APPEND A MEMO
+    # APPEND A MEMO
     if knownArgs.append:
         
         if len(unkArgs) < 2:
@@ -314,7 +345,9 @@ if __name__ == "__main__":
         for i, val in enumerate(unkArgs):
             if len(val) < 1:
                 exitProgram(1, "Youcan not specify empty arguments.")
-                
+
+        container = MemoContainer(MEMO_FILE_PATH)
+
         memo = None
         if len(unkArgs) > 2:
             memo = MemoElement(header=unkArgs[1], content=unkArgs[2], categ=unkArgs[0])
@@ -322,13 +355,16 @@ if __name__ == "__main__":
         else:
             memo = MemoElement(header=unkArgs[0], content=unkArgs[1])
             
-        success = appendMemo(memo)
+        success = container.appendMemo(memo)
             
         if success:
             exitProgram(0, "Memo added with success.")
         else:
             exitProgram(1, "Error while adding memo to file:: " + MEMO_FILE_PATH)
 
+    # DISPLAY WHOLE MEMO
+    # DISPLAY WHOLE MEMO
+    # DISPLAY WHOLE MEMO
     if knownArgs.display :
         
         memoCtr = MemoContainer(MEMO_FILE_PATH)
@@ -344,7 +380,10 @@ if __name__ == "__main__":
             print("")
         
         exitProgram(0)
-        
+
+    # SEARCH
+    # SEARCH
+    # SEARCH
     if knownArgs.search :
         
         if len(unkArgs) < 1:
@@ -360,7 +399,7 @@ if __name__ == "__main__":
         if knownArgs.filter_category:
             printClr("Display only category: \"" + knownArgs.filter_category + "\"", bcolors.WARNING)
         
-        elements = memo.search(unkArgs, knownArgs.filter_category)
+        elements = memo.searchByKeywords(unkArgs, knownArgs.filter_category)
         
         keywordsStr = ",".join(unkArgs)
         
@@ -376,7 +415,10 @@ if __name__ == "__main__":
                 print("")
                 
         exitProgram(0)
-        
+
+    # LIST ALL CATEGORIES
+    # LIST ALL CATEGORIES
+    # LIST ALL CATEGORIES
     if knownArgs.list_categories :
         
         memoCtr = MemoContainer(MEMO_FILE_PATH)
