@@ -1428,8 +1428,8 @@ Date: 2017-01-18 20:16
 Effectuer une requête whois
 
 
-# default :: git push origin master:remote-branch-name
-Date: 2017-01-18 22:42
+# git :: git push origin master:remote-branch-name 
+Date: 2017-09-02 16:15
 Pousser une branche et la renommer. Permet de pousser vers un depôt 'non-bare'
 
 
@@ -1518,13 +1518,13 @@ Date: 2017-02-14 16:34
 Encrypter un fichier avec OpenSSL
 
 
-# default :: git ls-files --others --exclude-from=.git/info/exclude
-Date: 2017-02-17 08:47
+# git :: git ls-files --others --exclude-from=.git/info/exclude 
+Date: 2017-09-02 16:15
 Lister les fichiers exclus de l'index Git
 
 
-# default :: java -jar /home/remipassmoilesel/bfg/bfg.jar --delete-files filename.big /path/to/git/repo
-Date: 2017-02-17 19:35
+# git :: java -jar /home/remipassmoilesel/bfg/bfg.jar --delete-files filename.big /path/to/git/repo 
+Date: 2017-09-02 16:15
 Supprimer des fichiers de l'historique d'un dépôt
 
 
@@ -1763,8 +1763,8 @@ Date: 2017-07-06 15:40
 Obtenir une application WAR exemple simple pour essais
 
 
-# default :: git submodule foreach 'npm install || :'
-Date: 2017-07-06 16:36
+# git :: git submodule foreach 'npm install || :' 
+Date: 2017-09-02 16:15
 Executer une commande git sur des sous modules, et continuer même si un code de retour est différent de zéro
 
 
@@ -1778,8 +1778,8 @@ Date: 2017-07-10 15:33
 Reprendre une installation interrompue
 
 
-# default :: git add -p
-Date: 2017-07-11 09:55
+# git :: git add -p 
+Date: 2017-09-02 16:13
 Ajouter des fichiers interactivement
 
 
@@ -1952,13 +1952,13 @@ Date: 2017-08-29 09:08
 Afficher les journaux d'un service
 
 
-# default :: git clean -df
-Date: 2017-08-30 18:38
+# git :: git clean -df 
+Date: 2017-09-02 16:13
 Enlever tous les fichiers non concernés par HEAD
 
 
-# default :: git pull --allow-unrelated-histories origin master
-Date: 2017-09-02 10:33
+# git :: git pull --allow-unrelated-histories origin master 
+Date: 2017-09-02 16:13
 Tirer et fusionner deux branches sans historique commun
 
 

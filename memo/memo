@@ -390,27 +390,36 @@ if __name__ == "__main__":
     if knownArgs.categorize:
 
         if len(unkArgs) < 1:
-            exitProgram(1, "You must specify a memo id")
+            exitProgram(1, "You must specify at least one memo id")
 
         category = knownArgs.categorize
-        memoId = unkArgs[0]
-
-        printClr("Add category '" + category + "' to memo " + memoId, bcolors.OKBLUE)
-
         container = MemoContainer(MEMO_FILE_PATH)
-        memo = container.getById(memoId)
-        if not memo:
-            printClr("Unknown memo id: " + memoId, bcolors.FAIL)
+
+        error = False
+
+        for memoId in unkArgs:
+
+            printClr("Add category '" + category + "' to memo " + memoId, bcolors.OKBLUE)
+
+            memo = container.getById(memoId)
+            if not memo:
+                printClr("Unknown memo id: " + memoId, bcolors.FAIL)
+                error = True
+
+            memo.categ = category
+            success = container.modifyMemo(memo)
+
+            if success == True:
+                printClr("Category changed.", bcolors.OKGREEN)
+            else:
+                printClr("Error while changing category.", bcolors.FAIL)
+                error = True
+
+        if error:
             exitProgram(1)
-
-        memo.categ = category
-        success = container.modifyMemo(memo)
-
-        if success == True:
-            print("Category changed.")
-            exitProgram(0)
         else:
-            exitProgram(1, "Error while changing category.")
+            exitProgram(0)
+
 
     # UPDATE
     # UPDATE
