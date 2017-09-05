@@ -326,9 +326,9 @@ Prendre en compte tous les fichiers du répertoire de projet.
 # sudo chown -R user:group /path/to/file/
 Changer le propriètaire et le groupe d'un dossier, récursivement.
 
-# ls | tee fichier1 fichier2
+# bash :: ls | tee fichier1 fichier2 
+Date: 2017-09-05 11:28
 Copier l'entrée standard vers la sortie standard et tous les fichiers spécifiés
-
 # sudo hdparm -t /dev/sdb
 Mesurer la vitesse de lecture d'un disque
 
@@ -1373,8 +1373,8 @@ Date: 2016-11-18 23:34
 Détruire le contenu d'un fichier ou d'un périphérique pour le rendre irrécupérable (ajouter -u pour supprimer ensuite le fichier)
 
 
-# default :: git rebase master image-mosaic-jdbc-work
-Date: 2016-11-19 17:42
+# git :: git rebase master image-mosaic-jdbc-work 
+Date: 2017-09-04 13:59
 Déplacer la branche image-mosaic à l'avant de master
 
 
@@ -1912,8 +1912,8 @@ Date: 2017-08-19 12:21
 Afficher la première colonne d'un fichier csv de la forme abcd,efgh,ijkl
 
 
-# default :: INTERNAL_IP=$(echo $line | cut -d' ' -f1)
-Date: 2017-08-19 12:21
+# bash :: INTERNAL_IP=$(echo $line | cut -d' ' -f1) 
+Date: 2017-09-05 11:28
 Stocker dans une variable une colonne (-f1) de sortie standard
 
 
@@ -1932,8 +1932,8 @@ Date: 2017-08-24 01:30
 Installer un paquet global avec yarn
 
 
-# default :: ./7_create-tls-certs.sh > >(tee -a logs/7.log) 2> >(tee -a logs/7.log >&2)
-Date: 2017-08-23 14:40
+# bash :: ./7_create-tls-certs.sh > >(tee -a logs/7.log) 2> >(tee -a logs/7.log >&2) 
+Date: 2017-09-05 11:28
 Enregistrer les sorties standard et erreur d'un script, tout en affichant en console
 
 
@@ -1965,3 +1965,7 @@ Tirer et fusionner deux branches sans historique commun
 # default :: file row_000.tif
 Date: 2017-09-02 11:46
 Vérifier le type d'un fichier
+
+# git :: git branch -m oldname newname 
+Date: 2017-09-04 14:00
+Renommer une branche

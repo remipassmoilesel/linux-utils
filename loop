@@ -21,7 +21,18 @@ if [[ -z "$2" ]] ; then
 	exit 1
 fi
 
+if ! [[ -z "$3" ]] ; then
+	LOG_FILE="$3"
+	echo "Output is piped to '$LOG_FILE' ..."
+fi
+
 for i in $(seq $1); do
-	$2
+
+	if ! [[ -z "$LOG_FILE" ]] ; then
+		$2 > >(tee -a $LOG_FILE) 2> >(tee -a $LOG_FILE >&2)
+	else
+		$2
+	fi
+
 done
 
