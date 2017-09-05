@@ -2,6 +2,8 @@
 
 # mardi 29 août 2017, 13:54:59 (UTC+0200)
 
+# set -x
+
 function showHelp {
 	echo ""
 	echo "Repeat a command n times."
@@ -26,7 +28,13 @@ if ! [[ -z "$3" ]] ; then
 	echo "Output is piped to '$LOG_FILE' ..."
 fi
 
+echo "Working directory: $PWD"
+
 for i in $(seq $1); do
+	
+	echo ""
+	echo "================ Sequence $i / $1 ================"
+	echo ""
 
 	if ! [[ -z "$LOG_FILE" ]] ; then
 		$2 > >(tee -a $LOG_FILE) 2> >(tee -a $LOG_FILE >&2)

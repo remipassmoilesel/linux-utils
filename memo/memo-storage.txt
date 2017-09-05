@@ -1969,3 +1969,8 @@ Vérifier le type d'un fichier
 # git :: git branch -m oldname newname 
 Date: 2017-09-04 14:00
 Renommer une branche
+
+
+# git :: git commit --amend -m 'New message' 
+Date: 2017-09-05 15:49
+Modifier le dernier message de commit
