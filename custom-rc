@@ -5,21 +5,10 @@ export PATH="$PATH:/home/remipassmoilesel/linux-utils/notes/"
 export PATH="$PATH:/home/remipassmoilesel/linux-utils/memo/"
 export PATH="$PATH:/home/remipassmoilesel/linux-utils/linux-rapid-install/"
 
-export PATH="$PATH:/opt/node/bin/"
-export PATH="$PATH:/opt/ruby/"
-export PATH="$PATH:/opt/android-sdk-linux/platform-tools"
-export PATH="$PATH:/opt/android-sdk-linux/tools"
-export PATH="$PATH:/opt/mongodb/bin"
-
-export PATH="$PATH:/home/remipassmoilesel/.minimesos/bin"
-
-export GOPATH="/opt/gocode"
-
-# workaround
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-
-# Android SDK
-# export ANDROID_SDK_ROOT="/opt/android-sdk-linux/"
+if [ -f ~/.custom-rc ]; then
+    echo "Sourcing $0 ..."
+    source ~/.custom-rc
+fi
 
 # default editor
 export EDITOR=vim
