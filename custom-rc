@@ -5,11 +5,6 @@ export PATH="$PATH:/home/remipassmoilesel/linux-utils/notes/"
 export PATH="$PATH:/home/remipassmoilesel/linux-utils/memo/"
 export PATH="$PATH:/home/remipassmoilesel/linux-utils/linux-rapid-install/"
 
-if [ -f ~/.custom-rc ]; then
-    echo "Sourcing $0 ..."
-    source ~/.custom-rc
-fi
-
 # default editor
 export EDITOR=vim
 
@@ -22,6 +17,11 @@ PROMPT_COMMAND='history -a'
 
 # better git log with 'git lg'
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+if [ -f ~/.custom-rc ]; then
+    echo "Sourcing /home/remipassmoilesel/.custom-rc"
+    source /home/remipassmoilesel/.custom-rc
+fi
 
 # woooo !
 cmatrix -b  -C blue
