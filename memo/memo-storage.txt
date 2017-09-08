@@ -14,8 +14,8 @@ Date: 2016-01-15 18:08
 Ecrire la date du journal dans un journal.
 
 
-# Decompilation de classes Java
-Date: 2016-01-15 18:08
+# java :: Decompilation de classes Java 
+Date: 2017-09-03 01:06
 Voir JD-Eclipse à l'adresse http://jd.benow.ca/
 Télécharger l'archive, décompresser, puis:
 Help > Install new software > Add > Local > sélectionner le dossier
@@ -335,9 +335,9 @@ Mesurer la vitesse de lecture d'un disque
 # curl -I abc-map.fr
 Afficher les en-têtes http d'une page web.
 
-# java : Project > Properties > Targeted Runtimes > JBOSS AS 7
+# java :: java : Project > Properties > Targeted Runtimes > JBOSS AS 7 
+Date: 2017-09-03 01:06
 Inclures les bibliothèque de dévelopement Java EE, utile lors des problèmes d'importation de HttpServlet
-
 # vim :: :/keyword
  Rechercher keyword dans le fichier courant. 'n' pour aller au suivant, 'N' pour aller au précédent.
 
@@ -1593,8 +1593,8 @@ Date: 2017-05-19 16:15
 Activer le support de NTFS
 
 
-# default :: javap MyClass.class
-Date: 2017-05-20 16:23
+# java :: javap MyClass.class 
+Date: 2017-09-03 01:06
 Désassembler une classe java
 
 
@@ -1743,8 +1743,8 @@ Date: 2017-07-02 10:47
 Retirer une clef ssh du fichier d'hôtes connus
 
 
-# default :: mvn exec:java -Dexec.mainClass="remipassmoilesel.Launcher" -Dexec.args="-t"
-Date: 2017-07-02 22:52
+# java :: mvn exec:java -Dexec.mainClass="remipassmoilesel.Launcher" -Dexec.args="-t" 
+Date: 2017-09-03 01:06
 Lancer une classe main avec arguments
 
 
