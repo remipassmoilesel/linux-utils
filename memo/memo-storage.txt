@@ -1738,8 +1738,8 @@ Date: 2017-07-02 10:23
 Chercher un fichier avec une expression insensible à la casse
 
 
-# default :: ssh-keygen -f '/home/user/.ssh/known_hosts' -R hostNameOrIp
-Date: 2017-07-02 10:47
+# ssh :: ssh-keygen -f '/home/user/.ssh/known_hosts' -R hostNameOrIp 
+Date: 2017-09-08 10:10
 Retirer une clef ssh du fichier d'hôtes connus
 
 
@@ -1788,8 +1788,8 @@ Date: 2017-07-11 14:07
 Afficher la commande de lancement d'un processus, pratique associé à netstat pour applications java
 
 
-# default :: ssh-keygen -p -f ~/.ssh/id_dsa
-Date: 2017-07-12 11:20
+# ssh :: ssh-keygen -p -f ~/.ssh/id_dsa 
+Date: 2017-09-08 10:10
 Changer une passphrase de clef ssh
 
 
@@ -1974,3 +1974,8 @@ Renommer une branche
 # git :: git commit --amend -m 'New message' 
 Date: 2017-09-05 15:49
 Modifier le dernier message de commit
+
+
+# ssh :: ssh-keygen 
+Date: 2017-09-08 10:09
+Créer une clef ssh
