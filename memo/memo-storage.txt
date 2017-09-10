@@ -895,10 +895,6 @@ Android: monter le dossier système en R/W pour pouvoir écrire dans le dossier.
 Date: 2016-04-12 09:36
 Monter une archive sur un dossier
 
-# git :: git commit --amend -m 'New commit message'
-Date: 2016-04-12 18:23
-Modifier le dernier message de commit
-
 # apt :: cat /var/log/dpkg.log | grep exim4
 Date: 2016-04-14 10:56
 Historique du gestionnaire de paquet dpkg / apt
@@ -1979,3 +1975,28 @@ Modifier le dernier message de commit
 # ssh :: ssh-keygen 
 Date: 2017-09-08 10:09
 Créer une clef ssh
+
+
+# tldr :: sudo npm install -g tldr 
+Date: 2017-09-10 23:29
+Installer tldr, un outil de documentation CLI. Comparable à man
+
+
+# tldr :: tldr tar 
+Date: 2017-09-10 23:29
+Afficher la page tldr de man
+
+
+# bm :: sudo pip install btools 
+Date: 2017-09-11 00:09
+Installer bm, un outil de gestion de dossiers favoris pour le shell
+
+
+# bm :: bm --add 
+Date: 2017-09-11 00:09
+Ajouter le dossier courant en favoris
+
+
+# bm :: bm; bm js-experiments 
+Date: 2017-09-11 00:09
+Lister les favoris et se rendre dans l'un d'eux
