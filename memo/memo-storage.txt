@@ -1997,6 +1997,6 @@ Date: 2017-09-11 00:09
 Ajouter le dossier courant en favoris
 
 
-# bm :: bm; bm js-experiments 
+# bm :: bm; cdbm js-experiments 
 Date: 2017-09-11 00:09
 Lister les favoris et se rendre dans l'un d'eux

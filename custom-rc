@@ -23,6 +23,12 @@ if [ -f ~/.custom-rc ]; then
     source /home/remipassmoilesel/.custom-rc
 fi
 
+if [ -f /usr/share/bm/bm.bash ]; then
+    source /usr/share/bm/bm.bash
+fi
+
+
+
 # woooo !
 cmatrix -b  -C blue
 
