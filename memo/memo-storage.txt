@@ -1928,7 +1928,7 @@ Date: 2017-08-24 01:30
 Installer un paquet global avec yarn
 
 
-# bash :: ./7_create-tls-certs.sh > >(tee -a logs/7.log) 2> >(tee -a logs/7.log >&2) 
+# bash :: ./script.sh > >(tee -a log.txt) 2> >(tee -a log.txt >&2) 
 Date: 2017-09-05 11:28
 Enregistrer les sorties standard et erreur d'un script, tout en affichant en console
 
@@ -2000,3 +2000,23 @@ Ajouter le dossier courant en favoris
 # bm :: bm; cdbm js-experiments 
 Date: 2017-09-11 00:09
 Lister les favoris et se rendre dans l'un d'eux
+
+
+# ssh :: ssh -i ~/.ssh/identitiy.pub root@10.0.1.229 
+Date: 2017-09-11 11:42
+Spécifier la clef SSH à utiliser en se connectant
+
+
+# bm :: bm -da ansible-experiments 
+Date: 2017-09-11 16:56
+Effacer un bookmark
+
+
+# bm :: bm -a ks 
+Date: 2017-09-11 16:56
+Ajotuer un bookmark en spécifiant l'identifiant
+
+
+# ssl :: sudo update-ca-certificates 
+Date: 2017-09-11 18:10
+Mettre à jour le système après ajout d'un certificat SSL

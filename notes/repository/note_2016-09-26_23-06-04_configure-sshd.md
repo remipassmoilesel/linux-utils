@@ -2,12 +2,16 @@
 
 ## Cas d'erreurs
 
-En cas d'erreurs 'too many authentications'
+En cas d'erreur 'too many authentications'
 
 	Cause possible: envoi de trop de clefs de connexion
 	Solution 1: vider son fichier known_host et réessayer.
 	Solution 2: se connecter avec ssh -o PubkeyAuthentication=no root@10.0.2.75 puis 
 		augmenter le MaxAuthTries temporairement
+
+		...
+		MaxAuthTries 100
+		...
 
 ## Configurer SSHD
 
