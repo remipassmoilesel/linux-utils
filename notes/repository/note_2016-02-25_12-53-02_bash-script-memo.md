@@ -38,6 +38,10 @@ Itérer une liste de commandes:
 	  $cmd || :
 	done
 
+	for i in $(seq 5); do
+		echo $i
+	done
+
 Conditions et tests:
 
 	Pour les tests toujours préferer [[ à [ (spécifique bash)
