@@ -1,0 +1,595 @@
+#!/usr/bin/python2.7
+# encoding: utf-8
+
+import argparse
+import datetime
+import os
+import re
+from string import join
+import subprocess
+
+import sys
+
+DEBUG = False
+
+# path and name of memo file
+MEMO_FILE_NAME = "memo-storage.txt"
+MEMO_FILE_PATH = os.path.dirname(os.path.realpath(__file__)) + "/" + MEMO_FILE_NAME
+
+# simple description of script, displayed in help
+PGRM_DESC = '''
+Simple memo utility, usefull to store commands.
+
+All informations are stored in file: '''
+PGRM_DESC += MEMO_FILE_PATH
+
+# editors
+GRAPHICAL_EDITOR = "xdg-open"
+CLI_EDITOR = "vim"
+
+# name of default category
+DEFAULT_CATEG = "default".lower()
+
+# mark used to distinguish headers
+HEADER_MARK = "#"
+
+# category mark
+CATEG_MARK = "::"
+
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    ENDC = '\033[0m'
+
+
+def printClr(line, color):
+    print(color + line + bcolors.ENDC)
+
+
+def exitProgram(code=0, msg=""):
+    """
+    Exit program and show an optoonnal message
+    """
+    if msg != "":
+        printClr(msg, bcolors.FAIL)
+
+    exit(code)
+
+
+class MemoElement:
+    # Incremental counter used to set ids
+    counter = 0
+
+    def __init__(self, header, content, categ, lineNumber=0):
+        self.header = header.strip()
+        self.content = content.strip()
+        self.lineNumber = lineNumber
+        self.categ = categ.strip().lower() if categ != None and categ != "" else DEFAULT_CATEG
+        MemoElement.counter = MemoElement.counter + 1
+        self.id = MemoElement.counter
+
+    def __repr__(self):
+        return self.displayableRepresentation()
+
+    def displayableRepresentation(self):
+        """
+        Return a colorized memo for console display
+        """
+        output = bcolors.OKBLUE + HEADER_MARK + str(self.id) + ": "
+        if self.categ != "" and self.categ != DEFAULT_CATEG:
+            output += "[" + self.categ + "] "
+        output += self.header + bcolors.ENDC + "\n"
+        output += self.content
+
+        return output
+
+    def writableRepresentation(self):
+        """
+        Return a text representation to write in file
+        """
+
+        contentLines = self.content.split("\n");
+        if contentLines[0].startswith("Date:"):
+            modifiedContent = join(contentLines[1:], '\n')
+        else:
+            modifiedContent = join(contentLines, '\n')
+
+        output = "\n\n"
+        output += HEADER_MARK + " " + self.categ + " " + CATEG_MARK + " " + self.header + " \n"
+        output += "Date: " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + "\n"
+        output += modifiedContent + "\n"
+
+        return output
+
+    def getHeader(self):
+        return self.header
+
+    def getContent(self):
+        return self.content
+
+    def getCategory(self):
+        return self.categ
+
+
+class MemoContainer:
+    def __init__(self, path):
+        self.path = path
+        self.content = []
+        self.load()
+
+    def load(self):
+        """
+        Load a file conaining a list of memos
+        """
+        # check if file exist or create it
+        if os.path.isfile(self.path) == False:
+            printClr("Memo file does not exist..", bcolors.WARNING)
+            try:
+                inFile = open(self.path, "a")
+                inFile.write("Memo" + os.linesep)
+                inFile.write("----" + os.linesep + os.linesep)
+                inFile.close()
+                print("File have been created at: " + self.path)
+            except:
+                exitProgram(code=1, msg="Unable to create file at: " + self.path)
+
+        # load file
+        with open(self.path, "r") as inFile:
+
+            lines = inFile.readlines()
+            lines.append("##")
+
+            if DEBUG:
+                print("Loading: ")
+
+            categ = ""
+            header = ""
+            content = ""
+            lineNumber = 0
+
+            lineCounter = 0;
+
+            # iterate lines
+            for l in lines:
+                matcher = re.match("^ *" + HEADER_MARK + " *(?:(.+)" + CATEG_MARK + ")? *(.+)", l)
+
+                # this line is a memo header
+                if matcher:
+                    i = 0
+
+                    # create a new element and store it
+                    if header != "" and content != "":
+                        self.content.append(MemoElement(header, content, categ, lineNumber))
+
+                    if matcher.groups() > 2:
+                        categ = matcher.group(1)
+                        header = matcher.group(2)
+                    else:
+                        categ = ""
+                        header = matcher.group(1)
+
+                    lineNumber = lineCounter
+                    content = ""
+
+                # this line is content if non-empty
+                elif re.search("\\w+", l):
+                    content += l
+
+                lineCounter += 1
+
+    def searchByKeywords(self, keywords, categ=None):
+        """
+        Return a list of memos corresponding to specified keywords and category
+        """
+
+        rslt = []
+
+        if DEBUG:
+            print("keywords")
+            print(keywords)
+
+        # create a regex
+        regexa = []
+        for w in keywords:
+            regexa.append(re.sub("[^a-z]", ".?", w, re.IGNORECASE))
+
+        regex = "(" + join(regexa, "|") + ")+"
+
+        # category
+        categ = categ.strip().lower() if categ != None else ""
+
+        # analyse memos
+        for memo in self.content:
+
+            if categ != "" and memo.getCategory() != categ:
+                continue
+
+            inHeader = re.search(regex, memo.getHeader(), re.IGNORECASE)
+            inContent = re.search(regex, memo.getContent(), re.IGNORECASE)
+            inCateg = re.search(regex, memo.getCategory(), re.IGNORECASE)
+
+            if inHeader or inContent or inCateg:
+                rslt.append(memo)
+
+        return rslt
+
+    def getById(self, id, categ=None):
+        """
+        Return a memo corresponding to the specified ID
+        """
+
+        for memo in self.content:
+            if int(memo.id) == int(id):
+                return memo
+
+        return None
+
+    def getContent(self, categ=""):
+
+        if categ == None or categ == "":
+            return self.content
+
+        else:
+            categ = categ.strip().lower()
+            output = []
+            for memo in self.content:
+                if memo.getCategory() == categ:
+                    output.append(memo)
+
+            return output
+
+    def modifyMemo(self, memo):
+        """
+        Modify a memo in storage file
+        """
+        try:
+            memoReadFile = open(self.path, "r")
+            fileLines = memoReadFile.readlines()
+            memoReadFile.close()
+
+            writableLines = memo.writableRepresentation().split('\n')
+
+            i = memo.lineNumber
+            l = 2  # skip firsts \n
+            end = i + len(writableLines) - l
+            while i < end:
+                if re.search("\\w+", writableLines[l]):  # replace only non empty lines
+                    fileLines[i] = writableLines[l] + "\n"
+                i += 1
+                l += 1
+
+            memoWriteFile = open(self.path, "w")
+            memoWriteFile.writelines(fileLines)
+            memoWriteFile.close()
+
+            return True
+        except:
+            # print "Unexpected error:", sys.exc_info()[0]
+            return False
+
+    def deleteMemo(self, memo):
+        """
+        Delete a memo from storage file
+        """
+        try:
+            memoReadFile = open(self.path, "r")
+            fileLines = memoReadFile.readlines()
+            memoReadFile.close()
+
+            # first delete memo content
+            i = memo.lineNumber
+            end = False
+            while end != True and i < len(fileLines):
+                if re.search("\\w+", fileLines[i]):
+                    del fileLines[i]
+                else:
+                    end = True
+
+            # then delete blank lines
+            end = False
+            while end != True and i < len(fileLines):
+                if re.search("^\\s*$", fileLines[i]):
+                    del fileLines[i]
+                else:
+                    end = True
+
+            memoWriteFile = open(self.path, "w")
+            memoWriteFile.writelines(fileLines)
+            memoWriteFile.close()
+            return True
+        except:
+            print "Unexpected error:", sys.exc_info()[0]
+            return False
+
+    def appendMemo(self, memo):
+        """
+        Add a memo to path. Return false if an error occur.
+        """
+        try:
+            inFile = open(self.path, "a")
+            inFile.write(memo.writableRepresentation())
+            inFile.close()
+            return True
+        except:
+            return False
+
+
+if __name__ == "__main__":
+
+    # parse arguments
+    parser = argparse.ArgumentParser(description=PGRM_DESC, formatter_class=argparse.RawTextHelpFormatter)
+
+    parser.add_argument("-s", "--search",
+                        action="store_true",
+                        help="searh a memoy")
+
+    parser.add_argument("-f", "--filter-category",
+                        help="use a category filter")
+
+    parser.add_argument("-l", "--list-categories",
+                        action="store_true",
+                        help="display availables categories")
+
+    parser.add_argument("-c", "--categorize",
+                        help="change categories of specified memo: 'category' 'id'")
+
+    parser.add_argument("-a", "--append",
+                        action="store_true",
+                        help="append a memo: ['category'] 'header' 'content'")
+
+    parser.add_argument("-u", "--update",
+                        help="update a memo: 'id' ['category'] 'header' 'content'")
+
+    parser.add_argument("-k", "--delete",
+                        help="delete a memo: 'id'")
+
+    parser.add_argument("-e", "--edit-all",
+                        action="store_true",
+                        help="edit whole memo file")
+
+    parser.add_argument("-g", "--graphical-editor",
+                        action="store_true",
+                        help="use graphical editor")
+
+    parser.add_argument("-d", "--display",
+                        action="store_true",
+                        help="display all")
+
+    parser.add_argument("-m", "--modify",
+                        action="store_true",
+                        help="modify a memo")
+
+    knownArgs, unkArgs = parser.parse_known_args()
+
+    if DEBUG:
+        print("knownArgs: ")
+        print(knownArgs)
+        print("unkArgs: ")
+        print(unkArgs)
+        print("")
+
+    # EDIT MEMO
+    # EDIT MEMO
+    # EDIT MEMO
+    if knownArgs.edit_all or knownArgs.graphical_editor:
+        editor = GRAPHICAL_EDITOR if knownArgs.graphical_editor == True else CLI_EDITOR
+
+        subprocess.call(editor + " " + MEMO_FILE_PATH, shell=True)
+
+        exitProgram(0)
+
+    # CATEGORIZE
+    # CATEGORIZE
+    # CATEGORIZE
+    if knownArgs.categorize:
+
+        if len(unkArgs) < 1:
+            exitProgram(1, "You must specify at least one memo id")
+
+        category = knownArgs.categorize
+        container = MemoContainer(MEMO_FILE_PATH)
+
+        error = False
+
+        for memoId in unkArgs:
+
+            printClr("Add category '" + category + "' to memo " + memoId, bcolors.OKBLUE)
+
+            memo = container.getById(memoId)
+            if not memo:
+                printClr("Unknown memo id: " + memoId, bcolors.FAIL)
+                error = True
+
+            memo.categ = category
+            success = container.modifyMemo(memo)
+
+            if success == True:
+                printClr("Category changed.", bcolors.OKGREEN)
+            else:
+                printClr("Error while changing category.", bcolors.FAIL)
+                error = True
+
+        if error:
+            exitProgram(1)
+        else:
+            exitProgram(0)
+
+
+    # UPDATE
+    # UPDATE
+    # UPDATE
+    if knownArgs.update:
+
+        memoId = knownArgs.update
+
+        if len(unkArgs) < 2:
+            exitProgram(1, "You must specify at least a header and a content")
+
+        container = MemoContainer(MEMO_FILE_PATH)
+        memo = container.getById(memoId)
+
+        if not memo:
+            printClr("Unknown memo id: " + memoId, bcolors.FAIL)
+            exitProgram(1)
+
+        if len(unkArgs) > 2:
+            memo.header=unkArgs[1]
+            memo.content=unkArgs[2]
+            memo.categ=unkArgs[0]
+        else:
+            memo.header=unkArgs[0]
+            memo.content=unkArgs[1]
+            memo.categ="default"
+
+        success = container.modifyMemo(memo)
+
+        if success == True:
+            print("Memo updated.")
+            exitProgram(0)
+        else:
+            exitProgram(1, "Error while changing category.")
+
+    # DELETE MEMO
+    # DELETE MEMO
+    # DELETE MEMO
+    if knownArgs.delete:
+
+        memoId = knownArgs.delete
+
+        container = MemoContainer(MEMO_FILE_PATH)
+        memo = container.getById(memoId)
+        if not memo:
+            printClr("Unknown memo id: " + memoId, bcolors.FAIL)
+            exitProgram(1)
+
+        success = container.deleteMemo(memo)
+
+        if success == True:
+            print("Memo deleted.")
+            exitProgram(0)
+        else:
+            exitProgram(1, "Error while deleting memo.")
+
+    # APPEND A MEMO
+    # APPEND A MEMO
+    # APPEND A MEMO
+    if knownArgs.append:
+
+        if len(unkArgs) < 2:
+            exitProgram(1, "You must specify at least a header and a content to add a memo")
+
+        for i, val in enumerate(unkArgs):
+            if len(val) < 1:
+                exitProgram(1, "Youcan not specify empty arguments.")
+
+        container = MemoContainer(MEMO_FILE_PATH)
+
+        memo = None
+        if len(unkArgs) > 2:
+            memo = MemoElement(header=unkArgs[1], content=unkArgs[2], categ=unkArgs[0])
+
+        else:
+            memo = MemoElement(header=unkArgs[0], content=unkArgs[1], categ="default")
+
+        success = container.appendMemo(memo)
+
+        if success:
+            printClr("Memo added with success.", bcolors.OKBLUE)
+            exitProgram(0)
+        else:
+            exitProgram(1, "Error while adding memo to file:: " + MEMO_FILE_PATH)
+
+    # DISPLAY WHOLE MEMO
+    # DISPLAY WHOLE MEMO
+    # DISPLAY WHOLE MEMO
+    if knownArgs.display:
+
+        container = MemoContainer(MEMO_FILE_PATH)
+
+        print("")
+
+        if knownArgs.filter_category:
+            printClr("Display only category: \"" + knownArgs.filter_category + "\"", bcolors.OKGREEN)
+            print("")
+
+        for memo in container.getContent(knownArgs.filter_category):
+            print(memo)
+            print("")
+
+        exitProgram(0)
+
+    # SEARCH
+    # SEARCH
+    # SEARCH
+    if knownArgs.search:
+
+        if len(unkArgs) < 1:
+            printClr("You must specify keywords.", bcolors.FAIL)
+            print("")
+            parser.print_help()
+            exitProgram(1)
+
+        container = MemoContainer(MEMO_FILE_PATH)
+
+        print("")
+
+        if knownArgs.filter_category:
+            printClr("Display only category: \"" + knownArgs.filter_category + "\"", bcolors.WARNING)
+
+        elements = container.searchByKeywords(unkArgs, knownArgs.filter_category)
+
+        keywordsStr = ",".join(unkArgs)
+
+        if len(elements) == 0:
+            printClr("Nothing found for: \"" + keywordsStr + "\"", bcolors.FAIL)
+
+        else:
+            printClr("Results for \"" + keywordsStr + "\":", bcolors.HEADER)
+            print("")
+
+            for m in elements:
+                print(str(m))
+                print("")
+
+        exitProgram(0)
+
+    # LIST ALL CATEGORIES
+    # LIST ALL CATEGORIES
+    # LIST ALL CATEGORIES
+    if knownArgs.list_categories:
+
+        container = MemoContainer(MEMO_FILE_PATH)
+
+        print("")
+        print("Categories: ")
+        print("")
+
+        categories = {}
+        for memo in container.getContent():
+            cat = memo.getCategory()
+            val = categories.get(cat)
+            val = val if val != None else 0
+            categories[cat] = val + 1
+
+        colLen = 25
+        sortedKeys = sorted(categories.keys())
+
+        for cat in sortedKeys:
+            spaces = ""
+            for i in range(colLen - len(cat)):
+                spaces += " "
+
+            print cat + spaces + " (" + str(categories[cat]) + ")"
+
+        exitProgram(0)
+
+    printClr("Invalid command.", bcolors.FAIL)
+    print("")
+    parser.print_help()
+    exitProgram(1)

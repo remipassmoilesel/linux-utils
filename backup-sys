@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# tester si root
+if [ "$(whoami)" != 'root' ]; then
+        echo "Vous devez être superutilisateur pour utiliser ce script."
+        exit 1;
+fi
+
+echo
+echo "Sauvegarde système"
+echo
+echo "Sauvegarde de la racine à l'exception des dossiers: "
+echo "/dev/, /proc/, /sys/, /tmp/, /run/, /mnt/, /media/, /lost+found/, /home/"
+echo
+echo "Nécéssite 'zip' et 'fuse-zip'"
+
+echo 
+echo "Répertoire destination de la sauvegarde (q=quitter): "
+read -r DESTINATION
+
+if [[ $DESTINATION =~ ^(quit|q) ]]; then
+    echo "Arret."
+    exit 1
+fi
+
+# dossier temporaire
+TEMP="backup_`date +'%Y-%m-%d_%H-%M-%S'`"
+TEMP_ARCH="$TEMP.zip"
+
+echo
+echo "Création des dossiers ..."
+mkdir -p "$DESTINATION/$TEMP"
+
+if [[ $? != 0 ]]; then
+    echo "Erreur lors de la création des dossiers."
+    exit 1
+fi
+
+echo
+read -r -p "Commencer la sauvegarde ? (y = yes) " RESPONSE
+RESPONSE=${RESPONSE,,}
+
+if [[ $RESPONSE =~ ^(yes|y| ) ]]; then
+
+	cd $DESTINATION
+
+    # créer une archive
+    echo "Sauvegarde système du `date`" > backup.txt
+    zip -r "$TEMP_ARCH" backup.txt
+
+    # monter l'archive
+    echo "$TEMP_ARCH"
+    fuse-zip "$TEMP_ARCH" "$TEMP"
+
+    # sauvegarder
+    rsync -aAXv --numeric-ids --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","/home/*"} "/" "$TEMP"
+
+    # démonter l'archive
+    umount "$TEMP"
+
+    echo
+    echo "Fin !"
+fi
+
+
+

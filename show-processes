@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo ps -A aux --sort -rss

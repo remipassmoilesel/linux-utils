@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# le dossier ou se trouve les jeux
+ROM_DIR="/home/remipassmoilesel/n64_games/"
+
+# pas d'argument, lancer zsnes
+if [ "$1" = "" ]; then
+	echo Usage: playn64 keywords
+
+# un argument, chercher le jeu correspondant
+else 
+	# separateur par defaut: fin de ligne
+	IFS=$'\n' 
+
+	# indicateur de lancement de jeu
+	GAME_LAUNCHED=false
+
+	# lister les jeux diponibles
+	GAMES=`ls $ROM_DIR | grep -i $*`
+
+	# itérer le résultat
+	for g in $GAMES; do
+
+		# demarrer le premier jeu correspondant
+		echo Launching $ROM_DIR$g ...
+		mupen64plus $ROM_DIR$g > /dev/null 2>&1 &
+
+		GAME_LAUNCHED=true
+
+		# arret
+		break
+	done
+
+	# aucun jeu n'a été lancé
+	if [ "$GAME_LAUNCHED" = false ]; then
+		echo No games match \'$ROM_DIR$*\'
+	fi
+
+fi
+

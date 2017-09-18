@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# extraire et retourner les adresses contenues dans un texte
+function extract-ip {
+	#echo $(echo $@ | egrep -io "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")
+	echo $(echo $@ | egrep -io "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")
+}
+
+# il y a une entrée standard
+if ! [ -t 0 ]; then
+	STDIN=$(cat)
+	ADRESSES=$(extract-ip $STDIN)
+	echo $ADRESSES
+# il n'y a pas d'entrée standard
+else
+	echo "No stdin"
+fi
+

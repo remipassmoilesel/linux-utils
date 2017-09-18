@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# mardi 8 août 2017, 21:21:46 (UTC+0200)
+
+#set -x
+
+GH_USER=$1
+
+if ! [[ $GH_USER ]] ; then                           
+	echo You must specify a user name. 
+	echo Example: clone-all-from-github remipassmoilesel
+	exit 1
+fi    
+
+echo Using Github username: $GH_USER
+
+curl -s https://api.github.com/users/$GH_USER/repos?per_page=200 | python -c $'import json, sys, os\nfor repo in json.load(sys.stdin): os.system("git clone " + repo["clone_url"])'

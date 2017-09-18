@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo
+echo "Committer et pousser vers la branche 'master' vers 'origin'"
+
+MESSAGE=$@
+
+if [ -z "$MESSAGE" ]; then
+	MESSAGE="Up!";
+fi
+
+echo "Message: $MESSAGE"
+
+echo
+echo
+
+git add -A
+git commit -m "$MESSAGE"
+git push origin master

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+NAME=$1
+
+if [ "$NAME" = "" ]; then
+	NAME="script.sh"
+fi
+
+printf '#!/bin/bash\n\n' > "$NAME"
+
+printf "# `date`\n\n" >> "$NAME"
+
+vim "$NAME"
+
+chmod +x $NAME
+
+
+

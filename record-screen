@@ -1,0 +1,8 @@
+#!/bin/bash
+if [$1 == ""]; then
+	sn=`basename "$0"`
+	echo "Usage: $sn /path/to/video"
+else
+	ffmpeg -video_size 1366x768 -framerate 25 -f x11grab record.mp4
+fi
+

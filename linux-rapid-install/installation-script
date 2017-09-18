@@ -1,0 +1,233 @@
+#!/usr/bin/python2.7
+# encoding: utf-8
+
+import os
+import subprocess
+import shlex
+import datetime
+import json
+import traceback
+import argparse
+
+# date of call
+date = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")
+
+# path of this script
+scriptDir = os.path.dirname(os.path.abspath(__file__));
+installationDir = scriptDir;
+
+# path where logs are saved
+logRoot = os.path.join(installationDir, "log/")
+
+# new log name 
+logName = os.path.join(logRoot, "installation_" + date + ".txt");
+
+# data file path, use only absolute path
+installationFilePath = os.path.join(installationDir, "installation.json"); 
+
+# installationFilePath = "./installation.json"
+
+# JSON block titles
+beforeCommandsId = "before_commands"
+afterCommandsId = "after_commands"
+toInstallId = "to_install"
+toUninstallId = "to_uninstall"
+
+readableNames = {
+                 beforeCommandsId : "First commands",
+                 toInstallId : "Packages to install",
+                 toUninstallId : "Packages to uninstall",
+                 afterCommandsId : "Final commands",
+}
+
+# descirption du programme
+pgrmdesc = '''
+Automation script usefull to prepare Debian based systems.
+Install or uninstall packages, and execute various commands.
+
+Packages and commands are saved in: 
+'''
+
+pgrmdesc += installationFilePath
+
+def log(text=os.linesep):
+    ''' 
+    Log in disk
+    '''
+    if os.path.isdir(logRoot) == False:
+        os.makedirs(logRoot)
+        
+    with open(logName, "a+") as outfile:
+        outfile.write(text + os.linesep)
+
+def printTitle(text):
+    '''
+    Display and log a title
+    '''
+    
+    dashLine = ""
+    for c in text:
+        dashLine += "-"
+    
+    print 
+    print text
+    print dashLine
+    
+    log()
+    log(text)
+    log(dashLine)
+    
+    
+def printLine(text):
+    '''
+    Display and log a simple line
+    '''
+    
+    print 
+    print text
+    
+    log()
+    log(text)
+    
+def exitProgram(code, text=""):
+    printLine(text)
+    exit(code)
+    
+def loggedCommand(text):
+    ''' 
+    Execute a system command and log output
+    '''
+    log("Command: " + text)
+    with open(logName, "a+") as outfile:
+        try:
+            subprocess.call(shlex.split(text), stdout=outfile, stderr=outfile)
+        except Exception as e:
+            log("Error: " + str(e))
+        except OSError as e:
+            log("Error: " + str(e))
+
+def parseInstallationFile():
+    return json.load(open(installationFilePath))
+
+
+if __name__ == "__main__":
+    
+    # parse arguments
+    parser = argparse.ArgumentParser(description=pgrmdesc)
+   
+    parser.add_argument("-i", "--install",
+                        action="store_true",
+                        help="install packages and run commands")
+    
+    parser.add_argument("-e", "--edit",
+                        action="store_true",
+                        help="edit list of commands and packages")
+    
+    parser.add_argument("-ai", "--append-packet-to-install",
+                        action="store_true",
+                        help="add a package to install")
+    
+    parser.add_argument("-au", "--append-packet-to-uninstall",
+                        action="store_true",
+                        help="add a package to uninstall")
+    
+    parser.add_argument("-d", "--display",
+                        action="store_true",
+                        help="print list of packages and commands")
+    
+    knownArgs, otherArgs = parser.parse_known_args()
+    
+    if knownArgs.edit :
+        subprocess.call(shlex.split("vim " + installationFilePath))
+        exitProgram(0)
+        
+    if knownArgs.display:
+        # parse data
+        try:
+            data = parseInstallationFile()
+        except Exception as e:
+            exitProgram(1, "Fichier de données incorrect: " + str(e))
+
+        # print data
+        for groupId, label in readableNames.items():
+            print
+            print(label + ":")
+            print
+            i = 0
+            for e in data[groupId]:
+                print("\t#" + str(i) + ": " + e)
+                i += 1 
+                
+        exitProgram(0)
+    
+    if knownArgs.append_packet_to_install or knownArgs.append_packet_to_uninstall:
+        
+        # check specified packages number
+        if(len(otherArgs) < 1):
+            exitProgram(1, "You must provide a paxkage name") 
+        
+        # parse data
+        try:
+            data = parseInstallationFile()
+        except Exception as e:
+            exitProgram(1, "Unable to parse data file: " + str(e))
+
+        # add to list
+        if knownArgs.append_packet_to_install:
+            listId = toInstallId
+        if knownArgs.append_packet_to_uninstall:
+            listId = toUninstallId
+    
+        for p in otherArgs:
+            data[listId].append(p)
+
+        # write data
+        try:
+            jsonfile = open(installationFilePath, "w")
+            jsonfile.write(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': ')))
+        except:
+            exitProgram(1, "Unable to write: " + installationFilePath)
+            
+        exitProgram(0, "Package added.")
+
+    # nothing to do, error
+    if knownArgs.install == False:
+        print("Vous devez spécifier des arguments ou des mots clefs.")
+        print
+        parser.print_help()
+        exitProgram(1)
+    
+    # parse data file
+    try:
+        data = parseInstallationFile()
+    except Exception as e:
+        exitProgram(1, "Invalid data file: " + str(e))
+   
+    beforeCmds = data[beforeCommandsId]
+    afterCmds = data[afterCommandsId]
+    toInstall = data[toInstallId]
+    toUninstall = data[toUninstallId]
+   
+    # execution
+    printTitle("First commands: ")
+    for i, c in enumerate(data[beforeCommandsId]):
+        printLine("#" + str(i) + " " + c)
+        loggedCommand(c)
+                      
+    printTitle("Remove packages: ")
+    for i, p in enumerate(data[toUninstallId]):
+        printLine("#" + str(i) + " " + p)
+        loggedCommand("sudo apt-get -y autoremove " + p)
+        
+    printTitle("Install packages: ")
+    for i, p in enumerate(data[toInstallId]):
+        printLine("#" + str(i) + " " + p)
+        loggedCommand("sudo apt-get -y install " + p)
+    
+    printTitle("Final commands: ")
+    for i, c in enumerate(data[afterCommandsId]):
+        printLine("#" + str(i) + " " + c)
+        loggedCommand(c)
+      
+    printLine("End of process. Log: " + logName)
+     

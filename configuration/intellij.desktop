@@ -1,0 +1,11 @@
+
+# Location: /usr/share/applications/intellij.desktop
+
+[Desktop Entry]
+Version=13.0
+Type=Application
+Terminal=false
+Name=IntelliJ
+Exec=/opt/intellij/bin/idea.sh
+Icon=/opt/intellij/bin/idea.png
+

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# jeudi 9 février 2017, 11:59:04 (UTC+0100)
+
+QUERY="$@"
+ENCODED=$(echo -n $@ | openssl base64)
+
+URL="http://www.commandlinefu.com/commands/matching/$QUERY/$ENCODED/sort-by/votes/plaintext"
+
+echo "$URL"
+echo
+
+curl $URL 

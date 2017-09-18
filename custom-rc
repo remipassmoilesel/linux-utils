@@ -1,0 +1,34 @@
+#!/bin/bash
+
+export PATH="$PATH:/home/remipassmoilesel/linux-utils/"
+export PATH="$PATH:/home/remipassmoilesel/linux-utils/notes/"
+export PATH="$PATH:/home/remipassmoilesel/linux-utils/memo/"
+export PATH="$PATH:/home/remipassmoilesel/linux-utils/linux-rapid-install/"
+
+# default editor
+export EDITOR=vim
+
+# history format and behavior
+export HISTTIMEFORMAT='%d %H:%M '
+PROMPT_COMMAND='history -a'
+
+# inclure le path courant dans la commande sudo
+# alias sudo='sudo env PATH=$PATH '
+
+# better git log with 'git lg'
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+if [ -f ~/.custom-rc ]; then
+    echo "Sourcing /home/remipassmoilesel/.custom-rc"
+    source /home/remipassmoilesel/.custom-rc
+fi
+
+if [ -f /usr/share/bm/bm.bash ]; then
+    source /usr/share/bm/bm.bash
+fi
+
+
+
+# woooo !
+cmatrix -b  -C blue
+

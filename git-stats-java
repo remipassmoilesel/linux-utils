@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Statistiques:"
+echo `git ls-files | wc -l` fichiers
+echo `git ls-files | grep -i ".java" | wc -l` fichiers .java
+echo `git ls-files | grep -i ".java" | xargs cat | wc -l` lignes de fichiers source .java
+echo `git ls-files | grep -i ".java" | wc -m` caractères de fichiers source .java
+
+METRICS=$((`git ls-files | grep -i ".java" | wc -m` * 3 / 10))
+echo Soit $METRICS cm de lignes de code !
+

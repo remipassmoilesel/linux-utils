@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Affiche toutes les sources utilisées par le gestionnaire de paquet APT
+
+SOURCES=$(grep ^ /etc/apt/sources.list /etc/apt/sources.list.d/*);
+
+if [ -z "$@" ]; then
+	echo "Sources disponibles: "
+	echo "$SOURCES"
+else 
+	echo "Sources correspondant à: $@"
+	echo "$SOURCES" | grep --color=auto -i $@
+fi
