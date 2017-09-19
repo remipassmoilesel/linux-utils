@@ -2025,3 +2025,13 @@ Mettre à jour le système après ajout d'un certificat SSL
 # default :: echo 20170912151422.023028511 
 Date: 2017-09-12 15:14
 Afficher un timestamp bash
+
+
+# git :: git tag -l 
+Date: 2017-09-17 11:19
+Lister les tags disponibles d'un dépôt
+
+
+# git :: git checkout tags/2.1 -b old-sources-2.1 
+Date: 2017-09-17 11:19
+Créer une branche à partir d'un tag
