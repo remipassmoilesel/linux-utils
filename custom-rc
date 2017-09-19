@@ -25,6 +25,7 @@ fi
 
 if [ -f /usr/share/bm/bm.bash ]; then
     source /usr/share/bm/bm.bash
+    alias cm="cdbm $@"
 fi
 
 

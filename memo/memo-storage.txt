@@ -1888,18 +1888,18 @@ Date: 2017-08-12 10:23
 Copier toutes les images d'un répertoire dans un autre répertoire avec un nom aléatoire
 
 
-# default :: ansible -m ping all --one-line -u ansible
-Date: 2017-08-14 13:22
+# ansible :: ansible -m ping all --one-line -u ansible 
+Date: 2017-09-18 14:23
 Ping de toutes les machines avec ansible, pour vérification de connexion
 
 
-# default :: ansible all -m shell -a "cat /tmp/sent-file.txt"
-Date: 2017-08-18 13:27
+# ansible :: ansible all -m shell -a "cat /tmp/sent-file.txt" 
+Date: 2017-09-18 14:23
 Executer une commande shell ansible adhoc (commandes éxecutées avec sh, utiliser bash-c au besoin)
 
 
-# default :: ansible-galaxy init role_name
-Date: 2017-08-19 09:10
+# ansible :: ansible-galaxy init role_name 
+Date: 2017-09-18 14:23
 Créer une arborescence standard et structurée de rôle ansible
 
 
@@ -2035,3 +2035,48 @@ Lister les tags disponibles d'un dépôt
 # git :: git checkout tags/2.1 -b old-sources-2.1 
 Date: 2017-09-17 11:19
 Créer une branche à partir d'un tag
+
+
+# default :: cd ~/projects && git-pull-all 
+Date: 2017-09-14 08:54
+Tirer tous les dépôts git d'un dossier récursivement
+
+
+# docker :: docker exec -u root -ti 4ed4a1411f3d /bin/bash 
+Date: 2017-09-15 11:26
+Spécifier l'utilisateur pour éxecuter une commande dans un docker
+
+
+# default :: systemctl | grep nagios 
+Date: 2017-09-15 15:37
+Chercher un service
+
+
+# git :: git tag 
+Date: 2017-09-18 11:27
+Afficher les tags disponibles dans un dépôt
+
+
+# git :: git tag -a v1.4 -m 'my version 1.4' 
+Date: 2017-09-18 11:28
+Créer un tag annoté
+
+
+# git :: git checkout -b old-sources/2.1 2.1 
+Date: 2017-09-18 11:29
+Créer une branche correspondant au tag 2.1
+
+
+# default :: htpasswd -nb -B user password 
+Date: 2017-09-18 14:10
+Encrypter un mot de passe avec BCrypt
+
+
+# ansible :: ansible-playbook -i inventory.cfg install.yml  --ask-become-pass 
+Date: 2017-09-18 14:23
+Lancer un playbook et demander le mot de passe sudo
+
+
+# default :: curl -v -su user https://domain.com/ 
+Date: 2017-09-18 15:49
+Demander un mot de passe avec curl
