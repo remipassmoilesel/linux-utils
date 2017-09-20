@@ -1816,7 +1816,7 @@ Afficher un message en ascii art avec une police définie
 
 # default :: sudo vim /etc/motd
 Date: 2017-07-20 18:20
-Modifier la bannière du système
+Afficher et modifier la bannière SSH du système
 
 
 # default :: nslookup 137.74.161.106
@@ -2070,3 +2070,13 @@ Lancer un playbook et demander le mot de passe sudo
 # default :: curl -v -su user https://domain.com/ 
 Date: 2017-09-18 15:49
 Demander un mot de passe avec curl
+
+
+# docker :: reg -k ls 
+Date: 2017-09-19 14:48
+Lister les images d'un repository docker
+
+
+# default :: chromium-browser --proxy-server='socks5://localhost:8888' 
+Date: 2017-09-20 16:47
+Lancer chromium en utilisant un tunnel ssh
