@@ -28,7 +28,7 @@ if [ -f /usr/share/bm/bm.bash ]; then
     alias cm="cdbm $@"
 fi
 
-
+alias kubesys="kubectl -n kube-system $@"
 
 # woooo !
 cmatrix -b  -C blue

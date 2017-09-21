@@ -16,19 +16,24 @@ and adding distant keys.
 
 Usage: initiliaze-ssh-connections -p file.txt 
 
-File example:
+** File example:
+
 10.0.2.201  ubuntu16-k3-master1.kubernetes    user    password    ~/.ssh/id_rsa.pub
 10.0.2.211  ubuntu16-k3-node1.kubernetes      user    password    ~/.ssh/id_rsa.pub
 10.0.2.212  ubuntu16-k3-node2.kubernetes      user    password    ~/.ssh/id_rsa.pub
 10.0.2.213  ubuntu16-k3-node3.kubernetes      user    password    ~/.ssh/id_rsa.pub
 
-You can skip hostname steps:
+** You can skip hostname steps:
 
 10.0.2.213  ##no-hostname##                   user    password    ~/.ssh/id_rsa.pub
+10.0.2.214  ##no-hostname##                   user    password    ~/.ssh/id_rsa.pub
+10.0.2.215  ##no-hostname##                   user    password    ~/.ssh/id_rsa.pub
 
-And you can skip key send step:
+** And you can skip key send steps:
 
 10.0.2.213  ubuntu16-k3-node3.kubernetes      user    password    ##no-send-key##    
+10.0.2.214  ubuntu16-k3-node3.kubernetes      user    password    ##no-send-key##    
+10.0.2.215  ubuntu16-k3-node3.kubernetes      user    password    ##no-send-key##    
 
 '''
 
@@ -45,9 +50,10 @@ class bcolors:
 def printClr(line, color):
     print(color + line + bcolors.ENDC)
 
-def bashCommand(cmd):
+def bashCommand(cmd, displayCommand=True):
 
-    printClr("Executing command: " + cmd, bcolors.BOLD)
+    if displayCommand:
+        printClr("Executing command: " + cmd, bcolors.BOLD)
 
     # subprocess.call(cmd, shell=True, executable='/bin/bash')
     process = subprocess.Popen(cmd, shell=True, executable='/bin/bash', stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -56,7 +62,8 @@ def bashCommand(cmd):
     # execute synchronously
     # Poll process for new output until finished
     for line in iter(process.stdout.readline, ""):
-        print line,
+        if displayCommand:
+            print line
         output += line
 
     process.wait()
@@ -172,15 +179,18 @@ def processFile(path):
             i+=1
 
     printClr("Success: " + str(success), bcolors.OKBLUE)
-    printClr("Errors: " + str(errors), bcolors.OKBLUE)
-    printClr("Warnings: " + str(warnings), bcolors.OKBLUE)
+    printClr("Warnings: " + str(warnings), bcolors.WARNING)
+    printClr("Errors: " + str(errors), bcolors.FAIL)
+
+    if errors > 0:
+        printClr("Errors have occurred, initialization is not guaranteed!", bcolors.FAIL)
 
 def checkPrerequisites():
     list = ['sshpass', "ssh-keygen", "ssh-keyscan"]
     i = 0
     for l in list:
         try:
-            bashCommand("[[ $(which " + l + ") ]]")
+            bashCommand("[[ $(which " + l + ") ]]", False)
         except:
             printClr("You must install this tool before: " + l, bcolors.WARNING)
             i+=1

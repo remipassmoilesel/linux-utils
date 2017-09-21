@@ -2090,3 +2090,20 @@ Lister les images d'un repository docker
 # default :: chromium-browser --proxy-server='socks5://localhost:8888' 
 Date: 2017-09-20 16:47
 Lancer chromium en utilisant un tunnel ssh
+
+
+# ssl :: openssl x509 -in admin-10.0.4.110.pem  -text 
+Date: 2017-09-20 18:17
+Afficher les informations d'un certificat avec openssl
+
+
+
+
+# alpine :: apk add iproute2 
+Date: 2017-09-21 12:19
+Ajouter netstat à une installation alpine
+
+
+# default :: nproc 
+Date: 2017-09-21 16:00
+Afficher le nombre de coeurs d'une machine
