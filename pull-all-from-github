@@ -14,4 +14,4 @@ fi
 
 echo Using Github username: $GH_USER
 
-curl -s https://api.github.com/users/$GH_USER/repos?per_page=200 | python -c $'import json, sys, os\nfor repo in json.load(sys.stdin): os.system("cd " + repo["clone_url"] + "git pull --all")'
+curl -s https://api.github.com/users/$GH_USER/repos?per_page=200 | python -c $'import json, sys, os\nfor repo in json.load(sys.stdin): os.system("cd " + repo["name"] + " && git pull --all")'
