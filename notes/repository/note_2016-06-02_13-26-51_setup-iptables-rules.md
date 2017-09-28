@@ -9,6 +9,35 @@ Notes sur IPTables:
     -P policy : politique par défaut
     -p protocol : udp, tcp
 
+Lister les règles:
+
+	$ iptables -S
+	$ iptables -L --line-numbers
+
+Lister en spécifiant la table:
+
+	$ 
+
+Supprimer des régles par numero de ligne:
+
+	$ iptables -D FORWARD 1
+	$ iptables -D INPUT 1
+
+Supprimer toutes les règles:
+
+	$ iptables -F
+
+Supprimer les régles en spécifiant la table:
+
+	$ iptables -t nat -F
+	$ iptables -t raw -F
+
+Supprimer les chaines utilisateur:
+	
+	$ iptables -X
+
+
+
 ## /etc/init.d/firewall
         
     #!/bin/sh

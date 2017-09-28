@@ -2107,3 +2107,38 @@ Ajouter netstat à une installation alpine
 # default :: nproc 
 Date: 2017-09-21 16:00
 Afficher le nombre de coeurs d'une machine
+
+
+# default :: tree -L 2 
+Date: 2017-09-25 11:42
+Afficher une arborescence sur deux niveaux
+
+
+# default :: vagrant global-status --prune 
+Date: 2017-09-25 13:49
+Afficher le statut de toutes les machines virtuelles
+
+
+# k8s :: kubectl config set-context k12 
+Date: 2017-09-25 15:55
+Changer de contexte kubernetes
+
+
+# centos :: loadkeys fr 
+Date: 2017-09-26 13:49
+Changer la disposition du clavier pour fr
+
+
+# yum :: yum install epel-release.noarch 
+Date: 2017-09-26 15:49
+Ajouter un dépôt yum, permettant d'avoir plus de paquets
+
+
+# yum :: yum search epel | grep repo 
+Date: 2017-09-26 15:49
+Rechercher un dépôt yum
+
+
+# default :: ps -ef 
+Date: 2017-09-28 13:00
+Afficher les processus en cours avec commande de lancement
