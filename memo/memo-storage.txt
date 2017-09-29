@@ -2142,3 +2142,23 @@ Rechercher un dépôt yum
 # default :: ps -ef 
 Date: 2017-09-28 13:00
 Afficher les processus en cours avec commande de lancement
+
+
+# git :: git pull --all 
+Date: 2017-09-29 09:30
+Tirer toutes les branches distantes et les merger dans les branches locales
+
+
+# ssh :: ssh -F configurations/ssh-preprod.cfg root@172.16.0.5 
+Date: 2017-09-29 11:22
+Utiliser un ifchier de configuration alternatif
+
+
+# default :: systemctl list-units 
+Date: 2017-09-29 12:58
+Lister les services disponibles
+
+
+# default :: nc -l 5669; telnet 127.0.0.1 6669 
+Date: 2017-09-29 14:58
+Tester un tunnel SSH ou un port TCP
