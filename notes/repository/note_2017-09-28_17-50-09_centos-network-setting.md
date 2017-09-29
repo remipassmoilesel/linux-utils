@@ -1,0 +1,28 @@
+# Configurer le réseau d'une machine Centos
+
+Clavier français:
+
+	$ loadkeys fr
+
+Editer les fichiers réseaux:
+
+	$ vim /etc/sysctl/network
+
+	GATEWAY=10.0.0.XX
+
+Ajouter le DNS:
+
+	$ vim /etc/resolv.conf
+
+	nameserver 10.0.0.XX
+
+Configurer un fichier d'interface:
+
+	$ cd /etc/sysconfig/network-scripts
+	$ ip a
+	$ mv ifcfg-eth0 ifcfg-eth1
+	$ vim ifcfg-eth1
+
+Redémarrer le réseau:
+
+	$ /etc/init.d/network restart
