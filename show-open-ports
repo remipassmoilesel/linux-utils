@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Allow to show open ports without netstat or other tool
+
+declare -a open_ports=($(cat /proc/net/tcp | grep -v "local_address" | awk '{ print $2 }' | cut -d':' -f2))
+for port in ${open_ports[*]}; do echo Port: $((0x${port})); done
