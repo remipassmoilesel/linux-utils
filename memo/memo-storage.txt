@@ -1799,11 +1799,6 @@ Date: 2017-07-13 15:55
 Fixer une partition ntfs qui n'a pas été fermé correctement pour montage écriture/lecture
 
 
-# default :: mycli -u safranlices -p safranlices
-Date: 2017-07-14 11:31
-Connexion via mycli à une base de données mysql
-
-
 # default :: curl -v -X DELETE localhost:3000
 Date: 2017-07-19 18:13
 Faire une requête delete avec curl, possibilité de faire un post / put / etc ...
@@ -2162,3 +2157,8 @@ Lister les services disponibles
 # default :: nc -l 5669; telnet 127.0.0.1 6669 
 Date: 2017-09-29 14:58
 Tester un tunnel SSH ou un port TCP
+
+
+# default :: mycli -h 10.0.4.35 -u keycloak -p password 
+Date: 2017-10-04 10:51
+Se connecter à une base de données MySQL avec mycli
