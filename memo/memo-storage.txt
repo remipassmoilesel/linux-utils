@@ -1799,11 +1799,6 @@ Date: 2017-07-13 15:55
 Fixer une partition ntfs qui n'a pas été fermé correctement pour montage écriture/lecture
 
 
-# default :: mycli -u safranlices -p safranlices
-Date: 2017-07-14 11:31
-Connexion via mycli à une base de données mysql
-
-
 # default :: curl -v -X DELETE localhost:3000
 Date: 2017-07-19 18:13
 Faire une requête delete avec curl, possibilité de faire un post / put / etc ...
@@ -2142,3 +2137,48 @@ Rechercher un dépôt yum
 # default :: ps -ef 
 Date: 2017-09-28 13:00
 Afficher les processus en cours avec commande de lancement
+
+
+# git :: git pull --all 
+Date: 2017-09-29 09:30
+Tirer toutes les branches distantes et les merger dans les branches locales
+
+
+# ssh :: ssh -F configurations/ssh-preprod.cfg root@172.16.0.5 
+Date: 2017-09-29 11:22
+Utiliser un ifchier de configuration alternatif
+
+
+# default :: systemctl list-units 
+Date: 2017-09-29 12:58
+Lister les services disponibles
+
+
+# default :: nc -l 5669; telnet 127.0.0.1 6669 
+Date: 2017-09-29 14:58
+Tester un tunnel SSH ou un port TCP
+
+
+# default :: mycli -h 10.0.4.35 -u keycloak -p password 
+Date: 2017-10-04 10:51
+Se connecter à une base de données MySQL avec mycli
+
+
+# default :: netstat -g 
+Date: 2017-10-05 16:28
+Voir les abonnements IP Multicast
+
+
+# docker :: docker cp ctr_id:/opt/file . 
+Date: 2017-10-05 18:11
+Copier un fichier d'un conteneur vers un hôte
+
+
+# default :: man -k ^pv 
+Date: 2017-10-06 09:47
+Afficher toutes les pages man commençant par pv
+
+
+# default :: ansible -i inventory.cfg all -m setup -a 'filter=ansible_*_mb' 
+Date: 2017-10-06 15:39
+Afficher des variables (facts) avec Ansible

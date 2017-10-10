@@ -3,6 +3,8 @@
 /!\ Attention, lors de la création de base de donnée, si le nom est spécifié entre double quote il faudra 
 spécifier systèmatiquement les double quote et le nom deviendra sensible à la casse
 
+## Installation
+
 Installer:
 
     $ sudo apt-get update
@@ -11,6 +13,21 @@ Installer:
 Démarrer:
 
     $ sudo service postgresql start
+
+Configurer pour écouter toutes les adresses:
+
+    $ vim /etc/postgresql/9.5/main/postgresql.conf
+
+    listen_addresses = '*'
+
+Journaliser les connexions:
+
+    log_connections = on
+
+    $  tail -f /var/log/postgresql/postgresql-9.5-main.log 
+
+
+## Utilisation
 
 Executer une commande directement:
 
@@ -81,3 +98,5 @@ Ajouter un utilisateur et lui donner des droits:
 Pour installer les drivers JDBC:
 
 	$ sudo apt install libpostgresql-jdbc-java
+
+
