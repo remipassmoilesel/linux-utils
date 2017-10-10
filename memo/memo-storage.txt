@@ -2162,3 +2162,23 @@ Tester un tunnel SSH ou un port TCP
 # default :: mycli -h 10.0.4.35 -u keycloak -p password 
 Date: 2017-10-04 10:51
 Se connecter à une base de données MySQL avec mycli
+
+
+# default :: netstat -g 
+Date: 2017-10-05 16:28
+Voir les abonnements IP Multicast
+
+
+# docker :: docker cp ctr_id:/opt/file . 
+Date: 2017-10-05 18:11
+Copier un fichier d'un conteneur vers un hôte
+
+
+# default :: man -k ^pv 
+Date: 2017-10-06 09:47
+Afficher toutes les pages man commençant par pv
+
+
+# default :: ansible -i inventory.cfg all -m setup -a 'filter=ansible_*_mb' 
+Date: 2017-10-06 15:39
+Afficher des variables (facts) avec Ansible

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# lundi 9 octobre 2017, 16:33:45 (UTC+0200)
+
+lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
