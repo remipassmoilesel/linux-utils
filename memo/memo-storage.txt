@@ -2182,3 +2182,23 @@ Afficher toutes les pages man commençant par pv
 # default :: ansible -i inventory.cfg all -m setup -a 'filter=ansible_*_mb' 
 Date: 2017-10-06 15:39
 Afficher des variables (facts) avec Ansible
+
+
+# cron :: 0  2  *   *   *    /sbin/shutdown -r +5 
+Date: 2017-10-11 08:54
+Eteindre une machine tous les jours à 2 heures
+
+
+# cron :: @reboot /usr/bin/script.sh 
+Date: 2017-10-11 08:55
+Exécuter un script à chaque démarrage
+
+
+# kubectl :: kubectl config view | sed -n '/context:/{x;p;d;}; x' 
+Date: 2017-10-11 09:31
+Afficher les noms des contextes disponibles
+
+
+# default :: sudo apt install libxml2-utils; xmllint --validate file.xml 
+Date: 2017-10-11 11:58
+Valider un fichier xml

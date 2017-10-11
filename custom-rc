@@ -31,6 +31,7 @@ fi
 alias kubesys="kubectl -n kube-system $@"
 alias ks="kubectl -n kube-system $@"
 alias kc="kubectl $@"
+alias kctx="kubectl config view | sed -n '/context:/{x;p;d;}; x'"
 
 # woooo !
 cmatrix -b  -C blue
