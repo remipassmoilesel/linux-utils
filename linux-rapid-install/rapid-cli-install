@@ -6,7 +6,7 @@
 
 echo
 echo "Running script for user $USER"
-echo 
+echo
 
 # install must-have tools, two commands to prevent fail
 sudo bash -c "apt-get update"
