@@ -4,6 +4,7 @@ export PATH="$PATH:/home/remipassmoilesel/linux-utils/"
 export PATH="$PATH:/home/remipassmoilesel/linux-utils/notes/"
 export PATH="$PATH:/home/remipassmoilesel/linux-utils/memo/"
 export PATH="$PATH:/home/remipassmoilesel/linux-utils/linux-rapid-install/"
+export PATH="$PATH:/home/remipassmoilesel/bin/"
 
 # default editor
 export EDITOR=vim

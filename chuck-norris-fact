@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# vendredi 13 octobre 2017, 14:18:21 (UTC+0200)
+
+curl -s "https://www.chucknorrisfacts.fr/api/get?data=type:txt;nb:1;tri:alea" | jq '.[].fact' | recode html  
