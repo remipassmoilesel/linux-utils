@@ -8,7 +8,7 @@
 # ...
 
 # Journal d'éxécution, chemins absolus uniquement
-START_LOG="/home/remipassmoilesel/start.log"
+START_LOG="/home/$USER/start.log"
 
 # Date du jour
 echo

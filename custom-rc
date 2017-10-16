@@ -1,10 +1,10 @@
 #!/bin/bash
 
-export PATH="$PATH:/home/remipassmoilesel/linux-utils/"
-export PATH="$PATH:/home/remipassmoilesel/linux-utils/notes/"
-export PATH="$PATH:/home/remipassmoilesel/linux-utils/memo/"
-export PATH="$PATH:/home/remipassmoilesel/linux-utils/linux-rapid-install/"
-export PATH="$PATH:/home/remipassmoilesel/bin/"
+export PATH="$PATH:/home/$USER/linux-utils/"
+export PATH="$PATH:/home/$USER/linux-utils/notes/"
+export PATH="$PATH:/home/$USER/linux-utils/memo/"
+export PATH="$PATH:/home/$USER/linux-utils/linux-rapid-install/"
+export PATH="$PATH:/home/$USER/bin/"
 
 # default editor
 export EDITOR=vim
@@ -20,8 +20,8 @@ PROMPT_COMMAND='history -a'
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 if [ -f ~/.custom-rc ]; then
-    echo "Sourcing /home/remipassmoilesel/.custom-rc"
-    source /home/remipassmoilesel/.custom-rc
+    echo "Sourcing /home/$USER/.custom-rc"
+    source /home/$USER/.custom-rc
 fi
 
 if [ -f /usr/share/bm/bm.bash ]; then

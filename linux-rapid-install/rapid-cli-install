@@ -14,11 +14,11 @@ git clone https://github.com/remipassmoilesel/linux-utils ~/linux-utils/
 cd ~/linux-utils
 
 # change shell before installing oh my zsh
-sudo chsh remipassmoilesel -s /bin/zsh
+sudo chsh $USER -s /bin/zsh
 
 # install oh my zsh
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-git clone https://github.com/remipassmoilesel/oh-my-zsh /home/remipassmoilesel/.oh-my-zsh
+git clone https://github.com/remipassmoilesel/oh-my-zsh /home/$USER/.oh-my-zsh
 
 # copy configuration
 cp ~/linux-utils/configuration/zshrc ~/.zshrc

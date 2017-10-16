@@ -117,5 +117,5 @@ if ! shopt -oq posix; then
 fi
 
 # fichier de commandes personnalisé
-source /home/remipassmoilesel/linux-utils/custom-rc
+source /home/$USER/linux-utils/custom-rc
 
