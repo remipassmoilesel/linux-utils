@@ -2207,3 +2207,8 @@ Valider un fichier xml
 # default :: cp httpd.conf{,.bak} 
 Date: 2017-10-13 15:57
 Sauvegarder un fichier avec cp
+
+
+# default :: gksu lmt-config-gui 
+Date: 2017-10-20 13:16
+Lancer l'interface de laptop mode tools en tant que super utilisateur (root)
