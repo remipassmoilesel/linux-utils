@@ -839,7 +839,7 @@ Extraire un zip dans un dossier arbitraire.
 Date: 2016-03-20 10:38
 Obtenir le chemin complet de l'éxécutable d'un processus, ou 1957 est l'identifiant de processus
 
-# sudo ddrescue -D --force ubuntu-mate-15.10-desktop-amd64.iso /dev/sdc
+# sudo apt install gddrescue && sudo ddrescue -D --force ubuntu-mate-15.10-desktop-amd64.iso /dev/sdXX
 Date: 2016-03-23 18:45
 Installer une image ISO sur une clef USB avec ddrecue. Installer le paquet auparavant en effectuant un sudo apt-get install gddrecue
 
@@ -2194,8 +2194,8 @@ Date: 2017-10-11 08:55
 Exécuter un script à chaque démarrage
 
 
-# kubectl :: kubectl config view | sed -n '/context:/{x;p;d;}; x' 
-Date: 2017-10-11 09:31
+# k8s :: kubectl config view | sed -n '/context:/{x;p;d;}; x' 
+Date: 2017-10-18 11:21
 Afficher les noms des contextes disponibles
 
 
@@ -2212,3 +2212,23 @@ Sauvegarder un fichier avec cp
 # default :: gksu lmt-config-gui 
 Date: 2017-10-20 13:16
 Lancer l'interface de laptop mode tools en tant que super utilisateur (root)
+
+
+# ssh :: ssh -L 2000:localhost:22 user@remote-host 
+Date: 2017-10-16 17:35
+Ouvrir un tunnel SSH, 200=port local 22=port distant
+
+
+# default :: apt install net-utils && apt install iputils-ping 
+Date: 2017-10-18 10:59
+Installer netstat et ping sur un OS Debian
+
+
+# k8s :: envsubst < deploy.yml | kubectl apply -f - 
+Date: 2017-10-18 11:20
+Utiliser des variables d'environement dans un déploiment kubectl
+
+
+# default :: localectl set-x11-keymap fr,us 
+Date: 2017-10-19 12:40
+Changer la disposition du clavier à l'écran de login
