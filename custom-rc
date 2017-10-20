@@ -33,6 +33,9 @@ alias kubesys="kubectl -n kube-system $@"
 alias ks="kubectl -n kube-system $@"
 alias kc="kubectl $@"
 alias kctx="kubectl config view | sed -n '/context:/{x;p;d;}; x'"
+alias watch-all-pods="watch -n 0,5 kubectl get pods --all-namespaces"
+alias watch-sys-pods="watch -n 0,5 kubectl get pods -n kube-system"
+alias watch-pods="watch -n 0,5 kubectl get pods -n $1"
 
 # woooo !
 cmatrix -b  -C blue
