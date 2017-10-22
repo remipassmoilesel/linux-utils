@@ -4,6 +4,10 @@
 
 # Small script to set up a shell withmust-have tools
 
+echo
+echo "Running script for user $USER"
+echo
+
 # install must-have tools, two commands to prevent fail
 sudo bash -c "apt-get update"
 sudo bash -c "sudo apt-get -y install p7zip-full p7zip-rar zsh byobu tcpdump htop nmap vim curl wget ranger cmatrix zip fuse-zip tar xz-utils git sshfs tig gnupg2 iputils-tracepath traceroute mycli pgcli"
@@ -14,11 +18,11 @@ git clone https://github.com/remipassmoilesel/linux-utils ~/linux-utils/
 cd ~/linux-utils
 
 # change shell before installing oh my zsh
-sudo chsh remipassmoilesel -s /bin/zsh
+sudo chsh $USER -s /bin/zsh
 
 # install oh my zsh
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-git clone https://github.com/remipassmoilesel/oh-my-zsh /home/remipassmoilesel/.oh-my-zsh
+git clone https://github.com/remipassmoilesel/oh-my-zsh /home/$USER/.oh-my-zsh
 
 # copy configuration
 cp ~/linux-utils/configuration/zshrc ~/.zshrc

@@ -1,3 +1,0 @@
-#!/bin/bash
-
-/home/remipassmoilesel/jdk-oracle-1.7.0_79/bin/javaws $@

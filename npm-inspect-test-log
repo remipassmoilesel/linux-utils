@@ -2,6 +2,6 @@
 
 # mercredi 11 octobre 2017, 22:23:39 (UTC+0200)
 
-echo Test failled : $(cat $1 | grep -i failing | wc -l)
-echo Test passed  : $(cat $1 | grep -i passing | wc -l)
-echo Test skipped : $(cat $1 | grep -i skipped | wc -l)
+echo Lines matching pattern 'failing': $(cat $1 | grep -i failing | wc -l)
+echo Lines matching pattern 'passing': $(cat $1 | grep -i passing | wc -l)
+echo Lines matching pattern 'pending': $(cat $1 | grep -i pending | wc -l)
