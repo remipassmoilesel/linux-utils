@@ -2202,3 +2202,8 @@ Afficher les noms des contextes disponibles
 # default :: sudo apt install libxml2-utils; xmllint --validate file.xml 
 Date: 2017-10-11 11:58
 Valider un fichier xml
+
+
+# default :: systemctl mask sleep.target suspend.target hibernate.target hybrid.target 
+Date: 2017-10-16 08:05
+Désactiver l'hibernation
