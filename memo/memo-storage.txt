@@ -2232,3 +2232,13 @@ Utiliser des variables d'environement dans un déploiment kubectl
 # default :: localectl set-x11-keymap fr,us 
 Date: 2017-10-19 12:40
 Changer la disposition du clavier à l'écran de login
+
+
+# default :: sudo apt install mytop; mytop 
+Date: 2017-10-24 15:44
+Surveiller en temps réel les requêtes sur une base de données MySQL
+
+
+# vim :: :setlocal cm=blowfish2  puis  :X 
+Date: 2017-10-26 16:06
+Chiffrer un fichier avec Vim

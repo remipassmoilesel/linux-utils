@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# lundi 23 octobre 2017, 11:20:29 (UTC+0200)
+
+echo 
+echo  context:
+echo ===================
+echo
+kubectl config view | grep -i current-context
+
+echo 
+echo Available contexts:
+echo ===================
+echo
+kubectl config view | sed -n '/context:/{x;p;d;}; x'
