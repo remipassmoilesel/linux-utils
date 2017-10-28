@@ -2277,3 +2277,13 @@ Lister les branches d'un dépot
 # k8s :: helm delete --purge k8s-infra 
 Date: 2017-10-27 15:33
 Supprimer un déploiement helm
+
+
+# htop :: SHIFT M; SHIFT P; k 
+Date: 2017-10-28 12:39
+Trier les processus par consommation de mémoire, de cpu, puis les tuer
+
+
+# default :: sudo do-release-upgrade 
+Date: 2017-10-28 13:12
+Ugrade de distribution ubuntu

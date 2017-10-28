@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# samedi 28 octobre 2017, 13:30:21 (UTC+0200)
+
+cd /tmp
+
+wget https://releases.hashicorp.com/vagrant/2.0.0/vagrant_2.0.0_x86_64.deb?_ga=2.189154027.1982561942.1509190235-1133580373.1508575983 -o vagrant.deb
+
+sudo dpkg -i vagrant.deb
