@@ -2204,6 +2204,11 @@ Date: 2017-10-11 11:58
 Valider un fichier xml
 
 
+# default :: systemctl mask sleep.target suspend.target hibernate.target hybrid.target 
+Date: 2017-10-16 08:05
+Désactiver l'hibernation
+
+
 # default :: cp httpd.conf{,.bak} 
 Date: 2017-10-13 15:57
 Sauvegarder un fichier avec cp
@@ -2242,3 +2247,33 @@ Afficher des informations sur un paquet python installé
 # default :: sudo npm install -g electron --unsafe-perm=true --allow-root 
 Date: 2017-10-22 10:53
 Installer un paquet npm avec droits root
+
+
+# default :: sudo apt install mytop; mytop 
+Date: 2017-10-24 15:44
+Surveiller en temps réel les requêtes sur une base de données MySQL
+
+
+# vim :: :setlocal cm=blowfish2  puis  :X 
+Date: 2017-10-26 16:06
+Chiffrer un fichier avec Vim
+
+
+# k8s :: kubectl get svc/service -o yaml --export 
+Date: 2017-10-27 14:34
+Obtenir un service au format YAML
+
+
+# k8s :: helm install --dry-run --debug . 
+Date: 2017-10-27 14:48
+Debug de chart helm
+
+
+# git :: git show-branch 
+Date: 2017-10-27 15:01
+Lister les branches d'un dépot
+
+
+# k8s :: helm delete --purge k8s-infra 
+Date: 2017-10-27 15:33
+Supprimer un déploiement helm
