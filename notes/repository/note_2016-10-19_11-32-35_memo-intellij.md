@@ -82,7 +82,7 @@ Pour faire tourner une app même si des fichiers ont des erreurs:
 
 	Ou
 
-	Settings > Directories > Excldue files: node_modules
+	Settings > Directories > Exclude files: node_modules
 
 ## Bookmarks
 

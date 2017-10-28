@@ -2232,3 +2232,13 @@ Utiliser des variables d'environement dans un déploiment kubectl
 # default :: localectl set-x11-keymap fr,us 
 Date: 2017-10-19 12:40
 Changer la disposition du clavier à l'écran de login
+
+
+# pip :: pip show btools 
+Date: 2017-10-20 22:25
+Afficher des informations sur un paquet python installé
+
+
+# default :: sudo npm install -g electron --unsafe-perm=true --allow-root 
+Date: 2017-10-22 10:53
+Installer un paquet npm avec droits root
