@@ -2262,3 +2262,18 @@ Lister les branches d'un dépot
 # k8s :: helm delete --purge k8s-infra 
 Date: 2017-10-27 15:33
 Supprimer un déploiement helm
+
+
+# default :: date +%Y%m%d_%H%M%S 
+Date: 2017-10-30 15:19
+Format de date proche ISO SQL
+
+
+# k8s :: kubectl get secret secret-name -o yaml 
+Date: 2017-10-31 10:23
+Afficher un secret kubernetes
+
+
+# k8s :: kubectl scale --replicas 2 deployment/keycloak 
+Date: 2017-10-31 10:37
+Changer le nombre d'instance de pods
