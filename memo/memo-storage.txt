@@ -2214,6 +2214,11 @@ Date: 2017-10-13 15:57
 Sauvegarder un fichier avec cp
 
 
+# default :: gksu lmt-config-gui 
+Date: 2017-10-20 13:16
+Lancer l'interface de laptop mode tools en tant que super utilisateur (root)
+
+
 # ssh :: ssh -L 2000:localhost:22 user@remote-host 
 Date: 2017-10-16 17:35
 Ouvrir un tunnel SSH, 200=port local 22=port distant
@@ -2232,6 +2237,16 @@ Utiliser des variables d'environement dans un déploiment kubectl
 # default :: localectl set-x11-keymap fr,us 
 Date: 2017-10-19 12:40
 Changer la disposition du clavier à l'écran de login
+
+
+# pip :: pip show btools 
+Date: 2017-10-20 22:25
+Afficher des informations sur un paquet python installé
+
+
+# default :: sudo npm install -g electron --unsafe-perm=true --allow-root 
+Date: 2017-10-22 10:53
+Installer un paquet npm avec droits root
 
 
 # default :: sudo apt install mytop; mytop 
@@ -2264,6 +2279,7 @@ Date: 2017-10-27 15:33
 Supprimer un déploiement helm
 
 
+<<<<<<< HEAD
 # default :: date +%Y%m%d_%H%M%S 
 Date: 2017-10-30 15:19
 Format de date proche ISO SQL
@@ -2277,3 +2293,13 @@ Afficher un secret kubernetes
 # k8s :: kubectl scale --replicas 2 deployment/keycloak 
 Date: 2017-10-31 10:37
 Changer le nombre d'instance de pods
+
+
+# htop :: SHIFT M; SHIFT P; k 
+Date: 2017-10-28 12:39
+Trier les processus par consommation de mémoire, de cpu, puis les tuer
+
+
+# default :: sudo do-release-upgrade 
+Date: 2017-10-28 13:12
+Ugrade de distribution ubuntu
