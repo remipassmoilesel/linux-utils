@@ -1,4 +1,0 @@
-#!/bin/bash
-
-echo "gksu /opt/lampp/manager-linux-x64.run"
-gksu /opt/lampp/manager-linux-x64.run &
