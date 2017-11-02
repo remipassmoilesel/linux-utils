@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# samedi 28 octobre 2017, 23:28:48 (UTC+0200)
+
+cd /tmp
+
+sudo apt-get install -y build-essential qmlscene qt5-qmake qt5-default qtdeclarative5-dev qml-module-qtquick-controls qtdeclarative5-qtquick2-plugin qml-module-qtgraphicaleffects qml-module-qtquick-dialogs qtdeclarative5-localstorage-plugin qtdeclarative5-window-plugin
+
+sudo apt-get install qml-module-qt-labs-folderlistmodel -y
+
+sudo apt-get install qml-module-qt-labs-settings -y
+
+wget http://download.qt.io/official_releases/qt/5.7/5.7.0/qt-opensource-linux-x64-5.7.0.run
+chmod +x qt-opensource-linux-x64-5.7.0.run
+./qt-opensource-linux-x64-5.7.0.run
+
+cd /opt
+
+# Get it from GitHub
+git clone --recursive https://github.com/Swordfish90/cool-retro-term.git
+
+# Build it
+cd cool-retro-term
+
+# Compile (Fedora and OpenSUSE user should use qmake-qt5 instead of qmake)
+qmake && make
+
+
