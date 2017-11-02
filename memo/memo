@@ -210,9 +210,25 @@ class MemoContainer:
             if categ != "" and memo.getCategory() != categ:
                 continue
 
+            # Search in header and category
             inHeader = re.search(regex, memo.getHeader(), re.IGNORECASE)
-            inContent = re.search(regex, memo.getContent(), re.IGNORECASE)
             inCateg = re.search(regex, memo.getCategory(), re.IGNORECASE)
+
+            # Search in content
+            # Here we do not search in 'date' line
+            contentLines = memo.getContent().split('\n')
+            inContent = False
+
+            # Content is one line
+            if len(contentLines) < 2:
+                inContent = re.search(regex, memo.getContent(), re.IGNORECASE)
+
+            # Content is multi line
+            else:
+                for l in xrange(1, len(contentLines)):
+                    inContent = re.search(regex, contentLines[l], re.IGNORECASE)
+                    if inContent:
+                        break
 
             if inHeader or inContent or inCateg:
                 rslt.append(memo)
@@ -282,7 +298,7 @@ class MemoContainer:
             fileLines = memoReadFile.readlines()
             memoReadFile.close()
 
-            # first delete memo content
+            # first, delete memo content
             i = memo.lineNumber
             end = False
             while end != True and i < len(fileLines):

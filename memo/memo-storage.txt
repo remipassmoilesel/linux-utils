@@ -2274,7 +2274,6 @@ Date: 2017-10-27 15:33
 Supprimer un déploiement helm
 
 
-<<<<<<< HEAD
 # default :: date +%Y%m%d_%H%M%S 
 Date: 2017-10-30 15:19
 Format de date proche ISO SQL
