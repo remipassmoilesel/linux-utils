@@ -2214,9 +2214,9 @@ Date: 2017-10-20 13:16
 Lancer l'interface de laptop mode tools en tant que super utilisateur (root)
 
 
-# ssh :: ssh -L 2000:localhost:22 user@remote-host 
+# ssh :: ssh -L 2000:localhost:80 user@remote-host 
 Date: 2017-10-16 17:35
-Ouvrir un tunnel SSH, 200=port local 22=port distant
+Ouvrir un tunnel SSH: 2000=port ouvert localement, 80=port distant
 
 
 # default :: apt install net-utils && apt install iputils-ping 
@@ -2297,3 +2297,13 @@ Trier les processus par consommation de mémoire, de cpu, puis les tuer
 # default :: sudo do-release-upgrade 
 Date: 2017-10-28 13:12
 Ugrade de distribution ubuntu
+
+
+# default :: pgcli -h postgres.domain.com -U username -W 
+Date: 2017-11-02 16:15
+Se conencter avec pgcli à une base postgresql
+
+
+# default :: psql -U username -h postgres.domain.com 
+Date: 2017-11-02 16:16
+Se connecter à une base de données postgres avec psql
