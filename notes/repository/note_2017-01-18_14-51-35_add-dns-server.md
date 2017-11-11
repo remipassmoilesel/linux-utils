@@ -26,13 +26,17 @@ Afficher le serveur utilisé:
 	$ nmcli device 
 	$ nmcli device show enp4s0f2 | grep -i dns 
 
-Dans le cas ou "resolvconf" n'est pas installé:
+## Sans resolvconf
+
+Dans le cas ou "resolvconf" n'est pas installé, éditer le fichier:
 	
 	$ sudo vim /etc/resolv.conf
 	
 	nameserver 80.67.169.12
 
-Avec resolvconf: 
+## Avec resolvonf
+
+Techniquede sioux, rapide mais peu orthodoxe: 
 
 	$ sudo vim /etc/resolvconf/resolv.conf.d/base
 	
@@ -41,8 +45,18 @@ Avec resolvconf:
 	$ sudo resolvconf -u
 	$ cat /etc/resolv.conf
 
-resolvconf tire ses informations de plusieurs sources, dont dhclient. Pour ajouter des 
-serveurs avant ceux proposés par le serveur dhcp:
+Alternative, dans le fichier d'interface:
+
+	auto eth0
+	iface eth0 inet static
+		address 91.121.0.0
+		netmask 255.255.255.0
+		network 91.121.0.0
+		broadcast 91.121.0.255
+		gateway 91.121.0.254
+		dns-nameservers 8.8.8.8 8.8.4.4
+
+Alternative, dans dhclient:
 
 	$ sudo vim /etc/dhcp/dhclient.conf
 
@@ -56,9 +70,3 @@ Pour tester quels serveurs sont utilisés:
 
 	$ nmcli device show wlp3s0 | grep -i dns
 
-Autre solution:
-
-	$ sudo vim /etc/resolvconf/resolv.conf.d/base
-
-	nameserver 80.67.169.40;
-	nameserver 80.67.169.12;

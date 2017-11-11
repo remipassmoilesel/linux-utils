@@ -16,6 +16,20 @@ Commencer une session:
 
 /!\ Ne nécéssite pas les droits ROOT pour caster.
 
+## Récupérer une session VNC vec deux tunnels SSH
+
+Sur le post où est lancé VNC:
+
+	$ ssh -R 5900:localhost:5900 user@vps.net 
+
+Sur le poste où on veut récupérer la session:
+
+	$ ssh -L 5900:localhost:5900 user@vps.net 
+
+Ensuite:
+
+	$ jtightvncviewer localhost:0 
+
 ## Avec TighVnc
 
 /!\ Nécéssite les droits root pour caster
