@@ -2307,3 +2307,8 @@ Se conencter avec pgcli à une base postgresql
 # default :: psql -U username -h postgres.domain.com 
 Date: 2017-11-02 16:16
 Se connecter à une base de données postgres avec psql
+
+
+# default :: npm prune 
+Date: 2017-11-19 21:40
+Enlever tous les paquets npm non nécéssaires
