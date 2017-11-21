@@ -1,3 +1,0 @@
-# Note title
-
-Note content
