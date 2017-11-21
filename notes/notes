@@ -355,7 +355,7 @@ if __name__ == "__main__":
 
         # not found
         if notePath == None:
-            exitProgram(1, "Unable to found note: " + unkArgs[0])
+            exitProgram(1, "Unable to find note: " + unkArgs[0])
 
         # decrypt it if needed
         if knownArgs.encrypt == True:
