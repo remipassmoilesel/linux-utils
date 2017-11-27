@@ -2312,3 +2312,8 @@ Se connecter à une base de données postgres avec psql
 # default :: npm prune 
 Date: 2017-11-19 21:40
 Enlever tous les paquets npm non nécéssaires
+
+
+# default :: git rebase -i commithash 
+Date: 2017-11-27 16:05
+Modifier un historique git, supprimer, quasher, modifier des commits
