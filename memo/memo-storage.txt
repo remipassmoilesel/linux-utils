@@ -2317,3 +2317,13 @@ Enlever tous les paquets npm non nécéssaires
 # default :: git rebase -i commithash 
 Date: 2017-11-27 16:05
 Modifier un historique git, supprimer, quasher, modifier des commits
+
+
+# default :: grep -rnw 'word-to-search' directory/ 
+Date: 2017-12-05 16:18
+Chercher dans un répertoire
+
+
+# default :: git commit -pm 'Commit name' 
+Date: 2017-12-05 16:31
+Committer seulement une partie des fichiers, en mode interactif

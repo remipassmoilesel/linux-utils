@@ -1,4 +1,4 @@
-# Installer Docker et l'utiliser docker sans commande sudo
+# Installer Docker et l'utiliser sans commande sudo
 
 Installation:
 
