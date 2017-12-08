@@ -2327,3 +2327,27 @@ Chercher dans un répertoire
 # default :: git commit -pm 'Commit name' 
 Date: 2017-12-05 16:31
 Committer seulement une partie des fichiers, en mode interactif
+
+
+# default :: npm install -g gtop 
+Date: 2017-12-06 17:05
+Alternative jolie à htop, peu de fonctionnalités
+
+
+# default :: for a in hybrid-beevirtuas.bson
+hybrid-beevirtuas-published.bson
+hybrid-langs.bson
+hybrid-langs-published.bson
+hybrid-medias.bson
+hybrid-medias-published.bson
+images.bson
+links.bson
+system.indexes.bson
+videos.bson; do; bsondump videos.bson > videos.bson.json ; done 
+Date: 2017-12-08 16:16
+Convertir un dossier de fichiers BSON en JSON pour debug
+
+
+# default :: mongotop 
+Date: 2017-12-08 16:31
+Outil de monitoring mongodb
