@@ -2312,3 +2312,13 @@ Se connecter à une base de données postgres avec psql
 # default :: npm prune 
 Date: 2017-11-19 21:40
 Enlever tous les paquets npm non nécéssaires
+
+
+# default :: sudo apt install cmus 
+Date: 2017-12-21 22:35
+Lecteur de musique en ligne de commande
+
+
+# default :: wget https://github.com/sergiolepore/ChristBASHTree/raw/master/tree-EN.sh 
+Date: 2017-12-25 18:07
+Arbre de noël en bash
