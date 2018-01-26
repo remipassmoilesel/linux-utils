@@ -2334,16 +2334,7 @@ Date: 2017-12-06 17:05
 Alternative jolie à htop, peu de fonctionnalités
 
 
-# default :: for a in hybrid-beevirtuas.bson
-hybrid-beevirtuas-published.bson
-hybrid-langs.bson
-hybrid-langs-published.bson
-hybrid-medias.bson
-hybrid-medias-published.bson
-images.bson
-links.bson
-system.indexes.bson
-videos.bson; do; bsondump videos.bson > videos.bson.json ; done 
+# default :: for a in (hybrid-beevirtuas.bson videos.bson); do; bsondump videos.bson > videos.bson.json ; done 
 Date: 2017-12-08 16:16
 Convertir un dossier de fichiers BSON en JSON pour debug
 
@@ -2371,3 +2362,8 @@ Incrémenter la version d'un paquet npm
 # default :: npm unpublish --force 
 Date: 2018-01-17 14:44
 Dé-publier un paquet npm.
+
+
+# default :: dconf reset -f / 
+Date: 2018-01-23 11:23
+Remettre à zéro toute la configuration de bureau pour Gnome et dérivés
