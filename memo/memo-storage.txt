@@ -2377,3 +2377,8 @@ Dé-publier un paquet npm.
 # default :: dconf reset -f / 
 Date: 2018-01-23 11:23
 Remettre à zéro toute la configuration de bureau pour Gnome et dérivés
+
+
+# default :: git checkout "**/package-lock.json" 
+Date: 2018-01-26 10:51
+Remettre à zéro tous les packages.lock d'un projet
