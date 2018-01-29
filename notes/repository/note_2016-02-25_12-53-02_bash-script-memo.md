@@ -81,7 +81,7 @@ Conditions et tests:
             echo You must specify a user name.
             echo Example: clone-all-from-github remipassmoilesel
             exit 1
-    fi
+	fi
 
 	# Tester si une commande existe ou quitter
 	command -v foo >/dev/null 2>&1 || {     echo >&2 "I require foo but it's not installed.  Aborting."; exit 1;}

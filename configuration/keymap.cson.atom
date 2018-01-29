@@ -6,6 +6,7 @@
 
 'atom-text-editor:not([mini])':
   'ctrl-d': 'editor:delete-line'
+  'ctrl-cmd-r': 'tree-view:reveal-active-file'
 
 'atom-workspace atom-text-editor:not([mini])':
   'ctrl-up': 'editor:move-line-up'
