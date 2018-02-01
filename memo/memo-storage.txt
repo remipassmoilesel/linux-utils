@@ -2382,3 +2382,8 @@ Remettre à zéro toute la configuration de bureau pour Gnome et dérivés
 # default :: git checkout "**/package-lock.json" 
 Date: 2018-01-26 10:51
 Remettre à zéro tous les packages.lock d'un projet
+
+
+# default :: sudo apt-get install nsnake 
+Date: 2018-02-01 10:12
+Jeux de serpent pour terminal Linux
