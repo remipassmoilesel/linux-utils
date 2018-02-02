@@ -1,144 +1,124 @@
-#!/usr/bin/env node
+#!/usr/bin/env python3
 
-/**
- * Usage:
- *
- * $ sudo npm i -g ts-node typescript
- *
- * Allow to execute commands in specified directory.
- *
- * Usage:
- *
- *  $ cd ../dir/
- *  $ bcommand register "npm run compile-watch" "category"
- *  $ bcommand run all
- *  $ bcommand run category
- *
- * */
+#
+# Usage:
+#
+# $ sudo npm i -g ts-node typescript
+#
+# Allow to execute commands in specified directory.
+#
+# Usage:
+#
+#  $ cd ../dir/
+#  $ bcommand register "npm run compile-watch" "category"
+#  $ bcommand run all
+#  $ bcommand run category
+#
+#
 
-const os = require('os');
-const fs = require('fs');
-const path = require('path');
+import json
+import os
+import sys
 
-const COMMAND_LIST_PATH = path.join(os.homedir(), '.bcommand');
+home = os.path.expanduser("~")
+COMMAND_LIST_PATH = os.path.join(home, '.bcommand')
 
-const TermStyle = {
-    Reset: '\x1b[0m',
-    Bright: '\x1b[1m',
-    Dim: '\x1b[2m',
-    Underscore: '\x1b[4m',
-    Blink: '\x1b[5m',
-    Reverse: '\x1b[7m',
-    Hidden: '\x1b[8m',
 
-    FgBlack: '\x1b[30m',
-    FgRed: '\x1b[31m',
-    FgGreen: '\x1b[32m',
-    FgYellow: '\x1b[33m',
-    FgBlue: '\x1b[34m',
-    FgMagenta: '\x1b[35m',
-    FgCyan: '\x1b[36m',
-    FgWhite: '\x1b[37m',
+class TermStyle():
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    ENDC = '\033[0m'
 
-    BgBlack: '\x1b[40m',
-    BgRed: '\x1b[41m',
-    BgGreen: '\x1b[42m',
-    BgYellow: '\x1b[43m',
-    BgBlue: '\x1b[44m',
-    BgMagenta: '\x1b[45m',
-    BgCyan: '\x1b[46m',
-    BgWhite: '\x1b[47m',
-};
 
-const Utils = {
-    log(message, data = false, termStyle = TermStyle.FgGreen) {
-        console.log(termStyle + message + TermStyle.Reset);
-        if (data) {
-            console.log(data);
-        }
-    }
-};
+class Utils():
+    @staticmethod
+    def log(message='', data=None, termStyle=TermStyle.OKGREEN):
+        print(termStyle + str(message) + TermStyle.ENDC)
+        if data:
+            print(data)
 
-Utils.log('Bcommand !');
-Utils.log('');
 
-function Command(command, workingDir) {
-    this.command = command;
-    this.workingDir = workingDir;
-}
+class Command():
+    def __init__(self, command, workingDir):
+        self.command = command
+        self.workingDir = workingDir
 
-function Actions() {
-    this.commandList = [];
-}
 
-Actions.prototype.showHelp = () => {
-    Utils.log('Register and execute commands');
-};
+Utils.log('Bcommand !')
+Utils.log()
 
-Actions.prototype.registerCommand = function (command, workingDir) {
-    this.commandList.push(new Command(command, workingDir));
-};
 
-Actions.prototype.displayCommands = function () {
-    Utils.log('Registered commands: ');
-    for (const com of this.commandList) {
-        this.displayCommand(com);
-    }
-};
+class ActionHandlers:
+    def __init__(self):
+        self.commandList = []
 
-Actions.prototype.displayCommand = function (command) {
-    Utils.log(command.workingDir + ' : ' + command.command);
-};
+    def showHelp(self):
+        Utils.log('Register and execute commands')
 
-Actions.prototype.persistCommands = function () {
-    fs.writeFileSync(COMMAND_LIST_PATH, JSON.stringify(this.commandList));
-};
+    def registerCommand(self, shellCommand, workingDir):
+        self.commandList.append(Command(shellCommand, workingDir))
 
-Actions.prototype.loadCommands = function () {
-    try{
-        this.commandList = JSON.parse(fs.readFileSync(COMMAND_LIST_PATH).toString());
-    } catch(e){
-        console.log('Error while loding commands: ', e);
-        this.commandList = [];
-    }
-};
+    def displayCommands(self):
+        Utils.log('Registered commands: ')
+        for com in self.commandList:
+            self.displayCommand(com)
 
-Actions.prototype.exit = (code = 0) => {
-    process.exit(code);
-};
+    def displayCommand(self, command):
+        Utils.log(command.workingDir + ' : ' + command.command)
 
-function ArgParser() {
-    this.actions = new Actions();
-    this.actions.loadCommands();
-}
+    def persistCommands(self):
+        with open(COMMAND_LIST_PATH, 'w') as outfile:
+            json.dump(self.commandList, outfile)
 
-ArgParser.prototype.processArgs = function (args) {
-    const cleanArgs = this._cleanArgs(args);
+    def loadCommands(self):
+        try:
+            with open(COMMAND_LIST_PATH, 'w') as infile:
+                self.commandList = json.load(infile)
+        except:
+            self.commandList = []
 
-    // console.log(cleanArgs);
+    def exit(self, code=0):
+        exit(code)
 
-    if (cleanArgs.indexOf('-h') !== -1) {
-        this.actions.showHelp();
-        this.actions.exit(0);
-    }
 
-    if (cleanArgs.indexOf('register') !== -1) {
-        const command = cleanArgs[3];
-        const workingDir = process.cwd();
-        this.actions.registerCommand(command, workingDir);
-        this.actions.persistCommands();
-        this.actions.displayCommands();
-        this.actions.exit(0);
-    }
-};
+class ArgParser:
+    def __init__(self):
+        self.actions = ActionHandlers()
+        self.actions.loadCommands()
 
-ArgParser.prototype._cleanArgs = function (arguments) {
-    const res = [];
-    for (const arg of arguments) {
-        res.push(arg.trim());
-    }
-    return res;
-};
+    def processArgs(self, args):
+        cleanArgs = self.cleanArgs(args)
 
-const argParser = new ArgParser();
-argParser.processArgs(process.argv);
+        # print(cleanArgs)
+
+        if '-h' in cleanArgs:
+            self.actions.showHelp()
+            self.actions.exit()
+
+        if len(cleanArgs) > 1 and cleanArgs[2] == 'register':
+            shellCommand = cleanArgs[3]
+            workingDir = os.getcwd()
+            self.actions.registerCommand(shellCommand, workingDir)
+            self.actions.persistCommands()
+            self.actions.displayCommands()
+            self.actions.exit()
+
+        if len(cleanArgs) == 1:
+            self.actions.showHelp()
+            self.actions.exit(1)
+
+    def cleanArgs(self, arguments):
+        res = []
+        for arg in arguments:
+            res.append(arg.strip())
+        return res
+
+
+if __name__ == '__main__':
+    argParser = ArgParser()
+    argParser.processArgs(sys.argv)
