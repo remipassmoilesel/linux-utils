@@ -94,12 +94,22 @@ Actions.prototype.persistCommands = function () {
     fs.writeFileSync(COMMAND_LIST_PATH, JSON.stringify(this.commandList));
 };
 
+Actions.prototype.loadCommands = function () {
+    try{
+        this.commandList = JSON.parse(fs.readFileSync(COMMAND_LIST_PATH).toString());
+    } catch(e){
+        console.log('Error while loding commands: ', e);
+        this.commandList = [];
+    }
+};
+
 Actions.prototype.exit = (code = 0) => {
     process.exit(code);
 };
 
 function ArgParser() {
     this.actions = new Actions();
+    this.actions.loadCommands();
 }
 
 ArgParser.prototype.processArgs = function (args) {
