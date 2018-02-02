@@ -16,6 +16,12 @@
  *
  * */
 
+const os = require('os');
+const fs = require('fs');
+const path = require('path');
+
+const COMMAND_LIST_PATH = path.join(os.homedir(), '.bcommand');
+
 const TermStyle = {
     Reset: '\x1b[0m',
     Bright: '\x1b[1m',
@@ -54,34 +60,75 @@ const Utils = {
 };
 
 Utils.log('Bcommand !');
+Utils.log('');
 
-const Actions = {
+function Command(command, workingDir) {
+    this.command = command;
+    this.workingDir = workingDir;
+}
 
-    showHelp() {
-        Utils.log('Register and execute commands');
-    },
-    exit(code = 0) {
-        process.exit(code);
+function Actions() {
+    this.commandList = [];
+}
+
+Actions.prototype.showHelp = () => {
+    Utils.log('Register and execute commands');
+};
+
+Actions.prototype.registerCommand = function (command, workingDir) {
+    this.commandList.push(new Command(command, workingDir));
+};
+
+Actions.prototype.displayCommands = function () {
+    Utils.log('Registered commands: ');
+    for (const com of this.commandList) {
+        this.displayCommand(com);
     }
 };
 
-const ArgParser = {
-    processArgs(args) {
-        const cleanArgs = ArgParser._cleanArgs(args);
-        if (args.indexOf('-h') != -1) {
-            Actions.showHelp();
-            Actions.exit(0);
-        }
-    },
-
-    _cleanArgs(arguments) {
-        const res = [];
-        for (arg in arguments) {
-            res.push(arg.trim());
-        }
-        return res;
-    }
-
+Actions.prototype.displayCommand = function (command) {
+    Utils.log(command.workingDir + ' : ' + command.command);
 };
 
-ArgParser.processArgs(process.argv);
+Actions.prototype.persistCommands = function () {
+    fs.writeFileSync(COMMAND_LIST_PATH, JSON.stringify(this.commandList));
+};
+
+Actions.prototype.exit = (code = 0) => {
+    process.exit(code);
+};
+
+function ArgParser() {
+    this.actions = new Actions();
+}
+
+ArgParser.prototype.processArgs = function (args) {
+    const cleanArgs = this._cleanArgs(args);
+
+    // console.log(cleanArgs);
+
+    if (cleanArgs.indexOf('-h') !== -1) {
+        this.actions.showHelp();
+        this.actions.exit(0);
+    }
+
+    if (cleanArgs.indexOf('register') !== -1) {
+        const command = cleanArgs[3];
+        const workingDir = process.cwd();
+        this.actions.registerCommand(command, workingDir);
+        this.actions.persistCommands();
+        this.actions.displayCommands();
+        this.actions.exit(0);
+    }
+};
+
+ArgParser.prototype._cleanArgs = function (arguments) {
+    const res = [];
+    for (const arg of arguments) {
+        res.push(arg.trim());
+    }
+    return res;
+};
+
+const argParser = new ArgParser();
+argParser.processArgs(process.argv);
