@@ -1,0 +1,78 @@
+#!/usr/bin/env node
+
+/**
+ * Usage:
+ *
+ * $ sudo npm i -g ts-node typescript
+ *
+ * */
+
+const TermStyle = {
+    Reset: '\x1b[0m',
+    Bright: '\x1b[1m',
+    Dim: '\x1b[2m',
+    Underscore: '\x1b[4m',
+    Blink: '\x1b[5m',
+    Reverse: '\x1b[7m',
+    Hidden: '\x1b[8m',
+
+    FgBlack: '\x1b[30m',
+    FgRed: '\x1b[31m',
+    FgGreen: '\x1b[32m',
+    FgYellow: '\x1b[33m',
+    FgBlue: '\x1b[34m',
+    FgMagenta: '\x1b[35m',
+    FgCyan: '\x1b[36m',
+    FgWhite: '\x1b[37m',
+
+    BgBlack: '\x1b[40m',
+    BgRed: '\x1b[41m',
+    BgGreen: '\x1b[42m',
+    BgYellow: '\x1b[43m',
+    BgBlue: '\x1b[44m',
+    BgMagenta: '\x1b[45m',
+    BgCyan: '\x1b[46m',
+    BgWhite: '\x1b[47m',
+};
+
+const Utils = {
+    log(message, data = false, termStyle = TermStyle.FgGreen) {
+        console.log(termStyle + message + TermStyle.Reset);
+        if (data) {
+            console.log(data);
+        }
+    }
+};
+
+Utils.log('Bcommand !');
+
+const Actions = {
+
+    showHelp() {
+        Utils.log('Register and execute commands');
+    },
+    exit(code = 0) {
+        process.exit(code);
+    }
+};
+
+const ArgParser = {
+    processArgs(args) {
+        const cleanArgs = ArgParser._cleanArgs(args);
+        if (args.indexOf('-h') != -1) {
+            Actions.showHelp();
+            Actions.exit(0);
+        }
+    },
+
+    _cleanArgs(arguments) {
+        const res = [];
+        for (arg in arguments) {
+            res.push(arg.trim());
+        }
+        return res;
+    }
+
+};
+
+ArgParser.processArgs(process.argv);
