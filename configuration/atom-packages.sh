@@ -10,6 +10,9 @@ apm install minimap
 
 apm install atom-typescript atom-beautify linter-tslint 
 
+# Es lint
+
+apm install fast-eslint
 
 apm install atom-beautify project-manager minimap highlight-selected highlight-selected-minimap open-recent
 apm install minimap-highlight-selected linter linter-htmlhint linter-csslint linter-jshint autoprefixer

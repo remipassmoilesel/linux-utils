@@ -2387,3 +2387,8 @@ Remettre à zéro tous les packages.lock d'un projet
 # default :: sudo apt-get install nsnake 
 Date: 2018-02-01 10:12
 Jeux de serpent pour terminal Linux
+
+
+# default :: apm search eslint 
+Date: 2018-02-01 23:04
+Rechercher un package avec Atom
