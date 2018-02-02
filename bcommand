@@ -5,6 +5,15 @@
  *
  * $ sudo npm i -g ts-node typescript
  *
+ * Allow to execute commands in specified directory.
+ *
+ * Usage:
+ *
+ *  $ cd ../dir/
+ *  $ bcommand register "npm run compile-watch" "category"
+ *  $ bcommand run all
+ *  $ bcommand run category
+ *
  * */
 
 const TermStyle = {
