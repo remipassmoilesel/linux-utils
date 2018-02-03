@@ -23,7 +23,7 @@ Usage:
 
 ```
 
-$ bcomm -h
+$ bcomm help
 
 Bookmarked commands !
 

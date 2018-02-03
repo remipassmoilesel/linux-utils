@@ -243,13 +243,13 @@ class ArgParser:
 
         # print(cleanArgs)
 
-        if '-h' in cleanArgs:
-            self.actions.showHelp()
-            self.actions.exit()
-
         if len(cleanArgs) < 2:
             self.actions.showHelp()
             self.actions.exit(1)
+
+        if cleanArgs[1] == 'show':
+            self.actions.showHelp()
+            self.actions.exit()
 
         if cleanArgs[1] == 'show':
             self.actions.displayCommands()
