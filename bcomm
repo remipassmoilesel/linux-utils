@@ -124,20 +124,19 @@ class Command():
             self.log('Command was not alive: ' + self.shellCommand)
 
     def printOutput(self):
-
         if self.process is None:
             return
 
         stdout = self.process.stdout
         if stdout is not None:
-            out = Utils.nonBlockReadOutput(stdout)
+            out = Utils.nonBlockReadStream(stdout)
             if out is not None:
                 for line in out.decode(ENCODING).rstrip().splitlines():
                     self.log(line, termStyle=self.color)
 
         stderr = self.process.stderr
         if stderr is not None:
-            out = Utils.nonBlockReadOutput(stderr)
+            out = Utils.nonBlockReadStream(stderr)
             if out is not None:
                 for line in out.decode(ENCODING).rstrip().splitlines():
                     self.log(line, termStyle=TermStyle.RED)
