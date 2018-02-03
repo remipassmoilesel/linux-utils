@@ -18,6 +18,7 @@
 
 import json
 import os
+import subprocess
 import sys
 
 home = os.path.expanduser("~")
@@ -44,12 +45,19 @@ class Utils():
 
 
 class Command():
-    def __init__(self, command, workingDir):
-        self.command = command
+    def __init__(self, shellCommand, workingDir):
+        self.shellCommand = shellCommand
         self.workingDir = workingDir
 
     def toList(self):
-        return [self.command, self.workingDir]
+        return [self.shellCommand, self.workingDir]
+
+    def execute(self):
+        self.log('Starting command: "' + self.shellCommand + '"')
+        subprocess.call(self.shellCommand, shell=True, cwd=self.workingDir)
+
+    def log(self, message):
+        Utils.log(self.workingDir + ': ' + message)
 
     @staticmethod
     def fromList(list):
@@ -72,11 +80,11 @@ class ActionHandlers:
 
     def displayCommands(self):
         Utils.log('Registered commands: ')
-        for com in self.commandList:
-            self.displayCommand(com)
+        for i, com in enumerate(self.commandList):
+            self.displayCommand(i,com)
 
-    def displayCommand(self, command):
-        Utils.log(command.workingDir + ' : ' + command.command)
+    def displayCommand(self, index, command):
+        Utils.log('[' + str(index) + '] ' + command.workingDir + ': ' + command.shellCommand)
 
     def persistCommands(self):
         rawList = []
@@ -98,11 +106,15 @@ class ActionHandlers:
             Utils.log('Preference file not found: ', e, TermStyle.WARNING)
             self.commandList = []
 
-    def cleanCommands(self):
+    def cleanAllCommands(self):
         self.commandList = []
+
+    def cleanCommand(self, commandId):
+        self.commandList.pop(commandId)
 
     def exit(self, code=0):
         exit(code)
+
 
 
 class ArgParser:
@@ -119,7 +131,11 @@ class ArgParser:
             self.actions.showHelp()
             self.actions.exit()
 
-        if len(cleanArgs) > 1 and cleanArgs[1] == 'register':
+        if len(cleanArgs) < 2:
+            self.actions.displayCommands()
+            self.actions.exit(1)
+
+        if cleanArgs[1] == 'register':
             shellCommand = cleanArgs[2]
             workingDir = os.getcwd()
             self.actions.registerCommand(shellCommand, workingDir)
@@ -128,16 +144,19 @@ class ArgParser:
             self.actions.displayCommands()
             self.actions.exit()
 
-        if len(cleanArgs) > 1 and cleanArgs[1] == 'clean':
-            self.actions.cleanCommands()
+        if cleanArgs[1] == 'clean' and len(cleanArgs) == 2:
+            self.actions.cleanAllCommands()
             self.actions.persistCommands()
-            Utils.log('Commands cleaned !')
+            Utils.log('All commands cleaned !')
             self.actions.exit()
 
-        if len(cleanArgs) == 1:
-                self.actions.displayCommands()
-                self.actions.exit(1)
-
+        if cleanArgs[1] == 'clean' and len(cleanArgs) > 2:
+            commandId = cleanArgs[2]
+            self.actions.cleanCommand(int(commandId))
+            self.actions.persistCommands()
+            Utils.log('Command cleaned.')
+            self.actions.displayCommands()
+            self.actions.exit()
 
 
     def cleanArgs(self, arguments):
