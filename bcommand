@@ -66,10 +66,10 @@ class Command():
         self.log('Starting command: ' + self.shellCommand)
         self.process = Popen(self.shellCommand, shell=True, cwd=self.workingDir, stderr=PIPE, stdout=PIPE)
 
-    def log(self, message):
+    def log(self, message, termStyle=TermStyle.OKGREEN):
         if len(message) > 0:
             prefix = '[ ' + self.workingDir + ', id=' + str(self.id) + ' ]: ' + TermStyle.ENDC
-            Utils.log(prefix + message)
+            Utils.log(prefix + message, termStyle=termStyle)
 
     def isAlive(self):
         return self.process is not None and self.process.poll() is None
@@ -96,7 +96,7 @@ class Command():
         if stderr is not None:
             out = self.nonBlockReadOutput(stderr)
             if out is not None:
-                self.log(out.decode(ENCODING).rstrip())
+                self.log(out.decode(ENCODING).rstrip(), termStyle=TermStyle.FAIL)
 
     def nonBlockReadOutput(self, output):
         fd = output.fileno()
@@ -173,7 +173,10 @@ class ActionHandlers:
                 self.printCommandsOutput()
                 time.sleep(0.2)
             except (KeyboardInterrupt, SystemExit):
-                Utils.log('Stopping commands ...')
+                Utils.log()
+                Utils.log()
+                Utils.log('Stopping commands ...', termStyle=TermStyle.WARNING)
+                Utils.log()
                 for com in self.commandList:
                     com.kill()
         exit(code)
