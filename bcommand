@@ -96,13 +96,15 @@ class Command():
         if stdout is not None:
             out = self.nonBlockReadOutput(stdout)
             if out is not None:
-                self.log(out.decode(ENCODING).rstrip())
+                for line in out.decode(ENCODING).rstrip().splitlines():
+                    self.log(line)
 
         stderr = self.process.stderr
         if stderr is not None:
             out = self.nonBlockReadOutput(stderr)
             if out is not None:
-                self.log(out.decode(ENCODING).rstrip(), termStyle=TermStyle.FAIL)
+                for line in out.decode(ENCODING).rstrip().splitlines():
+                    self.log(line, termStyle=TermStyle.FAIL)
 
     def nonBlockReadOutput(self, output):
         fd = output.fileno()
