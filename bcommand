@@ -149,6 +149,8 @@ class ActionHandlers:
         Utils.log('\t$ bcommand run')
         Utils.log('\t$ bcommand run 0')
         Utils.log('\t$ bcommand run 0 1')
+        Utils.log('\t$ bcommand remove 1')
+        Utils.log('\t$ bcommand clean-all')
 
     def registerCommand(self, shellCommand, workingDir):
         id = len(self.commandList)
@@ -265,7 +267,7 @@ class ArgParser:
             self.actions.displayCommands()
             self.actions.exit()
 
-        if cleanArgs[1] == 'clean' and len(cleanArgs) == 2:
+        if cleanArgs[1] == 'clean-all':
             self.actions.cleanAllCommands()
             self.actions.persistCommands()
 
@@ -274,7 +276,7 @@ class ArgParser:
 
             self.actions.exit()
 
-        if cleanArgs[1] == 'clean' and len(cleanArgs) > 2:
+        if cleanArgs[1] == 'remove' and len(cleanArgs) > 2:
             commandIds = cleanArgs[2:]
             for cmdId in commandIds:
                 self.actions.cleanCommand(int(cmdId))
@@ -307,6 +309,11 @@ class ArgParser:
 
             self.actions.execute(commandIds)
             self.actions.exit()
+
+        Utils.log('Bad command.', termStyle=TermStyle.RED)
+        Utils.log()
+        self.actions.showHelp()
+        self.actions.exit(1)
 
     def cleanArgs(self, arguments):
         res = []
