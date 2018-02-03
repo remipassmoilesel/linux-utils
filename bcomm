@@ -10,8 +10,8 @@
 #         Examples:
 #         $ bcomm help
 #         $ cd project && bcomm register "npm run compile-watch"
-#         $ cd project && bcomm register "npm run gulp-watch"
-#         $ cd project && bcomm register "npm run gulp-watch" category1
+#         $ cd sub-project && bcomm register "gulp watch"
+#         $ cd sub-sub-project && bcomm register "npm run compile-watch" category1
 #         $ bcomm show
 #         $ bcomm run
 #         $ bcomm run 0
