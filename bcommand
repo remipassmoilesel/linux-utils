@@ -176,6 +176,10 @@ class ActionHandlers:
         for comId in commandIds:
             self.commandList[int(comId)].execute()
 
+    def executeAll(self):
+        for com in self.commandList:
+            com.execute()
+
     def isCommandsAlive(self):
         if len(self.commandList) == 0:
             return False
@@ -234,6 +238,14 @@ class ArgParser:
             Utils.log()
 
             self.actions.displayCommands()
+            self.actions.exit()
+
+        if cleanArgs[1] == 'run' and len(cleanArgs) == 2:
+
+            Utils.log('Starting all commands')
+            Utils.log()
+
+            self.actions.executeAll()
             self.actions.exit()
 
         if cleanArgs[1] == 'run' and len(cleanArgs) > 2:
