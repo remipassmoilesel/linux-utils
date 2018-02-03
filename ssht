@@ -172,12 +172,19 @@ class AddTunnelWizard():
         # self.localPort = localPort
         # self.process = None
         self.printHeaders()
-        tunnelName = self.askQuestion('What is the name of the tunnel ?')
+        tunnelName = self.askQuestion('What is the name of the tunnel ?', 'Test ssh tunnel')
         print(tunnelName)
 
-    def askQuestion(self, text):
+    def askQuestion(self, text, defaultValue=None):
         Utils.log(text)
-        return str(input('> '))
+        prompt = '> '
+        if defaultValue is not None:
+            prompt = '[' + str(defaultValue) + '] > '
+        result = str(input(prompt))
+        if len(result) > 0:
+            return result
+        else:
+            return str(defaultValue)
 
     def askSelectableQuestion(self, text, choices=[]):
         pass
