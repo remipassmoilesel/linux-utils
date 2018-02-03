@@ -16,15 +16,16 @@
 #
 #
 
+import fcntl
 import json
 import os
 import sys
 import time
-from subprocess import Popen
+from subprocess import *
 
 home = os.path.expanduser("~")
 COMMAND_LIST_PATH = os.path.join(home, '.bcommand')
-
+ENCODING = 'utf-8'
 
 class TermStyle():
     HEADER = '\033[95m'
@@ -49,27 +50,50 @@ class Command():
     def __init__(self, shellCommand, workingDir):
         self.shellCommand = shellCommand
         self.workingDir = workingDir
-        self.popen = None
+        self.process = None
 
     def toList(self):
         return [self.shellCommand, self.workingDir]
 
     def execute(self):
-        self.log('Starting command')
-        self.popen = Popen(self.shellCommand, shell=True, cwd=self.workingDir)
+        self.log('Starting command: ' + self.shellCommand)
+        self.process = Popen(self.shellCommand, shell=True, cwd=self.workingDir, stderr=PIPE, stdout=PIPE)
 
     def log(self, message):
-        Utils.log('[' + self.workingDir + ', ' + self.shellCommand + ']: ' + message)
+        if len(message) > 0:
+            Utils.log('[' + self.workingDir + ']: ' + message)
 
     def isAlive(self):
-        return self.popen is not None and self.popen.poll() is None
+        return self.process is not None and self.process.poll() is None
 
     def kill(self):
         if self.isAlive():
             self.log('Command was alive, killing it')
-            self.popen.kill()
+            self.process.kill()
         else:
             self.log('Command was not alive')
+
+    def printOutput(self):
+        stdout = self.process.stdout
+        if stdout is not None:
+            out = self.nonBlockReadOutput(stdout)
+            if out is not None:
+                self.log(out.decode(ENCODING).rstrip())
+
+        stderr = self.process.stderr
+        if stderr is not None:
+            out = self.nonBlockReadOutput(stderr)
+            if out is not None:
+                self.log(out.decode(ENCODING).rstrip())
+
+    def nonBlockReadOutput(self, output):
+        fd = output.fileno()
+        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+        try:
+            return output.read()
+        except:
+            return ""
 
     @staticmethod
     def fromList(list):
@@ -137,6 +161,10 @@ class ActionHandlers:
                     com.kill()
         exit(code)
 
+    def printCommandsOutput(self):
+        for com in self.commandList:
+            com.printOutput()
+
     def execute(self, commandIds):
         for comId in commandIds:
             self.commandList[int(comId)].execute()
@@ -148,9 +176,6 @@ class ActionHandlers:
             if com.isAlive():
                 return True
         return False
-
-    def printCommandsOutput(self):
-        pass
 
 
 class ArgParser:
