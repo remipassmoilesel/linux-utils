@@ -98,6 +98,9 @@ class ActionHandlers:
             Utils.log('Preference file not found: ', e, TermStyle.WARNING)
             self.commandList = []
 
+    def cleanCommands(self):
+        self.commandList = []
+
     def exit(self, code=0):
         exit(code)
 
@@ -111,7 +114,7 @@ class ArgParser:
         cleanArgs = self.cleanArgs(args)
 
         # print(cleanArgs)
-        
+
         if '-h' in cleanArgs:
             self.actions.showHelp()
             self.actions.exit()
@@ -121,12 +124,21 @@ class ArgParser:
             workingDir = os.getcwd()
             self.actions.registerCommand(shellCommand, workingDir)
             self.actions.persistCommands()
+            Utils.log('Command registered.')
             self.actions.displayCommands()
             self.actions.exit()
 
+        if len(cleanArgs) > 1 and cleanArgs[1] == 'clean':
+            self.actions.cleanCommands()
+            self.actions.persistCommands()
+            Utils.log('Commands cleaned !')
+            self.actions.exit()
+
         if len(cleanArgs) == 1:
-            self.actions.displayCommands
-            self.actions.exit(1)
+                self.actions.displayCommands()
+                self.actions.exit(1)
+
+
 
     def cleanArgs(self, arguments):
         res = []
