@@ -15,6 +15,30 @@ Usage:
     $ git clone http://github.com/remipassmoilesel/linux-utils
 ```
 
+## Bcomm
+
+Shell command bookmark system.
+
+Usage:
+
+```
+
+$ bcomm -h
+
+Bookmarked commands !
+
+Register and execute commands
+
+Examples: 
+        $ cd project && bcomm register "npm run compile-watch"
+        $ cd project && bcomm register "npm run gulp-watch"
+        $ bcomm show
+        $ bcomm run
+        $ bcomm run 0
+        $ bcomm run 0 1
+        $ bcomm remove 1
+        $ bcomm clean-all
+```
 
 ## notes
 
