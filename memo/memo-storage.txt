@@ -2392,3 +2392,8 @@ Jeux de serpent pour terminal Linux
 # default :: apm search eslint 
 Date: 2018-02-01 23:04
 Rechercher un package avec Atom
+
+
+# default :: while true; do echo "hey"; sleep 2; done 
+Date: 2018-02-03 11:30
+Boucle infinie bash en une ligne

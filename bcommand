@@ -18,8 +18,9 @@
 
 import json
 import os
-import subprocess
 import sys
+import time
+from subprocess import Popen
 
 home = os.path.expanduser("~")
 COMMAND_LIST_PATH = os.path.join(home, '.bcommand')
@@ -48,16 +49,27 @@ class Command():
     def __init__(self, shellCommand, workingDir):
         self.shellCommand = shellCommand
         self.workingDir = workingDir
+        self.popen = None
 
     def toList(self):
         return [self.shellCommand, self.workingDir]
 
     def execute(self):
-        self.log('Starting command: "' + self.shellCommand + '"')
-        subprocess.call(self.shellCommand, shell=True, cwd=self.workingDir)
+        self.log('Starting command')
+        self.popen = Popen(self.shellCommand, shell=True, cwd=self.workingDir)
 
     def log(self, message):
-        Utils.log(self.workingDir + ': ' + message)
+        Utils.log('[' + self.workingDir + ', ' + self.shellCommand + ']: ' + message)
+
+    def isAlive(self):
+        return self.popen is not None and self.popen.poll() is None
+
+    def kill(self):
+        if self.isAlive():
+            self.log('Command was alive, killing it')
+            self.popen.kill()
+        else:
+            self.log('Command was not alive')
 
     @staticmethod
     def fromList(list):
@@ -81,7 +93,7 @@ class ActionHandlers:
     def displayCommands(self):
         Utils.log('Registered commands: ')
         for i, com in enumerate(self.commandList):
-            self.displayCommand(i,com)
+            self.displayCommand(i, com)
 
     def displayCommand(self, index, command):
         Utils.log('[' + str(index) + '] ' + command.workingDir + ': ' + command.shellCommand)
@@ -113,11 +125,33 @@ class ActionHandlers:
         self.commandList.pop(commandId)
 
     def exit(self, code=0):
+        keepAlive = self.isCommandsAlive()
+        while keepAlive:
+            try:
+                keepAlive = self.isCommandsAlive()
+                self.printCommandsOutput()
+                time.sleep(0.2)
+            except (KeyboardInterrupt, SystemExit):
+                Utils.log('Stopping commands ...')
+                for com in self.commandList:
+                    com.kill()
         exit(code)
 
     def execute(self, commandIds):
         for comId in commandIds:
             self.commandList[int(comId)].execute()
+
+    def isCommandsAlive(self):
+        if len(self.commandList) == 0:
+            return False
+        for com in self.commandList:
+            if com.isAlive():
+                return True
+        return False
+
+    def printCommandsOutput(self):
+        pass
+
 
 class ArgParser:
     def __init__(self):
@@ -165,7 +199,6 @@ class ArgParser:
             Utils.log('Starting commands: ' + str(commandIds))
             self.actions.execute(commandIds)
             self.actions.exit()
-
 
     def cleanArgs(self, arguments):
         res = []
