@@ -172,10 +172,12 @@ class AddTunnelWizard():
         # self.localPort = localPort
         # self.process = None
         self.printHeaders()
-        self.askQuestion('What is the name of the tunnel ?')
+        tunnelName = self.askQuestion('What is the name of the tunnel ?')
+        print(tunnelName)
 
     def askQuestion(self, text):
         Utils.log(text)
+        return str(input('> '))
 
     def askSelectableQuestion(self, text, choices=[]):
         pass
