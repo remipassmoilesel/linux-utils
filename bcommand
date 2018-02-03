@@ -10,9 +10,10 @@
 # Usage:
 #
 #  $ cd ../dir/
-#  $ bcommand register "npm run compile-watch" "category"
-#  $ bcommand run all
-#  $ bcommand run category
+#  $ bcommand register "npm run compile-watch"
+#  $ bcommand run
+#  $ bcommand run 0 1
+#  $ bcommand run category -> Coming soon !
 #
 #
 
@@ -112,6 +113,14 @@ class ActionHandlers:
 
     def showHelp(self):
         Utils.log('Register and execute commands')
+        Utils.log('')
+        Utils.log('Examples: ')
+        Utils.log('\t$ cd project && bcommand register "npm run compile-watch"')
+        Utils.log('\t$ cd project && bcommand register "npm run gulp-watch"')
+        Utils.log('\t$ bcommand show')
+        Utils.log('\t$ bcommand run')
+        Utils.log('\t$ bcommand run 0')
+        Utils.log('\t$ bcommand run 0 1')
 
     def registerCommand(self, shellCommand, workingDir):
         id = len(self.commandList)
@@ -121,6 +130,7 @@ class ActionHandlers:
     def displayCommands(self):
         if len(self.commandList) > 0:
             Utils.log('Registered commands: ')
+            Utils.log()
             for i, com in enumerate(self.commandList):
                 self.displayCommand(i, com)
         else:
@@ -204,9 +214,12 @@ class ArgParser:
             self.actions.exit()
 
         if len(cleanArgs) < 2:
-            self.actions.displayCommands()
-            self.actions.persistCommands()
+            self.actions.showHelp()
             self.actions.exit(1)
+
+        if cleanArgs[1] == 'show':
+            self.actions.displayCommands()
+            self.actions.exit()
 
         if cleanArgs[1] == 'register':
             shellCommand = cleanArgs[2]
