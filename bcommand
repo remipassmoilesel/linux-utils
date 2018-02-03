@@ -115,9 +115,9 @@ class ActionHandlers:
     def exit(self, code=0):
         exit(code)
 
-    def execute(self, commandId):
-        self.commandList[commandId].execute()
-
+    def execute(self, commandIds):
+        for comId in commandIds:
+            self.commandList[int(comId)].execute()
 
 class ArgParser:
     def __init__(self):
@@ -153,17 +153,17 @@ class ArgParser:
             self.actions.exit()
 
         if cleanArgs[1] == 'clean' and len(cleanArgs) > 2:
-            commandId = cleanArgs[2]
-            self.actions.cleanCommand(int(commandId))
+            commandIds = cleanArgs[2]
+            self.actions.cleanCommand(int(commandIds))
             self.actions.persistCommands()
             Utils.log('Command cleaned.')
             self.actions.displayCommands()
             self.actions.exit()
 
         if cleanArgs[1] == 'run' and len(cleanArgs) > 2:
-            commandId = cleanArgs[2]
-            Utils.log('Starting command: ')
-            self.actions.execute(int(commandId))
+            commandIds = cleanArgs[2:]
+            Utils.log('Starting commands: ' + str(commandIds))
+            self.actions.execute(commandIds)
             self.actions.exit()
 
 
