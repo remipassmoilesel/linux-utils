@@ -30,12 +30,15 @@ Bookmarked commands !
 Register and execute commands
 
 Examples: 
+        $ bcomm help
         $ cd project && bcomm register "npm run compile-watch"
         $ cd project && bcomm register "npm run gulp-watch"
+        $ cd project && bcomm register "npm run gulp-watch" category1
         $ bcomm show
         $ bcomm run
         $ bcomm run 0
         $ bcomm run 0 1
+        $ bcomm run category1
         $ bcomm remove 1
         $ bcomm clean-all
 ```
