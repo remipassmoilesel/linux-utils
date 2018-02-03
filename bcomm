@@ -3,17 +3,22 @@
 #
 # Usage:
 #
-# $ sudo npm i -g ts-node typescript
+#         Bookmarked commands !
 #
-# Allow to execute commands in specified directory.
+#         Register and execute commands
 #
-# Usage:
-#
-#  $ cd ../dir/
-#  $ bcommand register "npm run compile-watch"
-#  $ bcommand run
-#  $ bcommand run 0 1
-#  $ bcommand run category -> Coming soon !
+#         Examples:
+#         $ bcomm help
+#         $ cd project && bcomm register "npm run compile-watch"
+#         $ cd project && bcomm register "npm run gulp-watch"
+#         $ cd project && bcomm register "npm run gulp-watch" category1
+#         $ bcomm show
+#         $ bcomm run
+#         $ bcomm run 0
+#         $ bcomm run 0 1
+#         $ bcomm run category1
+#         $ bcomm remove 1
+#         $ bcomm clean-all
 #
 #
 
@@ -145,12 +150,15 @@ class ActionHandlers:
         Utils.log('Register and execute commands')
         Utils.log('')
         Utils.log('Examples: ')
+        Utils.log('\t$ bcomm help')
         Utils.log('\t$ cd project && bcomm register "npm run compile-watch"')
         Utils.log('\t$ cd project && bcomm register "npm run gulp-watch"')
+        Utils.log('\t$ cd project && bcomm register "npm run gulp-watch" category1')
         Utils.log('\t$ bcomm show')
         Utils.log('\t$ bcomm run')
         Utils.log('\t$ bcomm run 0')
         Utils.log('\t$ bcomm run 0 1')
+        Utils.log('\t$ bcomm run category1')
         Utils.log('\t$ bcomm remove 1')
         Utils.log('\t$ bcomm clean-all')
 
