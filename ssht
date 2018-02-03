@@ -1,0 +1,389 @@
+#!/usr/bin/env python3
+#
+#    # jeudi 25 janvier 2018, 17:07:51 (UTC+0100)
+#
+#    # Publish a local port to a distant server
+#    # You may need to registrate your SSH keys before
+#    #
+#    # Example: TARGET_HOST=user@server.domain.net TARGET_PORT=10022 LOCAL_PORT=22 ./ssh-tunnel
+#    #
+#
+#    # set -x
+#
+#    if ! [[ $TARGET_HOST ]] ; then
+#        echo You must specify a target host.
+#        exit 1
+#    fi
+#
+#    if ! [[ $LOCAL_PORT ]] ; then
+#        echo You must specify a local port.
+#        exit 1
+#    fi
+#
+#    if ! [[ $TARGET_PORT ]] ; then
+#        echo You must specify a target port.
+#        exit 1
+#    fi
+#
+#    autossh -f -N -M 30068 -L $LOCAL_PORT:localhost:$REMOTE_PORT $TARGET_HOST
+
+import fcntl
+import json
+import os
+import random
+import sys
+import time
+from subprocess import *
+
+home = os.path.expanduser("~")
+TUNNEL_LIST_PATH = os.path.join(home, '.ssh-tunnels')
+PREFIX_LEN = 20
+ENCODING = 'utf-8'
+
+
+class TermStyle():
+    HEADER = '\033[95m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    CYAN = "\033[1;36m"
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    RESET = '\033[0m'
+
+
+class Utils():
+    @staticmethod
+    def log(message='', data=None, termStyle=TermStyle.GREEN):
+        print(Utils.colorize(message, termStyle=termStyle))
+        if data:
+            print(data)
+
+    @classmethod
+    def error(self, message, data=None):
+        Utils.log(message, data=data, termStyle=TermStyle.RED)
+
+    @staticmethod
+    def colorize(message, termStyle=TermStyle.GREEN):
+        return termStyle + str(message) + TermStyle.RESET
+
+    @staticmethod
+    def normalize(str, maxLen):
+        if len(str) > maxLen:
+            start = len(str) - maxLen + 3
+            str = '...' + str[start:len(str)]
+        if len(str) < maxLen:
+            blank = ''
+            while len(blank) + len(str) < maxLen:
+                blank += ' '
+            str = blank + str
+        return str
+
+    @staticmethod
+    def nonBlockReadStream(stream):
+        fd = stream.fileno()
+        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+        try:
+            return stream.read()
+        except:
+            return None
+
+
+tunnelCounter = 0
+
+
+class Tunnel():
+    def __init__(self, tunnelName, host, sshPort, identityFile, remotePort, localPort):
+        global tunnelCounter
+        tunnelCounter = tunnelCounter + 1
+        self.id = tunnelCounter
+        self.color = random.choice([TermStyle.BLUE, TermStyle.CYAN, TermStyle.YELLOW, TermStyle.GREEN])
+        self.tunnelName = tunnelName
+        self.host = host
+        self.sshPort = sshPort
+        self.identityFile = identityFile
+        self.remotePort = remotePort
+        self.localPort = localPort
+        self.process = None
+
+    @staticmethod
+    def fromList(list):
+        return Tunnel(list[0], list[1], list[2], list[3], list[4], list[5])
+
+    def toList(self):
+        return [self.tunnelName, self.host, self.sshPort, self.identityFile, self.remotePort, self.localPort]
+
+    def execute(self):
+        self.log('Starting tunnel: ' + self.tunnelName)
+        self.process = Popen(self.getSshCommand(), shell=True, stderr=PIPE, stdout=PIPE)
+
+    def getSshCommand(self):
+        pass
+
+    def isAlive(self):
+        return self.process is not None and self.process.poll() is None
+
+    def kill(self):
+        if self.isAlive():
+            self.log('Tunnel was alive, killing it: ' + self.host)
+            self.process.kill()
+        else:
+            self.log('Tunnel was not alive: ' + self.host)
+
+    def printOutput(self):
+        if self.process is None:
+            return
+
+        stdout = self.process.stdout
+        if stdout is not None:
+            out = Utils.nonBlockReadStream(stdout)
+            if out is not None:
+                for line in out.decode(ENCODING).rstrip().splitlines():
+                    self.log(line, termStyle=self.color)
+
+        stderr = self.process.stderr
+        if stderr is not None:
+            out = Utils.nonBlockReadStream(stderr)
+            if out is not None:
+                for line in out.decode(ENCODING).rstrip().splitlines():
+                    self.log(line, termStyle=TermStyle.RED)
+
+    def log(self, message, termStyle=TermStyle.GREEN):
+        if len(message) > 0:
+            prefix = self.getLogPrefix()
+            Utils.log(Utils.colorize('[ ' + prefix + ' ]: ', termStyle=termStyle) + message)
+
+    def getLogPrefix(self):
+        return Utils.normalize(self.tunnelName, PREFIX_LEN)
+
+    def printTunnel(self):
+        Utils.log('[' + str(self.id) + '] ' + self.tunnelName + ': ')
+
+
+class AddTunnelWizard():
+    def start(self):
+        # self.tunnelName = tunnelName
+        # self.host = host
+        # self.sshPort = sshPort
+        # self.identityFile = identityFile
+        # self.remotePort = remotePort
+        # self.localPort = localPort
+        # self.process = None
+        self.printHeaders()
+        self.askQuestion('What is the name of the tunnel ?')
+
+    def askQuestion(self, text):
+        Utils.log(text)
+
+    def askSelectableQuestion(self, text, choices=[]):
+        pass
+
+    def printHeaders(self):
+        Utils.log()
+        Utils.log('Interactive assistant.')
+        Utils.log()
+
+
+class ActionHandlers:
+    def __init__(self):
+        self.tunnelList = []
+
+    def showHelp(self):
+        Utils.log('Store and manage SSH tunnels')
+        Utils.log('')
+        Utils.log('Examples: ')
+        Utils.log('\t$ ssht help')
+        Utils.log('\t$ ssht add tunnel-name local 8080 vps.domain.net:8085')
+        Utils.log('\t$ ssht add tunnel-name remote vps.domain.net:8080 8085')
+        Utils.log('\t$ ssht show')
+        Utils.log('\t$ ssht run')
+        Utils.log('\t$ ssht run 0')
+        Utils.log('\t$ ssht run 0 1')
+        Utils.log('\t$ ssht remove 1')
+        Utils.log('\t$ ssht clean-all')
+
+    def registerTunnel(self, tunnelName, host, sshPort, identityFile, remotePort, localPort):
+        command = Tunnel(tunnelName, host, sshPort, identityFile, remotePort, localPort)
+        self.tunnelList.append(command)
+
+    def displayTunnels(self):
+        if len(self.tunnelList) > 0:
+            Utils.log('Registered tunnels: ')
+            Utils.log()
+            for i, com in enumerate(self.tunnelList):
+                com.printTunnel()
+        else:
+            Utils.log('No tunnel registered yet !')
+
+    def persistTunnels(self):
+        rawList = []
+        for tunnel in self.tunnelList:
+            rawList.append(tunnel.toList())
+
+        with open(TUNNEL_LIST_PATH, 'w') as outfile:
+            json.dump(rawList, outfile, indent=4, sort_keys=True)
+
+    def loadTunnels(self):
+        try:
+            with open(TUNNEL_LIST_PATH, 'r') as infile:
+                rawList = json.load(infile)
+                self.tunnelList = []
+                for item in rawList:
+                    self.tunnelList.append(Tunnel.fromList(item))
+
+        except Exception as e:
+            Utils.log('Tunnel list file not found: ', e, TermStyle.YELLOW)
+            self.tunnelList = []
+
+    def cleanAllTunnels(self):
+        self.tunnelList = []
+
+    def cleanTunnels(self, tunnelId):
+        tunn = self.getTunnelById(tunnelId)
+        self.tunnelList.remove(tunn)
+
+    def getTunnelById(self, tunnelId):
+        for tunn in self.tunnelList:
+            if tunn.id == tunnelId:
+                return tunn
+        return None
+
+    def exit(self, code=0):
+        keepAlive = self.isTunnelAlive()
+        while keepAlive:
+            try:
+                keepAlive = self.isTunnelAlive()
+                self.printTunnelsOutput()
+                time.sleep(0.2)
+            except (KeyboardInterrupt, SystemExit):
+                Utils.log()
+                Utils.log()
+                Utils.log('Stopping tunnels ...', termStyle=TermStyle.YELLOW)
+                Utils.log()
+                for tunn in self.tunnelList:
+                    tunn.kill()
+        exit(code)
+
+    def printTunnelsOutput(self):
+        for tunn in self.tunnelList:
+            tunn.printOutput()
+
+    def launchTunnelsByIds(self, tunnelIds):
+        for tunnId in tunnelIds:
+            self.tunnelList[int(tunnId)].execute()
+
+    def executeAll(self):
+        for tunn in self.tunnelList:
+            tunn.execute()
+
+    def isTunnelAlive(self):
+        if len(self.tunnelList) == 0:
+            return False
+        for tun in self.tunnelList:
+            if tun.isAlive():
+                return True
+        return False
+
+    def addTunnelInteractive(self):
+        wizard = AddTunnelWizard()
+        wizard.start()
+        pass
+
+
+class ArgParser:
+    def __init__(self):
+        self.actions = ActionHandlers()
+        self.actions.loadTunnels()
+
+    def processArgs(self, args):
+        cleanArgs = self.cleanArgs(args)
+
+        # print(cleanArgs)
+
+        if len(cleanArgs) < 2:
+            self.actions.showHelp()
+            self.actions.exit(1)
+
+        if cleanArgs[1] == 'help':
+            self.actions.showHelp()
+            self.actions.exit()
+
+        if cleanArgs[1] == 'show':
+            self.actions.displayTunnels()
+            self.actions.exit()
+
+        if cleanArgs[1] == 'clean-all':
+            self.actions.cleanAllTunnels()
+            self.actions.persistTunnels()
+
+            Utils.log('All tunnels cleaned !')
+            Utils.log()
+
+            self.actions.exit()
+
+        if cleanArgs[1] == 'remove' and len(cleanArgs) > 2:
+
+            tunnelIds = cleanArgs[2:]
+            removed = []
+            for tunnId in tunnelIds:
+                tunn = self.actions.getTunnelById(int(tunnId))
+                if tunn is None:
+                    Utils.error('Tunnel not found: ' + tunnId)
+                else:
+                    removed.append(tunnId)
+                    self.actions.cleanTunnels(int(tunnId))
+            self.actions.persistTunnels()
+
+            if len(removed) > 0:
+                Utils.log('Tunnels cleaned: ' + str(removed))
+                Utils.log()
+
+                self.actions.exit()
+
+            else:
+                self.actions.exit(1)
+
+        if cleanArgs[1] == 'run' and len(cleanArgs) == 2:
+
+            Utils.log('Starting all tunnels')
+            Utils.log()
+
+            if len(self.actions.tunnelList) > 0:
+                self.actions.executeAll()
+                self.actions.exit()
+            else:
+                Utils.log('No command to start', termStyle=TermStyle.YELLOW)
+                self.actions.exit(1)
+
+        if cleanArgs[1] == 'run' and len(cleanArgs) > 2:
+            tunnelIds = cleanArgs[2:]
+            Utils.log('Starting commands: ' + str(tunnelIds))
+            Utils.log()
+
+            self.actions.launchTunnelsByIds(tunnelIds)
+            self.actions.exit()
+
+        if cleanArgs[1] == 'add':
+            self.actions.addTunnelInteractive()
+            self.actions.exit(0)
+
+        Utils.error('Bad command.')
+        Utils.log()
+        self.actions.showHelp()
+        self.actions.exit(1)
+
+    def cleanArgs(self, arguments):
+        res = []
+        for arg in arguments:
+            res.append(arg.strip())
+        return res
+
+
+if __name__ == '__main__':
+    Utils.log('Bookmarked tunnels !')
+    Utils.log()
+
+    argParser = ArgParser()
+    argParser.processArgs(sys.argv)
