@@ -53,6 +53,18 @@ class Utils():
     def colorize(message, termStyle=TermStyle.GREEN):
         return termStyle + str(message) + TermStyle.RESET
 
+    @staticmethod
+    def normalize(str, maxLen):
+        if len(str) > maxLen:
+            start = len(str) - maxLen + 3
+            str = '...' + str[start:len(str)]
+        if len(str) < maxLen:
+            blank = ''
+            while len(blank) + len(str) < maxLen:
+                blank += ' '
+            str = blank + str
+        return str
+
 
 class Command():
     def __init__(self, id, shellCommand, workingDir):
@@ -79,17 +91,9 @@ class Command():
             Utils.log(Utils.colorize('[ ' + prefix + ' ]: ', termStyle=termStyle) + message)
 
     def getLogPrefix(self):
-        prefix = self.workingDir + ', id=' + str(self.id)
-        prefixSize = 30
-
-        if len(prefix) > prefixSize:
-            start = len(prefix) - prefixSize + 3
-            prefix = '...' + prefix[start:len(prefix)]
-        if len(prefix) < prefixSize:
-            blank = ''
-            while len(blank) + len(prefix) < prefixSize:
-                blank += ' '
-            prefix = blank + prefix
+        nWorkingDir = Utils.normalize(self.workingDir, 20)
+        nShellCommand = Utils.normalize(self.shellCommand, 20)
+        prefix = nWorkingDir + ': ' + nShellCommand
         return prefix
 
     def isAlive(self):
