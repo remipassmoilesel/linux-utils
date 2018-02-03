@@ -41,7 +41,6 @@ class TermStyle():
 
 
 class Utils():
-
     @staticmethod
     def log(message='', data=None, termStyle=TermStyle.OKGREEN):
         print(Utils.colorize(message, termStyle=termStyle))
@@ -51,7 +50,6 @@ class Utils():
     @staticmethod
     def colorize(message, termStyle=TermStyle.OKGREEN):
         return termStyle + str(message) + TermStyle.ENDC
-
 
 
 class Command():
@@ -74,8 +72,22 @@ class Command():
 
     def log(self, message, termStyle=TermStyle.OKGREEN):
         if len(message) > 0:
-            prefix = Utils.colorize('[ ' + self.workingDir + ', id=' + str(self.id) + ' ]: ', termStyle=termStyle)
-            Utils.log(prefix + message)
+            prefix = self.getLogPrefix()
+            Utils.log(Utils.colorize('[ ' + prefix + ' ]: ', termStyle=termStyle) + message)
+
+    def getLogPrefix(self):
+        prefix = self.workingDir + ', id=' + str(self.id)
+        prefixSize = 30
+
+        if len(prefix) > prefixSize:
+            start = len(prefix) - prefixSize + 3
+            prefix = '...' + prefix[start:len(prefix)]
+        if len(prefix) < prefixSize:
+            blank = ''
+            while len(blank) + len(prefix) < prefixSize:
+                blank += ' '
+            prefix = blank + prefix
+        return prefix
 
     def isAlive(self):
         return self.process is not None and self.process.poll() is None
@@ -114,6 +126,7 @@ class Command():
             return output.read()
         except:
             return None
+
 
 class ActionHandlers:
     def __init__(self):
@@ -296,7 +309,6 @@ class ArgParser:
 
 
 if __name__ == '__main__':
-
     Utils.log('Bcommand !')
     Utils.log()
 
