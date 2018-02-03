@@ -143,14 +143,14 @@ class ActionHandlers:
         Utils.log('Register and execute commands')
         Utils.log('')
         Utils.log('Examples: ')
-        Utils.log('\t$ cd project && bcommand register "npm run compile-watch"')
-        Utils.log('\t$ cd project && bcommand register "npm run gulp-watch"')
-        Utils.log('\t$ bcommand show')
-        Utils.log('\t$ bcommand run')
-        Utils.log('\t$ bcommand run 0')
-        Utils.log('\t$ bcommand run 0 1')
-        Utils.log('\t$ bcommand remove 1')
-        Utils.log('\t$ bcommand clean-all')
+        Utils.log('\t$ cd project && bcomm register "npm run compile-watch"')
+        Utils.log('\t$ cd project && bcomm register "npm run gulp-watch"')
+        Utils.log('\t$ bcomm show')
+        Utils.log('\t$ bcomm run')
+        Utils.log('\t$ bcomm run 0')
+        Utils.log('\t$ bcomm run 0 1')
+        Utils.log('\t$ bcomm remove 1')
+        Utils.log('\t$ bcomm clean-all')
 
     def registerCommand(self, shellCommand, workingDir):
         id = len(self.commandList)
@@ -323,7 +323,7 @@ class ArgParser:
 
 
 if __name__ == '__main__':
-    Utils.log('Bcommand !')
+    Utils.log('Bookmarked commands !')
     Utils.log()
 
     argParser = ArgParser()
