@@ -67,7 +67,8 @@ class Command():
 
     def log(self, message):
         if len(message) > 0:
-            Utils.log('[ dir=' + self.workingDir + ', id=' + str(self.id) + ' ]: ' + message)
+            prefix = '[ ' + self.workingDir + ', id=' + str(self.id) + ' ]: ' + TermStyle.ENDC
+            Utils.log(prefix + message)
 
     def isAlive(self):
         return self.process is not None and self.process.poll() is None
