@@ -32,7 +32,9 @@ import time
 from subprocess import *
 
 home = os.path.expanduser("~")
-COMMAND_LIST_PATH = os.path.join(home, '.bcommand')
+COMMAND_LIST_PATH = os.path.join(home, '.bookmarked_commands')
+WORKING_DIR_LEN = 20
+SHELL_COMMAND_LEN = 20
 ENCODING = 'utf-8'
 
 
@@ -55,6 +57,10 @@ class Utils():
         if data:
             print(data)
 
+    @classmethod
+    def error(self, message, data=None):
+        Utils.log(message, data=data, termStyle=TermStyle.RED)
+
     @staticmethod
     def colorize(message, termStyle=TermStyle.GREEN):
         return termStyle + str(message) + TermStyle.RESET
@@ -71,10 +77,25 @@ class Utils():
             str = blank + str
         return str
 
+    @staticmethod
+    def nonBlockReadStream(stream):
+        fd = stream.fileno()
+        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+        try:
+            return stream.read()
+        except:
+            return None
+
+
+commandCounter = 0
+
 
 class Command():
-    def __init__(self, id, shellCommand, workingDir, category=None):
-        self.id = id
+    def __init__(self, shellCommand, workingDir, category=None):
+        global commandCounter
+        commandCounter = commandCounter + 1
+        self.id = commandCounter
         self.color = random.choice([TermStyle.BLUE, TermStyle.CYAN, TermStyle.YELLOW, TermStyle.GREEN])
         self.shellCommand = shellCommand
         self.workingDir = workingDir
@@ -83,25 +104,14 @@ class Command():
 
     @staticmethod
     def fromList(list):
-        return Command(list[0], list[1], list[2], list[3])
+        return Command(list[0], list[1], list[2])
 
     def toList(self):
-        return [self.id, self.shellCommand, self.workingDir, self.category]
+        return [self.shellCommand, self.workingDir, self.category]
 
     def execute(self):
         self.log('Starting command: ' + self.shellCommand)
         self.process = Popen(self.shellCommand, shell=True, cwd=self.workingDir, stderr=PIPE, stdout=PIPE)
-
-    def log(self, message, termStyle=TermStyle.GREEN):
-        if len(message) > 0:
-            prefix = self.getLogPrefix()
-            Utils.log(Utils.colorize('[ ' + prefix + ' ]: ', termStyle=termStyle) + message)
-
-    def getLogPrefix(self):
-        nWorkingDir = Utils.normalize(self.workingDir, 20)
-        nShellCommand = Utils.normalize(self.shellCommand, 20)
-        prefix = nWorkingDir + ': ' + nShellCommand
-        return prefix
 
     def isAlive(self):
         return self.process is not None and self.process.poll() is None
@@ -120,26 +130,35 @@ class Command():
 
         stdout = self.process.stdout
         if stdout is not None:
-            out = self.nonBlockReadOutput(stdout)
+            out = Utils.nonBlockReadOutput(stdout)
             if out is not None:
                 for line in out.decode(ENCODING).rstrip().splitlines():
                     self.log(line, termStyle=self.color)
 
         stderr = self.process.stderr
         if stderr is not None:
-            out = self.nonBlockReadOutput(stderr)
+            out = Utils.nonBlockReadOutput(stderr)
             if out is not None:
                 for line in out.decode(ENCODING).rstrip().splitlines():
                     self.log(line, termStyle=TermStyle.RED)
 
-    def nonBlockReadOutput(self, output):
-        fd = output.fileno()
-        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-        try:
-            return output.read()
-        except:
-            return None
+    def log(self, message, termStyle=TermStyle.GREEN):
+        if len(message) > 0:
+            prefix = self.getLogPrefix()
+            Utils.log(Utils.colorize('[ ' + prefix + ' ]: ', termStyle=termStyle) + message)
+
+    def getLogPrefix(self):
+        nWorkingDir = Utils.normalize(self.workingDir, WORKING_DIR_LEN)
+        nShellCommand = Utils.normalize(self.shellCommand, SHELL_COMMAND_LEN)
+        prefix = str(self.id) + ' ' + nWorkingDir + ': ' + nShellCommand
+        return prefix
+
+    def printCommand(self):
+        categoryStr = 'default'
+        if self.category is not None:
+            categoryStr = self.category
+        prefix = Utils.colorize('[' + str(self.id) + '] [ ' + categoryStr + ' ] ' + self.workingDir + ': ')
+        Utils.log(prefix + self.shellCommand)
 
 
 class ActionHandlers:
@@ -163,8 +182,7 @@ class ActionHandlers:
         Utils.log('\t$ bcomm clean-all')
 
     def registerCommand(self, shellCommand, workingDir, category):
-        id = len(self.commandList)
-        command = Command(id, shellCommand, workingDir, category)
+        command = Command(shellCommand, workingDir, category)
         self.commandList.append(command)
 
     def displayCommands(self):
@@ -172,16 +190,9 @@ class ActionHandlers:
             Utils.log('Registered commands: ')
             Utils.log()
             for i, com in enumerate(self.commandList):
-                self.displayCommand(i, com)
+                com.printCommand()
         else:
             Utils.log('No command registered yet !')
-
-    def displayCommand(self, index, command):
-        categoryStr = 'default'
-        if command.category is not None:
-            categoryStr = command.category
-        prefix = Utils.colorize('[' + str(index) + '] [ ' + categoryStr + ' ] ' + command.workingDir + ': ')
-        Utils.log(prefix + command.shellCommand)
 
     def persistCommands(self):
         rawList = []
@@ -207,7 +218,14 @@ class ActionHandlers:
         self.commandList = []
 
     def cleanCommand(self, commandId):
-        self.commandList.pop(commandId)
+        com = self.getCommandById(commandId)
+        self.commandList.remove(com)
+
+    def getCommandById(self, commandId):
+        for com in self.commandList:
+            if com.id == commandId:
+                return com
+        return None
 
     def exit(self, code=0):
         keepAlive = self.isCommandsAlive()
@@ -251,7 +269,7 @@ class ActionHandlers:
         return False
 
     def categorize(self, commandId, category):
-        self.commandList[commandId].category = category
+        self.getCommandById(commandId).category = category
 
 
 class ArgParser:
@@ -279,7 +297,7 @@ class ArgParser:
         if cleanArgs[1] == 'register':
 
             if len(cleanArgs) < 3:
-                Utils.log('You must specify a command to register', termStyle=TermStyle.RED)
+                Utils.error('You must specify a command to register.')
                 self.actions.exit(1)
             shellCommand = cleanArgs[2]
 
@@ -309,19 +327,28 @@ class ArgParser:
         if cleanArgs[1] == 'remove' and len(cleanArgs) > 2:
 
             commandIds = cleanArgs[2:]
+            removed = []
             for cmdId in commandIds:
-                self.actions.cleanCommand(int(cmdId))
+                com = self.actions.getCommandById(int(cmdId))
+                if com is None:
+                    Utils.error('Command not found: ' + cmdId)
+                else:
+                    removed.append(cmdId)
+                    self.actions.cleanCommand(int(cmdId))
             self.actions.persistCommands()
 
-            Utils.log('Commands cleaned: ' + str(commandIds))
-            Utils.log()
+            if len(removed) > 0:
+                Utils.log('Commands cleaned: ' + str(removed))
+                Utils.log()
 
-            self.actions.displayCommands()
-            self.actions.exit()
+                self.actions.exit()
+
+            else:
+                self.actions.exit(1)
 
         if cleanArgs[1] == 'categorize':
             if len(cleanArgs) < 3:
-                Utils.log('You must specify a command id and a category', termStyle=TermStyle.RED)
+                Utils.error('You must specify a command id and a category.')
                 self.actions.exit(1)
 
             commandId = int(cleanArgs[2])
@@ -365,7 +392,7 @@ class ArgParser:
                 self.actions.executeCommandIdsList(commandIds)
                 self.actions.exit()
 
-        Utils.log('Bad command.', termStyle=TermStyle.RED)
+        Utils.error('Bad command.')
         Utils.log()
         self.actions.showHelp()
         self.actions.exit(1)
