@@ -67,19 +67,20 @@ class Utils():
 
 
 class Command():
-    def __init__(self, id, shellCommand, workingDir):
+    def __init__(self, id, shellCommand, workingDir, category=None):
         self.id = id
         self.color = random.choice([TermStyle.BLUE, TermStyle.CYAN, TermStyle.YELLOW, TermStyle.GREEN])
         self.shellCommand = shellCommand
         self.workingDir = workingDir
+        self.category = category
         self.process = None
 
     @staticmethod
     def fromList(list):
-        return Command(list[0], list[1], list[2])
+        return Command(list[0], list[1], list[2], list[3])
 
     def toList(self):
-        return [self.id, self.shellCommand, self.workingDir]
+        return [self.id, self.shellCommand, self.workingDir, self.category]
 
     def execute(self):
         self.log('Starting command: ' + self.shellCommand)
@@ -152,9 +153,9 @@ class ActionHandlers:
         Utils.log('\t$ bcomm remove 1')
         Utils.log('\t$ bcomm clean-all')
 
-    def registerCommand(self, shellCommand, workingDir):
+    def registerCommand(self, shellCommand, workingDir, category):
         id = len(self.commandList)
-        command = Command(id, shellCommand, workingDir)
+        command = Command(id, shellCommand, workingDir, category)
         self.commandList.append(command)
 
     def displayCommands(self):
@@ -167,7 +168,10 @@ class ActionHandlers:
             Utils.log('No command registered yet !')
 
     def displayCommand(self, index, command):
-        prefix = Utils.colorize('[' + str(index) + '] ' + command.workingDir + ': ')
+        categoryStr = 'default'
+        if command.category is not None:
+            categoryStr = command.category
+        prefix = Utils.colorize('[' + str(index) + '] [ ' + categoryStr + ' ] ' + command.workingDir + ': ')
         Utils.log(prefix + command.shellCommand)
 
     def persistCommands(self):
@@ -176,7 +180,7 @@ class ActionHandlers:
             rawList.append(command.toList())
 
         with open(COMMAND_LIST_PATH, 'w') as outfile:
-            json.dump(rawList, outfile)
+            json.dump(rawList, outfile, indent=4, sort_keys=True)
 
     def loadCommands(self):
         try:
@@ -256,9 +260,18 @@ class ArgParser:
             self.actions.exit()
 
         if cleanArgs[1] == 'register':
+
+            if len(cleanArgs) < 3:
+                Utils.log('You must specify a command to register', termStyle=TermStyle.RED)
+                self.actions.exit(1)
             shellCommand = cleanArgs[2]
+
+            category = None
+            if len(cleanArgs) > 3:
+                category = cleanArgs[3]
+
             workingDir = os.getcwd()
-            self.actions.registerCommand(shellCommand, workingDir)
+            self.actions.registerCommand(shellCommand, workingDir, category)
             self.actions.persistCommands()
 
             Utils.log('Command registered.')
