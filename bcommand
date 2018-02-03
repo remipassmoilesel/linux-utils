@@ -27,6 +27,7 @@ home = os.path.expanduser("~")
 COMMAND_LIST_PATH = os.path.join(home, '.bcommand')
 ENCODING = 'utf-8'
 
+
 class TermStyle():
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -47,13 +48,18 @@ class Utils():
 
 
 class Command():
-    def __init__(self, shellCommand, workingDir):
+    def __init__(self, id, shellCommand, workingDir):
+        self.id = id
         self.shellCommand = shellCommand
         self.workingDir = workingDir
         self.process = None
 
+    @staticmethod
+    def fromList(list):
+        return Command(list[0], list[1], list[2])
+
     def toList(self):
-        return [self.shellCommand, self.workingDir]
+        return [self.id, self.shellCommand, self.workingDir]
 
     def execute(self):
         self.log('Starting command: ' + self.shellCommand)
@@ -61,7 +67,7 @@ class Command():
 
     def log(self, message):
         if len(message) > 0:
-            Utils.log('[' + self.workingDir + ']: ' + message)
+            Utils.log('[ dir=' + self.workingDir + ', id=' + str(self.id) + ' ]: ' + message)
 
     def isAlive(self):
         return self.process is not None and self.process.poll() is None
@@ -74,6 +80,10 @@ class Command():
             self.log('Command was not alive')
 
     def printOutput(self):
+
+        if self.process is None:
+            return
+
         stdout = self.process.stdout
         if stdout is not None:
             out = self.nonBlockReadOutput(stdout)
@@ -93,16 +103,7 @@ class Command():
         try:
             return output.read()
         except:
-            return ""
-
-    @staticmethod
-    def fromList(list):
-        return Command(list[0], list[1])
-
-
-Utils.log('Bcommand !')
-Utils.log()
-
+            return None
 
 class ActionHandlers:
     def __init__(self):
@@ -112,12 +113,17 @@ class ActionHandlers:
         Utils.log('Register and execute commands')
 
     def registerCommand(self, shellCommand, workingDir):
-        self.commandList.append(Command(shellCommand, workingDir))
+        id = len(self.commandList)
+        command = Command(id, shellCommand, workingDir)
+        self.commandList.append(command)
 
     def displayCommands(self):
-        Utils.log('Registered commands: ')
-        for i, com in enumerate(self.commandList):
-            self.displayCommand(i, com)
+        if len(self.commandList) > 0:
+            Utils.log('Registered commands: ')
+            for i, com in enumerate(self.commandList):
+                self.displayCommand(i, com)
+        else:
+            Utils.log('No command registered yet !')
 
     def displayCommand(self, index, command):
         Utils.log('[' + str(index) + '] ' + command.workingDir + ': ' + command.shellCommand)
@@ -194,6 +200,7 @@ class ArgParser:
 
         if len(cleanArgs) < 2:
             self.actions.displayCommands()
+            self.actions.persistCommands()
             self.actions.exit(1)
 
         if cleanArgs[1] == 'register':
@@ -201,27 +208,39 @@ class ArgParser:
             workingDir = os.getcwd()
             self.actions.registerCommand(shellCommand, workingDir)
             self.actions.persistCommands()
+
             Utils.log('Command registered.')
+            Utils.log()
+
             self.actions.displayCommands()
             self.actions.exit()
 
         if cleanArgs[1] == 'clean' and len(cleanArgs) == 2:
             self.actions.cleanAllCommands()
             self.actions.persistCommands()
+
             Utils.log('All commands cleaned !')
+            Utils.log()
+
             self.actions.exit()
 
         if cleanArgs[1] == 'clean' and len(cleanArgs) > 2:
             commandIds = cleanArgs[2]
             self.actions.cleanCommand(int(commandIds))
             self.actions.persistCommands()
+
             Utils.log('Command cleaned.')
+            Utils.log()
+
             self.actions.displayCommands()
             self.actions.exit()
 
         if cleanArgs[1] == 'run' and len(cleanArgs) > 2:
             commandIds = cleanArgs[2:]
+
             Utils.log('Starting commands: ' + str(commandIds))
+            Utils.log()
+
             self.actions.execute(commandIds)
             self.actions.exit()
 
@@ -233,5 +252,9 @@ class ArgParser:
 
 
 if __name__ == '__main__':
+
+    Utils.log('Bcommand !')
+    Utils.log()
+
     argParser = ArgParser()
     argParser.processArgs(sys.argv)
