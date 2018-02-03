@@ -41,11 +41,17 @@ class TermStyle():
 
 
 class Utils():
+
     @staticmethod
     def log(message='', data=None, termStyle=TermStyle.OKGREEN):
-        print(termStyle + str(message) + TermStyle.ENDC)
+        print(Utils.colorize(message, termStyle=termStyle))
         if data:
             print(data)
+
+    @staticmethod
+    def colorize(message, termStyle=TermStyle.OKGREEN):
+        return termStyle + str(message) + TermStyle.ENDC
+
 
 
 class Command():
@@ -68,18 +74,18 @@ class Command():
 
     def log(self, message, termStyle=TermStyle.OKGREEN):
         if len(message) > 0:
-            prefix = '[ ' + self.workingDir + ', id=' + str(self.id) + ' ]: ' + TermStyle.ENDC
-            Utils.log(prefix + message, termStyle=termStyle)
+            prefix = Utils.colorize('[ ' + self.workingDir + ', id=' + str(self.id) + ' ]: ', termStyle=termStyle)
+            Utils.log(prefix + message)
 
     def isAlive(self):
         return self.process is not None and self.process.poll() is None
 
     def kill(self):
         if self.isAlive():
-            self.log('Command was alive, killing it')
+            self.log('Command was alive, killing it: ' + self.shellCommand)
             self.process.kill()
         else:
-            self.log('Command was not alive')
+            self.log('Command was not alive: ' + self.shellCommand)
 
     def printOutput(self):
 
@@ -156,7 +162,7 @@ class ActionHandlers:
                     self.commandList.append(Command.fromList(item))
 
         except Exception as e:
-            Utils.log('Preference file not found: ', e, TermStyle.WARNING)
+            Utils.log('Command list file not found: ', e, TermStyle.WARNING)
             self.commandList = []
 
     def cleanAllCommands(self):
@@ -246,11 +252,12 @@ class ArgParser:
             self.actions.exit()
 
         if cleanArgs[1] == 'clean' and len(cleanArgs) > 2:
-            commandIds = cleanArgs[2]
-            self.actions.cleanCommand(int(commandIds))
+            commandIds = cleanArgs[2:]
+            for cmdId in commandIds:
+                self.actions.cleanCommand(int(cmdId))
             self.actions.persistCommands()
 
-            Utils.log('Command cleaned.')
+            Utils.log('Commands cleaned: ' + str(commandIds))
             Utils.log()
 
             self.actions.displayCommands()
@@ -258,11 +265,16 @@ class ArgParser:
 
         if cleanArgs[1] == 'run' and len(cleanArgs) == 2:
 
+            Utils.log()
             Utils.log('Starting all commands')
             Utils.log()
 
-            self.actions.executeAll()
-            self.actions.exit()
+            if len(self.actions.commandList) > 0:
+                self.actions.executeAll()
+                self.actions.exit()
+            else:
+                Utils.log('No command to run', termStyle=TermStyle.WARNING)
+                self.actions.exit(1)
 
         if cleanArgs[1] == 'run' and len(cleanArgs) > 2:
             commandIds = cleanArgs[2:]
