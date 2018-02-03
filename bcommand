@@ -48,6 +48,13 @@ class Command():
         self.command = command
         self.workingDir = workingDir
 
+    def toList(self):
+        return [self.command, self.workingDir]
+
+    @staticmethod
+    def fromList(list):
+        return Command(list[0], list[1])
+
 
 Utils.log('Bcommand !')
 Utils.log()
@@ -72,14 +79,23 @@ class ActionHandlers:
         Utils.log(command.workingDir + ' : ' + command.command)
 
     def persistCommands(self):
+        rawList = []
+        for command in self.commandList:
+            rawList.append(command.toList())
+
         with open(COMMAND_LIST_PATH, 'w') as outfile:
-            json.dump(self.commandList, outfile)
+            json.dump(rawList, outfile)
 
     def loadCommands(self):
         try:
-            with open(COMMAND_LIST_PATH, 'w') as infile:
-                self.commandList = json.load(infile)
-        except:
+            with open(COMMAND_LIST_PATH, 'r') as infile:
+                rawList = json.load(infile)
+                self.commandList = []
+                for item in rawList:
+                    self.commandList.append(Command.fromList(item))
+
+        except Exception as e:
+            Utils.log('Preference file not found: ', e, TermStyle.WARNING)
             self.commandList = []
 
     def exit(self, code=0):
@@ -95,13 +111,13 @@ class ArgParser:
         cleanArgs = self.cleanArgs(args)
 
         # print(cleanArgs)
-
+        
         if '-h' in cleanArgs:
             self.actions.showHelp()
             self.actions.exit()
 
-        if len(cleanArgs) > 1 and cleanArgs[2] == 'register':
-            shellCommand = cleanArgs[3]
+        if len(cleanArgs) > 1 and cleanArgs[1] == 'register':
+            shellCommand = cleanArgs[2]
             workingDir = os.getcwd()
             self.actions.registerCommand(shellCommand, workingDir)
             self.actions.persistCommands()
@@ -109,7 +125,7 @@ class ArgParser:
             self.actions.exit()
 
         if len(cleanArgs) == 1:
-            self.actions.showHelp()
+            self.actions.displayCommands
             self.actions.exit(1)
 
     def cleanArgs(self, arguments):
