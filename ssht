@@ -130,11 +130,12 @@ class Tunnel():
                 self.destinationPort]
 
     def execute(self):
-        self.log('Starting tunnel: ' + self.tunnelName)
-        self.process = Popen(self.getSshCommand(), shell=True, stderr=PIPE, stdout=PIPE)
+        command = self.getSshCommand()
+        self.log('Starting tunnel: ' + self.tunnelName + ' with command: ' + command)
+        self.process = Popen(command, shell=True, stderr=PIPE, stdout=PIPE)
 
     def getSshCommand(self):
-        cmd = 'ssh'
+        cmd = 'ssh -N'
         if self.sshPort is not None:
             cmd += ' -p ' + self.sshPort
         if self.identityFile:
