@@ -53,6 +53,11 @@ class TermStyle():
     RESET = '\033[0m'
 
 
+class ForwardType:
+    LOCAL = 'local'
+    REMOTE = 'remote'
+
+
 class Utils():
     @staticmethod
     def log(message='', data=None, termStyle=TermStyle.GREEN):
@@ -95,7 +100,7 @@ tunnelCounter = 0
 
 
 class Tunnel():
-    def __init__(self, tunnelName, host, sshPort, identityFile, remotePort, localPort):
+    def __init__(self, tunnelName, host, sshPort, identityFile, forwardType, sourcePort, forwardHost, destinationPort):
         global tunnelCounter
         tunnelCounter = tunnelCounter + 1
         self.id = tunnelCounter
@@ -104,23 +109,43 @@ class Tunnel():
         self.host = host
         self.sshPort = sshPort
         self.identityFile = identityFile
-        self.remotePort = remotePort
-        self.localPort = localPort
+        self.forwardType = forwardType
+        self.sourcePort = sourcePort
+        self.forwartHost = forwardHost
+        self.destinationPort = destinationPort
         self.process = None
 
     @staticmethod
     def fromList(list):
-        return Tunnel(list[0], list[1], list[2], list[3], list[4], list[5])
+        return Tunnel(list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7])
 
     def toList(self):
-        return [self.tunnelName, self.host, self.sshPort, self.identityFile, self.remotePort, self.localPort]
+        return [self.tunnelName,
+                self.host,
+                self.sshPort,
+                self.identityFile,
+                self.forwardType,
+                self.sourcePort,
+                self.forwartHost,
+                self.destinationPort]
 
     def execute(self):
         self.log('Starting tunnel: ' + self.tunnelName)
         self.process = Popen(self.getSshCommand(), shell=True, stderr=PIPE, stdout=PIPE)
 
     def getSshCommand(self):
-        pass
+        cmd = 'ssh'
+        if self.sshPort is not None:
+            cmd += ' -p ' + self.sshPort
+        if self.identityFile:
+            cmd += ' -i ' + self.identityFile
+        if self.forwardType == ForwardType.LOCAL:
+            cmd += ' -L'
+        if self.forwardType == ForwardType.REMOTE:
+            cmd += ' -R'
+        cmd += ' ' + self.sourcePort + ':' + self.forwartHost + ':' + self.destinationPort
+        cmd += ' ' + self.host
+        return cmd
 
     def isAlive(self):
         return self.process is not None and self.process.poll() is None
@@ -159,35 +184,70 @@ class Tunnel():
         return Utils.normalize(self.tunnelName, PREFIX_LEN)
 
     def printTunnel(self):
-        Utils.log('[' + str(self.id) + '] ' + self.tunnelName + ': ')
+        Utils.log('[' + str(self.id) + '] ' + self.tunnelName + ': '
+            + ' host=' + self.host
+            + ' identityFile=' + self.identityFile
+            + ' sshPort=' + self.sshPort
+            + ' sourcePort=' + self.sourcePort
+            + ' destinationPort=' + self.destinationPort
+            + ' forwartHost=' + self.forwartHost)
 
 
 class AddTunnelWizard():
     def start(self):
-        # self.tunnelName = tunnelName
-        # self.host = host
-        # self.sshPort = sshPort
-        # self.identityFile = identityFile
-        # self.remotePort = remotePort
-        # self.localPort = localPort
-        # self.process = None
         self.printHeaders()
-        tunnelName = self.askQuestion('What is the name of the tunnel ?', 'Test ssh tunnel')
-        print(tunnelName)
+
+        tunnelName = self.askQuestion('Name of this tunnel ?', 'Test ssh tunnel')
+
+        host = self.askQuestion('User and host (user@host) ?')
+        sshPort = self.askQuestion('SSH port ?', '22')
+        identityFile = self.askQuestion('Specify an identity file ?')
+
+        forwardType = self.askSelectableQuestion('Forward a local or remote port ?', [ForwardType.LOCAL,
+                                                                                      ForwardType.REMOTE])
+        sourcePort = self.askQuestion('Source port to forward ?', '8080')
+        forwardHost = self.askQuestion('Forward host ?', 'localhost')
+        destinationPort = self.askQuestion('Destination port to forward ?', '8080')
+
+        tunnel = Tunnel(tunnelName, host, sshPort, identityFile, forwardType, sourcePort, forwardHost, destinationPort)
+        return tunnel
 
     def askQuestion(self, text, defaultValue=None):
         Utils.log(text)
         prompt = '> '
         if defaultValue is not None:
             prompt = '[' + str(defaultValue) + '] > '
-        result = str(input(prompt))
+        result = str(input(prompt)).strip()
         if len(result) > 0:
             return result
         else:
             return str(defaultValue)
 
-    def askSelectableQuestion(self, text, choices=[]):
-        pass
+    def askSelectableQuestion(self, text, choices, defaultChoice=0):
+        prompt = ''
+        for idx, choice in enumerate(choices):
+            prompt += str(idx) + ') ' + choice + ' '
+            if idx == defaultChoice:
+                prompt += '(default) \n'
+            else:
+                prompt += '\n'
+        prompt += '> '
+
+        result = ''
+        while result not in choices:
+            Utils.log(text)
+            try:
+                choice = input(prompt)
+                if choice == '':
+                    result = choices[defaultChoice]
+                else:
+                    result = choices[int(choice)]
+                if result not in choices:
+                    Utils.error('Wrong choice, please select one above ...')
+            except:
+                Utils.error('Please enter a value between 0 and ' + str(len(choices) - 1))
+
+        return result
 
     def printHeaders(self):
         Utils.log()
@@ -297,8 +357,9 @@ class ActionHandlers:
 
     def addTunnelInteractive(self):
         wizard = AddTunnelWizard()
-        wizard.start()
-        pass
+        tunnel = wizard.start()
+        self.tunnelList.append(tunnel)
+        self.persistTunnels()
 
 
 class ArgParser:
@@ -376,6 +437,7 @@ class ArgParser:
 
         if cleanArgs[1] == 'add':
             self.actions.addTunnelInteractive()
+            self.actions.displayTunnels()
             self.actions.exit(0)
 
         Utils.error('Bad command.')
