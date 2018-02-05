@@ -1,36 +1,11 @@
 #!/usr/bin/env python3
 #
-#    # jeudi 25 janvier 2018, 17:07:51 (UTC+0100)
-#
-#    # Publish a local port to a distant server
-#    # You may need to registrate your SSH keys before
-#    #
-#    # Example: TARGET_HOST=user@server.domain.net TARGET_PORT=10022 LOCAL_PORT=22 ./ssh-tunnel
-#    #
-#
-#    # set -x
-#
-#    if ! [[ $TARGET_HOST ]] ; then
-#        echo You must specify a target host.
-#        exit 1
-#    fi
-#
-#    if ! [[ $LOCAL_PORT ]] ; then
-#        echo You must specify a local port.
-#        exit 1
-#    fi
-#
-#    if ! [[ $TARGET_PORT ]] ; then
-#        echo You must specify a target port.
-#        exit 1
-#    fi
-#
-#    autossh -f -N -M 30068 -L $LOCAL_PORT:localhost:$REMOTE_PORT $TARGET_HOST
 
 import fcntl
 import json
 import os
 import random
+import re
 import sys
 import time
 from subprocess import *
@@ -111,7 +86,7 @@ class Tunnel():
         self.identityFile = identityFile
         self.forwardType = forwardType
         self.sourcePort = sourcePort
-        self.forwartHost = forwardHost
+        self.forwardHost = forwardHost
         self.destinationPort = destinationPort
         self.process = None
 
@@ -126,7 +101,7 @@ class Tunnel():
                 self.identityFile,
                 self.forwardType,
                 self.sourcePort,
-                self.forwartHost,
+                self.forwardHost,
                 self.destinationPort]
 
     def execute(self):
@@ -138,13 +113,13 @@ class Tunnel():
         cmd = 'ssh -N'
         if self.sshPort is not None:
             cmd += ' -p ' + self.sshPort
-        if self.identityFile:
+        if len(self.identityFile) > 1:
             cmd += ' -i ' + self.identityFile
         if self.forwardType == ForwardType.LOCAL:
             cmd += ' -L'
         if self.forwardType == ForwardType.REMOTE:
             cmd += ' -R'
-        cmd += ' ' + self.sourcePort + ':' + self.forwartHost + ':' + self.destinationPort
+        cmd += ' ' + self.sourcePort + ':' + self.forwardHost + ':' + self.destinationPort
         cmd += ' ' + self.host
         return cmd
 
@@ -184,14 +159,25 @@ class Tunnel():
     def getLogPrefix(self):
         return Utils.normalize(self.tunnelName, PREFIX_LEN)
 
-    def printTunnel(self):
+    def printConfigurationOneLine(self):
         Utils.log('[' + str(self.id) + '] ' + self.tunnelName + ': '
-            + ' host=' + self.host
-            + ' identityFile=' + self.identityFile
-            + ' sshPort=' + self.sshPort
-            + ' sourcePort=' + self.sourcePort
-            + ' destinationPort=' + self.destinationPort
-            + ' forwartHost=' + self.forwartHost)
+                  + ' Host=' + self.host
+                  + ' Forward type=' + self.forwardType
+                  + ' Identity file=' + str(self.identityFile)
+                  + ' SSH port=' + self.sshPort
+                  + ' Source port=' + self.sourcePort
+                  + ' Destination port=' + self.destinationPort
+                  + ' Forward host=' + self.forwardHost)
+
+    def printConfiguration(self):
+        Utils.log('\t Tunnel name=' + self.host + ' \n'
+                  + '\t Host=' + self.host + ' \n'
+                  + '\t Forward type=' + str(self.forwardType) + ' \n'
+                  + '\t Identity file=' + str(self.identityFile) + ' \n'
+                  + '\t SSH port=' + self.sshPort + ' \n'
+                  + '\t Source port=' + self.sourcePort + ' \n'
+                  + '\t Destination port=' + self.destinationPort + ' \n'
+                  + '\t Forward host=' + self.forwardHost)
 
 
 class AddTunnelWizard():
@@ -201,28 +187,44 @@ class AddTunnelWizard():
         tunnelName = self.askQuestion('Name of this tunnel ?', 'Test ssh tunnel')
 
         host = self.askQuestion('User and host (user@host) ?')
-        sshPort = self.askQuestion('SSH port ?', '22')
-        identityFile = self.askQuestion('Specify an identity file ?')
+        sshPort = self.askQuestion('SSH port ?', '22', validRegex='[0-9]+')
+
+        identityFile = self.askQuestion('Specify an identity file ?', validRegex='(.+)?')
 
         forwardType = self.askSelectableQuestion('Forward a local or remote port ?', [ForwardType.LOCAL,
                                                                                       ForwardType.REMOTE])
-        sourcePort = self.askQuestion('Source port to forward ?', '8080')
+        sourcePort = self.askQuestion('Source port to forward ?', '8080', validRegex='[0-9]+')
         forwardHost = self.askQuestion('Forward host ?', 'localhost')
-        destinationPort = self.askQuestion('Destination port to forward ?', '8080')
+        destinationPort = self.askQuestion('Destination port to forward ?', '8080', validRegex='[0-9]+')
 
         tunnel = Tunnel(tunnelName, host, sshPort, identityFile, forwardType, sourcePort, forwardHost, destinationPort)
-        return tunnel
 
-    def askQuestion(self, text, defaultValue=None):
-        Utils.log(text)
-        prompt = '> '
-        if defaultValue is not None:
-            prompt = '[' + str(defaultValue) + '] > '
-        result = str(input(prompt)).strip()
-        if len(result) > 0:
-            return result
+        if self.askConfirmation(tunnel) is True:
+            return tunnel
         else:
-            return str(defaultValue)
+            return None
+
+    def askQuestion(self, text, defaultValue=None, validRegex='.+'):
+        pattern = re.compile(validRegex)
+        result = ''
+        while pattern.match(result) is not True:
+            Utils.log(text)
+            try:
+                prompt = '> '
+                if defaultValue is not None:
+                    prompt = '[' + str(defaultValue) + '] > '
+
+                result = str(input(prompt)).strip()
+                if len(result) == 0 and defaultValue is not None:
+                    return str(defaultValue)
+                elif pattern.match(result):
+                    return result
+                else:
+                    Utils.error('Wrong input, please match regex: ' + validRegex)
+            except (KeyboardInterrupt, SystemExit):
+                exit(1)
+            except:
+                Utils.error('Wrong input, please match regex: ' + validRegex)
 
     def askSelectableQuestion(self, text, choices, defaultChoice=0):
         prompt = ''
@@ -245,10 +247,33 @@ class AddTunnelWizard():
                     result = choices[int(choice)]
                 if result not in choices:
                     Utils.error('Wrong choice, please select one above ...')
+            except (KeyboardInterrupt, SystemExit):
+                exit(1)
             except:
                 Utils.error('Please enter a value between 0 and ' + str(len(choices) - 1))
 
         return result
+
+    def askConfirmation(self, tunnel):
+        pattern = re.compile('(y|n)')
+        result = ''
+        while pattern.match(result) is not True:
+            Utils.log('Tunnel configuration: ')
+            tunnel.printConfiguration()
+            try:
+                prompt = 'Confirm ? (y/n) > '
+                result = str(input(prompt)).strip()
+                if pattern.match(result):
+                    if result == 'y':
+                        return True
+                    else:
+                        return False
+                else:
+                    Utils.error('Wrong input, please enter "y" or "n"')
+            except (KeyboardInterrupt, SystemExit):
+                exit(1)
+            except:
+                Utils.error('Wrong input, please enter "y" or "n"')
 
     def printHeaders(self):
         Utils.log()
@@ -264,15 +289,14 @@ class ActionHandlers:
         Utils.log('Store and manage SSH tunnels')
         Utils.log('')
         Utils.log('Examples: ')
-        Utils.log('\t$ ssht help')
-        Utils.log('\t$ ssht add tunnel-name local 8080 vps.domain.net:8085')
-        Utils.log('\t$ ssht add tunnel-name remote vps.domain.net:8080 8085')
-        Utils.log('\t$ ssht show')
-        Utils.log('\t$ ssht run')
-        Utils.log('\t$ ssht run 0')
-        Utils.log('\t$ ssht run 0 1')
-        Utils.log('\t$ ssht remove 1')
-        Utils.log('\t$ ssht clean-all')
+        Utils.log('\t$ ssh-tunnel help')
+        Utils.log('\t$ ssh-tunnel add')
+        Utils.log('\t$ ssh-tunnel show')
+        Utils.log('\t$ ssh-tunnel run')
+        Utils.log('\t$ ssh-tunnel run 0')
+        Utils.log('\t$ ssh-tunnel run 0 1')
+        Utils.log('\t$ ssh-tunnel remove 1')
+        Utils.log('\t$ ssh-tunnel clean-all')
 
     def registerTunnel(self, tunnelName, host, sshPort, identityFile, remotePort, localPort):
         command = Tunnel(tunnelName, host, sshPort, identityFile, remotePort, localPort)
@@ -283,7 +307,7 @@ class ActionHandlers:
             Utils.log('Registered tunnels: ')
             Utils.log()
             for i, tunn in enumerate(self.tunnelList):
-                tunn.printTunnel()
+                tunn.printConfigurationOneLine()
         else:
             Utils.log('No tunnel registered yet !')
 
@@ -359,8 +383,12 @@ class ActionHandlers:
     def addTunnelInteractive(self):
         wizard = AddTunnelWizard()
         tunnel = wizard.start()
-        self.tunnelList.append(tunnel)
-        self.persistTunnels()
+        if tunnel is not None:
+            self.tunnelList.append(tunnel)
+            self.persistTunnels()
+            return True
+        else:
+            return False
 
 
 class ArgParser:
@@ -437,9 +465,12 @@ class ArgParser:
             self.actions.exit()
 
         if cleanArgs[1] == 'add':
-            self.actions.addTunnelInteractive()
-            self.actions.displayTunnels()
-            self.actions.exit(0)
+            res = self.actions.addTunnelInteractive()
+            if res is True:
+                self.actions.displayTunnels()
+                self.actions.exit(0)
+            else:
+                self.actions.exit(1)
 
         Utils.error('Bad command.')
         Utils.log()
