@@ -70,6 +70,14 @@ class Utils():
         except:
             return None
 
+    @staticmethod
+    def checkPrerequisites():
+        process = Popen('type autossh', shell=True, stdout=PIPE, stderr=STDOUT)
+        process.communicate()
+        if process.returncode != 0:
+            Utils.error('You must install autossh.')
+            exit(1)
+
 
 tunnelCounter = 0
 
@@ -110,7 +118,7 @@ class Tunnel():
         self.process = Popen(command, shell=True, stderr=PIPE, stdout=PIPE)
 
     def getSshCommand(self):
-        cmd = 'ssh -N'
+        cmd = 'autossh -N'
         if self.sshPort is not None:
             cmd += ' -p ' + self.sshPort
         if len(self.identityFile) > 1:
@@ -487,6 +495,8 @@ class ArgParser:
 if __name__ == '__main__':
     Utils.log('Bookmarked tunnels !')
     Utils.log()
+
+    Utils.checkPrerequisites()
 
     argParser = ArgParser()
     argParser.processArgs(sys.argv)
