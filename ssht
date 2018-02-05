@@ -281,8 +281,8 @@ class ActionHandlers:
         if len(self.tunnelList) > 0:
             Utils.log('Registered tunnels: ')
             Utils.log()
-            for i, com in enumerate(self.tunnelList):
-                com.printTunnel()
+            for i, tunn in enumerate(self.tunnelList):
+                tunn.printTunnel()
         else:
             Utils.log('No tunnel registered yet !')
 
@@ -341,7 +341,7 @@ class ActionHandlers:
 
     def launchTunnelsByIds(self, tunnelIds):
         for tunnId in tunnelIds:
-            self.tunnelList[int(tunnId)].execute()
+            self.getTunnelById(int(tunnId)).execute()
 
     def executeAll(self):
         for tunn in self.tunnelList:
@@ -424,12 +424,12 @@ class ArgParser:
                 self.actions.executeAll()
                 self.actions.exit()
             else:
-                Utils.log('No command to start', termStyle=TermStyle.YELLOW)
+                Utils.log('No tunnel to start', termStyle=TermStyle.YELLOW)
                 self.actions.exit(1)
 
         if cleanArgs[1] == 'run' and len(cleanArgs) > 2:
             tunnelIds = cleanArgs[2:]
-            Utils.log('Starting commands: ' + str(tunnelIds))
+            Utils.log('Starting tunnels: ' + str(tunnelIds))
             Utils.log()
 
             self.actions.launchTunnelsByIds(tunnelIds)
