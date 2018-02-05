@@ -2397,3 +2397,8 @@ Rechercher un package avec Atom
 # default :: while true; do echo "hey"; sleep 2; done 
 Date: 2018-02-03 11:30
 Boucle infinie bash en une ligne
+
+
+# default :: sudo mysqldump -u root --all-databases > alldb.sql 
+Date: 2018-02-04 10:54
+Sauvegarde de toutes les bases de données d'un serveur mysql
