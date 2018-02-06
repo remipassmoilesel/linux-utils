@@ -1,0 +1,19 @@
+[Unit]
+Description=Start awesome service
+Requires=other.service
+After=other.service
+
+[Service]
+Restart=always
+ExecStart=/path/to/command start
+ExecStop=/path/to/command stop
+ExecStartPost=/bin/sleep 10 # if we want to wait
+WorkingDirectory=/path/to/working/directory
+Restart=always
+
+User=username
+Group=groupname
+
+[Install]
+WantedBy=default.target
+
