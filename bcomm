@@ -147,7 +147,7 @@ class Command():
     def log(self, message, termStyle=TermStyle.GREEN):
         if len(message) > 0:
             prefix = self.getLogPrefix()
-            Utils.log(Utils.colorize('[ ' + prefix + ' ]: ', termStyle=termStyle) + message)
+            Utils.log(Utils.colorize('[ ' + prefix + ' ] ', termStyle=termStyle) + message)
 
     def getLogPrefix(self):
         nWorkingDir = Utils.normalize(self.workingDir, WORKING_DIR_LEN)
