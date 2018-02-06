@@ -2402,3 +2402,8 @@ Boucle infinie bash en une ligne
 # default :: sudo mysqldump -u root --all-databases > alldb.sql 
 Date: 2018-02-04 10:54
 Sauvegarde de toutes les bases de données d'un serveur mysql
+
+
+# default :: npm config set registry https://npm.fury.io 
+Date: 2018-02-06 09:34
+Ajouter un registry npm
