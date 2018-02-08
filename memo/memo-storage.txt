@@ -602,9 +602,9 @@ Changer le terminal actif entre différents splits
 Date: 2016-02-07 12:31
 Créer une nouvelle session
 
-# byobu :: ctrl F6
+# byobu :: CTRL F6
 Date: 2016-02-07 12:32
-Tuer le split actif
+Tuer le split actif. Dans guake, enlever les raccourcis dans les préférences.
 
 # byobu :: F6
 Date: 2016-02-07 12:49
