@@ -2379,8 +2379,8 @@ Date: 2018-01-23 11:23
 Remettre à zéro toute la configuration de bureau pour Gnome et dérivés
 
 
-# default :: git checkout "**/package-lock.json" 
-Date: 2018-01-26 10:51
+# git :: git checkout "**/package-lock.json" 
+Date: 2018-02-07 13:11
 Remettre à zéro tous les packages.lock d'un projet
 
 
@@ -2417,3 +2417,8 @@ Suivre la fin d'un document
 # less :: MAJ G 
 Date: 2018-02-06 17:25
 Aller à la fin d'un document
+
+
+# git :: git checkout HEAD~1 /path/to/deleted/file 
+Date: 2018-02-07 13:12
+Restaurer un fichier effacé

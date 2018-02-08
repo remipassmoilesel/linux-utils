@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# set -x
+
 export PATH="$PATH:/home/$USER/linux-utils/"
 export PATH="$PATH:/home/$USER/linux-utils/notes/"
 export PATH="$PATH:/home/$USER/linux-utils/memo/"
@@ -35,6 +37,10 @@ alias kc="kubectl $@"
 alias watch-all-pods="watch -n 0,5 kubectl get pods --all-namespaces"
 alias watch-sys-pods="watch -n 0,5 kubectl get pods -n kube-system"
 alias watch-pods="watch -n 0,5 kubectl get pods -n $1"
+
+if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
 
 # woooo !
 cmatrix -b  -C blue
