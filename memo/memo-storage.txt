@@ -2422,3 +2422,8 @@ Aller à la fin d'un document
 # git :: git checkout HEAD~1 /path/to/deleted/file 
 Date: 2018-02-07 13:12
 Restaurer un fichier effacé
+
+
+# zsh :: git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions 
+Date: 2018-02-12 19:42
+Installer un plugin de suggestions sur shell zsh
