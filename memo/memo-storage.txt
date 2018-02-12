@@ -2427,3 +2427,8 @@ Restaurer un fichier effacé
 # default :: sudo apt install vinagre 
 Date: 2018-02-12 20:34
 Client VNC qui tient la route !
+
+
+# zsh :: git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions 
+Date: 2018-02-12 19:42
+Installer un plugin de suggestions sur shell zsh
