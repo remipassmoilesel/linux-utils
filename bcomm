@@ -253,6 +253,10 @@ class ActionHandlers:
         for comId in commandIds:
             self.commandList[int(comId)].execute()
 
+    def executeCategories(self, categories):
+        for cat in categories:
+            self.executeCategory(cat)
+
     def executeCategory(self, commandCategory):
         for com in self.commandList:
             if com.category == commandCategory:
@@ -378,20 +382,28 @@ class ArgParser:
 
         if cleanArgs[1] == 'run' and len(cleanArgs) > 2:
 
-            pattern = re.compile('[a-zA-Z]+')
-            if pattern.match(cleanArgs[2]):
-                commandCategory = cleanArgs[2]
-                Utils.log('Starting category: ' + commandCategory)
+            categoryPattern = re.compile('[a-zA-Z]+')
+            idPattern = re.compile('[0-9]+')
+            ids = []
+            categories = []
+            for arg in cleanArgs[2:]:
+                if idPattern.match(cleanArgs[2]):
+                    ids.append(arg)
+                if categoryPattern.match(cleanArgs[2]):
+                    categories.append(arg)
+
+            if len(categories) > 0:
+                Utils.log('Starting categories: ' + str(categories))
                 Utils.log()
 
-                self.actions.executeCategory(commandCategory)
+                self.actions.executeCategories(categories)
                 self.actions.exit()
 
-            else:
-                Utils.log('Starting commands: ' + str(commandIds))
+            if len(ids) > 0:
+                Utils.log('Starting commands: ' + str(ids))
                 Utils.log()
 
-                self.actions.executeCommandIdsList(commandIds)
+                self.actions.executeCommandIdsList(ids)
                 self.actions.exit()
 
         Utils.error('Bad command.')
