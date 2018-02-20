@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/$USER/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -58,7 +58,7 @@ plugins=(compleat git python docker gnu-utils npm pip tig)
 
 source $ZSH/oh-my-zsh.sh
 
-source "/home/$USER/linux-utils/custom-rc"
+source "$HOME/linux-utils/custom-rc"
 
 # completer apt etc...
 setopt completealiases

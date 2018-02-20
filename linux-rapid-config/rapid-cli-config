@@ -2,6 +2,9 @@
 
 # jeudi 22 08 2016, 08:59:10 (UTC+0200)
 
+# If you loca to live dangerously:
+# curl https://raw.githubusercontent.com/remipassmoilesel/linux-utils/master/linux-rapid-config/rapid-cli-install | bash
+
 # Small script to set up a shell withmust-have tools
 
 echo
@@ -22,7 +25,7 @@ sudo chsh $USER -s /bin/zsh
 
 # install oh my zsh
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-git clone https://github.com/remipassmoilesel/oh-my-zsh /home/$USER/.oh-my-zsh
+git clone https://github.com/remipassmoilesel/oh-my-zsh ~/.oh-my-zsh
 
 # install autocomplete plugin
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions 

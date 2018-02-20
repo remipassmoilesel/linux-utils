@@ -71,6 +71,7 @@ Pour associer une clef à une connexion, ajouter au fichier ".ssh/config":
     Host XX.XX.XX.XX
         IdentityFile ~/.ssh/keyname
         Port 443
+	IdentitiesOnly yes # Ne pas présenter d'autres clefs
 
 Pour désactiver l'identification par mot de passe:
 
