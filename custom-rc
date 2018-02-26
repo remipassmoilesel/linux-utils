@@ -42,7 +42,7 @@ if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
 	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-ANSIBLE_COW_SELECTION=tux
+export ANSIBLE_COW_SELECTION=tux
 
 # woooo !
 cmatrix -b  -C blue
