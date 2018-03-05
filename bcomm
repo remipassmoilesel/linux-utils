@@ -91,7 +91,7 @@ class Utils():
             return None
 
 
-commandCounter = 0
+commandCounter = -1
 
 
 class Command():
@@ -191,7 +191,7 @@ class ActionHandlers:
         if len(self.commandList) > 0:
             Utils.log('Registered commands: ')
             Utils.log()
-            for i, com in enumerate(self.commandList):
+            for com in self.commandList:
                 com.printCommand()
         else:
             Utils.log('No command registered yet !')
