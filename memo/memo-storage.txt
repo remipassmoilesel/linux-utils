@@ -2354,7 +2354,7 @@ Date: 2017-12-08 16:31
 Outil de monitoring mongodb
 
 
-# default :: ncdu 
+# default :: sudo apt install ncdu; ncdu
 Date: 2018-01-08 15:49
 Commande de visualisation d'espace disque interactive
 
