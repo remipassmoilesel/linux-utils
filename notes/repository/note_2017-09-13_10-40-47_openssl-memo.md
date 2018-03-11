@@ -1,5 +1,11 @@
 # Memo Openssl
 
+Voir Minica: https://github.com/jsha/minica
+
+	$ go get github.com/jsha/minica
+	$ minica --domains foo.com
+
+
 Générer une clef et une requête de certification:
 
 	$ openssl req -nodes -newkey rsa:4096 -keyout registry.key -out registry.csr \

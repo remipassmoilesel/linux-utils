@@ -2432,3 +2432,8 @@ Client VNC qui tient la route !
 # zsh :: git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions 
 Date: 2018-02-12 19:42
 Installer un plugin de suggestions sur shell zsh
+
+
+# default :: curl --proxy https://localhost:8080 --proxy-insecure -k -v https://google.fr 
+Date: 2018-02-25 16:22
+Utiliser un proxy HTTPS avec curl, sans vérification de certificats

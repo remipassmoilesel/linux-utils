@@ -7,9 +7,12 @@ export PATH="$PATH:/home/$USER/linux-utils/notes/"
 export PATH="$PATH:/home/$USER/linux-utils/memo/"
 export PATH="$PATH:/home/$USER/linux-utils/linux-rapid-install/"
 export PATH="$PATH:/home/$USER/bin/"
+export PATH="$PATH:/home/$USER/go/bin/"
 
 # default editor
 export EDITOR=vim
+
+export GOPATH=$HOME/go
 
 # history format and behavior
 export HISTTIMEFORMAT='%d %H:%M '
