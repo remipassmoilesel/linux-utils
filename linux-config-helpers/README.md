@@ -1,14 +1,14 @@
-# Linux Rapid Install
+# Linux configuration helpers
 
 Install minimum tools:
 
-	$ curl https://raw.githubusercontent.com/remipassmoilesel/linux-rapid-install/master/rapid-cli-install | bash
+	$ curl https://raw.githubusercontent.com/remipassmoilesel/linux-config-helpers/master/cli-config | bash
 
 Install more tools:
 	
 	$ installation-script -i
 
-Small utilities to set up a Debian based distro as I like :)
+Installation script is a small utility to set up a Debian based distro as I like :)
 
 	usage: installation-script [-h] [-i] [-e] [-ai] [-au] [-d]
 

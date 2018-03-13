@@ -5,7 +5,7 @@
 export PATH="$PATH:/home/$USER/linux-utils/"
 export PATH="$PATH:/home/$USER/linux-utils/notes/"
 export PATH="$PATH:/home/$USER/linux-utils/memo/"
-export PATH="$PATH:/home/$USER/linux-utils/linux-rapid-install/"
+export PATH="$PATH:/home/$USER/linux-utils/linux-config-helpers/"
 export PATH="$PATH:/home/$USER/bin/"
 export PATH="$PATH:/home/$USER/go/bin/"
 
