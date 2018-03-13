@@ -13,7 +13,7 @@ echo
 
 # install must-have tools, two commands to prevent fail
 sudo bash -c "apt-get update"
-sudo bash -c "sudo apt-get -y install p7zip-full p7zip-rar zsh byobu tcpdump htop nmap vim curl wget ranger cmatrix zip fuse-zip tar xz-utils git sshfs tig gnupg2 iputils-tracepath traceroute mycli pgcli"
+sudo bash -c "sudo apt-get -y install git-extras p7zip-full p7zip-rar zsh byobu tcpdump htop nmap vim curl wget ranger cmatrix zip fuse-zip tar xz-utils git sshfs tig gnupg2 iputils-tracepath traceroute mycli pgcli"
 
 # get utils scripts
 git clone https://github.com/remipassmoilesel/linux-utils ~/linux-utils/

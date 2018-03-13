@@ -2437,3 +2437,13 @@ Installer un plugin de suggestions sur shell zsh
 # default :: curl --proxy https://localhost:8080 --proxy-insecure -k -v https://google.fr 
 Date: 2018-02-25 16:22
 Utiliser un proxy HTTPS avec curl, sans vérification de certificats
+
+
+# default :: sudo apt install cmus 
+Date: 2018-03-13 14:34
+Application de lecture de musique en ligne de commande
+
+
+# default :: sudo apt install git-extras; git summary 
+Date: 2018-03-13 14:43
+Afficher un sommaire sur un repo (stats) + autres goodies
