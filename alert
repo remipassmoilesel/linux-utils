@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# <<MLD-File
+#
+# Small script to display alerts on GNU/Linux Ubuntu
+#
+# MLD-File>>
+
 MODE=$([ $? = 0 ] && echo terminal || echo error);
 
 MESSAGE=$([ -z "$@" ] && echo "Alerte !" || echo $@);

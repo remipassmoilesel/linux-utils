@@ -1,0 +1,188 @@
+#!/usr/bin/env python3
+
+#
+# Usage:
+#
+
+# File:
+#
+# <<MLD-File
+#
+#  This file contains title
+# ## This file contains subtitle
+#
+# MLD-File>>
+#
+#
+
+
+
+import fcntl
+import json
+import os
+import random
+import re
+import sys
+import time
+from subprocess import *
+
+# File were list of command is persisted
+home = os.path.expanduser("~")
+ENCODING = 'utf-8'
+
+
+class TermStyle():
+    HEADER = '\033[95m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    CYAN = "\033[1;36m"
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    RESET = '\033[0m'
+
+
+class Utils():
+    @staticmethod
+    def log(message='', data=None, termStyle=TermStyle.GREEN):
+        print(Utils.colorize(message, termStyle=termStyle))
+        if data:
+            print(data)
+
+    @classmethod
+    def error(self, message, data=None):
+        Utils.log(message, data=data, termStyle=TermStyle.RED)
+
+    @staticmethod
+    def colorize(message, termStyle=TermStyle.GREEN):
+        return termStyle + str(message) + TermStyle.RESET
+
+    @staticmethod
+    def normalize(str, maxLen):
+        if len(str) > maxLen:
+            start = len(str) - maxLen + 3
+            str = '...' + str[start:len(str)]
+        if len(str) < maxLen:
+            blank = ''
+            while len(blank) + len(str) < maxLen:
+                blank += ' '
+            str = blank + str
+        return str
+
+    @staticmethod
+    def nonBlockReadStream(stream):
+        fd = stream.fileno()
+        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+        try:
+            return stream.read()
+        except:
+            return None
+
+class DocGenerator():
+
+    def generate(self, rootPath):
+        absoluteRootPath = os.path.abspath(rootPath)
+        files = self.getFilesFromDirectory(absoluteRootPath)
+        for index, path in enumerate(files):
+            try:
+                self.analyseFile(path)
+            except:
+                Utils.error('Error while analysing file: ' + path)
+
+    def getFilesFromDirectory(self, absoluteRootPath):
+        res = []
+        for root, dirs, files in os.walk(absoluteRootPath):
+            for file in files:
+                absolutePath = os.path.join(root, file)
+                if os.path.isfile(absolutePath):
+                    res.append(absolutePath)
+        return res
+
+    def analyseFile(self, filePath):
+        docLines = []
+        with open(filePath) as f:
+            content = f.readlines()
+            helpBlocStarted = False
+            for index, line in enumerate(content):
+                startMatch = self.isStartDocLine(line)
+                stopMatch = self.isStopDocLine(line)
+                if startMatch:
+                    helpBlocStarted = True
+                    print(startMatch)
+                    print(startMatch.groups(0))
+                if stopMatch:
+                    helpBlocStopped = True
+                    print(stopMatch)
+                    print(stopMatch.groups(0))
+
+
+
+    def isStartDocLine(self, line):
+        return re.match('^(.*)<<MLD-File.*$', line)
+
+    def isStopDocLine(self, line):
+        return re.match('^.*MLD-File>>.*$', line)
+
+class ActionHandlers:
+    def __init__(self):
+        self.commandList = []
+
+    def showHelp(self):
+        Utils.log('Create markdown documentation compatible accross multiple languages')
+        Utils.log('')
+        Utils.log('Examples: ')
+        Utils.log('\t$ multi-lang-doc help')
+
+    def generate(self, path):
+        Utils.log('Generating doc for directory:')
+        DocGenerator().generate(path)
+
+    def exit(self, code = 0):
+        exit(code)
+
+
+class ArgParser:
+    def __init__(self):
+        self.actions = ActionHandlers()
+
+    def processArgs(self, args):
+        cleanArgs = self.cleanArgs(args)
+
+        # print(cleanArgs)
+
+        if len(cleanArgs) < 2:
+            self.actions.showHelp()
+            self.actions.exit(1)
+
+        if cleanArgs[1] == 'help':
+            self.actions.showHelp()
+            self.actions.exit()
+
+        if cleanArgs[1] == 'generate':
+            if len(cleanArgs) < 3:
+                Utils.error('Path is mandatory.')
+                self.actions.exit(1)
+
+            self.actions.generate(cleanArgs[2])
+            self.actions.exit()
+
+        Utils.error('Bad command.')
+        Utils.log()
+        self.actions.showHelp()
+        self.actions.exit(1)
+
+    def cleanArgs(self, arguments):
+        res = []
+        for arg in arguments:
+            res.append(arg.strip())
+        return res
+
+
+if __name__ == '__main__':
+    Utils.log('Multi lang doc !')
+    Utils.log()
+
+    argParser = ArgParser()
+    argParser.processArgs(sys.argv)
