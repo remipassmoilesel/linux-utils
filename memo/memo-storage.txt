@@ -2007,14 +2007,9 @@ Date: 2017-09-11 16:56
 Ajotuer un bookmark en spécifiant l'identifiant
 
 
-# ssl :: sudo update-ca-certificates 
+# ssl :: cp certificate.crt /usr/local/share/ca-certificates/certificate.crt;  sudo update-ca-certificates 
 Date: 2017-09-11 18:10
-Mettre à jour le système après ajout d'un certificat SSL
-
-
-# default :: echo 20170912151422.023028511 
-Date: 2017-09-12 15:14
-Afficher un timestamp bash
+Ajouter une autorité de certification
 
 
 # git :: git tag -l 
