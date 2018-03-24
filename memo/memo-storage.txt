@@ -2442,3 +2442,8 @@ Application de lecture de musique en ligne de commande
 # default :: sudo apt install git-extras; git summary 
 Date: 2018-03-13 14:43
 Afficher un sommaire sur un repo (stats) + autres goodies
+
+
+# k8s :: kubectl version 
+Date: 2018-03-19 22:41
+Obtenir la version de l'api kubernetes
