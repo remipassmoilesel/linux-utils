@@ -1364,7 +1364,7 @@ Date: 2016-11-18 23:34
 Détruire le contenu d'un fichier ou d'un périphérique pour le rendre irrécupérable (ajouter -u pour supprimer ensuite le fichier)
 
 
-# git :: git rebase master image-mosaic-jdbc-work 
+# git :: git checkout master; git rebase refacto/branch 
 Date: 2017-09-04 13:59
 Déplacer la branche image-mosaic à l'avant de master
 
