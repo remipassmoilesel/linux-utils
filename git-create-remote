@@ -10,9 +10,23 @@ ssh $1 "
 echo As user \$USER, 
 
 echo ... creating repertory $NEW_REPO
-mkdir /git/$2
+if [ ! -d \"$NEW_REPO\" ]; then
+	mkdir /git/$2
+else
+	echo Already exist !
+fi
 
 echo ... and initalizing new repository !
-cd /git/$2 && git init --bare
+if [ ! -d \"$NEW_REPO/branches\" ]; then
+	cd /git/$2 && git init --bare
+else
+        echo Already initialized !
+fi
+
+
 "
+
+echo 
+echo "Use commands:"
+echo "	git remote rm origin; git remote add origin ssh://$1:$NEW_REPO; git push origin master"
 
