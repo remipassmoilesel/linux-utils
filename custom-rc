@@ -2,13 +2,13 @@
 
 # set -x
 
-export PATH="$PATH:/home/$USER/linux-utils/"
-export PATH="$PATH:/home/$USER/linux-utils/notes/"
-export PATH="$PATH:/home/$USER/linux-utils/memo/"
-export PATH="$PATH:/home/$USER/linux-utils/linux-config-helpers/"
-export PATH="$PATH:/home/$USER/bin/"
-export PATH="$PATH:/home/$USER/go/bin/"
-export PATH="$PATH:/home/$USER/npm-root/bin"
+export PATH="$PATH:$HOME/linux-utils/"
+export PATH="$PATH:$HOME/linux-utils/notes/"
+export PATH="$PATH:$HOME/linux-utils/memo/"
+export PATH="$PATH:$HOME/linux-utils/linux-config-helpers/"
+export PATH="$PATH:$HOME/bin/"
+export PATH="$PATH:$HOME/go/bin/"
+export PATH="$PATH:$HOME/npm-root/bin"
 
 # default editor
 export EDITOR=vim
@@ -26,8 +26,8 @@ PROMPT_COMMAND='history -a'
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 if [ -f ~/.custom-rc ]; then
-    echo "Sourcing /home/$USER/.custom-rc"
-    source /home/$USER/.custom-rc
+    echo "Sourcing $HOME/.custom-rc"
+    source $HOME/.custom-rc
 fi
 
 if [ -f /usr/share/bm/bm.bash ]; then

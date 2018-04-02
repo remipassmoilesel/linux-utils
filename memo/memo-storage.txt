@@ -841,7 +841,7 @@ Obtenir le chemin complet de l'éxécutable d'un processus, ou 1957 est l'identi
 
 # sudo apt install gddrescue && sudo ddrescue -D --force ubuntu-mate-15.10-desktop-amd64.iso /dev/sdXX
 Date: 2016-03-23 18:45
-Installer une image ISO sur une clef USB avec ddrecue. Installer le paquet auparavant en effectuant un sudo apt-get install gddrecue
+Installer une image ISO sur une clef USB avec ddrescue. Installer le paquet auparavant en effectuant un sudo apt-get install gddrescue
 
 # application :: atom
 Date: 2016-03-25 09:48
@@ -2452,3 +2452,8 @@ Obtenir la version de l'api kubernetes
 # default :: minikube delete 
 Date: 2018-03-27 23:52
 Supprimer un cluster minikube
+
+
+# default :: helm repo update 
+Date: 2018-03-29 23:16
+Mise de l'index de Helm
