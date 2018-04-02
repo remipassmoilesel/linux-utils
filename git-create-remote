@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# lundi 2 avril 2018, 19:40:36 (UTC+0200)
+
+GIT_ROOT="/git"
+NEW_REPO="$GIT_ROOT/$2"
+
+ssh $1 "
+
+echo As user \$USER, 
+
+echo ... creating repertory $NEW_REPO
+mkdir /git/$2
+
+echo ... and initalizing new repository !
+cd /git/$2 && git init --bare
+"
+
