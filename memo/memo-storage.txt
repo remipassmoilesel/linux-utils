@@ -2447,3 +2447,8 @@ Afficher un sommaire sur un repo (stats) + autres goodies
 # k8s :: kubectl version 
 Date: 2018-03-19 22:41
 Obtenir la version de l'api kubernetes
+
+
+# default :: git commit -m 'Commit name' --no-verify 
+Date: 2018-03-29 15:02
+Eviter d'éxécuter le hook de commit
