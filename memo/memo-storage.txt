@@ -2460,3 +2460,8 @@ Supprimer un cluster minikube
 # default :: helm repo update 
 Date: 2018-03-29 23:16
 Mise de l'index de Helm
+
+
+# default :: ssh -D 8090 user@host; google-chrome --proxy-server='socks5://localhost:8090' 
+Date: 2018-04-03 12:23
+Utiliser un tunnel SSH avec un navigateur web
