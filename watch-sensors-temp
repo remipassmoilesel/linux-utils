@@ -7,4 +7,4 @@
 #   $ sudo sensors-detect
 # 
 
-watch -n 0.5 sensors
+watch sensors
