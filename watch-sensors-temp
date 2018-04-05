@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# jeudi 5 avril 2018, 13:31:03 (UTC+0200)
+
+# Init: 
+#   $ sudo apt install lm-sensors
+#   $ sudo sensors-detect
+# 
+
+watch sensors
