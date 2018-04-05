@@ -14,7 +14,7 @@ echo
 # Install must-have tools, two commands to prevent fail
 sudo bash -c "apt-get update"
 sudo bash -c "sudo apt-get -y install git-extras p7zip-full p7zip-rar zsh byobu tcpdump htop nmap \
-              vim curl wget ranger cmatrix zip fuse-zip tar xz-utils \
+              vim curl wget ranger cmatrix zip fuse-zip tar xz-utils ncdu \
               git sshfs tig gnupg2 iputils-tracepath traceroute mycli pgcli"
 
 # Get utilities and scripts
