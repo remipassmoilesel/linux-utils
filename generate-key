@@ -4,4 +4,4 @@
 < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;
 
 # autre méthode
-echo $(dd if=/dev/urandom bs=512 count=1 10>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)
+# echo $(dd if=/dev/urandom bs=512 count=1 10>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)

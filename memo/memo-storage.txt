@@ -2465,3 +2465,8 @@ Mise de l'index de Helm
 # default :: ssh -D 8090 user@host; google-chrome --proxy-server='socks5://localhost:8090' 
 Date: 2018-04-03 12:23
 Utiliser un tunnel SSH avec un navigateur web
+
+
+# default :: curl ipinfo.io/ip 
+Date: 2018-04-07 16:55
+Obtenir son adresse IP publique
