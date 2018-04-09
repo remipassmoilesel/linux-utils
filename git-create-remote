@@ -2,6 +2,16 @@
 
 # lundi 2 avril 2018, 19:40:36 (UTC+0200)
 
+if [[ -z "$1" ]] ; then
+	echo "You must provide a destination."
+	exit 1
+fi
+
+if [[ -z "$2" ]] ; then
+	echo "You must provide a repo name."
+	exit 1
+fi
+
 GIT_ROOT="/git"
 NEW_REPO="$GIT_ROOT/$2"
 
@@ -28,5 +38,5 @@ fi
 
 echo 
 echo "Use commands:"
-echo "	git remote rm origin; git remote add origin ssh://$1:$NEW_REPO; git push origin master"
+echo "	git remote rm $1; git remote add $1 ssh://$1:$NEW_REPO; git push $1"
 
