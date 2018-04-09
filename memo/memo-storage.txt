@@ -2457,8 +2457,8 @@ Eviter d'éxécuter le hook de commit
 Date: 2018-03-27 23:52
 Supprimer un cluster minikube
 
-# default :: helm repo update 
-Date: 2018-03-29 23:16
+# k8s :: helm repo update 
+Date: 2018-04-09 22:30
 Mise de l'index de Helm
 
 
@@ -2470,3 +2470,8 @@ Utiliser un tunnel SSH avec un navigateur web
 # default :: curl ipinfo.io/ip 
 Date: 2018-04-07 16:55
 Obtenir son adresse IP publique
+
+
+# k8s :: helm dependency build 
+Date: 2018-04-09 22:31
+Mettre à jour les dépendances d'un chart Helm
