@@ -20,6 +20,23 @@ MEMO_FILE_PATH = os.path.dirname(os.path.realpath(__file__)) + "/" + MEMO_FILE_N
 PGRM_DESC = '''
 Simple memo utility, usefull to store commands.
 
+Examples: 
+
+    Add a memo in category k8s:
+    $ memo -a "k8s" "helm dependency build" "Update chart dependencies"
+    
+    Search a memo, and filter by category:
+    $ memo -f k8s -s helm
+    
+    Edit all memos with CLI editor:
+    $ memo -e
+    
+    Delete memo:
+    $ memo -k 121
+    
+    Categorize memo:
+    $ memo -c k8s 536
+
 All informations are stored in file: '''
 PGRM_DESC += MEMO_FILE_PATH
 

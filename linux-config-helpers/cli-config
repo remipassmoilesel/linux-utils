@@ -12,10 +12,22 @@ echo "Running script for user $USER"
 echo
 
 # Install must-have tools, two commands to prevent fail
-sudo bash -c "apt-get update"
-sudo bash -c "sudo apt-get -y install git-extras p7zip-full p7zip-rar zsh byobu tcpdump htop nmap \
-              vim curl wget ranger cmatrix zip fuse-zip tar xz-utils \
-              git sshfs tig gnupg2 iputils-tracepath traceroute mycli pgcli"
+PACKAGES=(
+    "byobu vim curl wget ranger"
+    "git tig git-extras"
+    "zsh jq cmatrix"
+    "p7zip-full p7zip-rar zip fuse-zip tar xz-utils"
+    "tcpdump htop nmap iputils-tracepath traceroute"
+    "sshfs ncdu gnupg2 mycli pgcli"
+);
+
+sudo apt-get update
+for pkg in "${PACKAGES[@]}"; do
+  echo ""
+  echo "========== Installing: $pkg =========="
+  echo ""
+  sudo apt install -y $pkg || :
+done
 
 # Get utilities and scripts
 git clone https://github.com/remipassmoilesel/linux-utils ~/linux-utils/
