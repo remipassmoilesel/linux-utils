@@ -32,15 +32,16 @@ fi
 
 if [ -f /usr/share/bm/bm.bash ]; then
     source /usr/share/bm/bm.bash
-    alias cm="cdbm $@"
+    alias cm="cdbm"
 fi
 
-alias kubesys="kubectl -n kube-system $@"
-alias ks="kubectl -n kube-system $@"
-alias k="kubectl $@"
-alias k-watch-all-pods="watch -n 0,5 kubectl get pods --all-namespaces"
+alias k="kubectl "
+alias ks="kubectl -n kube-system"
+function ka() { kubectl "$@" --all-namespaces ;}
+
 alias k-watch-pods="watch -n 0,5 kubectl get pods"
 alias ks-watch-pods="watch -n 0,5 kubectl get pods -n kube-system"
+alias ka-watch-pods="watch -n 0,5 kubectl get pods --all-namespaces"
 
 if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
 	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh

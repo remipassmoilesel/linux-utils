@@ -8,6 +8,10 @@ A utiliser sans modération:
 
 	set -x 		# mode debug
 
+Alias avec arguments:
+
+	function ka() { kubectl "$@" --all-namespaces ;} 
+
 Fixer les locales sur Debian:
 
 	echo -e 'LANG="fr_FR.UTF-8"\nLANGUAGE="fr_FR:fr"\nLC_ALL="fr_FR"\nLC_TYPE="fr_FR.UTF-8"\n' > /etc/default/locale
