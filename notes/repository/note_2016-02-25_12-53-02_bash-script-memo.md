@@ -1,4 +1,4 @@
-# Memo sur le script bash
+# Memo sur le script bash/zsh
 
 A utiliser sans modération:
 
@@ -45,6 +45,12 @@ Itérer une liste de commandes:
 	for i in $(seq 5); do
 		echo $i
 	done
+
+Tester si une commande existe dans une expression conditionnelle:
+
+	if ! type "$foobar_command_name" > /dev/null; then
+  		# install foobar here
+	fi
 
 Créer une liste à partir d'une sortie console:
 
