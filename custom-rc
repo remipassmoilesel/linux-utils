@@ -29,12 +29,14 @@ export EDITOR=vim
 export HISTTIMEFORMAT='%d %H:%M '
 export PROMPT_COMMAND='history -a'
 
+# see https://github.com/dvorka/hstr/blob/master/README.md
 if [ $(which hh) ]; then
 	export HISTFILE=~/.zsh_history  # ensure history file visibility
 	export HH_CONFIG=hicolor        # get more colors
 	bindkey -s "\C-r" "\eqhh\n"     # bind hh to Ctrl-r (for Vi mode check doc)
 fi
 
+# see https://github.com/zsh-users/zsh-autosuggestions
 if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
 	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
