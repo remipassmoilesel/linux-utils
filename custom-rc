@@ -2,6 +2,10 @@
 
 # set -x
 
+##
+## PATH OPTIONS
+##
+
 export PATH="$PATH:$HOME/linux-utils/"
 export PATH="$PATH:$HOME/linux-utils/notes/"
 export PATH="$PATH:$HOME/linux-utils/memo/"
@@ -10,30 +14,44 @@ export PATH="$PATH:$HOME/bin/"
 export PATH="$PATH:$HOME/go/bin/"
 export PATH="$PATH:$HOME/npm-root/bin"
 
-# default editor
-export EDITOR=vim
-
 export GOPATH=$HOME/go
 
-# history format and behavior
+##
+## EDITOR OPTIONS
+##
+
+export EDITOR=vim
+
+##
+## HISTORY OPTIONS
+##
+
 export HISTTIMEFORMAT='%d %H:%M '
-PROMPT_COMMAND='history -a'
+export PROMPT_COMMAND='history -a'
 
-# inclure le path courant dans la commande sudo
-# alias sudo='sudo env PATH=$PATH '
+if [ $(which hh) ]; then
+	export HISTFILE=~/.zsh_history  # ensure history file visibility
+	export HH_CONFIG=hicolor        # get more colors
+	bindkey -s "\C-r" "\eqhh\n"     # bind hh to Ctrl-r (for Vi mode check doc)
+fi
 
-# better git log with 'git lg'
+if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+setopt hist_ignore_all_dups  # ignore duplicate entries
+setopt hist_ignore_space     # ignore commands prefixed with space
+
+##
+## GIT OPTIONS AND ALIASES
+##
+
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
-if [ -f ~/.custom-rc ]; then
-    echo "Sourcing $HOME/.custom-rc"
-    source $HOME/.custom-rc
-fi
 
-if [ -f /usr/share/bm/bm.bash ]; then
-    source /usr/share/bm/bm.bash
-    alias cm="cdbm"
-fi
+##
+## ALIASES
+##
 
 alias k="kubectl "
 alias ks="kubectl -n kube-system"
@@ -43,12 +61,25 @@ alias k-watch-pods="watch -n 0,5 kubectl get pods"
 alias ks-watch-pods="watch -n 0,5 kubectl get pods -n kube-system"
 alias ka-watch-pods="watch -n 0,5 kubectl get pods --all-namespaces"
 
-if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [ -f /usr/share/bm/bm.bash ]; then
+    source /usr/share/bm/bm.bash
+    alias cm="cdbm"
 fi
 
-export ANSIBLE_COW_SELECTION=tux
+##
+## SUPP. OPTIONS DEPENDS ON ENV.
+##
 
-# woooo !
+if [ -f ~/.custom-rc ]; then
+    echo "Sourcing $HOME/.custom-rc"
+    source $HOME/.custom-rc
+fi
+
+
+#
+# WOOOOOO !
+#
+
+export ANSIBLE_COW_SELECTION=tux
 cmatrix -b  -C blue
 
