@@ -46,6 +46,10 @@ Itérer une liste de commandes:
 		echo $i
 	done
 
+Créer une liste à partir d'une sortie console:
+
+	DOCKER_CTR=($(docker ps -aq))
+
 Conditions et tests:
 
 	Pour les tests toujours préferer [[ à [ (spécifique bash)
