@@ -41,7 +41,7 @@ Sur un poste client Linux:
 Pour utiliser OpenVPN sur 443 installer sslh puis modifier la configuration .ovpn comme suit:
 
 	-- /!\ ne fonctionne qu'avec TCP, pas avec UDP
-	remote vps303506.ovh.net 443 tcp
+	remote vps.net 443 tcp
 
 
 # Ou utiliser et configurer OpenVPN
