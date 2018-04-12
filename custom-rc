@@ -30,7 +30,7 @@ export HISTTIMEFORMAT='%d %H:%M '
 export PROMPT_COMMAND='history -a'
 
 # see https://github.com/dvorka/hstr/blob/master/README.md
-if ! type "hh" > /dev/null; then
+if type "hh" > /dev/null; then
 	export HISTFILE=~/.zsh_history  # ensure history file visibility
 	export HH_CONFIG=hicolor        # get more colors
 	bindkey -s "\C-r" "\eqhh\n"     # bind hh to Ctrl-r (for Vi mode check doc)
