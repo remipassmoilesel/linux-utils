@@ -19,6 +19,7 @@ PACKAGES=(
     "p7zip-full p7zip-rar zip fuse-zip tar xz-utils"
     "tcpdump htop nmap iputils-tracepath traceroute"
     "sshfs ncdu gnupg2 mycli pgcli"
+    "aptitude"
 );
 
 sudo apt-get update
