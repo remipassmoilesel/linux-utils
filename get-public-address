@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# samedi 14 avril 2018, 11:39:03 (UTC+0200)
+
+curl ipinfo.io/ip
