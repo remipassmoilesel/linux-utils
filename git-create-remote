@@ -2,41 +2,47 @@
 
 # lundi 2 avril 2018, 19:40:36 (UTC+0200)
 
-if [[ -z "$1" ]] ; then
+
+DESTINATION=$1
+REPO_NAME=$2
+
+if [[ -z "$DESTINATION" ]] ; then
 	echo "You must provide a destination."
 	exit 1
 fi
 
-if [[ -z "$2" ]] ; then
-	echo "You must provide a repo name."
+if [[ -z "$REPO_NAME" ]] ; then
+	echo "You must provide a repository name."
 	exit 1
 fi
 
 GIT_ROOT="/git"
-NEW_REPO="$GIT_ROOT/$2"
+REPO_PATH="$GIT_ROOT/$REPO_NAME"
 
-ssh $1 "
+ssh $DESTINATION "
 
-echo As user \$USER, 
+	echo
+	echo As user \$USER, 
 
-echo ... creating repertory $NEW_REPO
-if [ ! -d \"$NEW_REPO\" ]; then
-	mkdir /git/$2
-else
-	echo Already exist !
-fi
+	echo
+	echo ... creating repertory $REPO_PATH
+	if [ ! -d \"$REPO_PATH\" ]; then
+		mkdir /git/$2
+	else
+		echo $REPO_PATH already exist !
+	fi
 
-echo ... and initalizing new repository !
-if [ ! -d \"$NEW_REPO/branches\" ]; then
-	cd /git/$2 && git init --bare
-else
-        echo Already initialized !
-fi
-
+	echo
+	echo ... and initalizing new repository !
+	if [ ! -d \"$REPO_PATH/branches\" ]; then
+		cd $REPO_PATH && git init --bare
+	else
+        	echo $REPO_PATH already initialized !
+	fi
 
 "
 
 echo 
 echo "Use commands:"
-echo "	git remote rm $1; git remote add $1 ssh://$1:$NEW_REPO; git push --set-upstream $1 master"
+echo "	git remote rm $DESTINATION; git remote add $DESTINATION ssh://$DESTINATION:$REPO_PATH; git push --set-upstream $DESTINATION master"
 
