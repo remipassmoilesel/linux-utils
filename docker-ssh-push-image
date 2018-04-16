@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# lundi 16 avril 2018, 20:54:13 (UTC+0200)
+
+DESTINATION=$1
+IMAGE=$2
+
+if [[ -z "$DESTINATION" ]] ; then
+	echo "You must provide a destination."
+	exit 1
+fi
+
+if [[ -z "$IMAGE" ]] ; then
+	echo "You must provide an image name."
+	exit 1
+fi
+
+echo
+echo Sending image $IMAGE to $DESTINATION
+echo
+
+docker save $IMAGE | ssh -C $DESTINATION docker load
