@@ -2490,3 +2490,8 @@ Contrôler l'état d'un dique en ligne de commande
 # k8s :: docker rm -f pod_name 
 Date: 2018-04-19 17:45
 Supprimer un pod kubernetes incontrolable, nécéssite de se connecter sur la machine du pod
+
+
+# default :: sudo gem install redis-dump && redis-dump -u 127.0.0.1:6379 
+Date: 2018-04-24 17:34
+Faire un dump d'une base redis
