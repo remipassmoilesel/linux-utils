@@ -8,6 +8,8 @@ A utiliser sans modération:
 
 	set -x 		# mode debug
 
+	set -e 		# faire échouer un script au premier retour non zéro
+
 Alias avec arguments:
 
 	function ka() { kubectl "$@" --all-namespaces ;} 

@@ -2169,8 +2169,8 @@ Date: 2017-10-06 09:47
 Afficher toutes les pages man commençant par pv
 
 
-# default :: ansible -i inventory.cfg all -m setup -a 'filter=ansible_*_mb' 
-Date: 2017-10-06 15:39
+# ansible :: ansible -i inventory.cfg all -m setup -a 'filter=ansible_*_mb' 
+Date: 2018-04-27 09:46
 Afficher des variables (facts) avec Ansible
 
 
@@ -2499,3 +2499,18 @@ Faire un dump d'une base redis
 # git :: git push origin v0.1 
 Date: 2018-04-23 22:26
 Pousser un tag git
+
+
+# default :: gradle build -x test 
+Date: 2018-04-25 12:09
+Ne pas faire de tests avant de construire un projet
+
+
+# default :: gradle build -Dorg.gradle.warning.mode=all 
+Date: 2018-04-25 12:16
+Afficher tous les avertissements de gradle
+
+
+# ansible :: ansible playbook -i inv.cfg --check 
+Date: 2018-04-27 09:49
+Exécuter un playbook en mode dry run, sans appliquer de changements
