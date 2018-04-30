@@ -2514,3 +2514,18 @@ Afficher tous les avertissements de gradle
 # ansible :: ansible playbook -i inv.cfg --check 
 Date: 2018-04-27 09:49
 Exécuter un playbook en mode dry run, sans appliquer de changements
+
+
+# gradle :: gradle microservice_commons:dependencies 
+Date: 2018-04-27 23:51
+Voir l'arbre des dépendances d'un projet
+
+
+# gradle :: gradlew tasks 
+Date: 2018-04-28 11:03
+Afficher les tâches disponible d'un projet
+
+
+# gradle :: gradlew test --rerun-tasks 
+Date: 2018-04-28 15:29
+Forcer le passage des tests, même si les fichiers sont à jour
