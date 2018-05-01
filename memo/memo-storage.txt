@@ -2549,3 +2549,13 @@ Lister les images d'un dépôt docker
 # default :: echo 'base64string==' | base64 -d 
 Date: 2018-05-01 16:22
 Décoder une chaine base64, d'authentification par exemple
+
+
+# k8s :: kubectl top pods -n namespace 
+Date: 2018-05-01 19:24
+Afficher la mémoire et les ressources utilisées par des pods
+
+
+# k8s :: kubectl top node 
+Date: 2018-05-01 19:24
+Afficher la mémoire et les ressources disponibles sur les noeuds
