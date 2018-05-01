@@ -88,3 +88,11 @@ Pour faire tourner une app même si des fichiers ont des erreurs:
 
 	Ajouter: 	F11
 	Naviguer: 	SHIFT + F11
+
+## Setup python 3
+
+Project structure CTRL+ALT+SHIFT+S
+
+Project settings -> Facets -> expand Python click on child -> Python Interpreter
+
+Project settings -> Modules -> Expand module -> Python -> Dependencies -> select Python module SDK
