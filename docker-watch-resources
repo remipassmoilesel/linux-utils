@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# mardi 1 mai 2018, 19:08:52 (UTC+0200)
+
+docker stats $(docker ps | awk '{if(NR>1) print $NF}')
