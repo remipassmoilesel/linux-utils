@@ -2529,3 +2529,23 @@ Afficher les tâches disponible d'un projet
 # gradle :: gradlew test --rerun-tasks 
 Date: 2018-04-28 15:29
 Forcer le passage des tests, même si les fichiers sont à jour
+
+
+# default :: docker-compose logs -f 
+Date: 2018-05-01 10:18
+Suivre la sortie standard d'un docker compose
+
+
+# reg :: go get github.com/genuinetools/reg 
+Date: 2018-05-01 15:53
+Installer un client CLI pour docker registry
+
+
+# reg :: reg --registry docker.remi-pace.fr list 
+Date: 2018-05-01 15:54
+Lister les images d'un dépôt docker
+
+
+# default :: echo 'base64string==' | base64 -d 
+Date: 2018-05-01 16:22
+Décoder une chaine base64, d'authentification par exemple
