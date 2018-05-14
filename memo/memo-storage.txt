@@ -2559,3 +2559,8 @@ Afficher la mémoire et les ressources utilisées par des pods
 # k8s :: kubectl top node 
 Date: 2018-05-01 19:24
 Afficher la mémoire et les ressources disponibles sur les noeuds
+
+
+# default :: npm cache clean --force 
+Date: 2018-05-14 16:47
+Nettoyer le cache NPM
