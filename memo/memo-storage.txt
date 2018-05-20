@@ -2564,3 +2564,8 @@ Afficher la mémoire et les ressources disponibles sur les noeuds
 # default :: ALT + scroll 
 Date: 2018-05-20 23:05
 Zoom écran sous XFCE
+
+
+# default :: npm cache clean --force 
+Date: 2018-05-14 16:47
+Nettoyer le cache NPM
