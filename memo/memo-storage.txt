@@ -2559,3 +2559,8 @@ Afficher la mémoire et les ressources utilisées par des pods
 # k8s :: kubectl top node 
 Date: 2018-05-01 19:24
 Afficher la mémoire et les ressources disponibles sur les noeuds
+
+
+# default :: ALT + scroll 
+Date: 2018-05-20 23:05
+Zoom écran sous XFCE
