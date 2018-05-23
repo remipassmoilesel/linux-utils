@@ -69,6 +69,14 @@ if [ -f /usr/share/bm/bm.bash ]; then
 fi
 
 ##
+## SDKMAN
+##
+
+if [ -d "/home/$USER/.sdkman/bin/sdkman-init.sh" ]; then
+    source "/home/$USER/.sdkman/bin/sdkman-init.sh"
+fi
+
+##
 ## SUPP. OPTIONS DEPENDS ON ENV.
 ##
 

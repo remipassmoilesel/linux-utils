@@ -2569,3 +2569,8 @@ Zoom écran sous XFCE
 # default :: npm cache clean --force 
 Date: 2018-05-14 16:47
 Nettoyer le cache NPM
+
+
+# default :: curl -s "https://get.sdkman.io" | bash 
+Date: 2018-05-21 12:18
+Installer sdkman
