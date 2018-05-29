@@ -42,7 +42,9 @@ conky.config = {
 	net_avg_samples = 2,
 	override_utf8_locale= true,
 
-	font= 'Ubuntu:style=medium:size=9'
+	font= 'Ubuntu:style=medium:size=9',
+
+	lua_load = '~/.conky/custom/custom.lua',
 }
 
 conky.text = [[
@@ -56,7 +58,7 @@ ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
 ${voffset 400}
 ${font FontAwesome}${font} ${alignr}${addrs enp3s0}
 ${hr}
-${font FontAwesome}${font} ${alignr}${exec curl ipinfo.io/ip}
+${font FontAwesome}${font} ${alignr}${lua_parse conky_public_address}
 
 ${font FontAwesome}${font}   disques ${alignr}${hddtemp /dev/sda}°.${hddtemp /dev/sdb}°.${hddtemp /dev/sdc}°
 #.${hddtemp /dev/sdd}°.${hddtemp /dev/sde}°.${hddtemp /dev/sdf}°.
@@ -73,3 +75,4 @@ ${font FontAwesome}${font}   upload ${alignr}${upspeedf enp3s0}k/s (${totalup
 ${color3}${upspeedgraph enp3s0 50,269 99c8e8 618094}
 
 ]]
+

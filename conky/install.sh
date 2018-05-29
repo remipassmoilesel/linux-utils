@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 sudo apt install conky fonts-font-awesome
 
-cp ~/linux-utils/configuration/conkyrc.lua ~/.conkyrc
+~/linux-utils/conky/update.sh
