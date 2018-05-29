@@ -55,18 +55,15 @@ ${alignr}${font Ubuntu:style=Medium:pixelsize=50}${time %H:%M}${font}
 ${voffset 10}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
 
-${voffset 400}
-${font FontAwesome}${font} ${alignr}${addrs enp3s0}
-${hr}
-${font FontAwesome}${font} ${alignr}${lua_parse conky_public_address}
+${voffset 200}
 
-${font FontAwesome}${font}   disques ${alignr}${hddtemp /dev/sda}°.${hddtemp /dev/sdb}°.${hddtemp /dev/sdc}°
-#.${hddtemp /dev/sdd}°.${hddtemp /dev/sde}°.${hddtemp /dev/sdf}°.
+${font FontAwesome}${font}  Public IP ${alignr}${lua_parse conky_public_address}
+
 ${hr}
 ${font FontAwesome}${font}   CPU ${alignr}${hwmon 0 temp 1}°.${hwmon 0 temp 2}°.${hwmon 0 temp 3}°
 ${font FontAwesome}${font}   ventilo ${alignr}${hwmon 0 fan 1} tour/min
-${color3}${cpugraph cpu1 50,133 5e7b7b d8deeb -t} ${cpugraph cpu2 50,133 5e7b7b d8deeb -t}
-${cpugraph cpu3 50,133 5e7b7b d8deeb -t} ${cpugraph cpu4 50,133 5e7b7b d8deeb -t}
+${color3}${cpugraph cpu1 50,133 5e7b7b d8deeb -t} ${cpugraph cpu2 70,133 5e7b7b d8deeb -t}
+${cpugraph cpu3 50,133 5e7b7b d8deeb -t} ${cpugraph cpu4 70,133 5e7b7b d8deeb -t}
 
 ${color3}${downspeedgraph enp3s0 50,269 5e7b7b d8deeb}
 ${color1}${font FontAwesome}${font}   download ${alignr}${downspeedf enp3s0}k/s (${totaldown enp3s0})
