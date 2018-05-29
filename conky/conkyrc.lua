@@ -29,7 +29,7 @@ conky.config = {
 	default_color= 'FFFFFF',
 	default_shade_color= '333333',
 	default_outline_color= 'black',
-	color1 = 'A9A9A9',
+	color1 = 'CCCCCC',
 	color3 = '616161',
 
 	alignment= 'top_right',
@@ -64,12 +64,15 @@ ${voffset 4}CPU 1: ${cpu cpu1}% ${alignr}${cpubar cpu1 12,120}
 ${voffset 4}CPU 2: ${cpu cpu2}% ${alignr}${cpubar cpu2 12,120}
 ${voffset 4}CPU 3: ${cpu cpu3}% ${alignr}${cpubar cpu3 12,120}
 ${voffset 4}CPU 4: ${cpu cpu4}% ${alignr}${cpubar cpu4 12,120}
+${voffset 4}CPU 5: ${cpu cpu4}% ${alignr}${cpubar cpu5 12,120}
+${voffset 4}CPU 6: ${cpu cpu4}% ${alignr}${cpubar cpu6 12,120}
+${voffset 4}CPU 7: ${cpu cpu4}% ${alignr}${cpubar cpu7 12,120}
+${voffset 4}CPU 8: ${cpu cpu4}% ${alignr}${cpubar cpu8 12,120}
 
 ${voffset 4}${top name 1}${alignr} ${top pid 1} ${top mem 1}
 ${voffset 4}${top name 2}${alignr} ${top pid 2} ${top mem 2}
 ${voffset 4}${top name 3}${alignr} ${top pid 3} ${top mem 3}
 ${voffset 4}${top name 4}${alignr} ${top pid 4} ${top mem 4}
-${voffset 4}${top name 5}${alignr} ${top pid 5} ${top mem 5}
 
 ${font FontAwesome}${font}   MEMORY
 ${hr}
@@ -79,7 +82,6 @@ ${voffset 4}${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
 ${voffset 4}${top_mem name 2}${alignr} ${top_mem pid 2} ${top_mem mem 2}
 ${voffset 4}${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
 ${voffset 4}${top_mem name 4}${alignr} ${top_mem pid 4} ${top_mem mem 4}
-${voffset 4}${top_mem name 5}${alignr} ${top_mem pid 5} ${top_mem mem 5}
 
 ${font FontAwesome}${font}   HARD DRIVE
 ${hr}
