@@ -2,6 +2,6 @@
 
 set -x
 
-sudo apt install conky fonts-font-awesome
+sudo apt -y install conky fonts-font-awesome
 
 ~/linux-utils/conky/update.sh
