@@ -2574,3 +2574,8 @@ Nettoyer le cache NPM
 # default :: curl -s "https://get.sdkman.io" | bash 
 Date: 2018-05-21 12:18
 Installer sdkman
+
+
+# default :: pip3 freeze > requirements.txt 
+Date: 2018-05-27 20:03
+Créer un requirements.txt avec les dépendances de l'environnement actuel
