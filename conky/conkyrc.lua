@@ -91,6 +91,5 @@ ${voffset 4}${fs_used /}/${fs_size /} ${alignr}${fs_free /} Free   ${fs_bar 8,60
 ${voffset 2}Home
 ${voffset 4}${fs_used /home}/${fs_size /home} ${alignr}${fs_free /home} Free   ${fs_bar 8,60 /home}
 
-
 ]]
 
