@@ -42,7 +42,7 @@ conky.config = {
 	net_avg_samples = 2,
 	override_utf8_locale= true,
 
-	font= 'Ubuntu:style=medium:size=9',
+	font= 'Ubuntu:style=medium:size=10',
 
 	lua_load = '~/.conky/custom/custom.lua',
 }
@@ -60,28 +60,34 @@ ${font FontAwesome}${font}  PUBLIC IP ${alignr}${lua_parse conky_public_addre
 
 ${font FontAwesome}${font}   CPU
 ${hr}
-${voffset 4}CPU 1: ${cpu cpu1}% ${alignr}${cpubar cpu1 12,120}
-${voffset 4}CPU 2: ${cpu cpu2}% ${alignr}${cpubar cpu2 12,120}
-${voffset 4}CPU 3: ${cpu cpu3}% ${alignr}${cpubar cpu3 12,120}
-${voffset 4}CPU 4: ${cpu cpu4}% ${alignr}${cpubar cpu4 12,120}
-${voffset 4}CPU 5: ${cpu cpu4}% ${alignr}${cpubar cpu5 12,120}
-${voffset 4}CPU 6: ${cpu cpu4}% ${alignr}${cpubar cpu6 12,120}
-${voffset 4}CPU 7: ${cpu cpu4}% ${alignr}${cpubar cpu7 12,120}
-${voffset 4}CPU 8: ${cpu cpu4}% ${alignr}${cpubar cpu8 12,120}
+${voffset 4}1: ${cpu cpu1}% ${alignr}${cpubar cpu1 14,190}
+${voffset 4}2: ${cpu cpu2}% ${alignr}${cpubar cpu2 14,190}
+${voffset 4}3: ${cpu cpu3}% ${alignr}${cpubar cpu3 14,190}
+${voffset 4}4: ${cpu cpu4}% ${alignr}${cpubar cpu4 14,190}
+${voffset 4}5: ${cpu cpu5}% ${alignr}${cpubar cpu5 14,190}
+${voffset 4}6: ${cpu cpu6}% ${alignr}${cpubar cpu6 14,190}
+${voffset 4}7: ${cpu cpu7}% ${alignr}${cpubar cpu7 14,190}
+${voffset 4}8: ${cpu cpu8}% ${alignr}${cpubar cpu8 14,190}
 
-${voffset 4}${top name 1}${alignr} ${top pid 1} ${top mem 1}
-${voffset 4}${top name 2}${alignr} ${top pid 2} ${top mem 2}
-${voffset 4}${top name 3}${alignr} ${top pid 3} ${top mem 3}
-${voffset 4}${top name 4}${alignr} ${top pid 4} ${top mem 4}
+${voffset 4}TOP USAGE:
+${voffset 4}1: ${top name 1}${alignr} ${top pid 1} ${top mem 1}
+${voffset 4}2: ${top name 2}${alignr} ${top pid 2} ${top mem 2}
+${voffset 4}3: ${top name 3}${alignr} ${top pid 3} ${top mem 3}
+${voffset 4}4: ${top name 4}${alignr} ${top pid 4} ${top mem 4}
+${voffset 4}5: ${top name 5}${alignr} ${top pid 5} ${top mem 5}
+${voffset 4}6: ${top name 6}${alignr} ${top pid 6} ${top mem 6}
 
 ${font FontAwesome}${font}   MEMORY
 ${hr}
-${voffset 4}${memperc}%/${memmax} ${alignr}${membar 12, 120}
+${voffset 4}${memperc}%/${memmax} ${alignr}${membar 14,160}
 
-${voffset 4}${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
-${voffset 4}${top_mem name 2}${alignr} ${top_mem pid 2} ${top_mem mem 2}
-${voffset 4}${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
-${voffset 4}${top_mem name 4}${alignr} ${top_mem pid 4} ${top_mem mem 4}
+${voffset 4}TOP USAGE:
+${voffset 4}1: ${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
+${voffset 4}2: ${top_mem name 2}${alignr} ${top_mem pid 2} ${top_mem mem 2}
+${voffset 4}3: ${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
+${voffset 4}4: ${top_mem name 4}${alignr} ${top_mem pid 4} ${top_mem mem 4}
+${voffset 4}5: ${top_mem name 5}${alignr} ${top_mem pid 5} ${top_mem mem 5}
+${voffset 4}6: ${top_mem name 6}${alignr} ${top_mem pid 6} ${top_mem mem 6}
 
 ${font FontAwesome}${font}   HARD DRIVE
 ${hr}
