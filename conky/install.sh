@@ -2,6 +2,6 @@
 
 set -x
 
-sudo apt -y install conky fonts-font-awesome lua5.3
+sudo apt -y install conky-all fonts-font-awesome 
 
 ~/linux-utils/conky/update.sh
