@@ -57,6 +57,8 @@ ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
 ${voffset 10}
 
 ${font FontAwesome}${font}  PUBLIC IP ${alignr}${lua_parse conky_public_address}
+${font FontAwesome}${font}  enp3s0 ${alignr}${addrs enp3s0}
+${font FontAwesome}${font}  wlp4s0 ${alignr}${addrs wlp4s0}
 
 ${font FontAwesome}${font}   CPU
 ${hr}
