@@ -76,7 +76,7 @@ ${voffset 4}${top name 4}${alignr} ${top pid 4} ${top mem 4}
 
 ${font FontAwesome}${font}   MEMORY
 ${hr}
-${voffset 4}${mem}/${memfree} ${alignr}${membar 12, 120}
+${voffset 4}${memperc}%/${memmax} ${alignr}${membar 12, 120}
 
 ${voffset 4}${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
 ${voffset 4}${top_mem name 2}${alignr} ${top_mem pid 2} ${top_mem mem 2}
