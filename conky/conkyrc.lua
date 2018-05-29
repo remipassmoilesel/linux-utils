@@ -54,22 +54,39 @@ ${voffset 20}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=50}${time %H:%M}${font}
 ${voffset 10}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
+${voffset 10}
 
-${voffset 200}
+${font FontAwesome}${font}  PUBLIC IP ${alignr}${lua_parse conky_public_address}
 
-${font FontAwesome}${font}  Public IP ${alignr}${lua_parse conky_public_address}
-
+${font FontAwesome}${font}   CPU
 ${hr}
-${font FontAwesome}${font}   CPU ${alignr}${hwmon 0 temp 1}°.${hwmon 0 temp 2}°.${hwmon 0 temp 3}°
-${font FontAwesome}${font}   ventilo ${alignr}${hwmon 0 fan 1} tour/min
-${color3}${cpugraph cpu1 50,133 5e7b7b d8deeb -t} ${cpugraph cpu2 70,133 5e7b7b d8deeb -t}
-${cpugraph cpu3 50,133 5e7b7b d8deeb -t} ${cpugraph cpu4 70,133 5e7b7b d8deeb -t}
+${voffset 4}CPU1: ${cpu cpu1}% ${alignr}${cpubar cpu1 12,120}
+${voffset 4}CPU2: ${cpu cpu2}% ${alignr}${cpubar cpu2 12,120}
+${voffset 4}CPU3: ${cpu cpu3}% ${alignr}${cpubar cpu3 12,120}
+${voffset 4}CPU4: ${cpu cpu4}% ${alignr}${cpubar cpu4 12,120}
 
-${color3}${downspeedgraph enp3s0 50,269 5e7b7b d8deeb}
-${color1}${font FontAwesome}${font}   download ${alignr}${downspeedf enp3s0}k/s (${totaldown enp3s0})
+${font FontAwesome}${font}   TOP MEMORY
 ${hr}
-${font FontAwesome}${font}   upload ${alignr}${upspeedf enp3s0}k/s (${totalup enp3s0})
-${color3}${upspeedgraph enp3s0 50,269 99c8e8 618094}
+${voffset 2}${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
+${voffset 4}${top_mem name 2}${alignr} ${top_mem pid 2} ${top_mem mem 2}
+${voffset 4}${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
+${voffset 4}${top_mem name 4}${alignr} ${top_mem pid 4} ${top_mem mem 4}
+${voffset 4}${top_mem name 5}${alignr} ${top_mem pid 5} ${top_mem mem 5}
+
+${font FontAwesome}${font}   TOP CPU
+${hr}
+${voffset 2}${top name 1}${alignr} ${top pid 1} ${top mem 1}
+${voffset 4}${top name 2}${alignr} ${top pid 2} ${top mem 2}
+${voffset 4}${top name 3}${alignr} ${top pid 3} ${top mem 3}
+${voffset 4}${top name 4}${alignr} ${top pid 4} ${top mem 4}
+${voffset 4}${top name 5}${alignr} ${top pid 5} ${top mem 5}
+
+${font FontAwesome}${font}   HARD DRIVE
+${hr}
+${voffset 2}Root:
+${voffset 4}${fs_used /}/${fs_size /} ${alignr}${fs_free /} Free   ${fs_bar 8,60 /}
+${voffset 2}Home:
+${voffset 4}${fs_used /home}/${fs_size /home} ${alignr}${fs_free /home} Free   ${fs_bar 8,60 /home}
 
 ]]
 

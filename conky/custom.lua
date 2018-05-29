@@ -5,7 +5,6 @@ require 'cairo'
 
 custom_namespace = {
     public_address = nil,
-    main_network_interface
 }
 
 function conky_public_address()
