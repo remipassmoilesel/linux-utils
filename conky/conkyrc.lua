@@ -56,11 +56,12 @@ ${voffset 5}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
 ${voffset 10}
 
+${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}NETWORK${font}
 ${font FontAwesome}${font}  PUBLIC IP ${alignr}${lua_parse conky_public_address}
 ${font FontAwesome}${font}  enp3s0 ${alignr}${addrs enp3s0}
 ${font FontAwesome}${font}  wlp4s0 ${alignr}${addrs wlp4s0}
 
-${font FontAwesome}${font}   CPU
+${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
 ${voffset 4}1: ${cpu cpu1}% ${alignr}${cpubar cpu1 14,190}
 ${voffset 4}2: ${cpu cpu2}% ${alignr}${cpubar cpu2 14,190}
@@ -77,9 +78,8 @@ ${voffset 4}2: ${top name 2}${alignr} ${top pid 2} ${top mem 2}
 ${voffset 4}3: ${top name 3}${alignr} ${top pid 3} ${top mem 3}
 ${voffset 4}4: ${top name 4}${alignr} ${top pid 4} ${top mem 4}
 ${voffset 4}5: ${top name 5}${alignr} ${top pid 5} ${top mem 5}
-${voffset 4}6: ${top name 6}${alignr} ${top pid 6} ${top mem 6}
 
-${font FontAwesome}${font}   MEMORY
+${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}MEMORY${font}
 ${hr}
 ${voffset 4}${memperc}%/${memmax} ${alignr}${membar 14,160}
 
@@ -89,9 +89,8 @@ ${voffset 4}2: ${top_mem name 2}${alignr} ${top_mem pid 2} ${top_mem mem 2}
 ${voffset 4}3: ${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
 ${voffset 4}4: ${top_mem name 4}${alignr} ${top_mem pid 4} ${top_mem mem 4}
 ${voffset 4}5: ${top_mem name 5}${alignr} ${top_mem pid 5} ${top_mem mem 5}
-${voffset 4}6: ${top_mem name 6}${alignr} ${top_mem pid 6} ${top_mem mem 6}
 
-${font FontAwesome}${font}   HARD DRIVE
+${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}HARD DRIVE${font}
 ${hr}
 ${voffset 2}Root
 ${voffset 4}${fs_used /}/${fs_size /} ${alignr}${fs_free /} Free   ${fs_bar 8,60 /}
