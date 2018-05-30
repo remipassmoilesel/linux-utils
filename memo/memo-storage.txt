@@ -2453,8 +2453,8 @@ Obtenir la version de l'api kubernetes
 Date: 2018-04-13 15:07
 Eviter d'éxécuter le hook de commit
 
-# default :: minikube delete 
-Date: 2018-03-27 23:52
+# k8s :: minikube delete 
+Date: 2018-05-30 17:44
 Supprimer un cluster minikube
 
 # k8s :: helm repo update 
@@ -2579,3 +2579,13 @@ Installer sdkman
 # default :: pip3 freeze > requirements.txt 
 Date: 2018-05-27 20:03
 Créer un requirements.txt avec les dépendances de l'environnement actuel
+
+
+# k8s :: minikube start 
+Date: 2018-05-30 17:44
+Démarrer minikube
+
+
+# k8s :: minikube dashboard 
+Date: 2018-05-30 17:44
+Ouvrir le dashboard de minikube
