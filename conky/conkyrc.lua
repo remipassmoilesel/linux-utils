@@ -58,6 +58,7 @@ ${voffset 10}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}NETWORK${font}
 ${font FontAwesome}${font}  PUBLIC IP ${alignr}${lua_parse conky_public_address}
+${font FontAwesome}${font}  enp2s0 ${alignr}${addrs enp2s0}
 ${font FontAwesome}${font}  enp3s0 ${alignr}${addrs enp3s0}
 ${font FontAwesome}${font}  wlp4s0 ${alignr}${addrs wlp4s0}
 
