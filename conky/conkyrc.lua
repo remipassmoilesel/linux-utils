@@ -54,13 +54,14 @@ ${voffset 10}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=50}${time %H:%M}${font}
 ${voffset 5}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
-${voffset 10}
+${voffset 5}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}NETWORK${font}
-${font FontAwesome}${font}  PUBLIC IP ${alignr}${lua_parse conky_public_address}
-${font FontAwesome}${font}  enp2s0 ${alignr}${addrs enp2s0}
-${font FontAwesome}${font}  enp3s0 ${alignr}${addrs enp3s0}
-${font FontAwesome}${font}  wlp4s0 ${alignr}${addrs wlp4s0}
+${hr}
+${voffset 4}${font FontAwesome}${font}  PUBLIC IP ${alignr}${lua_parse conky_public_address}
+${voffset 4}${font FontAwesome}${font}  enp2s0 ${alignr}${addrs enp2s0}
+${voffset 4}${font FontAwesome}${font}  enp3s0 ${alignr}${addrs enp3s0}
+${voffset 4}${font FontAwesome}${font}  wlp4s0 ${alignr}${addrs wlp4s0}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
