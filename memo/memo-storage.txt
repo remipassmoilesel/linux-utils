@@ -2589,3 +2589,8 @@ Démarrer minikube
 # k8s :: minikube dashboard 
 Date: 2018-05-30 17:44
 Ouvrir le dashboard de minikube
+
+
+# bash :: set -e 
+Date: 2018-05-30 18:48
+Faire échouer un script au premier retour non zéro
