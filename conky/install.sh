@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 
 set -x
+set -e
 
-sudo apt -y install conky-all fonts-font-awesome 
+mkdir -p ~/.conky/custom
+mkdir -p ~/.config/systemd/user
+
+cp ~/linux-utils/conky/conky.service ~/.config/systemd/user/conky.service
+
+sudo apt -y install conky-all fonts-font-awesome
 
 ~/linux-utils/conky/update.sh
+
+systemctl --user daemon-reload
+systemctl --user enable conky
+systemctl --user start conky
+systemctl --user status conky

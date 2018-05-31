@@ -4,8 +4,6 @@ conky.config = {
 	update_interval= 1,
 	total_run_times= 0,
 
-	background= true,
-
 	own_window= true,
 	own_window_type= 'desktop',
 	own_window_transparent= true,

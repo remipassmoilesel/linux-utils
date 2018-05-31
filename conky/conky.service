@@ -1,0 +1,12 @@
+# ~/.config/systemd/user/conky.service
+
+[Unit]
+Description=Conky
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/conky
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=graphical.target
