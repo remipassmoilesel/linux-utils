@@ -1644,8 +1644,8 @@ Date: 2017-06-19 15:29
 Executer un seul test JUnit avec Maven
 
 
-# default :: git submodule foreach "git pull origin master"
-Date: 2017-06-20 11:30
+# git :: git submodule foreach "git pull origin master" 
+Date: 2018-06-01 09:11
 Executer une commande récursive sur un dépôt git et ses sous modules
 
 
@@ -2594,3 +2594,8 @@ Ouvrir le dashboard de minikube
 # bash :: set -e 
 Date: 2018-05-30 18:48
 Faire échouer un script au premier retour non zéro
+
+
+# default :: sudo apt install glances; glances 
+Date: 2018-05-31 16:00
+Alternative à HTOP avec plus d'information sur le réseau
