@@ -91,5 +91,11 @@ fi
 #
 
 export ANSIBLE_COW_SELECTION=tux
-cmatrix -b  -C blue
+
+CMATRIX_COLOR=blue
+if [ "$USER" = "root" ]; then
+	CMATRIX_COLOR=red
+fi
+
+cmatrix -b  -C $CMATRIX_COLOR
 

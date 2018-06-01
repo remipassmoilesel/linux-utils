@@ -1644,8 +1644,8 @@ Date: 2017-06-19 15:29
 Executer un seul test JUnit avec Maven
 
 
-# default :: git submodule foreach "git pull origin master"
-Date: 2017-06-20 11:30
+# git :: git submodule foreach "git pull origin master" 
+Date: 2018-06-01 09:11
 Executer une commande récursive sur un dépôt git et ses sous modules
 
 
@@ -2599,3 +2599,13 @@ Faire échouer un script au premier retour non zéro
 # k8s :: kubectl port-forward volume-example-deployment-77ccfcc887-766k7 :80 
 Date: 2018-05-31 21:15
 Accéder au port 80 d'un pod
+
+
+# default :: sudo apt install glances; glances 
+Date: 2018-05-31 16:00
+Alternative à HTOP avec plus d'information sur le réseau
+
+
+# docker :: docker image prune 
+Date: 2018-06-01 16:53
+Supprimer toutes les images non utilisées
