@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# vendredi 1 juin 2018, 16:52:19 (UTC+0200)
+
+docker rm $(docker ps -qf "status=exited")

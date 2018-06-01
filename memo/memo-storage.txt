@@ -2599,3 +2599,8 @@ Faire échouer un script au premier retour non zéro
 # default :: sudo apt install glances; glances 
 Date: 2018-05-31 16:00
 Alternative à HTOP avec plus d'information sur le réseau
+
+
+# default :: docker image prune 
+Date: 2018-06-01 16:53
+Supprimer toutes les images non utilisées
