@@ -440,7 +440,7 @@ Changer la racine d'un serveur apache
 
 # uname -r
 Date: 2016-01-21 19:33
-Afficher la version du noyau
+Afficher la version du noyau (kernel)
 
 # read -p 'Press [Enter] key to start backup...'
 Date: 2016-01-21 19:46
