@@ -52,19 +52,34 @@ class Colors:
     PURPLE = '\033[95m'
     BLUE = '\033[94m'
     GREEN = '\033[92m'
-    WARNING = '\033[93m'
+    YELLOW = '\033[93m'
     RED = '\033[91m'
     ENDC = '\033[0m'
 
 
-def printClr(line, color):
-    print(color + line + Colors.ENDC)
+class Logger:
 
+    @staticmethod
+    def printColor(line, color):
+        print(color + line + Colors.ENDC)
 
-def printDebug(data):
-    if Configuration.DEBUG:
-        printClr('Debug error: ', Colors.RED)
-        print(data)
+    @staticmethod
+    def info(line):
+        Logger.printColor(line, Colors.ENDC)
+
+    @staticmethod
+    def warning(line):
+        Logger.printColor(line, Colors.YELLOW)
+
+    @staticmethod
+    def error(line):
+        Logger.printColor(line, Colors.RED)
+
+    @staticmethod
+    def debug(data):
+        if Configuration.DEBUG:
+            Logger.printColor('Debug: ', Colors.YELLOW)
+            print(data)
 
 
 def exitProgram(code=0, msg=""):
@@ -72,7 +87,7 @@ def exitProgram(code=0, msg=""):
     Exit program and show an optoonnal message
     """
     if msg != "":
-        printClr(msg, Colors.RED)
+        Logger.error(msg)
 
     exit(code)
 
@@ -144,15 +159,15 @@ class MemoContainer:
         """
         # check if file exist or create it
         if os.path.isfile(self.path) == False:
-            printClr("Memo file does not exist..", Colors.WARNING)
+            Logger.warning("Memo file does not exist..")
             try:
                 inFile = open(self.path, "a")
                 inFile.write("Memo" + os.linesep)
                 inFile.write("----" + os.linesep + os.linesep)
                 inFile.close()
-                print("File have been created at: " + self.path)
+                Logger.info("File have been created at: " + self.path)
             except Exception as e:
-                printDebug(e)
+                Logger.debug(e)
                 exitProgram(code=1, msg="Unable to create file at: " + self.path)
 
         # load file
@@ -295,7 +310,7 @@ class MemoContainer:
 
             return True
         except Exception as e:
-            printDebug(e)
+            Logger.debug(e)
             return False
 
     def deleteMemo(self, memo):
@@ -329,7 +344,7 @@ class MemoContainer:
             memoWriteFile.close()
             return True
         except Exception as e:
-            printDebug(e)
+            Logger.debug(e)
             return False
 
     def appendMemo(self, memo):
@@ -342,7 +357,7 @@ class MemoContainer:
             inFile.close()
             return True
         except Exception as e:
-            printDebug(e)
+            Logger.debug(e)
             return False
 
 
@@ -412,20 +427,20 @@ if __name__ == "__main__":
 
         for memoId in unkArgs:
 
-            printClr("Add category '" + category + "' to memo " + memoId, Colors.BLUE)
+            Logger.info("Add category '" + category + "' to memo " + memoId)
 
             memo = container.getById(memoId)
             if not memo:
-                printClr("Unknown memo id: " + memoId, Colors.RED)
+                Logger.error("Unknown memo id: " + memoId)
                 error = True
 
             memo.categ = category
             success = container.modifyMemo(memo)
 
             if success == True:
-                printClr("Category changed.", Colors.GREEN)
+                Logger.error("Category changed.")
             else:
-                printClr("Error while changing category.", Colors.RED)
+                Logger.error("Error while changing category.")
                 error = True
 
         if error:
@@ -444,7 +459,7 @@ if __name__ == "__main__":
         memo = container.getById(memoId)
 
         if not memo:
-            printClr("Unknown memo id: " + memoId, Colors.RED)
+            Logger.error("Unknown memo id: " + memoId)
             exitProgram(1)
 
         if len(unkArgs) > 2:
@@ -459,7 +474,7 @@ if __name__ == "__main__":
         success = container.modifyMemo(memo)
 
         if success == True:
-            print("Memo updated.")
+            Logger.info("Memo updated.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while changing category.")
@@ -471,13 +486,13 @@ if __name__ == "__main__":
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
         memo = container.getById(memoId)
         if not memo:
-            printClr("Unknown memo id: " + memoId, Colors.RED)
+            Logger.error("Unknown memo id: " + memoId)
             exitProgram(1)
 
         success = container.deleteMemo(memo)
 
         if success == True:
-            print("Memo deleted.")
+            Logger.info("Memo deleted.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while deleting memo.")
@@ -503,7 +518,7 @@ if __name__ == "__main__":
         success = container.appendMemo(memo)
 
         if success:
-            printClr("Memo added with success.", Colors.BLUE)
+            Logger.info("Memo added with success.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while adding memo to file: " + Configuration.MEMO_FILE_PATH)
@@ -512,47 +527,47 @@ if __name__ == "__main__":
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
-        print("")
+        Logger.info("")
 
         if knownArgs.filter_category:
-            printClr("Display only category: \"" + knownArgs.filter_category + "\"", Colors.GREEN)
-            print("")
+            Logger.info("Display only category: \"" + knownArgs.filter_category + "\"")
+            Logger.info("")
 
         for memo in container.getContent(knownArgs.filter_category):
-            print(memo)
-            print("")
+            Logger.info(str(memo))
+            Logger.info("")
 
         exitProgram(0)
 
     if knownArgs.search:
 
         if len(unkArgs) < 1:
-            printClr("You must specify keywords.", Colors.RED)
-            print("")
+            Logger.error("You must specify keywords.")
+            Logger.error("")
             parser.print_help()
             exitProgram(1)
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
-        print("")
+        Logger.info("")
 
         if knownArgs.filter_category:
-            printClr("Display only category: \"" + knownArgs.filter_category + "\"", Colors.WARNING)
+            Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
 
         elements = container.searchByKeywords(unkArgs, knownArgs.filter_category)
 
         keywordsStr = ",".join(unkArgs)
 
         if len(elements) == 0:
-            printClr("Nothing found for: \"" + keywordsStr + "\"", Colors.RED)
+            Logger.error("Nothing found for: \"" + keywordsStr + "\"")
 
         else:
-            printClr("Results for \"" + keywordsStr + "\":", Colors.PURPLE)
-            print("")
+            Logger.info("Results for \"" + keywordsStr + "\":")
+            Logger.info("")
 
             for m in elements:
-                print(str(m))
-                print("")
+                Logger.info(str(m))
+                Logger.info("")
 
         exitProgram(0)
 
@@ -560,9 +575,9 @@ if __name__ == "__main__":
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
-        print("")
-        print("Categories: ")
-        print("")
+        Logger.info("")
+        Logger.info("Categories: ")
+        Logger.info("")
 
         categories = {}
         for memo in container.getContent():
@@ -579,11 +594,11 @@ if __name__ == "__main__":
             for i in range(colLen - len(cat)):
                 spaces += " "
 
-            print(cat + spaces + " (" + str(categories[cat]) + ")")
+            Logger.info(cat + spaces + " (" + str(categories[cat]) + ")")
 
         exitProgram(0)
 
-    printClr("Invalid command.", Colors.RED)
-    print("")
+    Logger.error("Invalid command.")
+    Logger.error("")
     parser.print_help()
     exitProgram(1)
