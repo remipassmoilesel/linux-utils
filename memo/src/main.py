@@ -65,18 +65,21 @@ def parseArguments():
 
     knownArgs, unkArgs = parser.parse_known_args()
 
+    Logger.info()
+    container = getAndLoadMemoContainer()
+
     if knownArgs.edit_all or knownArgs.graphical_editor:
+
         editor = Configuration.GRAPHICAL_EDITOR if knownArgs.graphical_editor is True else Configuration.CLI_EDITOR
         subprocess.call(editor + " " + Configuration.MEMO_FILE_PATH, shell=True)
+
 
     elif knownArgs.categorize:
 
         if len(unkArgs) < 1:
-            exitProgram(1, "You must specify at least one memo id")
+            raise Exception("You must specify at least one memo id")
 
         category = knownArgs.categorize
-        container = getAndLoadMemoContainer()
-
         for memoId in unkArgs:
             Logger.header()
             Logger.header("Add category '" + category + "' to memo " + memoId)
@@ -91,16 +94,15 @@ def parseArguments():
 
             Logger.success("Category changed.")
 
+
     elif knownArgs.update:
 
         memoId = knownArgs.update
 
         if len(unkArgs) < 2:
-            exitProgram(1, "You must specify at least a header and a content")
+            raise Exception("You must specify at least a header and a content")
 
-        container = getAndLoadMemoContainer()
         memo = container.getById(memoId)
-
         if not memo:
             raise Exception("Unknown memo id: " + memoId)
 
@@ -118,16 +120,15 @@ def parseArguments():
 
         Logger.success("Memo updated.")
 
+
     elif knownArgs.delete:
 
         memoId = knownArgs.delete
-
-        container = getAndLoadMemoContainer()
         memo = container.getById(memoId)
         if not memo:
-            Logger.error("Unknown memo id: " + memoId)
-            exitProgram(1)
+            raise Exception("Unknown memo id: " + memoId)
 
+        # FIXME: change delete strategy
         success = container.deleteMemo(memo)
 
         if success == True:
@@ -136,16 +137,15 @@ def parseArguments():
         else:
             exitProgram(1, "Error while deleting memo.")
 
+
     elif knownArgs.append:
 
         if len(unkArgs) < 2:
-            exitProgram(1, "You must specify at least a header and a content to add a memo")
+            raise Exception("You must specify at least a header and a content to add a memo")
 
         for i, val in enumerate(unkArgs):
             if len(val) < 1:
-                exitProgram(1, "You can not specify empty arguments.")
-
-        container = getAndLoadMemoContainer()
+                raise Exception("You can not specify empty arguments.")
 
         memo = None
         if len(unkArgs) > 2:
@@ -157,6 +157,7 @@ def parseArguments():
                                content=unkArgs[1].strip(),
                                categ=Configuration.DEFAULT_CATEGORY)
 
+        # FIXME: change append strategy
         success = container.appendMemo(memo)
 
         if success:
@@ -165,11 +166,8 @@ def parseArguments():
         else:
             exitProgram(1, "Error while adding memo to file: " + Configuration.MEMO_FILE_PATH)
 
+
     elif knownArgs.display:
-
-        container = getAndLoadMemoContainer()
-
-        Logger.info()
 
         if knownArgs.filter_category:
             Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
@@ -179,19 +177,11 @@ def parseArguments():
             Logger.info(str(memo))
             Logger.info()
 
-        exitProgram(0)
 
     elif knownArgs.search:
 
         if len(unkArgs) < 1:
-            Logger.error("You must specify keywords.")
-            Logger.error()
-            parser.print_help()
-            exitProgram(1)
-
-        container = getAndLoadMemoContainer()
-
-        Logger.info()
+            raise Exception("You must specify keywords.")
 
         if knownArgs.filter_category:
             Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
@@ -212,11 +202,8 @@ def parseArguments():
                 Logger.info(str(m))
                 Logger.info()
 
-        exitProgram(0)
 
     elif knownArgs.list_categories:
-
-        container = getAndLoadMemoContainer()
 
         Logger.header()
         Logger.header("Categories: ")
@@ -238,8 +225,6 @@ def parseArguments():
                 spaces += " "
 
             Logger.info(cat + spaces + " (" + str(categories[cat]) + ")")
-
-        exitProgram(0)
 
     else:
         Logger.error("Invalid command.")
