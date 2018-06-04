@@ -2,6 +2,8 @@
 
 Voir https://netplan.io/
 
+Ajoute une abstraction à la configuration réseau.
+
 ## Commandes principales
 
   $ sudo netplan try
@@ -11,13 +13,33 @@ Voir https://netplan.io/
 
 Laisser au Network Manager le contrôle des interfaces:
 
-  root@host: /etc/netplan
-  # cat 01-network-manager-all.yaml.bak                                                                                                                                                                                                                               [18:06:38]
-  # Let NetworkManager manage all devices on this system
-  network:
-    version: 2
-    renderer: NetworkManager
+    root@host: /etc/netplan
+    $ vim 01-network-manager-all.yaml  
+    
+    # Let NetworkManager manage all devices on this system
+    network:
+      version: 2
+      renderer: NetworkManager
 
-  $ netplan try
-  
+    $ netplan try
+
+## Addresse statique
+
+    root@host: /etc/netplan
+    $ vim 01-static.yaml  
+    
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        enp3s0:
+          addresses:
+            - 10.10.10.2/24
+          gateway4: 10.10.10.1
+          nameservers:
+              search: [mydomain, otherdomain]
+              addresses: [10.10.10.1, 1.1.1.1]
+
+    $ netplan try
+
   
