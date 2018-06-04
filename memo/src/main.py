@@ -77,30 +77,18 @@ def parseArguments():
         category = knownArgs.categorize
         container = getAndLoadMemoContainer()
 
-        error = False
-
         for memoId in unkArgs:
-
+            Logger.header()
             Logger.header("Add category '" + category + "' to memo " + memoId)
 
             memo = container.getById(memoId)
             if not memo:
-                Logger.error("Unknown memo id: " + memoId)
-                error = True
+                raise Exception("Unknown memo id: " + memoId)
 
             memo.categ = category
-            success = container.modifyMemo(memo)
+            container.modifyMemo(memo)
 
-            if success == True:
-                Logger.error("Category changed.")
-            else:
-                Logger.error("Error while changing category.")
-                error = True
-
-        if error:
-            exitProgram(1)
-        else:
-            exitProgram(0)
+            Logger.success("Category changed.")
 
     elif knownArgs.update:
 
@@ -128,7 +116,7 @@ def parseArguments():
         success = container.modifyMemo(memo)
 
         if success == True:
-            Logger.header("Memo updated.")
+            Logger.success("Memo updated.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while changing category.")
@@ -146,7 +134,7 @@ def parseArguments():
         success = container.deleteMemo(memo)
 
         if success == True:
-            Logger.header("Memo deleted.")
+            Logger.success("Memo deleted.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while deleting memo.")
@@ -175,7 +163,7 @@ def parseArguments():
         success = container.appendMemo(memo)
 
         if success:
-            Logger.header("Memo added with success.")
+            Logger.success("Memo added with success.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while adding memo to file: " + Configuration.MEMO_FILE_PATH)

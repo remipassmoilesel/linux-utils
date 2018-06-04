@@ -10,12 +10,17 @@ class Colors:
     YELLOW = '\033[93m'
     RED = '\033[91m'
     ENDC = '\033[0m'
+    UNDERLINE = '\033[4m'
 
 
 class Logger:
 
     @staticmethod
     def header(line=""):
+        Logger.printColor(line, Colors.UNDERLINE)
+
+    @staticmethod
+    def success(line=""):
         Logger.printColor(line, Colors.GREEN)
 
     @staticmethod
