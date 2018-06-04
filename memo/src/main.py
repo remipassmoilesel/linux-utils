@@ -15,7 +15,7 @@ def exitProgram(code=0, msg=""):
 
 def getAndLoadMemoContainer():
     container = MemoContainer()
-    container.loadStorage(Configuration.MEMO_FILE_PATH)
+    container.loadStorageFile(Configuration.MEMO_FILE_PATH)
     return container
 
 
@@ -214,7 +214,8 @@ def parseArguments():
         if knownArgs.filter_category:
             Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
 
-        elements = container.searchByKeywords(unkArgs, knownArgs.filter_category)
+        category = knownArgs.filter_category.strip().lower() if knownArgs.filter_category is not None else None
+        elements = container.searchByKeywords(unkArgs, category)
 
         keywordsStr = ",".join(unkArgs)
 

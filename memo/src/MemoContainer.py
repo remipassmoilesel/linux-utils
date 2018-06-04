@@ -3,6 +3,7 @@ import re
 
 from MemoElement import *
 
+
 # TODO:
 # - Make persistence happen on demand, on write() call
 
@@ -17,7 +18,7 @@ class MemoContainer:
             inFile.close()
             Logger.info("File have been created at: " + self.path)
 
-    def loadStorage(self, path):
+    def loadStorageFile(self, path):
         self.path = path
         if not os.path.isfile(self.path):
             Logger.warning("Memo file does not exist ...")
@@ -25,7 +26,10 @@ class MemoContainer:
 
         with open(self.path, "r") as inFile:
             lines = inFile.readlines()
-            self.memoList = self.parseLines(lines)
+            self.loadTextLines(lines)
+
+    def loadTextLines(self, lines):
+        self.memoList = self.parseLines(lines)
 
     def parseLines(self, lines):
 
@@ -59,48 +63,43 @@ class MemoContainer:
 
         return memoList
 
-    def searchByKeywords(self, keywords, categ=None):
+    def searchByKeywords(self, keywords, categoryFilter=None):
 
-        rslt = []
+        result = []
 
-        # create a regex
-        regexArray = []
-        for w in keywords:
-            regexArray.append(re.sub("[^a-z]", ".?", w, re.IGNORECASE))
+        regexPartsArray = []
+        for word in keywords:
+            wordWithoutSpecialChars = re.sub("[^a-z0-9-]", ".?", word, re.IGNORECASE)
+            regexPartsArray.append(wordWithoutSpecialChars)
 
-        regex = "(" + "|".join(regexArray) + ")+"
-
-        categ = categ.strip().lower() if categ != None else ""
+        separatorPattern = "[-_\s]+"
+        regexArray = [
+            "^" + (separatorPattern + "|" + separatorPattern).join(regexPartsArray) + separatorPattern,
+            separatorPattern + (separatorPattern + "|" + separatorPattern).join(regexPartsArray) + separatorPattern,
+        ]
 
         for memo in self.memoList:
 
-            if categ and memo.getCategory() != categ:
+            if categoryFilter and memo.getCategory() != categoryFilter:
                 continue
 
-            # Search in header and category
-            inHeader = re.search(regex, memo.getHeader(), re.IGNORECASE)
-            inCategory = re.search(regex, memo.getCategory(), re.IGNORECASE)
+            for regex in regexArray:
+                matchHeader = re.search(regex, memo.getHeader(), re.IGNORECASE)
+                matchCategory = re.search(regex, memo.getCategory(), re.IGNORECASE)
 
-            # Search in content
-            # Here we do not search in 'date' line
-            contentLines = memo.getContent().split('\n')
-            inContent = False
+                contentLines = memo.getContent().split('\n')
+                matchContent = False
 
-            # Content is one line
-            if len(contentLines) < 2:
-                inContent = re.search(regex, memo.getContent(), re.IGNORECASE)
-
-            # Content is multi line
-            else:
-                for l in range(1, len(contentLines)):
-                    inContent = re.search(regex, contentLines[l], re.IGNORECASE)
-                    if inContent:
+                for line in range(0, len(contentLines)):
+                    matchContent = re.search(regex, contentLines[line], re.IGNORECASE)
+                    if matchContent:
                         break
 
-            if inHeader or inContent or inCategory:
-                rslt.append(memo)
+                if matchHeader or matchContent or matchCategory:
+                    result.append(memo)
+                    break
 
-        return rslt
+        return result
 
     def getById(self, id):
 

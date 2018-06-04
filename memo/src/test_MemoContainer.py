@@ -4,6 +4,7 @@ import unittest
 from MemoContainer import *
 from testData import *
 
+
 class MemoContainerTest(unittest.TestCase):
 
     def test_parsingShouldWork(self):
@@ -25,6 +26,23 @@ class MemoContainerTest(unittest.TestCase):
         self.assertEqual(memos[2].getContent(), "memo3-l1memo3-l2")
 
         self.assertEqual(len(memos), 3)
+
+
+    def test_searchWithSingleLetterShouldFail(self):
+        container = MemoContainer()
+        lines = sampleMemoStorage.split('\n')
+        container.loadTextLines(lines)
+
+        memos = container.searchByKeywords(["a"])
+        self.assertEqual(len(memos), 0)
+
+    def test_searchWithWordShouldSucced(self):
+        container = MemoContainer()
+        lines = sampleMemoStorage.split('\n')
+        container.loadTextLines(lines)
+
+        memos = container.searchByKeywords(["memo1"])
+        self.assertEqual(len(memos), 1)
 
 if __name__ == '__main__':
     unittest.main()
