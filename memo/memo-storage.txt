@@ -2614,3 +2614,8 @@ Supprimer toutes les images non utilisées
 # default :: mkisofs -o image-name.iso /source/dir 
 Date: 2018-06-04 16:08
 Créer une image ISO à partir d'un système de fichiers. Peut être bootable.
+
+
+# default :: netplan try 
+Date: 2018-06-04 21:24
+Vérifier puis configurer le réseau, avec possibilité de roolback
