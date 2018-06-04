@@ -1,4 +1,6 @@
-# Créer une clef USB à partir d'une machine virtuelle existante
+# Créer une clef USB à partir d'une machine virtuelle existante 
+
+... avec VirtualBox.
 
 Conversion au format raw:
 
@@ -14,5 +16,9 @@ Ecriture (attention au sync):
 
 Pour ajouter un drapeau de boot (normalement non nécéssaire):
 
-	$ ...
+	$ sudo fdisk /dev/sdx
+	> a
+	> [numéro de la partition à rendre bootable]
+	> w
+	
 	
