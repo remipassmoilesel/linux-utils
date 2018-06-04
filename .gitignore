@@ -2,5 +2,6 @@
 *.swp
 *.swo
 *.iml
+*.pyc
 .ropeproject
 installation/log/*
