@@ -82,9 +82,6 @@ class Logger:
 
 
 def exitProgram(code=0, msg=""):
-    """
-    Exit program and show an optoonnal message
-    """
     if msg != "":
         Logger.error(msg)
 
@@ -92,37 +89,30 @@ def exitProgram(code=0, msg=""):
 
 
 class MemoElement:
-    # Incremental counter used to set ids
-    counter = 0
+
+    memoIdCounter = 0
 
     def __init__(self, header, content, categ, lineNumber=0):
+        MemoElement.memoIdCounter = MemoElement.memoIdCounter + 1
+        self.id = MemoElement.memoIdCounter
+
         self.header = header.strip()
         self.content = content.strip()
         self.lineNumber = lineNumber
-        self.categ = categ.strip().lower() if categ != None and categ != "" else Configuration.DEFAULT_CATEG
-        MemoElement.counter = MemoElement.counter + 1
-        self.id = MemoElement.counter
+        self.categ = categ.strip().lower() if categ is not None else Configuration.DEFAULT_CATEG
 
     def __repr__(self):
         return self.displayableRepresentation()
 
     def displayableRepresentation(self):
-        """
-        Return a colorized memo for console display
-        """
         output = Colors.BLUE + Configuration.MEMO_HEADER_MARK + str(self.id) + ": "
-        if self.categ != "" and self.categ != Configuration.DEFAULT_CATEG:
-            output += "[" + self.categ + "] "
+        output += "[" + self.categ + "] "
         output += self.header + Colors.ENDC + "\n"
         output += self.content
 
         return output
 
     def writableRepresentation(self):
-        """
-        Return a text representation to write in file
-        """
-
         contentLines = self.content.split("\n")
         if contentLines[0].startswith("Date:"):
             modifiedContent = '\n'.join(contentLines[1:])
@@ -147,29 +137,24 @@ class MemoElement:
 
 
 class MemoContainer:
+
     def __init__(self, path):
         self.path = path
         self.content = []
         self.load()
 
-    def load(self):
-        """
-        Load a file conaining a list of memos
-        """
-        # check if file exist or create it
-        if os.path.isfile(self.path) == False:
-            Logger.warning("Memo file does not exist..")
-            try:
-                inFile = open(self.path, "a")
-                inFile.write("Memo" + os.linesep)
-                inFile.write("----" + os.linesep + os.linesep)
-                inFile.close()
-                Logger.info("File have been created at: " + self.path)
-            except Exception as e:
-                Logger.debug(e)
-                exitProgram(code=1, msg="Unable to create file at: " + self.path)
+    def createEmptyMemo(self):
+        with open(self.path, "a") as inFile:
+            inFile.write("Memo" + os.linesep)
+            inFile.write("----" + os.linesep + os.linesep)
+            inFile.close()
+            Logger.info("File have been created at: " + self.path)
 
-        # load file
+    def load(self):
+        if not os.path.isfile(self.path):
+            Logger.warning("Memo file does not exist ...")
+            self.createEmptyMemo()
+
         with open(self.path, "r") as inFile:
 
             lines = inFile.readlines()
@@ -179,10 +164,8 @@ class MemoContainer:
             header = ""
             content = ""
             lineNumber = 0
-
             lineCounter = 0
 
-            # iterate lines
             for l in lines:
                 matcher = re.match(
                     "^ *" + Configuration.MEMO_HEADER_MARK + " *(?:(.+)" + Configuration.MEMO_CATEGORY_MARK + ")? *(.+)",
@@ -213,31 +196,26 @@ class MemoContainer:
                 lineCounter += 1
 
     def searchByKeywords(self, keywords, categ=None):
-        """
-        Return a list of memos corresponding to specified keywords and category
-        """
 
         rslt = []
 
         # create a regex
-        regexa = []
+        regexArray = []
         for w in keywords:
-            regexa.append(re.sub("[^a-z]", ".?", w, re.IGNORECASE))
+            regexArray.append(re.sub("[^a-z]", ".?", w, re.IGNORECASE))
 
-        regex = "(" + "|".join(regexa) + ")+"
+        regex = "(" + "|".join(regexArray) + ")+"
 
-        # category
         categ = categ.strip().lower() if categ != None else ""
 
-        # analyse memos
         for memo in self.content:
 
-            if categ != "" and memo.getCategory() != categ:
+            if categ and memo.getCategory() != categ:
                 continue
 
             # Search in header and category
             inHeader = re.search(regex, memo.getHeader(), re.IGNORECASE)
-            inCateg = re.search(regex, memo.getCategory(), re.IGNORECASE)
+            inCategory = re.search(regex, memo.getCategory(), re.IGNORECASE)
 
             # Search in content
             # Here we do not search in 'date' line
@@ -255,7 +233,7 @@ class MemoContainer:
                     if inContent:
                         break
 
-            if inHeader or inContent or inCateg:
+            if inHeader or inContent or inCategory:
                 rslt.append(memo)
 
         return rslt
@@ -271,9 +249,9 @@ class MemoContainer:
 
         return None
 
-    def getContent(self, categ=""):
+    def getContent(self, categ = None):
 
-        if categ == None or categ == "":
+        if not categ:
             return self.content
 
         else:
@@ -289,64 +267,54 @@ class MemoContainer:
         """
         Modify a memo in storage file
         """
-        try:
-            memoReadFile = open(self.path, "r")
-            fileLines = memoReadFile.readlines()
-            memoReadFile.close()
+        memoReadFile = open(self.path, "r")
+        fileLines = memoReadFile.readlines()
+        memoReadFile.close()
 
-            writableLines = memo.writableRepresentation().split('\n')
+        writableLines = memo.writableRepresentation().split('\n')
 
-            i = memo.lineNumber
-            l = 2  # skip firsts \n
-            end = i + len(writableLines) - l
-            while i < end:
-                if re.search("\\w+", writableLines[l]):  # replace only non empty lines
-                    fileLines[i] = writableLines[l] + "\n"
-                i += 1
-                l += 1
+        i = memo.lineNumber
+        l = 2  # skip firsts \n
+        end = i + len(writableLines) - l
+        while i < end:
+            if re.search("\\w+", writableLines[l]):  # replace only non empty lines
+                fileLines[i] = writableLines[l] + "\n"
+            i += 1
+            l += 1
 
-            memoWriteFile = open(self.path, "w")
-            memoWriteFile.writelines(fileLines)
-            memoWriteFile.close()
-
-            return True
-        except Exception as e:
-            Logger.debug(e)
-            return False
+        memoWriteFile = open(self.path, "w")
+        memoWriteFile.writelines(fileLines)
+        memoWriteFile.close()
 
     def deleteMemo(self, memo):
         """
         Delete a memo from storage file
         """
-        try:
-            memoReadFile = open(self.path, "r")
-            fileLines = memoReadFile.readlines()
-            memoReadFile.close()
+        memoReadFile = open(self.path, "r")
+        fileLines = memoReadFile.readlines()
+        memoReadFile.close()
 
-            # first, delete memo content
-            i = memo.lineNumber
-            end = False
-            while end != True and i < len(fileLines):
-                if re.search("\\w+", fileLines[i]):
-                    del fileLines[i]
-                else:
-                    end = True
+        # first, delete memo content
+        i = memo.lineNumber
+        end = False
+        while end != True and i < len(fileLines):
+            if re.search("\\w+", fileLines[i]):
+                del fileLines[i]
+            else:
+                end = True
 
-            # then delete blank lines
-            end = False
-            while end != True and i < len(fileLines):
-                if re.search("^\\s*$", fileLines[i]):
-                    del fileLines[i]
-                else:
-                    end = True
+        # then delete blank lines
+        end = False
+        while end != True and i < len(fileLines):
+            if re.search("^\\s*$", fileLines[i]):
+                del fileLines[i]
+            else:
+                end = True
 
-            memoWriteFile = open(self.path, "w")
-            memoWriteFile.writelines(fileLines)
-            memoWriteFile.close()
-            return True
-        except Exception as e:
-            Logger.debug(e)
-            return False
+        memoWriteFile = open(self.path, "w")
+        memoWriteFile.writelines(fileLines)
+        memoWriteFile.close()
+
 
     def appendMemo(self, memo):
         """
@@ -415,7 +383,7 @@ def parseArguments():
 
         exitProgram(0)
 
-    if knownArgs.categorize:
+    elif knownArgs.categorize:
 
         if len(unkArgs) < 1:
             exitProgram(1, "You must specify at least one memo id")
@@ -448,7 +416,7 @@ def parseArguments():
         else:
             exitProgram(0)
 
-    if knownArgs.update:
+    elif knownArgs.update:
 
         memoId = knownArgs.update
 
@@ -479,7 +447,7 @@ def parseArguments():
         else:
             exitProgram(1, "Error while changing category.")
 
-    if knownArgs.delete:
+    elif knownArgs.delete:
 
         memoId = knownArgs.delete
 
@@ -497,7 +465,7 @@ def parseArguments():
         else:
             exitProgram(1, "Error while deleting memo.")
 
-    if knownArgs.append:
+    elif knownArgs.append:
 
         if len(unkArgs) < 2:
             exitProgram(1, "You must specify at least a header and a content to add a memo")
@@ -523,7 +491,7 @@ def parseArguments():
         else:
             exitProgram(1, "Error while adding memo to file: " + Configuration.MEMO_FILE_PATH)
 
-    if knownArgs.display:
+    elif knownArgs.display:
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
@@ -539,7 +507,7 @@ def parseArguments():
 
         exitProgram(0)
 
-    if knownArgs.search:
+    elif knownArgs.search:
 
         if len(unkArgs) < 1:
             Logger.error("You must specify keywords.")
@@ -571,7 +539,7 @@ def parseArguments():
 
         exitProgram(0)
 
-    if knownArgs.list_categories:
+    elif knownArgs.list_categories:
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
@@ -605,6 +573,7 @@ def parseArguments():
 
 
 if __name__ == "__main__":
+
     try:
         parseArguments()
     except Exception as e:
