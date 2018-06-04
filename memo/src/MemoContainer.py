@@ -102,7 +102,6 @@ class MemoContainer:
         return result
 
     def getById(self, id):
-
         for memo in self.memoList:
             if int(memo.id) == int(id):
                 return memo
@@ -110,7 +109,6 @@ class MemoContainer:
         return None
 
     def getContent(self, categ=None):
-
         if not categ:
             return self.memoList
 
@@ -123,25 +121,17 @@ class MemoContainer:
 
             return result
 
-    def modifyMemo(self, memo):
-        memoReadFile = open(self.path, "r")
-        fileLines = memoReadFile.readlines()
-        memoReadFile.close()
+    def updateMemo(self, memoToUpdate):
+        for index, memo in enumerate(self.memoList):
+            if memo.id == memoToUpdate.id:
+                self.memoList[index] = memoToUpdate
+                break
 
-        writableLines = memo.writableRepresentation().split('\n')
-
-        i = memo.lineNumber
-        l = 2  # skip firsts \n
-        end = i + len(writableLines) - l
-        while i < end:
-            if re.search("\\w+", writableLines[l]):  # replace only non empty lines
-                fileLines[i] = writableLines[l] + "\n"
-            i += 1
-            l += 1
-
-        memoWriteFile = open(self.path, "w")
-        memoWriteFile.writelines(fileLines)
-        memoWriteFile.close()
+    def persistToStorage(self):
+        with open(self.path, "w") as storageFile:
+            for memo in self.memoList:
+                storageFile.writelines(memo.getWritableRepresentation())
+            storageFile.close()
 
     def deleteMemo(self, memo):
         memoReadFile = open(self.path, "r")
@@ -172,7 +162,7 @@ class MemoContainer:
     def appendMemo(self, memo):
         try:
             inFile = open(self.path, "a")
-            inFile.write(memo.writableRepresentation())
+            inFile.write(memo.getWritableRepresentation())
             inFile.close()
             return True
         except Exception as e:

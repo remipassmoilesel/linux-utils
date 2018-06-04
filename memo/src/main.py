@@ -86,7 +86,8 @@ def parseArguments():
                 raise Exception("Unknown memo id: " + memoId)
 
             memo.categ = category
-            container.modifyMemo(memo)
+            container.updateMemo(memo)
+            container.persistToStorage()
 
             Logger.success("Category changed.")
 
@@ -101,8 +102,7 @@ def parseArguments():
         memo = container.getById(memoId)
 
         if not memo:
-            Logger.error("Unknown memo id: " + memoId)
-            exitProgram(1)
+            raise Exception("Unknown memo id: " + memoId)
 
         if len(unkArgs) > 2:
             memo.header = unkArgs[1]
@@ -111,15 +111,12 @@ def parseArguments():
         else:
             memo.header = unkArgs[0]
             memo.content = unkArgs[1]
-            memo.categ = "default"
+            memo.categ = Configuration.DEFAULT_CATEGORY
 
-        success = container.modifyMemo(memo)
+        container.updateMemo(memo)
+        container.persistToStorage()
 
-        if success == True:
-            Logger.success("Memo updated.")
-            exitProgram(0)
-        else:
-            exitProgram(1, "Error while changing category.")
+        Logger.success("Memo updated.")
 
     elif knownArgs.delete:
 
@@ -244,10 +241,11 @@ def parseArguments():
 
         exitProgram(0)
 
-    Logger.error("Invalid command.")
-    Logger.error()
-    parser.print_help()
-    exitProgram(1)
+    else:
+        Logger.error("Invalid command.")
+        Logger.error()
+        parser.print_help()
+        exitProgram(1)
 
 
 if __name__ == "__main__":

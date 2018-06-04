@@ -29,7 +29,7 @@ class MemoElement:
 
         return output
 
-    def writableRepresentation(self):
+    def getWritableRepresentation(self):
         contentLines = self.content.split("\n")
         if contentLines[0].startswith("Date:"):
             modifiedContent = '\n'.join(contentLines[1:])
