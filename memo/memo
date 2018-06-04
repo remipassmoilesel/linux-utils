@@ -49,13 +49,11 @@ class Configuration:
 
 
 class Colors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
+    PURPLE = '\033[95m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
     WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+    RED = '\033[91m'
     ENDC = '\033[0m'
 
 
@@ -65,7 +63,7 @@ def printClr(line, color):
 
 def printDebug(data):
     if Configuration.DEBUG:
-        printClr('Debug error: ', Colors.FAIL)
+        printClr('Debug error: ', Colors.RED)
         print(data)
 
 
@@ -74,7 +72,7 @@ def exitProgram(code=0, msg=""):
     Exit program and show an optoonnal message
     """
     if msg != "":
-        printClr(msg, Colors.FAIL)
+        printClr(msg, Colors.RED)
 
     exit(code)
 
@@ -98,7 +96,7 @@ class MemoElement:
         """
         Return a colorized memo for console display
         """
-        output = Colors.OKBLUE + Configuration.MEMO_HEADER_MARK + str(self.id) + ": "
+        output = Colors.BLUE + Configuration.MEMO_HEADER_MARK + str(self.id) + ": "
         if self.categ != "" and self.categ != Configuration.DEFAULT_CATEG:
             output += "[" + self.categ + "] "
         output += self.header + Colors.ENDC + "\n"
@@ -395,10 +393,6 @@ if __name__ == "__main__":
 
     knownArgs, unkArgs = parser.parse_known_args()
 
-
-    # EDIT MEMO
-    # EDIT MEMO
-    # EDIT MEMO
     if knownArgs.edit_all or knownArgs.graphical_editor:
         editor = Configuration.GRAPHICAL_EDITOR if knownArgs.graphical_editor == True else Configuration.CLI_EDITOR
 
@@ -406,9 +400,6 @@ if __name__ == "__main__":
 
         exitProgram(0)
 
-    # CATEGORIZE
-    # CATEGORIZE
-    # CATEGORIZE
     if knownArgs.categorize:
 
         if len(unkArgs) < 1:
@@ -421,20 +412,20 @@ if __name__ == "__main__":
 
         for memoId in unkArgs:
 
-            printClr("Add category '" + category + "' to memo " + memoId, Colors.OKBLUE)
+            printClr("Add category '" + category + "' to memo " + memoId, Colors.BLUE)
 
             memo = container.getById(memoId)
             if not memo:
-                printClr("Unknown memo id: " + memoId, Colors.FAIL)
+                printClr("Unknown memo id: " + memoId, Colors.RED)
                 error = True
 
             memo.categ = category
             success = container.modifyMemo(memo)
 
             if success == True:
-                printClr("Category changed.", Colors.OKGREEN)
+                printClr("Category changed.", Colors.GREEN)
             else:
-                printClr("Error while changing category.", Colors.FAIL)
+                printClr("Error while changing category.", Colors.RED)
                 error = True
 
         if error:
@@ -442,10 +433,6 @@ if __name__ == "__main__":
         else:
             exitProgram(0)
 
-
-    # UPDATE
-    # UPDATE
-    # UPDATE
     if knownArgs.update:
 
         memoId = knownArgs.update
@@ -457,7 +444,7 @@ if __name__ == "__main__":
         memo = container.getById(memoId)
 
         if not memo:
-            printClr("Unknown memo id: " + memoId, Colors.FAIL)
+            printClr("Unknown memo id: " + memoId, Colors.RED)
             exitProgram(1)
 
         if len(unkArgs) > 2:
@@ -477,9 +464,6 @@ if __name__ == "__main__":
         else:
             exitProgram(1, "Error while changing category.")
 
-    # DELETE MEMO
-    # DELETE MEMO
-    # DELETE MEMO
     if knownArgs.delete:
 
         memoId = knownArgs.delete
@@ -487,7 +471,7 @@ if __name__ == "__main__":
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
         memo = container.getById(memoId)
         if not memo:
-            printClr("Unknown memo id: " + memoId, Colors.FAIL)
+            printClr("Unknown memo id: " + memoId, Colors.RED)
             exitProgram(1)
 
         success = container.deleteMemo(memo)
@@ -498,9 +482,6 @@ if __name__ == "__main__":
         else:
             exitProgram(1, "Error while deleting memo.")
 
-    # APPEND A MEMO
-    # APPEND A MEMO
-    # APPEND A MEMO
     if knownArgs.append:
 
         if len(unkArgs) < 2:
@@ -522,14 +503,11 @@ if __name__ == "__main__":
         success = container.appendMemo(memo)
 
         if success:
-            printClr("Memo added with success.", Colors.OKBLUE)
+            printClr("Memo added with success.", Colors.BLUE)
             exitProgram(0)
         else:
             exitProgram(1, "Error while adding memo to file: " + Configuration.MEMO_FILE_PATH)
 
-    # DISPLAY WHOLE MEMO
-    # DISPLAY WHOLE MEMO
-    # DISPLAY WHOLE MEMO
     if knownArgs.display:
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
@@ -537,7 +515,7 @@ if __name__ == "__main__":
         print("")
 
         if knownArgs.filter_category:
-            printClr("Display only category: \"" + knownArgs.filter_category + "\"", Colors.OKGREEN)
+            printClr("Display only category: \"" + knownArgs.filter_category + "\"", Colors.GREEN)
             print("")
 
         for memo in container.getContent(knownArgs.filter_category):
@@ -546,13 +524,10 @@ if __name__ == "__main__":
 
         exitProgram(0)
 
-    # SEARCH
-    # SEARCH
-    # SEARCH
     if knownArgs.search:
 
         if len(unkArgs) < 1:
-            printClr("You must specify keywords.", Colors.FAIL)
+            printClr("You must specify keywords.", Colors.RED)
             print("")
             parser.print_help()
             exitProgram(1)
@@ -569,10 +544,10 @@ if __name__ == "__main__":
         keywordsStr = ",".join(unkArgs)
 
         if len(elements) == 0:
-            printClr("Nothing found for: \"" + keywordsStr + "\"", Colors.FAIL)
+            printClr("Nothing found for: \"" + keywordsStr + "\"", Colors.RED)
 
         else:
-            printClr("Results for \"" + keywordsStr + "\":", Colors.HEADER)
+            printClr("Results for \"" + keywordsStr + "\":", Colors.PURPLE)
             print("")
 
             for m in elements:
@@ -581,9 +556,6 @@ if __name__ == "__main__":
 
         exitProgram(0)
 
-    # LIST ALL CATEGORIES
-    # LIST ALL CATEGORIES
-    # LIST ALL CATEGORIES
     if knownArgs.list_categories:
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
@@ -611,7 +583,7 @@ if __name__ == "__main__":
 
         exitProgram(0)
 
-    printClr("Invalid command.", Colors.FAIL)
+    printClr("Invalid command.", Colors.RED)
     print("")
     parser.print_help()
     exitProgram(1)
