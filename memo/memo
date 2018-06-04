@@ -2,4 +2,4 @@
 
 # lundi 4 juin 2018, 22:44:42 (UTC+0200)
 
-python3 src/memo.py $@
+python3 src/main.py $@
