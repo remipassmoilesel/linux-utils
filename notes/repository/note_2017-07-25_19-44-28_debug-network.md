@@ -11,6 +11,8 @@
 
 ## Manipuler des routes avec ip
 
+Voir: https://access.redhat.com/sites/default/files/attachments/rh_ip_command_cheatsheet_1214_jcs_print.pdf
+
 Afficher les routes:
 
 	$ ip route show
@@ -26,6 +28,14 @@ Ajouter une route vers un réseau, à travers l'interface eth0:
 Supprimer une route:
 
 	$ ip route delete 192.168.1.0/24 dev eth0
+
+Activer une interface:
+
+	$ ip link set eth0 up
+
+Désactiver une interface: 
+	
+	$ ip link set eth0 down
 
 Ne pas hésiter à se servir d'un calculateur de masque comme:
 
