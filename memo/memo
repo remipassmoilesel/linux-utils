@@ -9,7 +9,6 @@ import subprocess
 
 
 class Configuration:
-
     DEBUG = False
 
     SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -60,20 +59,20 @@ class Colors:
 class Logger:
 
     @staticmethod
-    def printColor(line, color):
-        print(color + line + Colors.ENDC)
+    def info(line=""):
+        Logger.printColor(line)
 
     @staticmethod
-    def info(line):
-        Logger.printColor(line, Colors.ENDC)
-
-    @staticmethod
-    def warning(line):
+    def warning(line=""):
         Logger.printColor(line, Colors.YELLOW)
 
     @staticmethod
-    def error(line):
+    def error(line=""):
         Logger.printColor(line, Colors.RED)
+
+    @staticmethod
+    def printColor(line="", color=Colors.ENDC):
+        print(color + str(line) + Colors.ENDC)
 
     @staticmethod
     def debug(data):
@@ -185,7 +184,9 @@ class MemoContainer:
 
             # iterate lines
             for l in lines:
-                matcher = re.match("^ *" + Configuration.MEMO_HEADER_MARK + " *(?:(.+)" + Configuration.MEMO_CATEGORY_MARK + ")? *(.+)", l)
+                matcher = re.match(
+                    "^ *" + Configuration.MEMO_HEADER_MARK + " *(?:(.+)" + Configuration.MEMO_CATEGORY_MARK + ")? *(.+)",
+                    l)
 
                 # this line is a memo header
                 if matcher:
@@ -223,7 +224,7 @@ class MemoContainer:
         for w in keywords:
             regexa.append(re.sub("[^a-z]", ".?", w, re.IGNORECASE))
 
-        regex = "(" +  "|".join(regexa) + ")+"
+        regex = "(" + "|".join(regexa) + ")+"
 
         # category
         categ = categ.strip().lower() if categ != None else ""
@@ -361,10 +362,9 @@ class MemoContainer:
             return False
 
 
-if __name__ == "__main__":
-
-    # parse arguments
-    parser = argparse.ArgumentParser(description=Configuration.PROGRAM_DESCRIPTION, formatter_class=argparse.RawTextHelpFormatter)
+def parseArguments():
+    parser = argparse.ArgumentParser(description=Configuration.PROGRAM_DESCRIPTION,
+                                     formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument("-s", "--search",
                         action="store_true",
@@ -463,13 +463,13 @@ if __name__ == "__main__":
             exitProgram(1)
 
         if len(unkArgs) > 2:
-            memo.header=unkArgs[1]
-            memo.content=unkArgs[2]
-            memo.categ=unkArgs[0]
+            memo.header = unkArgs[1]
+            memo.content = unkArgs[2]
+            memo.categ = unkArgs[0]
         else:
-            memo.header=unkArgs[0]
-            memo.content=unkArgs[1]
-            memo.categ="default"
+            memo.header = unkArgs[0]
+            memo.content = unkArgs[1]
+            memo.categ = "default"
 
         success = container.modifyMemo(memo)
 
@@ -527,15 +527,15 @@ if __name__ == "__main__":
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
-        Logger.info("")
+        Logger.info()
 
         if knownArgs.filter_category:
             Logger.info("Display only category: \"" + knownArgs.filter_category + "\"")
-            Logger.info("")
+            Logger.info()
 
         for memo in container.getContent(knownArgs.filter_category):
             Logger.info(str(memo))
-            Logger.info("")
+            Logger.info()
 
         exitProgram(0)
 
@@ -543,13 +543,13 @@ if __name__ == "__main__":
 
         if len(unkArgs) < 1:
             Logger.error("You must specify keywords.")
-            Logger.error("")
+            Logger.error()
             parser.print_help()
             exitProgram(1)
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
-        Logger.info("")
+        Logger.info()
 
         if knownArgs.filter_category:
             Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
@@ -563,11 +563,11 @@ if __name__ == "__main__":
 
         else:
             Logger.info("Results for \"" + keywordsStr + "\":")
-            Logger.info("")
+            Logger.info()
 
             for m in elements:
                 Logger.info(str(m))
-                Logger.info("")
+                Logger.info()
 
         exitProgram(0)
 
@@ -575,9 +575,9 @@ if __name__ == "__main__":
 
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
-        Logger.info("")
+        Logger.info()
         Logger.info("Categories: ")
-        Logger.info("")
+        Logger.info()
 
         categories = {}
         for memo in container.getContent():
@@ -599,6 +599,14 @@ if __name__ == "__main__":
         exitProgram(0)
 
     Logger.error("Invalid command.")
-    Logger.error("")
+    Logger.error()
     parser.print_help()
     exitProgram(1)
+
+
+if __name__ == "__main__":
+    try:
+        parseArguments()
+    except Exception as e:
+        Logger.error()
+        Logger.error(str(e))
