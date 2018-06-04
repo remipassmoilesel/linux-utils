@@ -6,50 +6,46 @@ import datetime
 import os
 import re
 import subprocess
-import sys
 
-DEBUG = False
 
-# path and name of memo file
-MEMO_FILE_NAME = "memo-storage.txt"
-MEMO_FILE_PATH = os.path.dirname(os.path.realpath(__file__)) + "/" + MEMO_FILE_NAME
+class Configuration:
 
-# simple description of script, displayed in help
-PGRM_DESC = '''
-Simple memo utility, usefull to store commands.
+    DEBUG = False
 
-Examples: 
+    SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
+    MEMO_FILE_NAME = "memo-storage.txt"
+    MEMO_FILE_PATH = os.path.join(SCRIPT_PATH, MEMO_FILE_NAME)
 
-    Add a memo in category k8s:
-    $ memo -a "k8s" "helm dependency build" "Update chart dependencies"
+    PROGRAM_DESCRIPTION = '''
+    Simple memo utility, useful to store commands.
     
-    Search a memo, and filter by category:
-    $ memo -f k8s -s helm
+    Examples: 
     
-    Edit all memos with CLI editor:
-    $ memo -e
+        Add a memo in category k8s:
+        $ memo -a "k8s" "helm dependency build" "Update chart dependencies"
+        
+        Search a memo, and filter by category:
+        $ memo -f k8s -s helm
+        
+        Edit all memos with CLI editor:
+        $ memo -e
+        
+        Delete memo:
+        $ memo -k 121
+        
+        Categorize memo:
+        $ memo -c k8s 536
     
-    Delete memo:
-    $ memo -k 121
-    
-    Categorize memo:
-    $ memo -c k8s 536
+    All informations are stored in file: ''' + MEMO_FILE_PATH
 
-All informations are stored in file: '''
-PGRM_DESC += MEMO_FILE_PATH
+    GRAPHICAL_EDITOR = "xdg-open"
+    CLI_EDITOR = "vim"
 
-# editors
-GRAPHICAL_EDITOR = "xdg-open"
-CLI_EDITOR = "vim"
+    DEFAULT_CATEG = "default".lower()
 
-# name of default category
-DEFAULT_CATEG = "default".lower()
+    MEMO_HEADER_MARK = "#"
 
-# mark used to distinguish headers
-HEADER_MARK = "#"
-
-# category mark
-CATEG_MARK = "::"
+    MEMO_CATEGORY_MARK = "::"
 
 
 class bcolors:
@@ -85,7 +81,7 @@ class MemoElement:
         self.header = header.strip()
         self.content = content.strip()
         self.lineNumber = lineNumber
-        self.categ = categ.strip().lower() if categ != None and categ != "" else DEFAULT_CATEG
+        self.categ = categ.strip().lower() if categ != None and categ != "" else Configuration.DEFAULT_CATEG
         MemoElement.counter = MemoElement.counter + 1
         self.id = MemoElement.counter
 
@@ -96,8 +92,8 @@ class MemoElement:
         """
         Return a colorized memo for console display
         """
-        output = bcolors.OKBLUE + HEADER_MARK + str(self.id) + ": "
-        if self.categ != "" and self.categ != DEFAULT_CATEG:
+        output = bcolors.OKBLUE + Configuration.MEMO_HEADER_MARK + str(self.id) + ": "
+        if self.categ != "" and self.categ != Configuration.DEFAULT_CATEG:
             output += "[" + self.categ + "] "
         output += self.header + bcolors.ENDC + "\n"
         output += self.content
@@ -116,7 +112,7 @@ class MemoElement:
             modifiedContent = '\n'.join(contentLines)
 
         output = "\n\n"
-        output += HEADER_MARK + " " + self.categ + " " + CATEG_MARK + " " + self.header + " \n"
+        output += Configuration.MEMO_HEADER_MARK + " " + self.categ + " " + Configuration.MEMO_CATEGORY_MARK + " " + self.header + " \n"
         output += "Date: " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + "\n"
         output += modifiedContent + "\n"
 
@@ -160,7 +156,7 @@ class MemoContainer:
             lines = inFile.readlines()
             lines.append("##")
 
-            if DEBUG:
+            if Configuration.DEBUG:
                 print("Loading: ")
 
             categ = ""
@@ -172,7 +168,7 @@ class MemoContainer:
 
             # iterate lines
             for l in lines:
-                matcher = re.match("^ *" + HEADER_MARK + " *(?:(.+)" + CATEG_MARK + ")? *(.+)", l)
+                matcher = re.match("^ *" + Configuration.MEMO_HEADER_MARK + " *(?:(.+)" + Configuration.MEMO_CATEGORY_MARK + ")? *(.+)", l)
 
                 # this line is a memo header
                 if matcher:
@@ -205,7 +201,7 @@ class MemoContainer:
 
         rslt = []
 
-        if DEBUG:
+        if Configuration.DEBUG:
             print("keywords")
             print(keywords)
 
@@ -353,7 +349,7 @@ class MemoContainer:
 if __name__ == "__main__":
 
     # parse arguments
-    parser = argparse.ArgumentParser(description=PGRM_DESC, formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(description=Configuration.PROGRAM_DESCRIPTION, formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument("-s", "--search",
                         action="store_true",
@@ -397,7 +393,7 @@ if __name__ == "__main__":
 
     knownArgs, unkArgs = parser.parse_known_args()
 
-    if DEBUG:
+    if Configuration.DEBUG:
         print("knownArgs: ")
         print(knownArgs)
         print("unkArgs: ")
@@ -408,9 +404,9 @@ if __name__ == "__main__":
     # EDIT MEMO
     # EDIT MEMO
     if knownArgs.edit_all or knownArgs.graphical_editor:
-        editor = GRAPHICAL_EDITOR if knownArgs.graphical_editor == True else CLI_EDITOR
+        editor = Configuration.GRAPHICAL_EDITOR if knownArgs.graphical_editor == True else Configuration.CLI_EDITOR
 
-        subprocess.call(editor + " " + MEMO_FILE_PATH, shell=True)
+        subprocess.call(editor + " " + Configuration.MEMO_FILE_PATH, shell=True)
 
         exitProgram(0)
 
@@ -423,7 +419,7 @@ if __name__ == "__main__":
             exitProgram(1, "You must specify at least one memo id")
 
         category = knownArgs.categorize
-        container = MemoContainer(MEMO_FILE_PATH)
+        container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
         error = False
 
@@ -461,7 +457,7 @@ if __name__ == "__main__":
         if len(unkArgs) < 2:
             exitProgram(1, "You must specify at least a header and a content")
 
-        container = MemoContainer(MEMO_FILE_PATH)
+        container = MemoContainer(Configuration.MEMO_FILE_PATH)
         memo = container.getById(memoId)
 
         if not memo:
@@ -492,7 +488,7 @@ if __name__ == "__main__":
 
         memoId = knownArgs.delete
 
-        container = MemoContainer(MEMO_FILE_PATH)
+        container = MemoContainer(Configuration.MEMO_FILE_PATH)
         memo = container.getById(memoId)
         if not memo:
             printClr("Unknown memo id: " + memoId, bcolors.FAIL)
@@ -516,9 +512,9 @@ if __name__ == "__main__":
 
         for i, val in enumerate(unkArgs):
             if len(val) < 1:
-                exitProgram(1, "Youcan not specify empty arguments.")
+                exitProgram(1, "You can not specify empty arguments.")
 
-        container = MemoContainer(MEMO_FILE_PATH)
+        container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
         memo = None
         if len(unkArgs) > 2:
@@ -533,14 +529,14 @@ if __name__ == "__main__":
             printClr("Memo added with success.", bcolors.OKBLUE)
             exitProgram(0)
         else:
-            exitProgram(1, "Error while adding memo to file: " + MEMO_FILE_PATH)
+            exitProgram(1, "Error while adding memo to file: " + Configuration.MEMO_FILE_PATH)
 
     # DISPLAY WHOLE MEMO
     # DISPLAY WHOLE MEMO
     # DISPLAY WHOLE MEMO
     if knownArgs.display:
 
-        container = MemoContainer(MEMO_FILE_PATH)
+        container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
         print("")
 
@@ -565,7 +561,7 @@ if __name__ == "__main__":
             parser.print_help()
             exitProgram(1)
 
-        container = MemoContainer(MEMO_FILE_PATH)
+        container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
         print("")
 
@@ -594,7 +590,7 @@ if __name__ == "__main__":
     # LIST ALL CATEGORIES
     if knownArgs.list_categories:
 
-        container = MemoContainer(MEMO_FILE_PATH)
+        container = MemoContainer(Configuration.MEMO_FILE_PATH)
 
         print("")
         print("Categories: ")
