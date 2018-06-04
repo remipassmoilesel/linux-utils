@@ -48,7 +48,7 @@ class Configuration:
     MEMO_CATEGORY_MARK = "::"
 
 
-class bcolors:
+class Colors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -60,7 +60,7 @@ class bcolors:
 
 
 def printClr(line, color):
-    print(color + line + bcolors.ENDC)
+    print(color + line + Colors.ENDC)
 
 
 def exitProgram(code=0, msg=""):
@@ -68,7 +68,7 @@ def exitProgram(code=0, msg=""):
     Exit program and show an optoonnal message
     """
     if msg != "":
-        printClr(msg, bcolors.FAIL)
+        printClr(msg, Colors.FAIL)
 
     exit(code)
 
@@ -92,10 +92,10 @@ class MemoElement:
         """
         Return a colorized memo for console display
         """
-        output = bcolors.OKBLUE + Configuration.MEMO_HEADER_MARK + str(self.id) + ": "
+        output = Colors.OKBLUE + Configuration.MEMO_HEADER_MARK + str(self.id) + ": "
         if self.categ != "" and self.categ != Configuration.DEFAULT_CATEG:
             output += "[" + self.categ + "] "
-        output += self.header + bcolors.ENDC + "\n"
+        output += self.header + Colors.ENDC + "\n"
         output += self.content
 
         return output
@@ -140,7 +140,7 @@ class MemoContainer:
         """
         # check if file exist or create it
         if os.path.isfile(self.path) == False:
-            printClr("Memo file does not exist..", bcolors.WARNING)
+            printClr("Memo file does not exist..", Colors.WARNING)
             try:
                 inFile = open(self.path, "a")
                 inFile.write("Memo" + os.linesep)
@@ -425,20 +425,20 @@ if __name__ == "__main__":
 
         for memoId in unkArgs:
 
-            printClr("Add category '" + category + "' to memo " + memoId, bcolors.OKBLUE)
+            printClr("Add category '" + category + "' to memo " + memoId, Colors.OKBLUE)
 
             memo = container.getById(memoId)
             if not memo:
-                printClr("Unknown memo id: " + memoId, bcolors.FAIL)
+                printClr("Unknown memo id: " + memoId, Colors.FAIL)
                 error = True
 
             memo.categ = category
             success = container.modifyMemo(memo)
 
             if success == True:
-                printClr("Category changed.", bcolors.OKGREEN)
+                printClr("Category changed.", Colors.OKGREEN)
             else:
-                printClr("Error while changing category.", bcolors.FAIL)
+                printClr("Error while changing category.", Colors.FAIL)
                 error = True
 
         if error:
@@ -461,7 +461,7 @@ if __name__ == "__main__":
         memo = container.getById(memoId)
 
         if not memo:
-            printClr("Unknown memo id: " + memoId, bcolors.FAIL)
+            printClr("Unknown memo id: " + memoId, Colors.FAIL)
             exitProgram(1)
 
         if len(unkArgs) > 2:
@@ -491,7 +491,7 @@ if __name__ == "__main__":
         container = MemoContainer(Configuration.MEMO_FILE_PATH)
         memo = container.getById(memoId)
         if not memo:
-            printClr("Unknown memo id: " + memoId, bcolors.FAIL)
+            printClr("Unknown memo id: " + memoId, Colors.FAIL)
             exitProgram(1)
 
         success = container.deleteMemo(memo)
@@ -526,7 +526,7 @@ if __name__ == "__main__":
         success = container.appendMemo(memo)
 
         if success:
-            printClr("Memo added with success.", bcolors.OKBLUE)
+            printClr("Memo added with success.", Colors.OKBLUE)
             exitProgram(0)
         else:
             exitProgram(1, "Error while adding memo to file: " + Configuration.MEMO_FILE_PATH)
@@ -541,7 +541,7 @@ if __name__ == "__main__":
         print("")
 
         if knownArgs.filter_category:
-            printClr("Display only category: \"" + knownArgs.filter_category + "\"", bcolors.OKGREEN)
+            printClr("Display only category: \"" + knownArgs.filter_category + "\"", Colors.OKGREEN)
             print("")
 
         for memo in container.getContent(knownArgs.filter_category):
@@ -556,7 +556,7 @@ if __name__ == "__main__":
     if knownArgs.search:
 
         if len(unkArgs) < 1:
-            printClr("You must specify keywords.", bcolors.FAIL)
+            printClr("You must specify keywords.", Colors.FAIL)
             print("")
             parser.print_help()
             exitProgram(1)
@@ -566,17 +566,17 @@ if __name__ == "__main__":
         print("")
 
         if knownArgs.filter_category:
-            printClr("Display only category: \"" + knownArgs.filter_category + "\"", bcolors.WARNING)
+            printClr("Display only category: \"" + knownArgs.filter_category + "\"", Colors.WARNING)
 
         elements = container.searchByKeywords(unkArgs, knownArgs.filter_category)
 
         keywordsStr = ",".join(unkArgs)
 
         if len(elements) == 0:
-            printClr("Nothing found for: \"" + keywordsStr + "\"", bcolors.FAIL)
+            printClr("Nothing found for: \"" + keywordsStr + "\"", Colors.FAIL)
 
         else:
-            printClr("Results for \"" + keywordsStr + "\":", bcolors.HEADER)
+            printClr("Results for \"" + keywordsStr + "\":", Colors.HEADER)
             print("")
 
             for m in elements:
@@ -615,7 +615,7 @@ if __name__ == "__main__":
 
         exitProgram(0)
 
-    printClr("Invalid command.", bcolors.FAIL)
+    printClr("Invalid command.", Colors.FAIL)
     print("")
     parser.print_help()
     exitProgram(1)
