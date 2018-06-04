@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
 
-from Logger import *
 from MemoElement import *
 
 
@@ -9,7 +8,7 @@ class MemoContainer:
 
     def __init__(self, path):
         self.path = path
-        self.content = []
+        self.memoList = []
         self.load()
 
     def createEmptyMemo(self):
@@ -25,36 +24,43 @@ class MemoContainer:
             self.createEmptyMemo()
 
         with open(self.path, "r") as inFile:
-
             lines = inFile.readlines()
-            lines.append("##")
+            self.memoList = self.parseLines(lines)
 
-            category = ""
-            header = ""
-            content = ""
+    def parseLines(self, lines):
 
-            headerRegex = "^ *" + Configuration.MEMO_HEADER_MARK + " *(?:(.+)" + Configuration.MEMO_CATEGORY_MARK + ")? *(.+)"
+        memoList = []
 
-            for lineNumber, line in enumerate(lines):
-                matcher = re.match(headerRegex, line)
+        lines.append("##")
 
-                # this line is a memo header
-                if matcher:
-                    groups = matcher.groups()
-                    category = (groups[0] if groups[0] is not None else Configuration.DEFAULT_CATEGORY)
-                    header = groups[1]
+        category = ""
+        header = ""
+        content = ""
 
-                    print("category")
-                    print(category)
-                    print("header")
-                    print(header)
+        headerRegex = "^ *" + Configuration.MEMO_HEADER_MARK + " *(?:(.+)" + Configuration.MEMO_CATEGORY_MARK + ")? *(.+)"
 
-                    self.content.append(MemoElement(header.strip(), content.strip(), category.strip(), lineNumber))
-                    content = ""
+        for lineNumber, line in enumerate(lines):
+            matcher = re.match(headerRegex, line)
 
-                # this line is part of memo content
-                elif re.search("\\w+", line):
-                    content += line
+            # this line is a memo header
+            if matcher:
+                groups = matcher.groups()
+                category = (groups[0] if groups[0] is not None else Configuration.DEFAULT_CATEGORY)
+                header = groups[1]
+
+                print("category")
+                print(category)
+                print("header")
+                print(header)
+
+                memoList.append(MemoElement(header.strip(), content.strip(), category.strip(), lineNumber))
+                content = ""
+
+            # this line is part of memo content
+            elif re.search("\\w+", line):
+                content += line
+
+        return memoList
 
     def searchByKeywords(self, keywords, categ=None):
 
@@ -69,7 +75,7 @@ class MemoContainer:
 
         categ = categ.strip().lower() if categ != None else ""
 
-        for memo in self.content:
+        for memo in self.memoList:
 
             if categ and memo.getCategory() != categ:
                 continue
@@ -104,7 +110,7 @@ class MemoContainer:
         Return a memo corresponding to the specified ID
         """
 
-        for memo in self.content:
+        for memo in self.memoList:
             if int(memo.id) == int(id):
                 return memo
 
@@ -113,21 +119,18 @@ class MemoContainer:
     def getContent(self, categ=None):
 
         if not categ:
-            return self.content
+            return self.memoList
 
         else:
             categ = categ.strip().lower()
-            output = []
-            for memo in self.content:
+            result = []
+            for memo in self.memoList:
                 if memo.getCategory() == categ:
-                    output.append(memo)
+                    result.append(memo)
 
-            return output
+            return result
 
     def modifyMemo(self, memo):
-        """
-        Modify a memo in storage file
-        """
         memoReadFile = open(self.path, "r")
         fileLines = memoReadFile.readlines()
         memoReadFile.close()
@@ -148,9 +151,6 @@ class MemoContainer:
         memoWriteFile.close()
 
     def deleteMemo(self, memo):
-        """
-        Delete a memo from storage file
-        """
         memoReadFile = open(self.path, "r")
         fileLines = memoReadFile.readlines()
         memoReadFile.close()
@@ -177,9 +177,6 @@ class MemoContainer:
         memoWriteFile.close()
 
     def appendMemo(self, memo):
-        """
-        Add a memo to path. Return false if an error occur.
-        """
         try:
             inFile = open(self.path, "a")
             inFile.write(memo.writableRepresentation())
