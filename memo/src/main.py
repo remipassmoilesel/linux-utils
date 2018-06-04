@@ -76,11 +76,19 @@ def parseArguments():
 
     elif knownArgs.categorize:
 
+        category = knownArgs.categorize
+        if not isinstance(category, str):
+            raise Exception("You must specify category first, then memo ids")
+
         if len(unkArgs) < 1:
             raise Exception("You must specify at least one memo id")
 
-        category = knownArgs.categorize
         for memoId in unkArgs:
+            try:
+                int(memoId)
+            except:
+                raise Exception("Invalid memo id: " + str(memoId))
+
             Logger.header()
             Logger.header("Add category '" + category + "' to memo " + memoId)
 
