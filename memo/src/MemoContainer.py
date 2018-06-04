@@ -108,15 +108,14 @@ class MemoContainer:
 
         return None
 
-    def getContent(self, categ=None):
-        if not categ:
+    def getMemoList(self, categoryFilter=None):
+        if not categoryFilter:
             return self.memoList
 
         else:
-            categ = categ.strip().lower()
             result = []
             for memo in self.memoList:
-                if memo.getCategory() == categ:
+                if memo.getCategory() == categoryFilter:
                     result.append(memo)
 
             return result

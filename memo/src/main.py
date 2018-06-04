@@ -173,7 +173,8 @@ def parseArguments():
             Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
             Logger.info()
 
-        for memo in container.getContent(knownArgs.filter_category):
+        categoryFilter = knownArgs.filter_category.strip().lower() if knownArgs.filter_category else None
+        for memo in container.getMemoList(categoryFilter):
             Logger.info(str(memo))
             Logger.info()
 
@@ -210,7 +211,7 @@ def parseArguments():
         Logger.header()
 
         categories = {}
-        for memo in container.getContent():
+        for memo in container.getMemoList():
             cat = memo.getCategory()
             val = categories.get(cat)
             val = val if val != None else 0
