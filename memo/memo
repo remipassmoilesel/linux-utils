@@ -9,7 +9,7 @@ import subprocess
 
 
 class Configuration:
-    DEBUG = False
+    DEBUG = True
 
     SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
     MEMO_FILE_NAME = "memo-storage.txt"
@@ -160,40 +160,33 @@ class MemoContainer:
             lines = inFile.readlines()
             lines.append("##")
 
-            categ = ""
+            category = ""
             header = ""
             content = ""
-            lineNumber = 0
             lineCounter = 0
 
-            for l in lines:
+            for index, line in lines:
                 matcher = re.match(
                     "^ *" + Configuration.MEMO_HEADER_MARK + " *(?:(.+)" + Configuration.MEMO_CATEGORY_MARK + ")? *(.+)",
-                    l)
+                    line)
 
                 # this line is a memo header
                 if matcher:
-                    i = 0
-
-                    # create a new element and store it
                     if header is not None and content is not None:
-                        self.content.append(MemoElement(header, content, categ, lineNumber))
+                        self.content.append(MemoElement(header, content, category, index))
 
                     if len(matcher.groups()) > 2:
-                        categ = matcher.group(1)
+                        category = matcher.group(1)
                         header = matcher.group(2)
                     else:
-                        categ = ""
+                        category = ""
                         header = matcher.group(1)
 
-                    lineNumber = lineCounter
                     content = ""
 
-                # this line is content if non-empty
-                elif re.search("\\w+", l):
-                    content += l
-
-                lineCounter += 1
+                # this line is part of memo content
+                elif re.search("\\w+", line):
+                    content += line
 
     def searchByKeywords(self, keywords, categ=None):
 
@@ -579,3 +572,5 @@ if __name__ == "__main__":
     except Exception as e:
         Logger.error()
         Logger.error(str(e))
+        Logger.debug(e)
+        exit(1)
