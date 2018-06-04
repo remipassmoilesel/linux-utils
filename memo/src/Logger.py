@@ -15,6 +15,10 @@ class Colors:
 class Logger:
 
     @staticmethod
+    def header(line=""):
+        Logger.printColor(line, Colors.GREEN)
+
+    @staticmethod
     def info(line=""):
         Logger.printColor(line)
 

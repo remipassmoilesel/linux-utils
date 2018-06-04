@@ -66,11 +66,8 @@ def parseArguments():
     knownArgs, unkArgs = parser.parse_known_args()
 
     if knownArgs.edit_all or knownArgs.graphical_editor:
-        editor = Configuration.GRAPHICAL_EDITOR if knownArgs.graphical_editor == True else Configuration.CLI_EDITOR
-
+        editor = Configuration.GRAPHICAL_EDITOR if knownArgs.graphical_editor is True else Configuration.CLI_EDITOR
         subprocess.call(editor + " " + Configuration.MEMO_FILE_PATH, shell=True)
-
-        exitProgram(0)
 
     elif knownArgs.categorize:
 
@@ -84,7 +81,7 @@ def parseArguments():
 
         for memoId in unkArgs:
 
-            Logger.info("Add category '" + category + "' to memo " + memoId)
+            Logger.header("Add category '" + category + "' to memo " + memoId)
 
             memo = container.getById(memoId)
             if not memo:
@@ -131,7 +128,7 @@ def parseArguments():
         success = container.modifyMemo(memo)
 
         if success == True:
-            Logger.info("Memo updated.")
+            Logger.header("Memo updated.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while changing category.")
@@ -149,7 +146,7 @@ def parseArguments():
         success = container.deleteMemo(memo)
 
         if success == True:
-            Logger.info("Memo deleted.")
+            Logger.header("Memo deleted.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while deleting memo.")
@@ -178,7 +175,7 @@ def parseArguments():
         success = container.appendMemo(memo)
 
         if success:
-            Logger.info("Memo added with success.")
+            Logger.header("Memo added with success.")
             exitProgram(0)
         else:
             exitProgram(1, "Error while adding memo to file: " + Configuration.MEMO_FILE_PATH)
@@ -190,7 +187,7 @@ def parseArguments():
         Logger.info()
 
         if knownArgs.filter_category:
-            Logger.info("Display only category: \"" + knownArgs.filter_category + "\"")
+            Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
             Logger.info()
 
         for memo in container.getContent(knownArgs.filter_category):
@@ -223,7 +220,7 @@ def parseArguments():
             Logger.error("Nothing found for: \"" + keywordsStr + "\"")
 
         else:
-            Logger.info("Results for \"" + keywordsStr + "\":")
+            Logger.header("Results for \"" + keywordsStr + "\":")
             Logger.info()
 
             for m in elements:
@@ -236,9 +233,9 @@ def parseArguments():
 
         container = getAndLoadMemoContainer()
 
-        Logger.info()
-        Logger.info("Categories: ")
-        Logger.info()
+        Logger.header()
+        Logger.header("Categories: ")
+        Logger.header()
 
         categories = {}
         for memo in container.getContent():
