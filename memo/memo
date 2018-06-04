@@ -1,13 +1,11 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python3
 # encoding: utf-8
 
 import argparse
 import datetime
 import os
 import re
-from string import join
 import subprocess
-
 import sys
 
 DEBUG = False
@@ -111,11 +109,11 @@ class MemoElement:
         Return a text representation to write in file
         """
 
-        contentLines = self.content.split("\n");
+        contentLines = self.content.split("\n")
         if contentLines[0].startswith("Date:"):
-            modifiedContent = join(contentLines[1:], '\n')
+            modifiedContent = '\n'.join(contentLines[1:])
         else:
-            modifiedContent = join(contentLines, '\n')
+            modifiedContent = '\n'.join(contentLines)
 
         output = "\n\n"
         output += HEADER_MARK + " " + self.categ + " " + CATEG_MARK + " " + self.header + " \n"
@@ -170,7 +168,7 @@ class MemoContainer:
             content = ""
             lineNumber = 0
 
-            lineCounter = 0;
+            lineCounter = 0
 
             # iterate lines
             for l in lines:
@@ -181,10 +179,10 @@ class MemoContainer:
                     i = 0
 
                     # create a new element and store it
-                    if header != "" and content != "":
+                    if header is not None and content is not None:
                         self.content.append(MemoElement(header, content, categ, lineNumber))
 
-                    if matcher.groups() > 2:
+                    if len(matcher.groups()) > 2:
                         categ = matcher.group(1)
                         header = matcher.group(2)
                     else:
@@ -216,7 +214,7 @@ class MemoContainer:
         for w in keywords:
             regexa.append(re.sub("[^a-z]", ".?", w, re.IGNORECASE))
 
-        regex = "(" + join(regexa, "|") + ")+"
+        regex = "(" +  "|".join(regexa) + ")+"
 
         # category
         categ = categ.strip().lower() if categ != None else ""
@@ -242,7 +240,7 @@ class MemoContainer:
 
             # Content is multi line
             else:
-                for l in xrange(1, len(contentLines)):
+                for l in range(1, len(contentLines)):
                     inContent = re.search(regex, contentLines[l], re.IGNORECASE)
                     if inContent:
                         break
@@ -337,7 +335,6 @@ class MemoContainer:
             memoWriteFile.close()
             return True
         except:
-            print "Unexpected error:", sys.exc_info()[0]
             return False
 
     def appendMemo(self, memo):
@@ -349,7 +346,7 @@ class MemoContainer:
             inFile.write(memo.writableRepresentation())
             inFile.close()
             return True
-        except:
+        except Exception as e:
             return False
 
 
@@ -536,7 +533,7 @@ if __name__ == "__main__":
             printClr("Memo added with success.", bcolors.OKBLUE)
             exitProgram(0)
         else:
-            exitProgram(1, "Error while adding memo to file:: " + MEMO_FILE_PATH)
+            exitProgram(1, "Error while adding memo to file: " + MEMO_FILE_PATH)
 
     # DISPLAY WHOLE MEMO
     # DISPLAY WHOLE MEMO
@@ -618,7 +615,7 @@ if __name__ == "__main__":
             for i in range(colLen - len(cat)):
                 spaces += " "
 
-            print cat + spaces + " (" + str(categories[cat]) + ")"
+            print(cat + spaces + " (" + str(categories[cat]) + ")")
 
         exitProgram(0)
 
