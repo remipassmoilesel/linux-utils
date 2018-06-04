@@ -15,6 +15,10 @@ Usage:
     $ git clone http://github.com/remipassmoilesel/linux-utils
 ```
 
+## Setup a shell as I like:
+
+        $ curl https://raw.githubusercontent.com/remipassmoilesel/linux-utils/master/config-helpers/cli-config | bash
+
 ## Bcomm
 
 Shell command bookmark system.
