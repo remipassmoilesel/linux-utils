@@ -17,6 +17,7 @@ class MemoElement:
         self.lineNumber = lineNumber
         self.categ = categ if categ is not None else Configuration.DEFAULT_CATEGORY
 
+    # TODO use explicit call to self.displayableRepresentation for display, in order to get better debug display
     def __repr__(self):
         return self.displayableRepresentation()
 

@@ -13,6 +13,12 @@ def exitProgram(code=0, msg=""):
     exit(code)
 
 
+def getAndLoadMemoContainer():
+    container = MemoContainer()
+    container.loadStorage(Configuration.MEMO_FILE_PATH)
+    return container
+
+
 def parseArguments():
     parser = argparse.ArgumentParser(description=Configuration.PROGRAM_DESCRIPTION,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -72,7 +78,7 @@ def parseArguments():
             exitProgram(1, "You must specify at least one memo id")
 
         category = knownArgs.categorize
-        container = MemoContainer(Configuration.MEMO_FILE_PATH)
+        container = getAndLoadMemoContainer()
 
         error = False
 
@@ -106,7 +112,7 @@ def parseArguments():
         if len(unkArgs) < 2:
             exitProgram(1, "You must specify at least a header and a content")
 
-        container = MemoContainer(Configuration.MEMO_FILE_PATH)
+        container = getAndLoadMemoContainer()
         memo = container.getById(memoId)
 
         if not memo:
@@ -134,7 +140,7 @@ def parseArguments():
 
         memoId = knownArgs.delete
 
-        container = MemoContainer(Configuration.MEMO_FILE_PATH)
+        container = getAndLoadMemoContainer()
         memo = container.getById(memoId)
         if not memo:
             Logger.error("Unknown memo id: " + memoId)
@@ -157,7 +163,7 @@ def parseArguments():
             if len(val) < 1:
                 exitProgram(1, "You can not specify empty arguments.")
 
-        container = MemoContainer(Configuration.MEMO_FILE_PATH)
+        container = getAndLoadMemoContainer()
 
         memo = None
         if len(unkArgs) > 2:
@@ -179,7 +185,7 @@ def parseArguments():
 
     elif knownArgs.display:
 
-        container = MemoContainer(Configuration.MEMO_FILE_PATH)
+        container = getAndLoadMemoContainer()
 
         Logger.info()
 
@@ -201,7 +207,7 @@ def parseArguments():
             parser.print_help()
             exitProgram(1)
 
-        container = MemoContainer(Configuration.MEMO_FILE_PATH)
+        container = getAndLoadMemoContainer()
 
         Logger.info()
 
@@ -227,7 +233,7 @@ def parseArguments():
 
     elif knownArgs.list_categories:
 
-        container = MemoContainer(Configuration.MEMO_FILE_PATH)
+        container = getAndLoadMemoContainer()
 
         Logger.info()
         Logger.info("Categories: ")

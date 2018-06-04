@@ -2,4 +2,7 @@
 
 # lundi 4 juin 2018, 22:44:42 (UTC+0200)
 
-python3 src/main.py $@
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
+python3 "$SCRIPT_DIR/src/main.py" $@

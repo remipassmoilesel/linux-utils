@@ -3,5 +3,6 @@
 *.swo
 *.iml
 *.pyc
+__pycache__
 .ropeproject
 installation/log/*

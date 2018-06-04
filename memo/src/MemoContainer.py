@@ -3,25 +3,25 @@ import re
 
 from MemoElement import *
 
+# TODO:
+# - Make persistence happen on demand, on write() call
 
 class MemoContainer:
 
-    def __init__(self, path):
-        self.path = path
+    def __init__(self):
         self.memoList = []
-        self.load()
 
-    def createEmptyMemo(self):
+    def createEmptyStorage(self):
         with open(self.path, "a") as inFile:
-            inFile.write("Memo" + os.linesep)
-            inFile.write("----" + os.linesep + os.linesep)
+            inFile.write(os.linesep)
             inFile.close()
             Logger.info("File have been created at: " + self.path)
 
-    def load(self):
+    def loadStorage(self, path):
+        self.path = path
         if not os.path.isfile(self.path):
             Logger.warning("Memo file does not exist ...")
-            self.createEmptyMemo()
+            self.createEmptyStorage()
 
         with open(self.path, "r") as inFile:
             lines = inFile.readlines()
@@ -29,9 +29,8 @@ class MemoContainer:
 
     def parseLines(self, lines):
 
+        lines.append(Configuration.MEMO_HEADER_MARK + " Fake header")
         memoList = []
-
-        lines.append("##")
 
         category = ""
         header = ""
@@ -44,16 +43,14 @@ class MemoContainer:
 
             # this line is a memo header
             if matcher:
+
+                if content and category:
+                    memoList.append(MemoElement(header.strip(), content.strip(), category.strip(), lineNumber))
+
                 groups = matcher.groups()
                 category = (groups[0] if groups[0] is not None else Configuration.DEFAULT_CATEGORY)
                 header = groups[1]
 
-                print("category")
-                print(category)
-                print("header")
-                print(header)
-
-                memoList.append(MemoElement(header.strip(), content.strip(), category.strip(), lineNumber))
                 content = ""
 
             # this line is part of memo content
@@ -105,10 +102,7 @@ class MemoContainer:
 
         return rslt
 
-    def getById(self, id, categ=None):
-        """
-        Return a memo corresponding to the specified ID
-        """
+    def getById(self, id):
 
         for memo in self.memoList:
             if int(memo.id) == int(id):
