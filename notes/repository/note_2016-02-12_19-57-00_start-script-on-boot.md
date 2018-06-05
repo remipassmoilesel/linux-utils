@@ -1,7 +1,9 @@
 # Demarrer une commande avec le système
 
 Utiliser le fichier /etc/rc.local pour ajouter des commandes. 
+
 Attention a rajouter un "&" a la fin pour les commandes longues.
+
 
 Il est préférable d'utiliser un script Systemd.
 

@@ -1,7 +1,7 @@
 # Changer les répertoires de stockage de Docker
 
-Editer le fichier /etc/default/docker. Attention: le changement de répertoire
-efface toutes les données des images et conteneurs précedemment utilisés.
+Editer le fichier /etc/default/docker. Attention: le changement de répertoire efface toutes les données des images et 
+conteneurs précedemment utilisés.
 
 Exemple de configuration:
     

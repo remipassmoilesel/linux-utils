@@ -32,10 +32,10 @@ Pour un accés internet, copier /etc/resolv.conf:
 
 Changer de racine:
     
-    sudo chroot sdax/
+    $ sudo chroot sdax/
 
 Attention: les logs sont effectues sur le système cible. Au besoin monter /var/log, + autres logs du système:
     
-    sudo mount --bind /var/log sdax/var/log
+    $ sudo mount --bind /var/log sdax/var/log
 
 

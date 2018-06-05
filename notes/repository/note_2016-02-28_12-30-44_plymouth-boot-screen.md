@@ -1,7 +1,8 @@
 # Changer l'écran de boot
 
 Solution simple: modifier directement les images du thème actif, disponible dans:
-/lib/plymouth/themes/
+
+    /lib/plymouth/themes/
 
 Attention: les images doivent être au format PNG
 

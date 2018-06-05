@@ -16,10 +16,10 @@ Exemple pour sdx à partir d'un live cd
     $ sudo mount --bind /proc/ sdx/proc/
 
     # Changement de système
-    $ chroot sdx
+    $ chroot /mnt/sdx /bin/bash
+    
+    # Mise à jour / réparation de la configuration (ajout de toutes les partions bootable)
+    $ sudo update-grub  
     
     # installation
-    grub-install /dev/sdx
-    
-
-
+    $ grub-install /dev/sdx
