@@ -83,6 +83,7 @@ class MemoContainer:
         regexArray = [
             "^" + ("|").join(regexPartsArray) + separatorPattern,
             separatorPattern + ("|").join(regexPartsArray) + separatorPattern,
+            separatorPattern + ("|").join(regexPartsArray) + "$",
         ]
 
         for memo in self.memoList:
@@ -108,7 +109,7 @@ class MemoContainer:
 
         return result
 
-    def getById(self, id):
+    def getMemoById(self, id):
         for memo in self.memoList:
             if int(memo.id) == int(id):
                 return memo

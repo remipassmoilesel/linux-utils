@@ -45,22 +45,22 @@ class MemoContainerTest(unittest.TestCase):
 
     def test_getByIdShouldSucceed(self):
         container = self.getTestContainer()
-        self.assertEqual(container.getById(1).header, "memo1-header1")
+        self.assertEqual(container.getMemoById(1).header, "memo1-header1")
 
     def test_getByIdShouldFail(self):
         container = self.getTestContainer()
         with self.assertRaises(Exception):
-            container.getById(0)
+            container.getMemoById(0)
 
     def test_updateShouldSucced(self):
         container = self.getTestContainer()
 
-        memo0 = container.getById(1)
+        memo0 = container.getMemoById(1)
         memo0.header = "test updated header"
 
         container.updateMemo(memo0)
 
-        updatedMemo = container.getById(1)
+        updatedMemo = container.getMemoById(1)
         self.assertEqual(updatedMemo.header, "test updated header")
 
 if __name__ == '__main__':

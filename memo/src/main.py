@@ -92,7 +92,7 @@ def parseArguments():
             Logger.header()
             Logger.header("Add category '" + category + "' to memo " + memoId)
 
-            memo = container.getById(memoId)
+            memo = container.getMemoById(memoId)
             if not memo:
                 raise Exception("Unknown memo id: " + memoId)
 
@@ -110,7 +110,7 @@ def parseArguments():
         if len(unkArgs) < 2:
             raise Exception("You must specify at least a header and a content")
 
-        memo = container.getById(memoId)
+        memo = container.getMemoById(memoId)
         if not memo:
             raise Exception("Unknown memo id: " + memoId)
 
@@ -132,7 +132,7 @@ def parseArguments():
     elif knownArgs.delete:
 
         memoId = knownArgs.delete
-        memo = container.getById(memoId)
+        memo = container.getMemoById(memoId)
         if not memo:
             raise Exception("Unknown memo id: " + memoId)
 
