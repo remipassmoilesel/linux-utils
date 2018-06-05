@@ -8,9 +8,9 @@ from Configuration import Configuration
 
 class MemoElement:
 
-    def __init__(self, id, categ, header, content):
+    def __init__(self, id, category, header, content):
         self.id = id
-        self.categ = categ if categ is not None else Configuration.DEFAULT_CATEGORY
+        self.categ = category if category is not None else Configuration.DEFAULT_CATEGORY
         self.header = header
         self.content = content
 

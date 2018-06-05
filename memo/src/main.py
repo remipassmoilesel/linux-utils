@@ -51,7 +51,7 @@ def parseArguments():
                         action="store_true",
                         help="modify a memo")
 
-    knownArgs, unkArgs = parser.parse_known_args()
+    knownArgs, unknownArgs = parser.parse_known_args()
 
     cliHandlers = CliHandlers()
 
@@ -68,7 +68,7 @@ def parseArguments():
         if not isinstance(category, str):
             raise Exception("You must specify category first, then memo ids")
 
-        memoIds = unkArgs
+        memoIds = unknownArgs
         if len(memoIds) < 1:
             raise Exception("You must specify at least one memo id")
 
@@ -84,17 +84,17 @@ def parseArguments():
 
         memoId = knownArgs.update
 
-        if len(unkArgs) < 2:
+        if len(unknownArgs) < 2:
             raise Exception("You must specify at least a header and a content")
 
-        if len(unkArgs) > 2:
-            category = unkArgs[0]
-            header = unkArgs[1]
-            content = unkArgs[2]
+        if len(unknownArgs) > 2:
+            category = unknownArgs[0]
+            header = unknownArgs[1]
+            content = unknownArgs[2]
         else:
             category = Configuration.DEFAULT_CATEGORY
-            header = unkArgs[0]
-            content = unkArgs[1]
+            header = unknownArgs[0]
+            content = unknownArgs[1]
 
         cliHandlers.updateMemo(memoId, category, header, content)
 
@@ -106,29 +106,23 @@ def parseArguments():
 
     elif knownArgs.append:
 
-        if len(unkArgs) < 2:
+        if len(unknownArgs) < 2:
             raise Exception("You must specify at least a header and a content to add a memo")
 
-        for i, val in enumerate(unkArgs):
+        for i, val in enumerate(unknownArgs):
             if len(val) < 1:
                 raise Exception("You can not specify empty arguments.")
 
-        memo = None
-        if len(unkArgs) > 2:
-
-            memo = MemoElement(id=None,
-                               categ=unkArgs[0].strip().lower(),
-                               header=unkArgs[1].strip(),
-                               content=unkArgs[2].strip())
+        if len(unknownArgs) > 2:
+            category=unknownArgs[0].strip().lower()
+            header=unknownArgs[1].strip()
+            content=unknownArgs[2].strip()
         else:
-            memo = MemoElement(id=None,
-                               categ=Configuration.DEFAULT_CATEGORY,
-                               header=unkArgs[0].strip(),
-                               content=unkArgs[1].strip())
+            category=Configuration.DEFAULT_CATEGORY
+            header=unknownArgs[0].strip()
+            content=unknownArgs[1].strip()
 
-        container.appendMemo(memo)
-        container.persistToStorage()
-        Logger.success("Memo added with success.")
+        cliHandlers.appendMemo(category, header, content)
 
 
     elif knownArgs.display:
@@ -145,16 +139,16 @@ def parseArguments():
 
     elif knownArgs.search:
 
-        if len(unkArgs) < 1:
+        if len(unknownArgs) < 1:
             raise Exception("You must specify keywords.")
 
         if knownArgs.filter_category:
             Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
 
         category = knownArgs.filter_category.strip().lower() if knownArgs.filter_category is not None else None
-        foundElements = container.searchByKeywords(unkArgs, category)
+        foundElements = container.searchByKeywords(unknownArgs, category)
 
-        keywordsStr = ",".join(unkArgs)
+        keywordsStr = ",".join(unknownArgs)
 
         if len(foundElements) == 0:
             Logger.error("Nothing found for: \"" + keywordsStr + "\"")

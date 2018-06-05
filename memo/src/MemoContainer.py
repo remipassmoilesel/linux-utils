@@ -55,7 +55,7 @@ class MemoContainer:
 
                 if content and category:
                     memo = MemoElement(id=memoCounter,
-                                       categ=category.strip().lower(),
+                                       category=category.strip().lower(),
                                        header=header.strip(),
                                        content=content.strip())
                     memoList.append(memo)
