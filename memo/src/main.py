@@ -3,21 +3,10 @@
 import argparse
 import subprocess
 
-from MemoContainer import *
-
-
-def exitProgram(code=0, msg=""):
-    if msg != "":
-        Logger.error(msg)
-
-    exit(code)
-
-
-def getAndLoadMemoContainer():
-    container = MemoContainer()
-    container.loadStorageFile(Configuration.MEMO_FILE_PATH)
-    return container
-
+from CliHandlers import CliHandlers
+from MemoElement import MemoElement
+from Configuration import Configuration
+from Logger import Logger
 
 def parseArguments():
     parser = argparse.ArgumentParser(description=Configuration.PROGRAM_DESCRIPTION,
@@ -65,14 +54,15 @@ def parseArguments():
 
     knownArgs, unkArgs = parser.parse_known_args()
 
+    cliHandlers = CliHandlers()
+
     Logger.info()
-    container = getAndLoadMemoContainer()
+
+    # FIXME: remove me after end of refacto (handlers)
+    container = cliHandlers.getAndLoadMemoContainer()
 
     if knownArgs.edit_all or knownArgs.graphical_editor:
-
-        editor = Configuration.GRAPHICAL_EDITOR if knownArgs.graphical_editor is True else Configuration.CLI_EDITOR
-        subprocess.call(editor + " " + Configuration.MEMO_FILE_PATH, shell=True)
-
+        cliHandlers.openEditor(knownArgs.graphical_editor)
 
     elif knownArgs.categorize:
 
@@ -137,14 +127,8 @@ def parseArguments():
             raise Exception("Unknown memo id: " + memoId)
 
         # FIXME: change delete strategy
-        success = container.deleteMemo(memo)
-
-        if success == True:
-            Logger.success("Memo deleted.")
-            exitProgram(0)
-        else:
-            exitProgram(1, "Error while deleting memo.")
-
+        container.deleteMemo(memo)
+        Logger.success("Memo deleted.")
 
     elif knownArgs.append:
 
@@ -234,10 +218,7 @@ def parseArguments():
             Logger.info(cat + spaces + " (" + str(categories[cat]) + ")")
 
     else:
-        Logger.error("Invalid command.")
-        Logger.error()
-        parser.print_help()
-        exitProgram(1)
+        raise Exception("Invalid command. Try --help")
 
 
 if __name__ == "__main__":
@@ -245,7 +226,6 @@ if __name__ == "__main__":
     try:
         parseArguments()
     except Exception as e:
-        Logger.error()
         Logger.error(str(e))
 
         if Configuration.DEBUG:
