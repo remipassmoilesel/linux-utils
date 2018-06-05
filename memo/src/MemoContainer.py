@@ -144,11 +144,6 @@ class MemoContainer:
         raise Exception("Must be reimplemented")
 
     def appendMemo(self, memo):
-        try:
-            inFile = open(self.path, "a")
-            inFile.write(memo.getWritableRepresentation())
-            inFile.close()
-            return True
-        except Exception as e:
-            Logger.debug(e)
-            return False
+        id = len(self.memoList)
+        memo.id = id
+        self.memoList.append(memo)

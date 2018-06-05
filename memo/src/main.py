@@ -168,14 +168,9 @@ def parseArguments():
                                header=unkArgs[0].strip(),
                                content=unkArgs[1].strip())
 
-        # FIXME: change append strategy
-        success = container.appendMemo(memo)
-
-        if success:
-            Logger.success("Memo added with success.")
-            exitProgram(0)
-        else:
-            exitProgram(1, "Error while adding memo to file: " + Configuration.MEMO_FILE_PATH)
+        container.appendMemo(memo)
+        container.persistToStorage()
+        Logger.success("Memo added with success.")
 
 
     elif knownArgs.display:
