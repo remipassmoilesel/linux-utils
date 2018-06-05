@@ -24,11 +24,6 @@ class CliHandlers:
         for memoId in memoIds:
             Logger.header("Add category '" + category + "' to memo " + memoId)
 
-            try:
-                int(memoId)
-            except:
-                raise Exception("Invalid memo id: " + str(memoId))
-
             memo = self.container.getMemoById(memoId)
             if not memo:
                 raise Exception("Unknown memo id: " + memoId)
@@ -39,6 +34,22 @@ class CliHandlers:
 
             Logger.success("Category changed.")
             Logger.success()
+
+    def updateMemo(self, memoId, category, header, content):
+
+        memo = self.container.getMemoById(memoId)
+        if not memo:
+            raise Exception("Unknown memo id: " + memoId)
+
+        memo.categ = category
+        memo.header = header
+        memo.content = content
+
+        self.container.updateMemo(memo)
+        self.container.persistToStorage()
+
+        Logger.success("Memo updated.")
+
 
     def getAndLoadMemoContainer(self):
         container = MemoContainer()

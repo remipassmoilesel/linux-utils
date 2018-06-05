@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import subprocess
 
 from CliHandlers import CliHandlers
 from MemoElement import MemoElement
@@ -69,10 +68,17 @@ def parseArguments():
         if not isinstance(category, str):
             raise Exception("You must specify category first, then memo ids")
 
-        if len(unkArgs) < 1:
+        memoIds = unkArgs
+        if len(memoIds) < 1:
             raise Exception("You must specify at least one memo id")
 
-        cliHandlers.categorizeMemo(category, unkArgs)
+        for memoId in memoIds:
+            try:
+                int(memoId)
+            except:
+                raise Exception("Invalid memo id: " + str(memoId))
+
+        cliHandlers.categorizeMemo(category, memoIds)
 
     elif knownArgs.update:
 
@@ -81,23 +87,16 @@ def parseArguments():
         if len(unkArgs) < 2:
             raise Exception("You must specify at least a header and a content")
 
-        memo = container.getMemoById(memoId)
-        if not memo:
-            raise Exception("Unknown memo id: " + memoId)
-
         if len(unkArgs) > 2:
-            memo.header = unkArgs[1]
-            memo.content = unkArgs[2]
-            memo.categ = unkArgs[0]
+            category = unkArgs[0]
+            header = unkArgs[1]
+            content = unkArgs[2]
         else:
-            memo.header = unkArgs[0]
-            memo.content = unkArgs[1]
-            memo.categ = Configuration.DEFAULT_CATEGORY
+            category = Configuration.DEFAULT_CATEGORY
+            header = unkArgs[0]
+            content = unkArgs[1]
 
-        container.updateMemo(memo)
-        container.persistToStorage()
-
-        Logger.success("Memo updated.")
+        cliHandlers.updateMemo(memoId, category, header, content)
 
 
     elif knownArgs.delete:
