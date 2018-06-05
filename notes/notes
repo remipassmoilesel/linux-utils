@@ -8,46 +8,27 @@ import re
 import shutil
 import subprocess
 
-# Turn to true to verbose output
-DEBUG = False
+class Configuration:
 
-def log(msg):
-    if DEBUG:
-        print(msg)
+    DEBUG = False
 
+    NUMBER_OF_LINE_ON_LIST = 3
+    GRAPHICAL_EDITOR = "xdg-open"
+    CLI_EDITOR = "vim"
 
-# Line number to display when list notes
-linesDisplayedWhenList = 3
+    NOTE_REPO_NAME = "repository"
+    NOTE_REPO_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), NOTE_REPO_NAME)
 
-# Editors
-GRAPHICAL_EDITOR = "xdg-open"
-CLI_EDITOR = "vim"
+    NOTE_NAME_PREFIX = "note_"
+    NOTE_EXTENSION = "md"
+    ENCRYPTED_NOTE_EXTENSION = "gpg"
 
-# Repository path
-notesRepName = "repository"
-notesRepPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), notesRepName)
-log("Repository path: " + notesRepPath);
+    TEMPLATE_NAME = ".template.md"
+    TEMPLATE_PATH = os.path.join(NOTE_REPO_PATH, TEMPLATE_NAME)
 
-# notes prefix
-noteNamePrefix = "note_"
-noteExtension = "md"
-encryptedNoteExtension = "gpg"
-
-# template path
-noteTemplateName = ".template.md"
-noteTemplatePath = os.path.join(notesRepPath, noteTemplateName)
-
-log("Template path: " + noteTemplatePath);
-
-# datetime to add to a new note name
-today = datetime.datetime.now()
-
-# small help to display
-PGRM_DESC = '''
+    PGRM_DESC = '''
 Small utility to save notes.
-Notes are saved in:
-'''
-PGRM_DESC += notesRepPath
+Notes are saved in: ''' + NOTE_REPO_PATH
 
 
 class bcolors:
@@ -138,7 +119,7 @@ def resolveNoteName(data, includeEncrypted = False):
     if len(data.split(os.sep)) < 2:
 
         # relative path: return absolute path
-        notePath = os.path.join(notesRepPath, data)
+        notePath = os.path.join(Configuration.NOTE_REPO_PATH, data)
         if os.path.isfile(notePath):
             return notePath
 
@@ -172,14 +153,14 @@ def listNotePaths(includeEncrypted = False):
 
     # list files from directory
     output = []
-    dirList = os.listdir(notesRepPath)
+    dirList = os.listdir(Configuration.NOTE_REPO_PATH)
 
     # remove uneeded files
     for fname in dirList:
-        if fname != "." and fname != ".." and fname != noteTemplateName:
-            if (includeEncrypted and fname.endswith(encryptedNoteExtension)) \
-                    or fname.endswith(noteExtension):
-                output.append(os.path.join(notesRepPath, fname))
+        if fname != "." and fname != ".." and fname != Configuration.TEMPLATE_NAME:
+            if (includeEncrypted and fname.endswith(Configuration.ENCRYPTED_NOTE_EXTENSION)) \
+                    or fname.endswith(Configuration.NOTE_EXTENSION):
+                output.append(os.path.join(Configuration.NOTE_REPO_PATH, fname))
 
     output.sort()
 
@@ -192,28 +173,25 @@ def editNote(notePath, useGraphicalEditor=False):
     Edit a note, with graphical or non graphical editor
     """
     # choose editor
-    editor = GRAPHICAL_EDITOR if useGraphicalEditor == True else CLI_EDITOR
+    editor = Configuration.GRAPHICAL_EDITOR if useGraphicalEditor == True else Configuration.CLI_EDITOR
 
     # call editor
     subprocess.call(editor + " " + notePath, shell=True)
 
 
 def createNewNote(suffix=None):
-    """
-    Create a new note and return its full path
-    """
 
-    # generate note name
-    newNoteName = noteNamePrefix + today.strftime('%Y-%m-%d_%H-%M-%S')
+    today = datetime.datetime.now()
+    newNoteName = Configuration.NOTE_NAME_PREFIX + today.strftime('%Y-%m-%d_%H-%M-%S')
     if suffix != None:
         newNoteName += "_" + suffix
-    newNoteName += "." + noteExtension
+    newNoteName += "." + Configuration.NOTE_EXTENSION
 
-    newNotePath = os.path.join(notesRepPath, newNoteName)
+    newNotePath = os.path.join(Configuration.NOTE_REPO_PATH, newNoteName)
 
     # create file from template
     try:
-        shutil.copy(noteTemplatePath, newNotePath)
+        shutil.copy(Configuration.TEMPLATE_PATH, newNotePath)
     except:
         exitProgram(1, "Unable to create note here: " + newNotePath)
 
@@ -226,20 +204,20 @@ def checkNoteRepository():
     Check if repository and templates exist, or try to create them
     """
     # check folders
-    if os.path.isdir(notesRepPath) == False:
+    if os.path.isdir(Configuration.NOTE_REPO_PATH) == False:
         try:
-            os.makedirs(notesRepPath)
-            print("Note repository was created here: " + notesRepPath)
+            os.makedirs(Configuration.NOTE_REPO_PATH)
+            print("Note repository was created here: " + Configuration.NOTE_REPO_PATH)
         except:
-            exitProgram(1, "Unable to create note repository: " + notesRepPath)
+            exitProgram(1, "Unable to create note repository: " + Configuration.NOTE_REPO_PATH)
 
     # check note template
-    if os.path.isfile(noteTemplatePath) == False:
+    if os.path.isfile(Configuration.TEMPLATE_PATH) == False:
         try:
-            open(noteTemplatePath, 'a').close()
+            open(Configuration.TEMPLATE_PATH, 'a').close()
         except:
             exitProgram(1,
-                        "Unable to create note template here: " + noteTemplatePath)
+                        "Unable to create note template here: " + Configuration.TEMPLATE_PATH)
 
 
 def encryptGpg(noteName):
@@ -263,7 +241,7 @@ def decryptGpg(noteName):
                            encryptedToClearNoteName(noteName) + " " + noteName + " && sync", shell=True)
 
 def clearToEncryptedNoteName(noteName):
-    return noteName + "." + encryptedNoteExtension
+    return noteName + "." + Configuration.ENCRYPTED_NOTE_EXTENSION
 
 def encryptedToClearNoteName(noteName):
     return noteName[:-4]
@@ -274,7 +252,7 @@ if __name__ == "__main__":
     checkNoteRepository()
 
     # parse arguments
-    parser = argparse.ArgumentParser(description=PGRM_DESC)
+    parser = argparse.ArgumentParser(description=Configuration.PGRM_DESC)
 
     parser.add_argument("-k", "--encrypt",
                         action="store_true",
@@ -314,12 +292,6 @@ if __name__ == "__main__":
 
     knownArgs, unkArgs = parser.parse_known_args()
 
-    log("knownArgs: ")
-    log(knownArgs)
-    log("unkArgs: ")
-    log(unkArgs)
-
-    # create new note
     if knownArgs.newnote:
 
         if len(unkArgs) > 0:
@@ -375,7 +347,7 @@ if __name__ == "__main__":
 
     # edit template
     if knownArgs.edittemplate:
-        editNote(noteTemplatePath, knownArgs.graphical_editor)
+        editNote(Configuration.TEMPLATE_PATH, knownArgs.graphical_editor)
 
         exitProgram()
 
@@ -384,12 +356,12 @@ if __name__ == "__main__":
 
         notePaths = listNotePaths()
         if len(notePaths) < 1:
-            exitProgram(0, "No notes available in: " + notesRepPath)
+            exitProgram(0, "No notes available in: " + Configuration.NOTE_REPO_PATH)
 
         # iterate notes and display them
         i = 0
         for noteName in notePaths:
-            displayNote(noteName, linesDisplayedWhenList)
+            displayNote(noteName, Configuration.NUMBER_OF_LINE_ON_LIST)
 
         exitProgram()
 
@@ -414,7 +386,7 @@ if __name__ == "__main__":
     # display all
     if knownArgs.displayall:
 
-        print("Notes from directory: " + notesRepPath)
+        print("Notes from directory: " + Configuration.NOTE_REPO_PATH)
         print("")
 
         for path in listNotePaths():
@@ -429,7 +401,7 @@ if __name__ == "__main__":
         if len(unkArgs) < 1:
             exitProgram(1, "You must specify keywords.")
 
-        print("Notes from directory: " + notesRepPath)
+        print("Notes from directory: " + Configuration.NOTE_REPO_PATH)
         print("")
 
         # create a search regex
@@ -438,8 +410,6 @@ if __name__ == "__main__":
             regexa.append(re.sub("[^a-z]", ".?", w, re.IGNORECASE))
 
         regex = "(" + "|".join(regexa) + ")+"
-
-        log("searching notes: regex: " + regex)
 
         # iterate notes and search keywords
         i = 0
@@ -452,7 +422,7 @@ if __name__ == "__main__":
 
                 searchResult = re.findall(regex, content, re.IGNORECASE)
                 if searchResult:
-                    displayNote(path, linesDisplayedWhenList, regex)
+                    displayNote(path, Configuration.NUMBER_OF_LINE_ON_LIST, regex)
                     i += 1
 
         # nothing found
