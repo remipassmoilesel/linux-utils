@@ -45,7 +45,7 @@ class MemoElement:
         return output
 
     def updateDate(self):
-        self.dateLine = MemoElement.DATE_PREFIX + " " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + "\n"
+        self.dateLine = MemoElement.DATE_PREFIX + " " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
     def getDateLine(self, content):
         contentLines = content.split("\n")
