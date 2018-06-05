@@ -40,7 +40,7 @@ class MemoElement:
         output += Configuration.MEMO_HEADER_MARK + " " + self.category + " " + Configuration.MEMO_CATEGORY_MARK + " " + self.header + " \n"
         if self.dateLine is not None:
             output += self.dateLine + "\n"
-        output += self.content + "\n"
+        output += self.content + "\n\n"
 
         return output
 
