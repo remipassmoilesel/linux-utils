@@ -77,13 +77,11 @@ class Logger:
 
 
 def displayNote(notePath, lineMax=None, regex=None):
-    """
-    Display a note, without first blank lines
-    """
-    print(Colors.GREEN + "@ Number: " + str(listNotePaths().index(notePath)) + Colors.ENDC)
-    print("@ Name: " + notePath.split(os.sep)[-1])
-    print("@ Path: " + notePath)
-    print("")
+
+    Logger.printColor("@ Number: " + str(listNotePaths().index(notePath)), Colors.GREEN)
+    Logger.info("@ Name: " + notePath.split(os.sep)[-1])
+    Logger.info("@ Path: " + notePath)
+    Logger.info("")
 
     i = 0
     firstPrinted = False
@@ -95,32 +93,32 @@ def displayNote(notePath, lineMax=None, regex=None):
         else:
             firstPrinted = True
 
-        # first line; print in color. [0:-1] print without end of line
+        # print title
         if i == 0:
-            print(Colors.BLUE + Colors.UNDERLINE + line[0:-1] + Colors.ENDC)
-            print("")
+            Logger.printColor(line[0:-1], Colors.BLUE + Colors.UNDERLINE)
+            Logger.info()
             i +=1
 
         # otherwise print normally, but without end of line
         else:
             if regex == None:
-                print(line[0:-1])
+                Logger.info(line[0:-1])
                 i += 1
             # if regex is provided, show only matching lines
             else:
                 match = re.search(regex, line, re.IGNORECASE)
                 if match != None:
                     line = re.sub(regex, Colors.YELLOW + match.group(1) + Colors.ENDC, line, re.IGNORECASE)
-                    print(line[0:-1])
+                    Logger.info(line[0:-1])
                     i += 1
 
         if lineMax != None and i > lineMax:
             break
 
     if i == 0:
-        print("** Note is empty **")
+        Logger.warning("** Note is empty **")
 
-    print("")
+    Logger.info("")
 
 
 def resolveNoteName(data, includeEncrypted = False):
@@ -216,7 +214,7 @@ def checkNoteRepository():
 
     if os.path.isdir(Configuration.NOTE_REPO_PATH) == False:
         os.makedirs(Configuration.NOTE_REPO_PATH)
-        print("Note repository was created here: " + Configuration.NOTE_REPO_PATH)
+        Logger.info("Note repository was created here: " + Configuration.NOTE_REPO_PATH)
 
     # create note template
     if os.path.isfile(Configuration.TEMPLATE_PATH) == False:
@@ -312,7 +310,7 @@ def parseArguments():
         else:
             noteName = createNewNote()
 
-        print("This note have been created: " + noteName)
+        Logger.info("Note have been created: " + noteName)
 
         editNote(noteName, knownArgs.graphicaleditor)
 
@@ -374,8 +372,8 @@ def parseArguments():
 
     elif knownArgs.displayall:
 
-        print("Notes from directory: " + Configuration.NOTE_REPO_PATH)
-        print("")
+        Logger.info("Notes from directory: " + Configuration.NOTE_REPO_PATH)
+        Logger.info()
 
         for path in listNotePaths():
             displayNote(path)
@@ -386,8 +384,8 @@ def parseArguments():
         if len(keywords) < 1:
             raise Exception("You must specify keywords.")
 
-        print("Notes from directory: " + Configuration.NOTE_REPO_PATH)
-        print("")
+        Logger.info("Notes from directory: " + Configuration.NOTE_REPO_PATH)
+        Logger.info()
 
         regexArray = buildSearchRegexArray(keywords)
         someWhereFound = False
