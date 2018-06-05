@@ -84,9 +84,10 @@ class MemoContainer:
 
         separatorPattern = "[-_\s]+"
         regexArray = [
+            "^" + "|".join(regexPartsArray) + "$",
             "^" + ("|").join(regexPartsArray) + separatorPattern,
-            separatorPattern + ("|").join(regexPartsArray) + separatorPattern,
             separatorPattern + ("|").join(regexPartsArray) + "$",
+            separatorPattern + ("|").join(regexPartsArray) + separatorPattern,
         ]
 
         for memo in self.memoList:

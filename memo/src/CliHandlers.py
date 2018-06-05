@@ -86,9 +86,26 @@ class CliHandlers:
             Logger.info(memo.getDisplayRepresentation())
             Logger.info()
 
+    def searchAndDisplay(self, keywords, categoryFilter):
+
+        foundElements = self.container.searchByKeywords(keywords, categoryFilter)
+
+        keywordsStr = ", ".join(keywords)
+
+        if len(foundElements) == 0:
+            Logger.error("Nothing found for: \"" + keywordsStr + "\"")
+
+        else:
+            Logger.header("Results for \"" + keywordsStr + "\":")
+            Logger.info()
+
+            for memo in foundElements:
+                Logger.info(memo.getDisplayRepresentation())
+                Logger.info()
+
 
     def getAndLoadMemoContainer(self):
-        
+
         container = MemoContainer()
         container.loadStorageFile(Configuration.MEMO_FILE_PATH)
         return container

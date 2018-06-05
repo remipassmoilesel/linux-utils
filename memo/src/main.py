@@ -132,28 +132,16 @@ def parseArguments():
 
     elif knownArgs.search:
 
+        keywords = unknownArgs
         if len(unknownArgs) < 1:
             raise Exception("You must specify keywords.")
 
-        if knownArgs.filter_category:
-            Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
+        categoryFilter = knownArgs.filter_category.strip().lower() if knownArgs.filter_category else None
 
-        category = knownArgs.filter_category.strip().lower() if knownArgs.filter_category is not None else None
-        foundElements = container.searchByKeywords(unknownArgs, category)
+        if categoryFilter:
+            Logger.warning("Display only category: \"" + categoryFilter + "\"")
 
-        keywordsStr = ",".join(unknownArgs)
-
-        if len(foundElements) == 0:
-            Logger.error("Nothing found for: \"" + keywordsStr + "\"")
-
-        else:
-            Logger.header("Results for \"" + keywordsStr + "\":")
-            Logger.info()
-
-            for memo in foundElements:
-                Logger.info(memo.getDisplayRepresentation())
-                Logger.info()
-
+        cliHandlers.searchAndDisplay(keywords, categoryFilter)
 
     elif knownArgs.list_categories:
 
