@@ -30,7 +30,6 @@ class MemoElement:
 
         return output
 
-    # TODO: extract date and modify it only on demand
     def getWritableRepresentation(self):
         contentLines = self.content.split("\n")
         if contentLines[0].startswith("Date:"):
