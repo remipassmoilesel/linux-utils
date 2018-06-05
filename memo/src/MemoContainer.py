@@ -133,6 +133,7 @@ class MemoContainer:
             return result
 
     def updateMemo(self, memoToUpdate):
+        memoToUpdate.updateDate()
         self.memoList[memoToUpdate.id] = memoToUpdate
 
     def persistToStorage(self):
@@ -152,4 +153,5 @@ class MemoContainer:
     def appendMemo(self, memo):
         id = len(self.memoList)
         memo.id = id
+        memo.updateDate()
         self.memoList.append(memo)

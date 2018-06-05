@@ -8,41 +8,60 @@ from Configuration import Configuration
 
 class MemoElement:
 
+    DATE_PREFIX = "Date:"
+
     def __init__(self, id, category, header, content):
         self.id = id
-        self.categ = category if category is not None else Configuration.DEFAULT_CATEGORY
+        self.category = category if category is not None else Configuration.DEFAULT_CATEGORY
         self.header = header
-        self.content = content
+        self.dateLine = self.getDateLine(content)
+        self.content = self.stripDateLine(content)
 
     def __repr__(self):
         return "<MemoElement.MemoElement: " + ", ".join([
             str(self.id),
-            str(self.categ),
+            str(self.category),
             str(self.header),
             str(self.content)
         ]) + ">"
 
     def getDisplayRepresentation(self):
         output = Colors.BLUE + Configuration.MEMO_HEADER_MARK + str(self.id) + ": "
-        output += "[" + self.categ + "] "
+        output += "[" + self.category + "] "
         output += self.header + Colors.ENDC + "\n"
+        if self.dateLine is not None:
+            output += self.dateLine + "\n"
         output += self.content
 
         return output
 
     def getWritableRepresentation(self):
-        contentLines = self.content.split("\n")
-        if contentLines[0].startswith("Date:"):
+        output = "\n"
+        output += Configuration.MEMO_HEADER_MARK + " " + self.category + " " + Configuration.MEMO_CATEGORY_MARK + " " + self.header + " \n"
+        if self.dateLine is not None:
+            output += self.dateLine + "\n"
+        output += self.content + "\n"
+
+        return output
+
+    def updateDate(self):
+        self.dateLine = MemoElement.DATE_PREFIX + " " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + "\n"
+
+    def getDateLine(self, content):
+        contentLines = content.split("\n")
+        if contentLines[0].startswith(MemoElement.DATE_PREFIX):
+            return contentLines[0]
+        else:
+            return None
+
+    def stripDateLine(self, content):
+        contentLines = content.split("\n")
+        if contentLines[0].startswith(MemoElement.DATE_PREFIX):
             modifiedContent = '\n'.join(contentLines[1:])
         else:
             modifiedContent = '\n'.join(contentLines)
+        return modifiedContent
 
-        output = "\n\n"
-        output += Configuration.MEMO_HEADER_MARK + " " + self.categ + " " + Configuration.MEMO_CATEGORY_MARK + " " + self.header + " \n"
-        output += "Date: " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + "\n"
-        output += modifiedContent + "\n"
-
-        return output
 
     def getHeader(self):
         return self.header
@@ -51,4 +70,4 @@ class MemoElement:
         return self.content
 
     def getCategory(self):
-        return self.categ
+        return self.category

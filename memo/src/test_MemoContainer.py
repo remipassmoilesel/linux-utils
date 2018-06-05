@@ -56,12 +56,16 @@ class MemoContainerTest(unittest.TestCase):
         container = self.getTestContainer()
 
         memo0 = container.getMemoById(1)
+        memo0.category = "test updated category"
         memo0.header = "test updated header"
+        memo0.content = "test updated content"
 
         container.updateMemo(memo0)
 
         updatedMemo = container.getMemoById(1)
+        self.assertEqual(updatedMemo.category, "test updated category")
         self.assertEqual(updatedMemo.header, "test updated header")
+        self.assertEqual(updatedMemo.content, "test updated content")
 
     def test_deleteShouldSuccedAndReindex(self):
         container = self.getTestContainer()

@@ -31,12 +31,24 @@ class CliHandlers:
             if not memo:
                 raise Exception("Unknown memo id: " + memoId)
 
-            memo.categ = category
+            memo.category = category
             self.container.updateMemo(memo)
             self.container.persistToStorage()
 
             Logger.success("Category changed.")
             Logger.success()
+
+    def appendMemo(self, category, header, content):
+
+        memo = MemoElement(id=None,
+                           category=category,
+                           header=header,
+                           content=content)
+
+        self.container.appendMemo(memo)
+        self.container.persistToStorage()
+
+        Logger.success("Memo added with success.")
 
     def updateMemo(self, memoId, category, header, content):
 
@@ -44,7 +56,7 @@ class CliHandlers:
         if not memo:
             raise Exception("Unknown memo id: " + memoId)
 
-        memo.categ = category
+        memo.category = category
         memo.header = header
         memo.content = content
 
@@ -63,18 +75,6 @@ class CliHandlers:
         self.container.persistToStorage()
 
         Logger.success("Memo deleted.")
-
-    def appendMemo(self, category, header, content):
-
-        memo = MemoElement(id=None,
-                           category=category,
-                           header=header,
-                           content=content)
-
-        self.container.appendMemo(memo)
-        self.container.persistToStorage()
-
-        Logger.success("Memo added with success.")
 
     def displayMemos(self, categoryFilter=None):
 
