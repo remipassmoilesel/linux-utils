@@ -24,7 +24,7 @@ class Configuration:
 
     NOTE_NAME_PREFIX = "note_"
     NOTE_EXTENSION = "md"
-    ENCRYPTED_NOTE_EXTENSION = "gpg"
+    ENCRYPTED_NOTE_EXTENSION = ".gpg"
 
     TEMPLATE_NAME = ".template.md"
     TEMPLATE_PATH = os.path.join(NOTE_REPO_PATH, TEMPLATE_NAME)
@@ -222,25 +222,34 @@ def checkNoteRepository():
             file.close()
 
 
-def encryptGpg(noteName):
-    code = subprocess.call("gpg --yes --armor --output " + clearToEncryptedNoteName(noteName)
-                           + " --symmetric " + noteName + " && sync", shell=True)
+def encryptGpg(noteFullPath):
+    encryptedNoteName = clearToEncryptedNoteName(noteFullPath)
+    encryptNoteCommand = "gpg --yes --armor --output " + encryptedNoteName + " --symmetric " + noteFullPath + " && sync"
 
-    code += subprocess.call("shred -u " + noteName + " && sync", shell=True)
-    return code
+    returnCode = subprocess.call(encryptNoteCommand, shell=True)
+    returnCode += subprocess.call("shred -u " + noteFullPath + " && sync", shell=True)
+
+    if returnCode != 0:
+        raise Exception("/!\ Unable to encrypt note: " + noteFullPath)
 
 
-def decryptGpg(noteName):
-    return subprocess.call("gpg --yes --decrypt --output " +
-                           encryptedToClearNoteName(noteName) + " " + noteName + " && sync", shell=True)
+def decryptGpg(noteFullPath):
+    clearNoteName = encryptedToClearNoteName(noteFullPath)
+    print(noteFullPath)
+    print(clearNoteName)
+    decryptCommand = "gpg --yes --decrypt --output " + clearNoteName + " " + noteFullPath + " && sync"
+    returnCode = subprocess.call(decryptCommand, shell=True)
+
+    if returnCode != 0:
+        raise Exception("/!\ Unable to decrypt note: " + noteFullPath)
 
 
 def clearToEncryptedNoteName(noteName):
-    return noteName + "." + Configuration.ENCRYPTED_NOTE_EXTENSION
+    return noteName + Configuration.ENCRYPTED_NOTE_EXTENSION
 
 
 def encryptedToClearNoteName(noteName):
-    return noteName[:-4]
+    return noteName[:-len(Configuration.ENCRYPTED_NOTE_EXTENSION)]
 
 
 def buildSearchRegexArray(keywords):
@@ -258,6 +267,33 @@ def buildSearchRegexArray(keywords):
         "(" + separatorPattern +("|").join(regexPartsArray) + separatorPattern + ")",
     ]
     return regexArray
+
+
+class CliHandlers:
+
+    def createNewNote(self, noteSuffix, graphicalEditor, encrypt):
+
+        noteName = createNewNote(noteSuffix)
+        Logger.info("Note have been created: " + noteName)
+
+        editNote(noteName, graphicalEditor)
+
+        if encrypt is True:
+            encryptGpg(noteName)
+
+    def editNote(self, noteIdentifier, graphicalEditor, encrypt):
+        notePath = resolveNoteName(noteIdentifier, encrypt)
+        if notePath is None:
+            raise Exception(1, "Unable to find note: " + noteIdentifier)
+
+        if encrypt is True:
+            decryptGpg(notePath)
+            notePath = encryptedToClearNoteName(notePath)
+
+        editNote(notePath, graphicalEditor)
+
+        if encrypt is True:
+            encryptGpg(notePath)
 
 
 def parseArguments():
@@ -303,21 +339,12 @@ def parseArguments():
 
     knownArgs, unknownArgs = parser.parse_known_args()
 
+    cliHandlers = CliHandlers()
+
     if knownArgs.newnote:
 
-        if len(unknownArgs) > 0:
-            noteName = createNewNote(unknownArgs[0])
-        else:
-            noteName = createNewNote()
-
-        Logger.info("Note have been created: " + noteName)
-
-        editNote(noteName, knownArgs.graphicaleditor)
-
-        if knownArgs.encrypt is True:
-            code = encryptGpg(noteName)
-            if code != 0:
-                raise Exception("/!\ Warning: Error while encrypting note " + noteName)
+        noteSuffix = unknownArgs[0] if len(unknownArgs) > 0 else None
+        cliHandlers.createNewNote(noteSuffix, knownArgs.graphicaleditor, knownArgs.encrypt)
 
     elif knownArgs.editnote:
 
@@ -325,23 +352,7 @@ def parseArguments():
             raise Exception("You must specify a name, a partial name or a number.")
 
         noteIdentifier = unknownArgs[0]
-        notePath = resolveNoteName(noteIdentifier, knownArgs.encrypt)
-
-        if notePath is None:
-            raise Exception(1, "Unable to find note: " + noteIdentifier)
-
-        if knownArgs.encrypt is True:
-            code = decryptGpg(notePath)
-            notePath = encryptedToClearNoteName(notePath)
-            if code != 0:
-                raise Exception("/!\ Unable to decrypt note: " + notePath)
-
-        editNote(notePath, knownArgs.graphicaleditor)
-
-        if knownArgs.encrypt is True:
-            code = encryptGpg(notePath)
-            if code != 0:
-                raise Exception("/!\ Warning: Error while encrypting note " + notePath)
+        cliHandlers.editNote(noteIdentifier, knownArgs.graphicaleditor, knownArgs.encrypt)
 
     elif knownArgs.edittemplate:
 
