@@ -102,13 +102,7 @@ def parseArguments():
     elif knownArgs.delete:
 
         memoId = knownArgs.delete
-        memo = container.getMemoById(memoId)
-        if not memo:
-            raise Exception("Unknown memo id: " + memoId)
-
-        # FIXME: change delete strategy
-        container.deleteMemo(memo)
-        Logger.success("Memo deleted.")
+        cliHandlers.deleteMemo(memoId)
 
     elif knownArgs.append:
 

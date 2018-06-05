@@ -50,6 +50,17 @@ class CliHandlers:
 
         Logger.success("Memo updated.")
 
+    def deleteMemo(self, memoId):
+
+        memo = self.container.getMemoById(memoId)
+        if not memo:
+            raise Exception("Unknown memo id: " + memoId)
+
+        self.container.deleteMemo(memo)
+        self.container.persistToStorage()
+
+        Logger.success("Memo deleted.")
+
 
     def getAndLoadMemoContainer(self):
         container = MemoContainer()

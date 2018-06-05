@@ -45,7 +45,7 @@ class MemoContainer:
 
         headerRegex = "^ *" + Configuration.MEMO_HEADER_MARK + " *(?:(.+)" + Configuration.MEMO_CATEGORY_MARK + ")? *(.+)"
 
-        memoCounter = 1
+        memoCounter = 0
 
         for line in lines:
             matcher = re.match(headerRegex, line)
@@ -132,10 +132,7 @@ class MemoContainer:
             return result
 
     def updateMemo(self, memoToUpdate):
-        for index, memo in enumerate(self.memoList):
-            if memo.id == memoToUpdate.id:
-                self.memoList[index] = memoToUpdate
-                break
+        self.memoList[memoToUpdate.id] = memoToUpdate
 
     def persistToStorage(self):
         with open(self.path, "w") as storageFile:
@@ -143,8 +140,13 @@ class MemoContainer:
                 storageFile.writelines(memo.getWritableRepresentation())
             storageFile.close()
 
-    def deleteMemo(self, memo):
-        raise Exception("Must be reimplemented")
+    def deleteMemo(self, memoToDelete):
+        del self.memoList[memoToDelete.id]
+        self.reindexMemoList()
+
+    def reindexMemoList(self):
+        for index, memo in enumerate(self.memoList):
+            memo.id = index
 
     def appendMemo(self, memo):
         id = len(self.memoList)
