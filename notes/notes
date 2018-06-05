@@ -31,15 +31,47 @@ Small utility to save notes.
 Notes are saved in: ''' + NOTE_REPO_PATH
 
 
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+class Colors:
+    PURPLE = '\033[95m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
     ENDC = '\033[0m'
+    UNDERLINE = '\033[4m'
+
+class Logger:
+
+    @staticmethod
+    def header(line=""):
+        Logger.printColor(line, Colors.UNDERLINE)
+
+    @staticmethod
+    def success(line=""):
+        Logger.printColor(line, Colors.GREEN)
+
+    @staticmethod
+    def info(line=""):
+        Logger.printColor(line)
+
+    @staticmethod
+    def warning(line=""):
+        Logger.printColor(line, Colors.YELLOW)
+
+    @staticmethod
+    def error(line=""):
+        Logger.printColor(line, Colors.RED)
+
+    @staticmethod
+    def printColor(line="", color=Colors.ENDC):
+        print(color + str(line) + Colors.ENDC)
+
+    @staticmethod
+    def debug(data):
+        if Configuration.DEBUG:
+            Logger.printColor('Debug: ', Colors.YELLOW)
+            print(data)
+
 
 
 def exitProgram(code=0, msg=""):
@@ -56,8 +88,8 @@ def displayNote(notePath, lineMax=None, regex=None):
     """
     Display a note, without first blank lines
     """
-    print(bcolors.OKGREEN + "@ Number: " + str(
-        listNotePaths().index(notePath)) + bcolors.ENDC)
+    print(Colors.GREEN + "@ Number: " + str(
+        listNotePaths().index(notePath)) + Colors.ENDC)
     print("@ Name: " + notePath.split(os.sep)[-1])
     print("@ Path: " + notePath)
     print("")
@@ -74,7 +106,7 @@ def displayNote(notePath, lineMax=None, regex=None):
 
         # first line; print in color. [0:-1] print without end of line
         if i == 0:
-            print(bcolors.OKBLUE + bcolors.UNDERLINE + line[0:-1] + bcolors.ENDC)
+            print(Colors.BLUE + Colors.UNDERLINE + line[0:-1] + Colors.ENDC)
             print("")
             i +=1
 
@@ -87,7 +119,7 @@ def displayNote(notePath, lineMax=None, regex=None):
             else:
                 match = re.search(regex, line, re.IGNORECASE)
                 if match != None:
-                    line = re.sub(regex, bcolors.WARNING + match.group(1) + bcolors.ENDC, line, re.IGNORECASE)
+                    line = re.sub(regex, Colors.YELLOW + match.group(1) + Colors.ENDC, line, re.IGNORECASE)
                     print(line[0:-1])
                     i += 1
 
