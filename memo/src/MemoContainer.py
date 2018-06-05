@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import re
+import os
 
-from MemoElement import *
+from Configuration import Configuration
+from Logger import Logger
+from MemoElement import MemoElement
 
 
 # TODO:

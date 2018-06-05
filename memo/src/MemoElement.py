@@ -2,7 +2,8 @@
 
 import datetime
 
-from Logger import *
+from Logger import Colors
+from Configuration import Configuration
 
 
 class MemoElement:

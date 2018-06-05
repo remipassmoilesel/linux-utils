@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from Configuration import *
+from Configuration import Configuration
 
 
 class Colors:
