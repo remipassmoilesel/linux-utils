@@ -8,9 +8,6 @@ import re
 import shutil
 import subprocess
 
-# TODO: replace all prints by logger
-
-
 class Configuration:
 
     DEBUG = False
@@ -83,39 +80,38 @@ def displayNote(notePath, lineMax=None, regex=None):
     Logger.info("@ Path: " + notePath)
     Logger.info("")
 
-    i = 0
-    firstPrinted = False
+    displayedLines = 0
+    titlePrinted = False
     for line in getLinesFromNote(notePath):
 
         # avoid printing first empty lines
-        if firstPrinted is False and re.search("[a-z0-9]+", line, re.IGNORECASE) is None:
+        if titlePrinted is False and re.search("[a-z0-9]+", line, re.IGNORECASE) is None:
             continue
         else:
-            firstPrinted = True
+            titlePrinted = True
 
-        # print title
-        if i == 0:
+        if displayedLines == 0:
             Logger.printColor(line[0:-1], Colors.BLUE + Colors.UNDERLINE)
             Logger.info()
-            i +=1
+            displayedLines +=1
 
         # otherwise print normally, but without end of line
         else:
-            if regex == None:
+            if regex is None:
                 Logger.info(line[0:-1])
-                i += 1
+                displayedLines += 1
             # if regex is provided, show only matching lines
             else:
                 match = re.search(regex, line, re.IGNORECASE)
-                if match != None:
+                if match is not None:
                     line = re.sub(regex, Colors.YELLOW + match.group(1) + Colors.ENDC, line, re.IGNORECASE)
                     Logger.info(line[0:-1])
-                    i += 1
+                    displayedLines += 1
 
-        if lineMax != None and i > lineMax:
+        if lineMax is not None and displayedLines > lineMax:
             break
 
-    if i == 0:
+    if displayedLines == 0:
         Logger.warning("** Note is empty **")
 
     Logger.info("")
