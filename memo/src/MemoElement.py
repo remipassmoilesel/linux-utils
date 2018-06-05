@@ -13,6 +13,14 @@ class MemoElement:
         self.header = header
         self.content = content
 
+    def __repr__(self):
+        return "<MemoElement.MemoElement: " + ", ".join([
+            str(self.id),
+            str(self.categ),
+            str(self.header),
+            str(self.content)
+        ]) + ">"
+
     def getDisplayRepresentation(self):
         output = Colors.BLUE + Configuration.MEMO_HEADER_MARK + str(self.id) + ": "
         output += "[" + self.categ + "] "
