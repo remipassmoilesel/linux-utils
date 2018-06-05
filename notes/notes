@@ -73,17 +73,6 @@ class Logger:
             print(data)
 
 
-
-def exitProgram(code=0, msg=""):
-    """
-    Stop program
-    """
-    if msg != "":
-        print(msg)
-
-    exit(code)
-
-
 def displayNote(notePath, lineMax=None, regex=None):
     """
     Display a note, without first blank lines
@@ -160,22 +149,12 @@ def resolveNoteName(data, includeEncrypted = False):
             if re.search(data, path, re.IGNORECASE) is not None:
                 return path
 
-    # nothing found
     return None
 
 
 def getLinesFromNote(notePath):
-    """
-    Return all lines from a note
-    """
-
-    try:
-        f = open(notePath)
-        output = f.readlines()
-    except:
-        exitProgram(1, "Impossible de lire le fichier: " + notePath)
-
-    return output
+    with open(notePath, "r") as file:
+        return file.readlines()
 
 
 def listNotePaths(includeEncrypted = False):
@@ -222,10 +201,7 @@ def createNewNote(suffix=None):
     newNotePath = os.path.join(Configuration.NOTE_REPO_PATH, newNoteName)
 
     # create file from template
-    try:
-        shutil.copy(Configuration.TEMPLATE_PATH, newNotePath)
-    except:
-        exitProgram(1, "Unable to create note here: " + newNotePath)
+    shutil.copy(Configuration.TEMPLATE_PATH, newNotePath)
 
     # return full path
     return newNotePath
@@ -235,53 +211,39 @@ def checkNoteRepository():
     """
     Check if repository and templates exist, or try to create them
     """
-    # check folders
-    if os.path.isdir(Configuration.NOTE_REPO_PATH) == False:
-        try:
-            os.makedirs(Configuration.NOTE_REPO_PATH)
-            print("Note repository was created here: " + Configuration.NOTE_REPO_PATH)
-        except:
-            exitProgram(1, "Unable to create note repository: " + Configuration.NOTE_REPO_PATH)
 
-    # check note template
+    if os.path.isdir(Configuration.NOTE_REPO_PATH) == False:
+        os.makedirs(Configuration.NOTE_REPO_PATH)
+        print("Note repository was created here: " + Configuration.NOTE_REPO_PATH)
+
+    # create note template
     if os.path.isfile(Configuration.TEMPLATE_PATH) == False:
-        try:
-            open(Configuration.TEMPLATE_PATH, 'a').close()
-        except:
-            exitProgram(1,
-                        "Unable to create note template here: " + Configuration.TEMPLATE_PATH)
+        with open(Configuration.TEMPLATE_PATH, 'a') as file:
+            file.close()
 
 
 def encryptGpg(noteName):
-    """
-    Encrypt with GPG
-    """
     code = subprocess.call("gpg --yes --armor --output " + clearToEncryptedNoteName(noteName)
                            + " --symmetric " + noteName + " && sync", shell=True)
 
-    # then destroy clear file
     code += subprocess.call("shred -u " + noteName + " && sync", shell=True)
-
     return code
 
 
 def decryptGpg(noteName):
-    """
-    Decrypt with GPG
-    """
     return subprocess.call("gpg --yes --decrypt --output " +
                            encryptedToClearNoteName(noteName) + " " + noteName + " && sync", shell=True)
+
 
 def clearToEncryptedNoteName(noteName):
     return noteName + "." + Configuration.ENCRYPTED_NOTE_EXTENSION
 
+
 def encryptedToClearNoteName(noteName):
     return noteName[:-4]
 
-if __name__ == "__main__":
 
-    # check repo
-    checkNoteRepository()
+def parseArguments():
 
     # parse arguments
     parser = argparse.ArgumentParser(description=Configuration.PGRM_DESC)
@@ -322,101 +284,76 @@ if __name__ == "__main__":
                         action="store_true",
                         help="use graphical editor")
 
-    knownArgs, unkArgs = parser.parse_known_args()
+    knownArgs, unknownArgs = parser.parse_known_args()
 
     if knownArgs.newnote:
 
-        if len(unkArgs) > 0:
-            noteName = createNewNote(unkArgs[0])
+        if len(unknownArgs) > 0:
+            noteName = createNewNote(unknownArgs[0])
         else:
             noteName = createNewNote()
 
-        # create note
         print("This note have been created: " + noteName)
 
-        # then edit it
         editNote(noteName, knownArgs.graphicaleditor)
 
-        # if necessary, encrypt it
-        if knownArgs.encrypt == True:
+        if knownArgs.encrypt is True:
             code = encryptGpg(noteName)
             if code != 0:
-                exitProgram(1, "/!\ Warning: Error while encrypting note " + noteName)
+                raise Exception("/!\ Warning: Error while encrypting note " + noteName)
 
-        exitProgram()
+    elif knownArgs.editnote:
 
-    # edit existing note
-    if knownArgs.editnote:
+        if len(unknownArgs) != 1:
+            raise Exception("You must specify a name, a partial name or a number.")
 
-        # check if exist
-        if len(unkArgs) != 1:
-            exitProgram(1, "You must specify a name, a partial name or a number.")
+        noteIdentifier = unknownArgs[0]
+        notePath = resolveNoteName(noteIdentifier, knownArgs.encrypt)
 
-        # get path of note
-        notePath = resolveNoteName(unkArgs[0], knownArgs.encrypt)
+        if notePath is None:
+            raise Exception(1, "Unable to find note: " + noteIdentifier)
 
-        # not found
-        if notePath == None:
-            exitProgram(1, "Unable to find note: " + unkArgs[0])
-
-        # decrypt it if needed
-        if knownArgs.encrypt == True:
+        if knownArgs.encrypt is True:
             code = decryptGpg(notePath)
             notePath = encryptedToClearNoteName(notePath)
             if code != 0:
-                exitProgram(1, "/!\ Unable to decrypt note: " + notePath)
+                raise Exception("/!\ Unable to decrypt note: " + notePath)
 
-        # edit it
         editNote(notePath, knownArgs.graphicaleditor)
 
-        # encrypt if needed
-        if knownArgs.encrypt == True:
+        if knownArgs.encrypt is True:
             code = encryptGpg(notePath)
             if code != 0:
-                exitProgram(1, "/!\ Warning: Error while encrypting note " + notePath)
+                raise Exception("/!\ Warning: Error while encrypting note " + notePath)
 
-        exitProgram()
+    elif knownArgs.edittemplate:
 
-    # edit template
-    if knownArgs.edittemplate:
         editNote(Configuration.TEMPLATE_PATH, knownArgs.graphical_editor)
 
-        exitProgram()
-
-    # list existing notes
-    if knownArgs.list:
+    elif knownArgs.list:
 
         notePaths = listNotePaths()
         if len(notePaths) < 1:
-            exitProgram(0, "No notes available in: " + Configuration.NOTE_REPO_PATH)
+            raise Exception("No notes available in: " + Configuration.NOTE_REPO_PATH)
 
-        # iterate notes and display them
-        i = 0
         for noteName in notePaths:
             displayNote(noteName, Configuration.NUMBER_OF_LINE_ON_LIST)
 
-        exitProgram()
+    elif knownArgs.display:
 
-    # display note
-    if knownArgs.display:
+        if len(unknownArgs) != 1:
+            raise Exception("You must specify a name, a partial name or a number.")
 
-        # check if exist
-        if len(unkArgs) != 1:
-            exitProgram(1, "You must specify a name, a partial name or a number.")
-
-        # get full path
-        notePath = resolveNoteName(unkArgs[0])
+        noteIdentifier = unknownArgs[0]
+        notePath = resolveNoteName(noteIdentifier)
 
         # not found
-        if notePath == None:
-            exitProgram(1, "Unable to found note: " + unkArgs[0])
+        if notePath is None:
+            raise Exception("Unable to found note: " + noteIdentifier)
 
         displayNote(notePath)
 
-        exitProgram()
-
-    # display all
-    if knownArgs.displayall:
+    elif knownArgs.displayall:
 
         print("Notes from directory: " + Configuration.NOTE_REPO_PATH)
         print("")
@@ -424,32 +361,26 @@ if __name__ == "__main__":
         for path in listNotePaths():
             displayNote(path)
 
-        exitProgram()
+    elif knownArgs.search:
 
-    # search in notes
-    if knownArgs.search:
-
-        # check keywords
-        if len(unkArgs) < 1:
-            exitProgram(1, "You must specify keywords.")
+        keywords = unknownArgs
+        if len(keywords) < 1:
+            raise Exception("You must specify keywords.")
 
         print("Notes from directory: " + Configuration.NOTE_REPO_PATH)
         print("")
 
-        # create a search regex
-        regexa = []
-        for w in unkArgs:
-            regexa.append(re.sub("[^a-z]", ".?", w, re.IGNORECASE))
+        regexArray = []
+        for w in keywords:
+            regexArray.append(re.sub("[^a-z]", ".?", w, re.IGNORECASE))
 
-        regex = "(" + "|".join(regexa) + ")+"
+        regex = "(" + "|".join(regexArray) + ")+"
 
-        # iterate notes and search keywords
+        # TODO: remove i
         i = 0
         for path in listNotePaths():
 
             with open(path, 'r') as cfile:
-
-                # get note content and try to match it
                 content = cfile.read()
 
                 searchResult = re.findall(regex, content, re.IGNORECASE)
@@ -457,13 +388,22 @@ if __name__ == "__main__":
                     displayNote(path, Configuration.NUMBER_OF_LINE_ON_LIST, regex)
                     i += 1
 
-        # nothing found
         if i < 1:
-            print("Nothing found: " + ", ".join(unkArgs))
+            raise Exception("Nothing found: " + ", ".join(keywords))
 
-        exitProgram()
+    else:
+        Exception("Bad command, please try --help")
 
-    # Error while parsing arguments
-    print("Syntax error, please read help below: ")
-    parser.print_help()
-    exitProgram(1, "")
+
+if __name__ == "__main__":
+
+    try:
+        parseArguments()
+    except Exception as e:
+        Logger.error(str(e))
+
+        if Configuration.DEBUG:
+            raise e
+
+        exit(1)
+
