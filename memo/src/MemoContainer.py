@@ -72,19 +72,7 @@ class MemoContainer:
     def searchByKeywords(self, keywords, categoryFilter=None):
 
         result = []
-
-        regexPartsArray = []
-        for word in keywords:
-            wordWithoutSpecialChars = re.sub("[^a-z0-9-]", ".?", word, re.IGNORECASE)
-            regexPartsArray.append(wordWithoutSpecialChars)
-
-        separatorPattern = "[-_\s]+"
-        regexArray = [
-            "^" + "|".join(regexPartsArray) + "$",
-            "^" + ("|").join(regexPartsArray) + separatorPattern,
-            separatorPattern + ("|").join(regexPartsArray) + "$",
-            separatorPattern + ("|").join(regexPartsArray) + separatorPattern,
-        ]
+        regexArray = self.buildSearchRegexArray(keywords)
 
         for memo in self.memoList:
 
@@ -108,6 +96,22 @@ class MemoContainer:
                     break
 
         return result
+
+    def buildSearchRegexArray(self, keywords):
+
+        regexPartsArray = []
+        for word in keywords:
+            wordWithoutSpecialChars = re.sub("[^a-z0-9-]", ".?", word, re.IGNORECASE)
+            regexPartsArray.append(wordWithoutSpecialChars)
+
+        separatorPattern = "[-_\s]+"
+        regexArray = [
+            "^" + "|".join(regexPartsArray) + "$",
+            "^" + ("|").join(regexPartsArray) + separatorPattern,
+            separatorPattern + ("|").join(regexPartsArray) + "$",
+            separatorPattern + ("|").join(regexPartsArray) + separatorPattern,
+        ]
+        return regexArray
 
     def getMemoById(self, id):
         for memo in self.memoList:
