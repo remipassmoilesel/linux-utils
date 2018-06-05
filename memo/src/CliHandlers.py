@@ -76,8 +76,19 @@ class CliHandlers:
 
         Logger.success("Memo added with success.")
 
+    def displayMemos(self, categoryFilter=None):
+
+        if categoryFilter:
+            Logger.warning("Display only category: \"" + categoryFilter + "\"")
+            Logger.info()
+
+        for memo in self.container.getMemoList(categoryFilter):
+            Logger.info(memo.getDisplayRepresentation())
+            Logger.info()
+
 
     def getAndLoadMemoContainer(self):
+        
         container = MemoContainer()
         container.loadStorageFile(Configuration.MEMO_FILE_PATH)
         return container

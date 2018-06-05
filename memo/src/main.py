@@ -127,15 +127,8 @@ def parseArguments():
 
     elif knownArgs.display:
 
-        if knownArgs.filter_category:
-            Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
-            Logger.info()
-
         categoryFilter = knownArgs.filter_category.strip().lower() if knownArgs.filter_category else None
-        for memo in container.getMemoList(categoryFilter):
-            Logger.info(memo.getDisplayRepresentation())
-            Logger.info()
-
+        cliHandlers.displayMemos(categoryFilter)
 
     elif knownArgs.search:
 
