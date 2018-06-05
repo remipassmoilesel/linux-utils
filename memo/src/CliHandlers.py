@@ -7,6 +7,9 @@ import subprocess
 
 class CliHandlers:
 
+    def __init__(self):
+        self.container = self.getAndLoadMemoContainer()
+
     def openEditor(self, graphicalEditor=False):
         editor = Configuration.GRAPHICAL_EDITOR if graphicalEditor is True else Configuration.CLI_EDITOR
         subprocess.call(editor + " " + Configuration.MEMO_FILE_PATH, shell=True)
@@ -17,178 +20,27 @@ class CliHandlers:
 
         exit(code)
 
+    def categorizeMemo(self, category, memoIds):
+        for memoId in memoIds:
+            Logger.header("Add category '" + category + "' to memo " + memoId)
+
+            try:
+                int(memoId)
+            except:
+                raise Exception("Invalid memo id: " + str(memoId))
+
+            memo = self.container.getMemoById(memoId)
+            if not memo:
+                raise Exception("Unknown memo id: " + memoId)
+
+            memo.categ = category
+            self.container.updateMemo(memo)
+            self.container.persistToStorage()
+
+            Logger.success("Category changed.")
+            Logger.success()
+
     def getAndLoadMemoContainer(self):
         container = MemoContainer()
         container.loadStorageFile(Configuration.MEMO_FILE_PATH)
         return container
-
-    #
-    # def parse(self):
-    #
-    #
-    #
-    #
-    #     elif knownArgs.categorize:
-    #
-    #         category = knownArgs.categorize
-    #         if not isinstance(category, str):
-    #             raise Exception("You must specify category first, then memo ids")
-    #
-    #         if len(unkArgs) < 1:
-    #             raise Exception("You must specify at least one memo id")
-    #
-    #         for memoId in unkArgs:
-    #             try:
-    #                 int(memoId)
-    #             except:
-    #                 raise Exception("Invalid memo id: " + str(memoId))
-    #
-    #             Logger.header()
-    #             Logger.header("Add category '" + category + "' to memo " + memoId)
-    #
-    #             memo = container.getMemoById(memoId)
-    #             if not memo:
-    #                 raise Exception("Unknown memo id: " + memoId)
-    #
-    #             memo.categ = category
-    #             container.updateMemo(memo)
-    #             container.persistToStorage()
-    #
-    #             Logger.success("Category changed.")
-    #
-    #
-    #     elif knownArgs.update:
-    #
-    #         memoId = knownArgs.update
-    #
-    #         if len(unkArgs) < 2:
-    #             raise Exception("You must specify at least a header and a content")
-    #
-    #         memo = container.getMemoById(memoId)
-    #         if not memo:
-    #             raise Exception("Unknown memo id: " + memoId)
-    #
-    #         if len(unkArgs) > 2:
-    #             memo.header = unkArgs[1]
-    #             memo.content = unkArgs[2]
-    #             memo.categ = unkArgs[0]
-    #         else:
-    #             memo.header = unkArgs[0]
-    #             memo.content = unkArgs[1]
-    #             memo.categ = Configuration.DEFAULT_CATEGORY
-    #
-    #         container.updateMemo(memo)
-    #         container.persistToStorage()
-    #
-    #         Logger.success("Memo updated.")
-    #
-    #
-    #     elif knownArgs.delete:
-    #
-    #         memoId = knownArgs.delete
-    #         memo = container.getMemoById(memoId)
-    #         if not memo:
-    #             raise Exception("Unknown memo id: " + memoId)
-    #
-    #         # FIXME: change delete strategy
-    #         success = container.deleteMemo(memo)
-    #
-    #         if success == True:
-    #             Logger.success("Memo deleted.")
-    #             exitProgram(0)
-    #         else:
-    #             exitProgram(1, "Error while deleting memo.")
-    #
-    #
-    #     elif knownArgs.append:
-    #
-    #         if len(unkArgs) < 2:
-    #             raise Exception("You must specify at least a header and a content to add a memo")
-    #
-    #         for i, val in enumerate(unkArgs):
-    #             if len(val) < 1:
-    #                 raise Exception("You can not specify empty arguments.")
-    #
-    #         memo = None
-    #         if len(unkArgs) > 2:
-    #
-    #             memo = MemoElement(id=None,
-    #                                categ=unkArgs[0].strip().lower(),
-    #                                header=unkArgs[1].strip(),
-    #                                content=unkArgs[2].strip())
-    #         else:
-    #             memo = MemoElement(id=None,
-    #                                categ=Configuration.DEFAULT_CATEGORY,
-    #                                header=unkArgs[0].strip(),
-    #                                content=unkArgs[1].strip())
-    #
-    #         container.appendMemo(memo)
-    #         container.persistToStorage()
-    #         Logger.success("Memo added with success.")
-    #
-    #
-    #     elif knownArgs.display:
-    #
-    #         if knownArgs.filter_category:
-    #             Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
-    #             Logger.info()
-    #
-    #         categoryFilter = knownArgs.filter_category.strip().lower() if knownArgs.filter_category else None
-    #         for memo in container.getMemoList(categoryFilter):
-    #             Logger.info(memo.getDisplayRepresentation())
-    #             Logger.info()
-    #
-    #
-    #     elif knownArgs.search:
-    #
-    #         if len(unkArgs) < 1:
-    #             raise Exception("You must specify keywords.")
-    #
-    #         if knownArgs.filter_category:
-    #             Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
-    #
-    #         category = knownArgs.filter_category.strip().lower() if knownArgs.filter_category is not None else None
-    #         foundElements = container.searchByKeywords(unkArgs, category)
-    #
-    #         keywordsStr = ",".join(unkArgs)
-    #
-    #         if len(foundElements) == 0:
-    #             Logger.error("Nothing found for: \"" + keywordsStr + "\"")
-    #
-    #         else:
-    #             Logger.header("Results for \"" + keywordsStr + "\":")
-    #             Logger.info()
-    #
-    #             for memo in foundElements:
-    #                 Logger.info(memo.getDisplayRepresentation())
-    #                 Logger.info()
-    #
-    #
-    #     elif knownArgs.list_categories:
-    #
-    #         Logger.header()
-    #         Logger.header("Categories: ")
-    #         Logger.header()
-    #
-    #         categories = {}
-    #         for memo in container.getMemoList():
-    #             cat = memo.getCategory()
-    #             val = categories.get(cat)
-    #             val = val if val != None else 0
-    #             categories[cat] = val + 1
-    #
-    #         colLen = 25
-    #         sortedKeys = sorted(categories.keys())
-    #
-    #         for cat in sortedKeys:
-    #             spaces = ""
-    #             for i in range(colLen - len(cat)):
-    #                 spaces += " "
-    #
-    #             Logger.info(cat + spaces + " (" + str(categories[cat]) + ")")
-    #
-    #     else:
-    #         Logger.error("Invalid command.")
-    #         Logger.error()
-    #         parser.print_help()
-    #         exitProgram(1)

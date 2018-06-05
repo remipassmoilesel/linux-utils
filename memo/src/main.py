@@ -65,7 +65,6 @@ def parseArguments():
         cliHandlers.openEditor(knownArgs.graphical_editor)
 
     elif knownArgs.categorize:
-
         category = knownArgs.categorize
         if not isinstance(category, str):
             raise Exception("You must specify category first, then memo ids")
@@ -73,25 +72,7 @@ def parseArguments():
         if len(unkArgs) < 1:
             raise Exception("You must specify at least one memo id")
 
-        for memoId in unkArgs:
-            try:
-                int(memoId)
-            except:
-                raise Exception("Invalid memo id: " + str(memoId))
-
-            Logger.header()
-            Logger.header("Add category '" + category + "' to memo " + memoId)
-
-            memo = container.getMemoById(memoId)
-            if not memo:
-                raise Exception("Unknown memo id: " + memoId)
-
-            memo.categ = category
-            container.updateMemo(memo)
-            container.persistToStorage()
-
-            Logger.success("Category changed.")
-
+        cliHandlers.categorizeMemo(category, unkArgs)
 
     elif knownArgs.update:
 
