@@ -76,5 +76,6 @@ class MemoContainerTest(unittest.TestCase):
         memo1 = container.getMemoById(0)
         self.assertEqual(memo1.header, "memo2-header1")
 
+
 if __name__ == '__main__':
     unittest.main()

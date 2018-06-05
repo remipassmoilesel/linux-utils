@@ -11,26 +11,26 @@ class Configuration:
     MEMO_FILE_PATH = os.path.join(SCRIPT_PATH, '..', MEMO_FILE_NAME)
 
     PROGRAM_DESCRIPTION = '''
-    Simple memo utility, useful to store commands.
+Simple memo utility, useful to store commands.
 
-    Examples: 
+Examples: 
 
-        Add a memo in category k8s:
-        $ memo -a "k8s" "helm dependency build" "Update chart dependencies"
+    Add a memo in category k8s:
+    $ memo -a "k8s" "helm dependency build" "Update chart dependencies"
 
-        Search a memo, and filter by category:
-        $ memo -f k8s -s helm
+    Search a memo, and filter by category:
+    $ memo -f k8s -s helm
 
-        Edit all memos with CLI editor:
-        $ memo -e
+    Edit all memos with CLI editor:
+    $ memo -e
 
-        Delete memo:
-        $ memo -k 121
+    Delete memo:
+    $ memo -k 121
 
-        Categorize memo:
-        $ memo -c k8s 536
+    Categorize memo:
+    $ memo -c k8s 536
 
-    All informations are stored in file: ''' + MEMO_FILE_PATH
+All informations are stored in file: ''' + MEMO_FILE_PATH
 
     GRAPHICAL_EDITOR = "xdg-open"
     CLI_EDITOR = "vim"

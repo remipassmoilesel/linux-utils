@@ -6,10 +6,6 @@ from Configuration import Configuration
 from Logger import Logger
 from MemoElement import MemoElement
 
-
-# TODO:
-# - Make persistence happen on demand, on write() call
-
 class MemoContainer:
 
     def __init__(self):

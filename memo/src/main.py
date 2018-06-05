@@ -3,7 +3,6 @@
 import argparse
 
 from CliHandlers import CliHandlers
-from MemoElement import MemoElement
 from Configuration import Configuration
 from Logger import Logger
 
