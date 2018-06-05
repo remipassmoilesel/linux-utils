@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+
 from Logger import *
-from Configuration import *
 
 
 class MemoElement:
-    memoIdCounter = 0
 
-    def __init__(self, header, content, categ, lineNumber=0):
-        MemoElement.memoIdCounter = MemoElement.memoIdCounter + 1
-        self.id = MemoElement.memoIdCounter
-
+    def __init__(self, id, categ, header, content):
+        self.id = id
+        self.categ = categ if categ is not None else Configuration.DEFAULT_CATEGORY
         self.header = header
         self.content = content
-        self.lineNumber = lineNumber
-        self.categ = categ if categ is not None else Configuration.DEFAULT_CATEGORY
 
     # TODO use explicit call to self.displayableRepresentation for display, in order to get better debug display
     def __repr__(self):

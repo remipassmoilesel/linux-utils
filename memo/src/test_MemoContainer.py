@@ -7,11 +7,15 @@ from testData import *
 
 class MemoContainerTest(unittest.TestCase):
 
-    def test_parsingShouldWork(self):
+    def getTestContainer(self):
         container = MemoContainer()
         lines = sampleMemoStorage.split('\n')
+        container.loadTextLines(lines)
+        return container
 
-        memos = container.parseLines(lines)
+    def test_parsingShouldWork(self):
+        container = self.getTestContainer()
+        memos = container.getMemoList()
 
         self.assertEqual(memos[0].getCategory(), "memo1-category1")
         self.assertEqual(memos[0].getHeader(), "memo1-header1")
@@ -27,22 +31,37 @@ class MemoContainerTest(unittest.TestCase):
 
         self.assertEqual(len(memos), 3)
 
-
     def test_searchWithSingleLetterShouldFail(self):
-        container = MemoContainer()
-        lines = sampleMemoStorage.split('\n')
-        container.loadTextLines(lines)
+        container = self.getTestContainer()
 
         memos = container.searchByKeywords(["a"])
         self.assertEqual(len(memos), 0)
 
     def test_searchWithWordShouldSucced(self):
-        container = MemoContainer()
-        lines = sampleMemoStorage.split('\n')
-        container.loadTextLines(lines)
+        container = self.getTestContainer()
 
         memos = container.searchByKeywords(["memo1"])
         self.assertEqual(len(memos), 1)
+
+    def test_getByIdShouldSucceed(self):
+        container = self.getTestContainer()
+        self.assertEqual(container.getById(1).header, "memo1-header1")
+
+    def test_getByIdShouldFail(self):
+        container = self.getTestContainer()
+        with self.assertRaises(Exception):
+            container.getById(0)
+
+    def test_updateShouldSucced(self):
+        container = self.getTestContainer()
+
+        memo0 = container.getById(1)
+        memo0.header = "test updated header"
+
+        container.updateMemo(memo0)
+
+        updatedMemo = container.getById(1)
+        self.assertEqual(updatedMemo.header, "test updated header")
 
 if __name__ == '__main__':
     unittest.main()

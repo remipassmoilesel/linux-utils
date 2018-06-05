@@ -42,14 +42,21 @@ class MemoContainer:
 
         headerRegex = "^ *" + Configuration.MEMO_HEADER_MARK + " *(?:(.+)" + Configuration.MEMO_CATEGORY_MARK + ")? *(.+)"
 
-        for lineNumber, line in enumerate(lines):
+        memoCounter = 1
+
+        for line in lines:
             matcher = re.match(headerRegex, line)
 
             # this line is a memo header
             if matcher:
 
                 if content and category:
-                    memoList.append(MemoElement(header.strip(), content.strip(), category.strip(), lineNumber))
+                    memo = MemoElement(id=memoCounter,
+                                       categ=category.strip().lower(),
+                                       header=header.strip(),
+                                       content=content.strip())
+                    memoList.append(memo)
+                    memoCounter = memoCounter + 1
 
                 groups = matcher.groups()
                 category = (groups[0] if groups[0] is not None else Configuration.DEFAULT_CATEGORY)
@@ -74,8 +81,8 @@ class MemoContainer:
 
         separatorPattern = "[-_\s]+"
         regexArray = [
-            "^" + (separatorPattern + "|" + separatorPattern).join(regexPartsArray) + separatorPattern,
-            separatorPattern + (separatorPattern + "|" + separatorPattern).join(regexPartsArray) + separatorPattern,
+            "^" + ("|").join(regexPartsArray) + separatorPattern,
+            separatorPattern + ("|").join(regexPartsArray) + separatorPattern,
         ]
 
         for memo in self.memoList:
@@ -106,7 +113,7 @@ class MemoContainer:
             if int(memo.id) == int(id):
                 return memo
 
-        return None
+        raise Exception("Memo not found: " + str(id))
 
     def getMemoList(self, categoryFilter=None):
         if not categoryFilter:
@@ -133,30 +140,7 @@ class MemoContainer:
             storageFile.close()
 
     def deleteMemo(self, memo):
-        memoReadFile = open(self.path, "r")
-        fileLines = memoReadFile.readlines()
-        memoReadFile.close()
-
-        # first, delete memo content
-        i = memo.lineNumber
-        end = False
-        while end != True and i < len(fileLines):
-            if re.search("\\w+", fileLines[i]):
-                del fileLines[i]
-            else:
-                end = True
-
-        # then delete blank lines
-        end = False
-        while end != True and i < len(fileLines):
-            if re.search("^\\s*$", fileLines[i]):
-                del fileLines[i]
-            else:
-                end = True
-
-        memoWriteFile = open(self.path, "w")
-        memoWriteFile.writelines(fileLines)
-        memoWriteFile.close()
+        raise Exception("Must be reimplemented")
 
     def appendMemo(self, memo):
         try:

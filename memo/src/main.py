@@ -157,13 +157,16 @@ def parseArguments():
 
         memo = None
         if len(unkArgs) > 2:
-            memo = MemoElement(header=unkArgs[1].strip(),
-                               content=unkArgs[2].strip(),
-                               categ=unkArgs[0].strip().lower())
+
+            memo = MemoElement(id=None,
+                               categ=unkArgs[0].strip().lower(),
+                               header=unkArgs[1].strip(),
+                               content=unkArgs[2].strip())
         else:
-            memo = MemoElement(header=unkArgs[0].strip(),
-                               content=unkArgs[1].strip(),
-                               categ=Configuration.DEFAULT_CATEGORY)
+            memo = MemoElement(id=None,
+                               categ=Configuration.DEFAULT_CATEGORY,
+                               header=unkArgs[0].strip(),
+                               content=unkArgs[1].strip())
 
         # FIXME: change append strategy
         success = container.appendMemo(memo)
