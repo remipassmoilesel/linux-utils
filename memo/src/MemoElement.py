@@ -13,11 +13,7 @@ class MemoElement:
         self.header = header
         self.content = content
 
-    # TODO use explicit call to self.displayableRepresentation for display, in order to get better debug display
-    def __repr__(self):
-        return self.displayableRepresentation()
-
-    def displayableRepresentation(self):
+    def getDisplayRepresentation(self):
         output = Colors.BLUE + Configuration.MEMO_HEADER_MARK + str(self.id) + ": "
         output += "[" + self.categ + "] "
         output += self.header + Colors.ENDC + "\n"

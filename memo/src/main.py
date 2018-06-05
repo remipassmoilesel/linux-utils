@@ -186,7 +186,7 @@ def parseArguments():
 
         categoryFilter = knownArgs.filter_category.strip().lower() if knownArgs.filter_category else None
         for memo in container.getMemoList(categoryFilter):
-            Logger.info(str(memo))
+            Logger.info(memo.getDisplayRepresentation())
             Logger.info()
 
 
@@ -199,19 +199,19 @@ def parseArguments():
             Logger.warning("Display only category: \"" + knownArgs.filter_category + "\"")
 
         category = knownArgs.filter_category.strip().lower() if knownArgs.filter_category is not None else None
-        elements = container.searchByKeywords(unkArgs, category)
+        foundElements = container.searchByKeywords(unkArgs, category)
 
         keywordsStr = ",".join(unkArgs)
 
-        if len(elements) == 0:
+        if len(foundElements) == 0:
             Logger.error("Nothing found for: \"" + keywordsStr + "\"")
 
         else:
             Logger.header("Results for \"" + keywordsStr + "\":")
             Logger.info()
 
-            for m in elements:
-                Logger.info(str(m))
+            for memo in foundElements:
+                Logger.info(memo.getDisplayRepresentation())
                 Logger.info()
 
 
