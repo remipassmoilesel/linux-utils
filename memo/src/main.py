@@ -145,26 +145,7 @@ def parseArguments():
 
     elif knownArgs.list_categories:
 
-        Logger.header()
-        Logger.header("Categories: ")
-        Logger.header()
-
-        categories = {}
-        for memo in container.getMemoList():
-            cat = memo.getCategory()
-            val = categories.get(cat)
-            val = val if val != None else 0
-            categories[cat] = val + 1
-
-        colLen = 25
-        sortedKeys = sorted(categories.keys())
-
-        for cat in sortedKeys:
-            spaces = ""
-            for i in range(colLen - len(cat)):
-                spaces += " "
-
-            Logger.info(cat + spaces + " (" + str(categories[cat]) + ")")
+        cliHandlers.listCategories()
 
     else:
         raise Exception("Invalid command. Try --help")

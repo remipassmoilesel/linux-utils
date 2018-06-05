@@ -103,6 +103,28 @@ class CliHandlers:
                 Logger.info(memo.getDisplayRepresentation())
                 Logger.info()
 
+    def listCategories(self):
+
+        Logger.header()
+        Logger.header("Categories: ")
+        Logger.header()
+
+        categories = {}
+        for memo in self.container.getMemoList():
+            category = memo.getCategory()
+            val = categories.get(category)
+            val = val if val is not None else 0
+            categories[category] = val + 1
+
+        colLen = 20
+        sortedKeys = sorted(categories.keys())
+
+        for category in sortedKeys:
+            spaces = ""
+            for i in range(colLen - len(category)):
+                spaces += " "
+
+            Logger.info(category + spaces + ": " + str(categories[category]))
 
     def getAndLoadMemoContainer(self):
 
