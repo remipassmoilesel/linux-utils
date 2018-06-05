@@ -282,6 +282,7 @@ class CliHandlers:
             encryptGpg(noteName)
 
     def editNote(self, noteIdentifier, graphicalEditor, encrypt):
+
         notePath = resolveNoteName(noteIdentifier, encrypt)
         if notePath is None:
             raise Exception(1, "Unable to find note: " + noteIdentifier)
@@ -294,6 +295,64 @@ class CliHandlers:
 
         if encrypt is True:
             encryptGpg(notePath)
+
+    def editTemplate(self, graphicalEditor):
+
+        editNote(Configuration.TEMPLATE_PATH, graphicalEditor)
+
+    def listNotes(self):
+
+        notePaths = listNotePaths()
+        if len(notePaths) < 1:
+            raise Exception("No notes available in: " + Configuration.NOTE_REPO_PATH)
+
+        for noteName in notePaths:
+            displayNote(noteName, Configuration.NUMBER_OF_LINE_ON_LIST)
+
+    def displayNote(self, noteIdentifier):
+
+        notePath = resolveNoteName(noteIdentifier)
+
+        if notePath is None:
+            raise Exception("Unable to found note: " + noteIdentifier)
+
+        displayNote(notePath)
+
+    def displayAll(self):
+
+        Logger.info("Notes from directory: " + Configuration.NOTE_REPO_PATH)
+        Logger.info()
+
+        for path in listNotePaths():
+            displayNote(path)
+
+    def searchNote(self, keywords):
+
+        if len(keywords) < 1:
+            raise Exception("You must specify keywords.")
+
+        Logger.info("Notes from directory: " + Configuration.NOTE_REPO_PATH)
+        Logger.info()
+
+        regexArray = buildSearchRegexArray(keywords)
+        someWhereFound = False
+
+        # TODO: refactor search
+        for path in listNotePaths():
+            for line in getLinesFromNote(path):
+                noteMatch = False
+                for regex in regexArray:
+                    matchLine = re.search(regex, line, re.IGNORECASE)
+                    if matchLine:
+                        displayNote(path, Configuration.NUMBER_OF_LINE_ON_LIST, regex)
+                        noteMatch = True
+                        someWhereFound = True
+                        break
+                if noteMatch:
+                    break
+
+        if not someWhereFound:
+            raise Exception("Nothing found: " + ", ".join(keywords))
 
 
 def parseArguments():
@@ -356,16 +415,11 @@ def parseArguments():
 
     elif knownArgs.edittemplate:
 
-        editNote(Configuration.TEMPLATE_PATH, knownArgs.graphical_editor)
+        cliHandlers.editTemplate(knownArgs.graphicaleditor)
 
     elif knownArgs.list:
 
-        notePaths = listNotePaths()
-        if len(notePaths) < 1:
-            raise Exception("No notes available in: " + Configuration.NOTE_REPO_PATH)
-
-        for noteName in notePaths:
-            displayNote(noteName, Configuration.NUMBER_OF_LINE_ON_LIST)
+        cliHandlers.listNotes()
 
     elif knownArgs.display:
 
@@ -373,50 +427,16 @@ def parseArguments():
             raise Exception("You must specify a name, a partial name or a number.")
 
         noteIdentifier = unknownArgs[0]
-        notePath = resolveNoteName(noteIdentifier)
-
-        # not found
-        if notePath is None:
-            raise Exception("Unable to found note: " + noteIdentifier)
-
-        displayNote(notePath)
+        cliHandlers.displayNote(noteIdentifier)
 
     elif knownArgs.displayall:
 
-        Logger.info("Notes from directory: " + Configuration.NOTE_REPO_PATH)
-        Logger.info()
-
-        for path in listNotePaths():
-            displayNote(path)
+        cliHandlers.displayAll()
 
     elif knownArgs.search:
 
         keywords = unknownArgs
-        if len(keywords) < 1:
-            raise Exception("You must specify keywords.")
-
-        Logger.info("Notes from directory: " + Configuration.NOTE_REPO_PATH)
-        Logger.info()
-
-        regexArray = buildSearchRegexArray(keywords)
-        someWhereFound = False
-
-        # TODO: refactor search
-        for path in listNotePaths():
-            for line in getLinesFromNote(path):
-                noteMatch = False
-                for regex in regexArray:
-                    matchLine = re.search(regex, line, re.IGNORECASE)
-                    if matchLine:
-                        displayNote(path, Configuration.NUMBER_OF_LINE_ON_LIST, regex)
-                        noteMatch = True
-                        someWhereFound = True
-                        break
-                if noteMatch:
-                    break
-
-        if not someWhereFound:
-            raise Exception("Nothing found: " + ", ".join(keywords))
+        cliHandlers.searchNote(keywords)
 
     else:
         Exception("Bad command, please try --help")
