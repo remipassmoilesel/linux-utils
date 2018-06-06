@@ -15,7 +15,6 @@ end
 function conky_public_address()
     if (custom_namespace['public_address'] == nil) then
         local public_address = conky_command("curl ipinfo.io/ip"):sub(0, -2)
-        print(public_address)
         custom_namespace['public_address'] = public_address
     end
     return custom_namespace['public_address']
