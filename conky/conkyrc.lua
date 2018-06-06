@@ -14,8 +14,8 @@ conky.config = {
 
     double_buffer = true,
 
-    minimum_width = 270,
-    maximum_width = 270,
+    minimum_width = 300,
+    maximum_width = 300,
 
     minimum_height = 10,
 
@@ -56,8 +56,8 @@ ${voffset 5}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}NETWORK${font}
 ${hr}
-${voffset 4}PUBLIC: ${alignr}${lua_parse conky_public_address}
-${voffset 4}PRIVATE: ${alignr}${lua_parse conky_private_addresses}
+${voffset 4}PUBLIC IP: ${alignr}${lua_parse conky_public_address}
+${voffset 4}PRIVATE IPs: ${alignr}${lua_parse conky_private_addresses}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
