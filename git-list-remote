@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# lundi 2 avril 2018, 19:40:36 (UTC+0200)
+
+
+DESTINATION=$1
+REPO_NAME=$2
+
+if [[ -z "$DESTINATION" ]] ; then
+	echo "You must provide a destination."
+	exit 1
+fi
+
+GIT_ROOT="/git"
+REPO_PATH="$GIT_ROOT/$REPO_NAME"
+
+ssh $DESTINATION "
+	ls -1 $GIT_ROOT
+"
+
+echo 
+echo "Use command:"
+echo "	git clone ssh://$DESTINATION:$GIT_ROOT/REPO_NAME"
+

@@ -2809,3 +2809,8 @@ Créer une image ISO à partir d'un système de fichiers. Peut être bootable.
 Date: 2018-06-05 13:11
 Vérifier puis configurer le réseau, avec possibilité de roolback
 
+
+# git :: git-line-summary 
+Date: 2018-06-06 19:15
+Statistiques
+
