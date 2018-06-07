@@ -60,9 +60,6 @@ class ArgumentParser:
 
         Logger.info()
 
-        # FIXME: remove me after end of refacto (handlers)
-        container = cliHandlers.getAndLoadMemoContainer()
-
         if knownArgs.edit_all or knownArgs.graphical_editor:
             cliHandlers.openEditor(knownArgs.graphical_editor)
 
@@ -101,7 +98,6 @@ class ArgumentParser:
 
             cliHandlers.updateMemo(memoId, category, header, content)
 
-
         elif knownArgs.delete:
 
             memoId = knownArgs.delete
@@ -115,6 +111,8 @@ class ArgumentParser:
             for i, val in enumerate(unknownArgs):
                 if len(val) < 1:
                     raise Exception("You can not specify empty arguments.")
+
+            print(unknownArgs)
 
             if len(unknownArgs) > 2:
                 category=unknownArgs[0].strip().lower()
