@@ -8,8 +8,8 @@ import re
 import shutil
 import subprocess
 
-class Configuration:
 
+class Configuration:
     DEBUG = False
 
     NUMBER_OF_LINE_ON_LIST = 3
@@ -39,6 +39,7 @@ class Colors:
     RED = '\033[91m'
     ENDC = '\033[0m'
     UNDERLINE = '\033[4m'
+
 
 class Logger:
 
@@ -74,7 +75,6 @@ class Logger:
 
 
 def displayNote(notePath, lineMax=None, regex=None):
-
     Logger.printColor("@ Number: " + str(listNotePaths().index(notePath)), Colors.GREEN)
     Logger.info("@ Name: " + notePath.split(os.sep)[-1])
     Logger.info("@ Path: " + notePath)
@@ -93,7 +93,7 @@ def displayNote(notePath, lineMax=None, regex=None):
         if displayedLines == 0:
             Logger.printColor(line[0:-1], Colors.BLUE + Colors.UNDERLINE)
             Logger.info()
-            displayedLines +=1
+            displayedLines += 1
 
         # otherwise print normally, but without end of line
         else:
@@ -117,7 +117,7 @@ def displayNote(notePath, lineMax=None, regex=None):
     Logger.info("")
 
 
-def resolveNoteName(data, includeEncrypted = False):
+def resolveNoteName(data, includeEncrypted=False):
     """
     Try to resolve a note name regardless it is a note name, partial name or number.
     Return None if nothing is found
@@ -187,7 +187,6 @@ def editNote(notePath, useGraphicalEditor=False):
 
 
 def createNewNote(suffix=None):
-
     today = datetime.datetime.now()
     newNoteName = Configuration.NOTE_NAME_PREFIX + today.strftime('%Y-%m-%d_%H-%M-%S')
     if suffix != None:
@@ -249,7 +248,6 @@ def encryptedToClearNoteName(noteName):
 
 
 def buildSearchRegexArray(keywords):
-
     regexPartsArray = []
     for word in keywords:
         wordWithoutSpecialChars = re.sub("[^a-z0-9-]", ".?", word, re.IGNORECASE)
@@ -257,10 +255,9 @@ def buildSearchRegexArray(keywords):
 
     separatorPattern = "[-_\s]+"
     regexArray = [
-        "^(" + "|".join(regexPartsArray) + ")$",
-        "^(" + ("|").join(regexPartsArray) + separatorPattern + ")",
-        "(" + separatorPattern + ("|").join(regexPartsArray) + ")" + "$",
-        "(" + separatorPattern +("|").join(regexPartsArray) + separatorPattern + ")",
+        "^(" + "|".join(regexPartsArray) + ")",
+        "(" + "|".join(regexPartsArray) + ")$",
+        "(" + separatorPattern + "|".join(regexPartsArray) + separatorPattern + ")",
     ]
     return regexArray
 
@@ -352,7 +349,6 @@ class CliHandlers:
 
 
 def parseArguments():
-
     # parse arguments
     parser = argparse.ArgumentParser(description=Configuration.PGRM_DESC)
 
@@ -449,4 +445,3 @@ if __name__ == "__main__":
             raise e
 
         exit(1)
-

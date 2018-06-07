@@ -2809,3 +2809,8 @@ Créer une image ISO à partir d'un système de fichiers. Peut être bootable.
 Date: 2018-06-05 13:11
 Vérifier puis configurer le réseau, avec possibilité de roolback
 
+
+# default :: type gc 
+Date: 2018-06-07 11:03
+Afficher le détail d'une commande ou d'un alias
+
