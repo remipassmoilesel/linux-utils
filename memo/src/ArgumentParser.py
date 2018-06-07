@@ -112,8 +112,6 @@ class ArgumentParser:
                 if len(val) < 1:
                     raise Exception("You can not specify empty arguments.")
 
-            print(unknownArgs)
-
             if len(unknownArgs) > 2:
                 category=unknownArgs[0].strip().lower()
                 header=unknownArgs[1].strip()
