@@ -2819,3 +2819,8 @@ Afficher le détail d'une commande ou d'un alias
 Date: 2018-06-07 16:11
 Top pour réseau, mesures de traffic réseau
 
+
+# default :: alias 
+Date: 2018-06-07 17:05
+Lister les alias disponibles et leurs valeurs
+
