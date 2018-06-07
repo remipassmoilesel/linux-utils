@@ -49,17 +49,17 @@ conky.text = [[
 
 ${color1}
 ${voffset 10}
-${alignr}${font Ubuntu:style=Medium:pixelsize=50}${time %H:%M}${font}
+${alignr}${font Ubuntu:style=Medium:pixelsize=40}${time %H:%M}${font}
 ${voffset 5}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
-${voffset 5}
+${voffset 2}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}NETWORK${font}
 ${hr}
 ${voffset 4}PUBLIC IP: ${alignr}${lua_parse conky_public_address}
 ${voffset 4}PRIVATE IPs: ${alignr}${lua_parse conky_private_addresses}
 
-${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
+${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
 ${voffset 4}1: ${cpu cpu1}% ${alignr}${cpubar cpu1 14,190}
 ${voffset 4}2: ${cpu cpu2}% ${alignr}${cpubar cpu2 14,190}
@@ -88,12 +88,14 @@ ${voffset 4}3: ${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
 ${voffset 4}4: ${top_mem name 4}${alignr} ${top_mem pid 4} ${top_mem mem 4}
 ${voffset 4}5: ${top_mem name 5}${alignr} ${top_mem pid 5} ${top_mem mem 5}
 
-${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}HARD DRIVE${font}
+${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}SYSTEM${font}
 ${hr}
-${voffset 2}Root
+${voffset 4}${font FontAwesome}${font}  Temperature ${alignr}${acpitemp} °C
+
+${voffset 2}${font FontAwesome}${font}  /
 ${voffset 4}${fs_used /}/${fs_size /} ${alignr}${fs_free /} Free   ${fs_bar 8,80 /}
 
-${voffset 2}Home
+${voffset 2}${font FontAwesome}${font}  /home
 ${voffset 4}${fs_used /home}/${fs_size /home} ${alignr}${fs_free /home} Free   ${fs_bar 8,80 /home}
 
 ]]
