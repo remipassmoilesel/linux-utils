@@ -43,7 +43,7 @@ conky.config = {
     font = 'Ubuntu:style=medium:size=10',
 
     lua_load = '~/.conky/remipassmoilesel/conky_main.lua',
---    lua_draw_hook_pre = 'main',
+    lua_draw_hook_pre = 'main',
 }
 
 conky.text = [[
