@@ -63,7 +63,7 @@ ${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
-${voffset 135}${offset 40}${font Ubuntu:style=Medium:pixelsize=18}${cpu}%${font}
+${voffset 120}${offset 40}${font Ubuntu:style=Medium:pixelsize=18}${cpu}%${font}
 
 ${voffset 4}TOP USAGE
 ${voffset 4}1: ${top name 1}${alignr} ${top pid 1} ${top mem 1}
