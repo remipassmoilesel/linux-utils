@@ -2,8 +2,6 @@
 -- Many thanks !
 
 require 'cairo'
-require 'conky_draw_config'
-
 
 function hexa_to_rgb(color, alpha)
     -- ugh, whish this wans't an oneliner
