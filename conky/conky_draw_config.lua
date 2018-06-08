@@ -16,13 +16,13 @@ function conky_get_cpu_graph_configurations()
     return cpuGraphsConfigurations
 end
 
-function conky_get_temperature_graph()
+function conky_get_temperature_graph(y)
     local config = conky_get_thin_bar_template()
     config.conky_value = 'acpitemp'
     config.critical_threshold = 70
     config.max_value = 90
-    config.from = {x = 200, y = 915}
-    config.to = {x = 325, y = 915}
+    config.from = {x = 200, y = y}
+    config.to = {x = 325, y = y}
     return config
 end
 
@@ -37,7 +37,7 @@ function conky_get_dir_graph(path, y)
 end
 
 local allGraphs = conky_get_cpu_graph_configurations()
-table.insert(allGraphs, conky_get_temperature_graph())
+table.insert(allGraphs, conky_get_temperature_graph(915))
 table.insert(allGraphs, conky_get_dir_graph('/home', 1005))
 table.insert(allGraphs, conky_get_dir_graph('/', 950))
 
