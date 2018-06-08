@@ -1,3 +1,6 @@
+
+-- TODO: try lua_graph for network, in order to switch interfaces more easily
+
 conky.config = {
     use_xft = true,
     xftalpha = .1,
@@ -59,7 +62,7 @@ ${hr}
 ${voffset 4}PUBLIC IP ${alignr}${lua_parse conky_public_address}
 ${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
 
-${font FontAwesome}${font} ${downspeed wlp4s0} ${alignr} ${upspeed wlp4s0} ${font FontAwesome}${font}
+${font FontAwesome}${font}  ${downspeed wlp4s0} ${alignr} ${upspeed wlp4s0}  ${font FontAwesome}${font}
 ${downspeedgraph wlp4s0 40,160 CCCCCC 0099FF -t}${color} ${upspeedgraph wlp4s0 40,160 CCCCCC 0099FF -t}${color}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
@@ -75,7 +78,7 @@ ${voffset 4}3: ${top name 3}${alignr} ${top pid 3} ${top mem 3}
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}MEMORY${font}
 ${hr}
 
-${voffset 4}${memperc}%/${memmax} ${alignr}${membar 14,160}
+${voffset 4}${memperc}% / ${memmax} ${alignr}${membar 14,160}
 
 ${voffset 4}TOP USAGE
 ${voffset 4}1: ${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
@@ -86,7 +89,7 @@ ${voffset 4}3: ${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}SYSTEM${font}
 ${hr}
 
-${voffset 4}${font FontAwesome}${font}  Temperature ${alignr}${acpitemp} °C
+${voffset 4}${font FontAwesome}${font}  ${acpitemp} °C
 
 ${voffset 2}${font FontAwesome}${font}  /
 ${voffset 4}${fs_used /}/${fs_size /} ${alignr}${fs_free /} Free   ${fs_bar 8,80 /}
