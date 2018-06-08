@@ -2,8 +2,8 @@
 function importAllFiles()
     local homeDirectory = os.getenv("HOME")
     local filesToImport = {
-        'conky_draw_config.lua',
         'conky_helpers.lua',
+        'conky_draw_config.lua',
         'conky_draw.lua',
     }
 

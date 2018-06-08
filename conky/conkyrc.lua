@@ -62,14 +62,7 @@ ${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
-${voffset 4}1: ${cpu cpu1}% ${alignr}${cpubar cpu1 14,190}
-${voffset 4}2: ${cpu cpu2}% ${alignr}${cpubar cpu2 14,190}
-${voffset 4}3: ${cpu cpu3}% ${alignr}${cpubar cpu3 14,190}
-${voffset 4}4: ${cpu cpu4}% ${alignr}${cpubar cpu4 14,190}
-${voffset 4}5: ${cpu cpu5}% ${alignr}${cpubar cpu5 14,190}
-${voffset 4}6: ${cpu cpu6}% ${alignr}${cpubar cpu6 14,190}
-${voffset 4}7: ${cpu cpu7}% ${alignr}${cpubar cpu7 14,190}
-${voffset 4}8: ${cpu cpu8}% ${alignr}${cpubar cpu8 14,190}
+${voffset 130}  ${font Ubuntu:style=Medium:pixelsize=18}${cpu}%${font}
 
 ${voffset 4}TOP USAGE
 ${voffset 4}1: ${top name 1}${alignr} ${top pid 1} ${top mem 1}
