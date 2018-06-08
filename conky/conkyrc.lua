@@ -31,7 +31,7 @@ conky.config = {
     color3 = '616161',
 
     alignment = 'top_right',
-    gap_x = 56,
+    gap_x = 25,
     gap_y = 0,
     no_buffers = true,
     text_buffer_size = 2048,
@@ -64,23 +64,25 @@ ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font
 ${hr}
 ${voffset 130}  ${font Ubuntu:style=Medium:pixelsize=18}${cpu}%${font}
 
+
 ${voffset 4}TOP USAGE
 ${voffset 4}1: ${top name 1}${alignr} ${top pid 1} ${top mem 1}
 ${voffset 4}2: ${top name 2}${alignr} ${top pid 2} ${top mem 2}
 ${voffset 4}3: ${top name 3}${alignr} ${top pid 3} ${top mem 3}
 ${voffset 4}4: ${top name 4}${alignr} ${top pid 4} ${top mem 4}
-${voffset 4}5: ${top name 5}${alignr} ${top pid 5} ${top mem 5}
+
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}MEMORY${font}
 ${hr}
 ${voffset 4}${memperc}%/${memmax} ${alignr}${membar 14,160}
+
 
 ${voffset 4}TOP USAGE
 ${voffset 4}1: ${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
 ${voffset 4}2: ${top_mem name 2}${alignr} ${top_mem pid 2} ${top_mem mem 2}
 ${voffset 4}3: ${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
 ${voffset 4}4: ${top_mem name 4}${alignr} ${top_mem pid 4} ${top_mem mem 4}
-${voffset 4}5: ${top_mem name 5}${alignr} ${top_mem pid 5} ${top_mem mem 5}
+
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}SYSTEM${font}
 ${hr}

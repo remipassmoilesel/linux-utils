@@ -12,7 +12,7 @@ function conky_get_cpu_graph_template()
         background_thickness = 2,
         --
         bar_color = 0xFFFFFF,
-        bar_alpha = 1,
+        bar_alpha = 0.9,
         bar_thickness = 8,
         --
         start_angle = 210,
