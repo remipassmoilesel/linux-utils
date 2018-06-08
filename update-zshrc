@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# jeudi 7 juin 2018, 17:10:39 (UTC+0200)
+
+cp ~/linux-utils/configuration/zshrc ~/.zshrc

@@ -22,12 +22,12 @@ class MemoContainerTest(unittest.TestCase):
         self.assertEqual(memos[0].getContent(), "memo1-l1memo1-l2")
 
         self.assertEqual(memos[1].getCategory(), "default")
-        self.assertEqual(memos[1].getHeader(), "memo2-header1")
+        self.assertEqual(memos[1].getHeader(), "memo2-header2")
         self.assertEqual(memos[1].getContent(), "memo2-l1memo2-l2")
 
         self.assertEqual(memos[2].getCategory(), "default")
-        self.assertEqual(memos[2].getHeader(), "memo3-header1")
-        self.assertEqual(memos[2].getContent(), "memo3-l1memo3-l2")
+        self.assertEqual(memos[2].getHeader(), "memo3-header3")
+        self.assertEqual(memos[2].getContent(), "memo3-l1memo3-l2 endword")
 
         self.assertEqual(len(memos), 3)
 
@@ -41,6 +41,15 @@ class MemoContainerTest(unittest.TestCase):
         container = self.getTestContainer()
 
         memos = container.searchByKeywords(["memo1"])
+        self.assertEqual(len(memos), 1)
+
+    def test_searchWithEndWordShouldSucced(self):
+        container = self.getTestContainer()
+
+        memos = container.searchByKeywords(["header1"])
+        self.assertEqual(len(memos), 1)
+
+        memos = container.searchByKeywords(["endword"])
         self.assertEqual(len(memos), 1)
 
     def test_getByIdShouldSucceed(self):
@@ -74,7 +83,7 @@ class MemoContainerTest(unittest.TestCase):
         container.deleteMemo(memo0)
 
         memo1 = container.getMemoById(0)
-        self.assertEqual(memo1.header, "memo2-header1")
+        self.assertEqual(memo1.header, "memo2-header2")
 
 
 if __name__ == '__main__':

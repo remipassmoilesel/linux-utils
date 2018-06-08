@@ -2814,3 +2814,18 @@ Vérifier puis configurer le réseau, avec possibilité de roolback
 Date: 2018-06-06 19:15
 Statistiques
 
+
+# default :: type gc 
+Date: 2018-06-07 11:03
+Afficher le détail d'une commande ou d'un alias
+
+
+# default :: iftop 
+Date: 2018-06-07 16:11
+Top pour réseau, mesures de traffic réseau
+
+
+# default :: alias 
+Date: 2018-06-07 17:05
+Lister les alias disponibles et leurs valeurs
+

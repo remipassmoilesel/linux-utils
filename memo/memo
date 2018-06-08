@@ -1,8 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-# lundi 4 juin 2018, 22:44:42 (UTC+0200)
+import sys
+import os
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+scriptDir = os.path.dirname(os.path.realpath(__file__))
+sourceDir = os.path.join(scriptDir, 'src')
+sys.path.insert(0, sourceDir)
 
+from ArgumentParser import ArgumentParser
+from Logger import Logger
+from Configuration import Configuration
 
-python3 "$SCRIPT_DIR/src/main.py" $@
+if __name__ == "__main__":
+
+    try:
+        parser = ArgumentParser()
+        parser.parseArguments()
+    except Exception as e:
+        Logger.error(str(e))
+
+        if Configuration.DEBUG:
+            raise e
+
+        exit(1)

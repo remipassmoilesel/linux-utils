@@ -106,10 +106,9 @@ class MemoContainer:
 
         separatorPattern = "[-_\s]+"
         regexArray = [
-            "^" + "|".join(regexPartsArray) + "$",
-            "^" + ("|").join(regexPartsArray) + separatorPattern,
-            separatorPattern + ("|").join(regexPartsArray) + "$",
-            separatorPattern + ("|").join(regexPartsArray) + separatorPattern,
+            "^(" + "|".join(regexPartsArray) + ")",
+            "(" + "|".join(regexPartsArray) + ")$",
+            "(" + separatorPattern + "|".join(regexPartsArray) + separatorPattern + ")",
         ]
         return regexArray
 
