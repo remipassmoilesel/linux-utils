@@ -4,7 +4,7 @@ function conky_get_cpu_graph_template()
         conky_value = 'cpu cpu1',
         critical_threshold = 70,
         --
-        center = { x = 155, y = 460 },
+        center = { x = 155, y = 480 },
         radius = 20,
         --
         background_color = 0xFFFFFF,
