@@ -56,6 +56,7 @@ ${voffset 2}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}NETWORK${font}
 ${hr}
+
 ${voffset 4}PUBLIC IP ${alignr}${lua_parse conky_public_address}
 ${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
 
@@ -73,6 +74,7 @@ ${voffset 4}4: ${top name 4}${alignr} ${top pid 4} ${top mem 4}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}MEMORY${font}
 ${hr}
+
 ${voffset 4}${memperc}%/${memmax} ${alignr}${membar 14,160}
 
 ${voffset 4}TOP USAGE
@@ -84,6 +86,7 @@ ${voffset 4}4: ${top_mem name 4}${alignr} ${top_mem pid 4} ${top_mem mem 4}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}SYSTEM${font}
 ${hr}
+
 ${voffset 4}${font FontAwesome}${font}  Temperature ${alignr}${acpitemp} °C
 
 ${voffset 2}${font FontAwesome}${font}  /

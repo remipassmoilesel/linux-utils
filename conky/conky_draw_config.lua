@@ -4,7 +4,7 @@ function conky_get_cpu_graph_template()
         conky_value = 'cpu cpu1',
         critical_threshold = 70,
         --
-        center = { x = 155, y = 470 },
+        center = { x = 155, y = 460 },
         radius = 20,
         --
         background_color = 0xFFFFFF,
@@ -29,7 +29,9 @@ function conky_get_cpu_graph_template()
 end
 
 function conky_get_cpu_graph_configurations()
-    local graphGap = 15
+
+    local graphGap = 13
+
     local cpuGraphsConfigurations = {}
     local cpuNumber = tonumber(conky_command('grep processor /proc/cpuinfo | wc -l '))
 
