@@ -42,7 +42,7 @@ conky.config = {
 
     font = 'Ubuntu:style=medium:size=10',
 
-    lua_load = '~/.conky/custom/custom.lua',
+    lua_load = '~/.conky/custom/conky_helpers.lua',
 }
 
 conky.text = [[
