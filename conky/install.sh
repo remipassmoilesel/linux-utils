@@ -3,7 +3,7 @@
 set -x
 set -e
 
-mkdir -p ~/.conky/custom
+mkdir -p ~/.conky/remipassmoilesel
 mkdir -p ~/.config/systemd/user
 
 cp ~/linux-utils/conky/conky.service ~/.config/systemd/user/conky.service
