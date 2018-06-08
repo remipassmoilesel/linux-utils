@@ -5,7 +5,7 @@ conky.config = {
     total_run_times = 0,
 
     own_window = true,
-    own_window_type = 'desktop',
+    own_window_type = 'panel',
     own_window_transparent = true,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     own_window_colour = '000000',
@@ -64,7 +64,7 @@ ${downspeedgraph wlp4s0 40,160 CCCCCC 0099FF -t}${color} ${upspeedgraph wlp4s0 4
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
-${voffset 120}${offset 40}${font Ubuntu:style=Medium:pixelsize=18}${cpu}%${font}
+${voffset 120}${offset 50}${font Ubuntu:style=Medium:pixelsize=18}${cpu}%${font}
 
 ${voffset 4}TOP USAGE
 ${voffset 4}1: ${top name 1}${alignr} ${top pid 1} ${top mem 1}
