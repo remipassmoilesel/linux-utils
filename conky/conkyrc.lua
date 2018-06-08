@@ -56,8 +56,8 @@ ${voffset 2}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}NETWORK${font}
 ${hr}
-${voffset 4}PUBLIC IP: ${alignr}${lua_parse conky_public_address}
-${voffset 4}PRIVATE IPs: ${alignr}${lua_parse conky_private_addresses}
+${voffset 4}PUBLIC IP ${alignr}${lua_parse conky_public_address}
+${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
@@ -70,7 +70,7 @@ ${voffset 4}6: ${cpu cpu6}% ${alignr}${cpubar cpu6 14,190}
 ${voffset 4}7: ${cpu cpu7}% ${alignr}${cpubar cpu7 14,190}
 ${voffset 4}8: ${cpu cpu8}% ${alignr}${cpubar cpu8 14,190}
 
-${voffset 4}TOP USAGE:
+${voffset 4}TOP USAGE
 ${voffset 4}1: ${top name 1}${alignr} ${top pid 1} ${top mem 1}
 ${voffset 4}2: ${top name 2}${alignr} ${top pid 2} ${top mem 2}
 ${voffset 4}3: ${top name 3}${alignr} ${top pid 3} ${top mem 3}
@@ -81,7 +81,7 @@ ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}MEMORY${f
 ${hr}
 ${voffset 4}${memperc}%/${memmax} ${alignr}${membar 14,160}
 
-${voffset 4}TOP USAGE:
+${voffset 4}TOP USAGE
 ${voffset 4}1: ${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
 ${voffset 4}2: ${top_mem name 2}${alignr} ${top_mem pid 2} ${top_mem mem 2}
 ${voffset 4}3: ${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
