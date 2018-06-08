@@ -1,7 +1,7 @@
 conky.config = {
     use_xft = true,
     xftalpha = .1,
-    update_interval = 0.7,
+    update_interval = 0.6,
     total_run_times = 0,
 
     own_window = true,
@@ -49,7 +49,7 @@ conky.text = [[
 
 ${color1}
 ${voffset 10}
-${alignr}${font Ubuntu:style=Medium:pixelsize=35}${time %H:%M}${font}
+${alignr}${font Ubuntu:style=Medium:pixelsize=38}${time %H:%M}${font}
 ${voffset 2}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
 ${voffset 2}
@@ -59,8 +59,8 @@ ${hr}
 ${voffset 4}PUBLIC IP ${alignr}${lua_parse conky_public_address}
 ${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
 
-${voffset 4} ${font FontAwesome}${font} ${downspeed wlp4s0} ${alignr} ${upspeed wlp4s0} ${font FontAwesome}${font}
-${downspeedgraph wlp4s0 40,160 CCCCCC CCCC77 -t}${color} ${upspeedgraph wlp7s0 40,160 CCCCCC CCCC77 -t}${color}
+${font FontAwesome}${font} ${downspeed wlp4s0} ${alignr} ${upspeed wlp4s0} ${font FontAwesome}${font}
+${downspeedgraph wlp4s0 40,160 CCCCCC 0099FF -t}${color} ${upspeedgraph wlp4s0 40,160 CCCCCC 0099FF -t}${color}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}

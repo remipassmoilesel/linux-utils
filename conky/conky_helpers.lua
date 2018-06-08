@@ -1,8 +1,4 @@
 
--- print("debug")
-
-require 'cairo'
-
 custom_namespace = {
     public_address = nil,
 }
@@ -31,17 +27,4 @@ function conky_private_addresses()
         end
     end
     return table.concat(filteredAddresses, ', ')
-end
-
-
--- taken from https://github.com/SpycerLviv/Lua-Color-Converter/blob/master/convertcolor.lua
-function conky_rgb(r, g, b, alpha)
-    local redColor,greenColor,blueColor=r/255, g/255, b/255
-    redColor, greenColor, blueColor = math.floor(redColor*100)/100, math.floor(greenColor*100)/100, math.floor(blueColor*100)/100
-    if alpha == nil then
-        return redColor, greenColor, blueColor
-    elseif alpha > 1 then
-        alpha = alpha / 100
-    end
-    return redColor, greenColor, blueColor, alpha
 end
