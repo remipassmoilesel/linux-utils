@@ -14,15 +14,15 @@ conky.config = {
 
     double_buffer = true,
 
-    minimum_width = 300,
-    maximum_width = 300,
+    minimum_width = 320,
+    maximum_width = 320,
 
     minimum_height = 10,
 
     draw_shades = false,
     draw_outline = false,
     draw_borders = false,
-    draw_graph_borders = false,
+    draw_graph_borders = true,
 
     default_color = 'CCCCCC',
     default_shade_color = '333333',
@@ -49,17 +49,18 @@ conky.text = [[
 
 ${color1}
 ${voffset 10}
-${alignr}${font Ubuntu:style=Medium:pixelsize=40}${time %H:%M}${font}
-${voffset 5}
+${alignr}${font Ubuntu:style=Medium:pixelsize=35}${time %H:%M}${font}
+${voffset 2}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
 ${voffset 2}
-
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}NETWORK${font}
 ${hr}
 
 ${voffset 4}PUBLIC IP ${alignr}${lua_parse conky_public_address}
 ${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
 
+${voffset 4} ${font FontAwesome}${font} ${downspeed wlp4s0} ${alignr} ${upspeed wlp4s0} ${font FontAwesome}${font}
+${downspeedgraph wlp4s0 40,160 CCCCCC CCCC77 -t}${color} ${upspeedgraph wlp7s0 40,160 CCCCCC CCCC77 -t}${color}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
@@ -71,7 +72,6 @@ ${voffset 4}2: ${top name 2}${alignr} ${top pid 2} ${top mem 2}
 ${voffset 4}3: ${top name 3}${alignr} ${top pid 3} ${top mem 3}
 ${voffset 4}4: ${top name 4}${alignr} ${top pid 4} ${top mem 4}
 
-
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}MEMORY${font}
 ${hr}
 
@@ -82,7 +82,6 @@ ${voffset 4}1: ${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
 ${voffset 4}2: ${top_mem name 2}${alignr} ${top_mem pid 2} ${top_mem mem 2}
 ${voffset 4}3: ${top_mem name 3}${alignr} ${top_mem pid 3} ${top_mem mem 3}
 ${voffset 4}4: ${top_mem name 4}${alignr} ${top_mem pid 4} ${top_mem mem 4}
-
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}SYSTEM${font}
 ${hr}
