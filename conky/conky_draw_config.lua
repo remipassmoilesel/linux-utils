@@ -2,9 +2,9 @@ function conky_get_cpu_graph_template()
     return {
         kind = 'ring_graph',
         conky_value = 'cpu cpu1',
-        critical_threshold = 60,
+        critical_threshold = 70,
         --
-        center = { x = 140, y = 455 },
+        center = { x = 155, y = 470 },
         radius = 20,
         --
         background_color = 0xFFFFFF,

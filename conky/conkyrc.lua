@@ -24,11 +24,10 @@ conky.config = {
     draw_borders = false,
     draw_graph_borders = false,
 
-    default_color = 'FFFFFF',
+    default_color = 'CCCCCC',
     default_shade_color = '333333',
     default_outline_color = 'black',
-    color1 = 'CCCCCC',
-    color3 = '616161',
+    color1 = 'FFFFFF',
 
     alignment = 'top_right',
     gap_x = 25,
@@ -40,7 +39,7 @@ conky.config = {
     net_avg_samples = 2,
     override_utf8_locale = true,
 
-    font = 'Ubuntu:style=medium:size=10',
+    font = 'Ubuntu:style=thin:size=10',
 
     lua_load = '~/.conky/remipassmoilesel/conky_main.lua',
     lua_draw_hook_pre = 'main',
@@ -60,10 +59,10 @@ ${hr}
 ${voffset 4}PUBLIC IP ${alignr}${lua_parse conky_public_address}
 ${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
 
+
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
-${voffset 130}  ${font Ubuntu:style=Medium:pixelsize=18}${cpu}%${font}
-
+${voffset 135}${offset 40}${font Ubuntu:style=Medium:pixelsize=18}${cpu}%${font}
 
 ${voffset 4}TOP USAGE
 ${voffset 4}1: ${top name 1}${alignr} ${top pid 1} ${top mem 1}
@@ -75,7 +74,6 @@ ${voffset 4}4: ${top name 4}${alignr} ${top pid 4} ${top mem 4}
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}MEMORY${font}
 ${hr}
 ${voffset 4}${memperc}%/${memmax} ${alignr}${membar 14,160}
-
 
 ${voffset 4}TOP USAGE
 ${voffset 4}1: ${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
