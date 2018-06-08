@@ -92,10 +92,10 @@ ${hr}
 ${voffset 4}${font FontAwesome}${font}  ${acpitemp} °C
 
 ${voffset 2}${font FontAwesome}${font}  /
-${voffset 4}${fs_used /}/${fs_size /} ${alignr}${fs_free /} Free   ${fs_bar 8,80 /}
+${voffset 6}${alignr} ${fs_free /} Free / ${fs_size /}
 
 ${voffset 2}${font FontAwesome}${font}  /home
-${voffset 4}${fs_used /home}/${fs_size /home} ${alignr}${fs_free /home} Free   ${fs_bar 8,80 /home}
+${voffset 6}${alignr} ${fs_free /home} Free / ${fs_size /home}
 
 ]]
 

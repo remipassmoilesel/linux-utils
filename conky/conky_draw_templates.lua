@@ -31,6 +31,7 @@ end
 
 function conky_get_thin_bar_template()
     return {
+        kind = 'bar_graph',
         change_color_on_critical = true,
         --
         background_thickness = 8,
