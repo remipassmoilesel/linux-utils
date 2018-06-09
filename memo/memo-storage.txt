@@ -2165,7 +2165,7 @@ Date: 2017-09-10 23:29
 Afficher la page tldr de man
 
 
-# bm :: sudo pip install btools; sudo pip2 install btools  
+# bm :: sudo pip install btools; sudo pip2 install btools 
 Date: 2017-09-11 00:09
 Installer bm, un outil de gestion de dossiers favoris pour le shell
 
@@ -2838,4 +2838,9 @@ Outil de benchmark hardware libre et facile d'utilisation. Liste aussi bcp d'inf
 # default :: yes "$(seq 231 -1 16)" | while read i; do printf "\x1b[48;5;${i}m\n"; sleep .02; done 
 Date: 2018-06-08 19:00
 Rainbow !
+
+
+# default :: fzf 
+Date: 2018-06-10 00:14
+Fuzzy finder ! Chercher dans les commandes, fichiers, etc ...
 
