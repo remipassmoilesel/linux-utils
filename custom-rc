@@ -63,8 +63,8 @@ alias k-watch-pods="watch -n 0,5 kubectl get pods"
 alias ks-watch-pods="watch -n 0,5 kubectl get pods -n kube-system"
 alias ka-watch-pods="watch -n 0,5 kubectl get pods --all-namespaces"
 
-if [ -f /usr/share/bm/bm.bash ]; then
-    source /usr/share/bm/bm.bash
+if [ -f '/usr/local/lib/python2.7/dist-packages/usr/share/bm/bm.bash' ]; then
+    source /usr/local/lib/python2.7/dist-packages/usr/share/bm/bm.bash
     alias cm="cdbm"
 fi
 
