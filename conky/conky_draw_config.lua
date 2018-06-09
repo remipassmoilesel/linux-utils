@@ -19,7 +19,7 @@ end
 function conky_get_temperature_graph(y)
     local config = conky_get_thin_bar_template()
     config.conky_value = 'acpitemp'
-    config.critical_threshold = 70
+    config.critical_threshold = 60
     config.max_value = 90
     config.from = {x = 200, y = y}
     config.to = {x = 325, y = y}
