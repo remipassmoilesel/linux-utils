@@ -1739,7 +1739,7 @@ Date: 2017-04-26 20:54
 Reparer les erreurs d'un systeme de fichier contenu dans une image.
 
 
-# default :: apt list 
+# default :: apt list --installed 
 Date: 2017-04-27 11:10
 Lister les packages installés
 
@@ -2165,7 +2165,7 @@ Date: 2017-09-10 23:29
 Afficher la page tldr de man
 
 
-# bm :: sudo pip install btools 
+# bm :: sudo pip install btools; sudo pip2 install btools  
 Date: 2017-09-11 00:09
 Installer bm, un outil de gestion de dossiers favoris pour le shell
 

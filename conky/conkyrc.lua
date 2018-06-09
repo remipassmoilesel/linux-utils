@@ -43,6 +43,7 @@ conky.config = {
     override_utf8_locale = true,
 
     font = 'Ubuntu:style=thin:size=10',
+    xftfont = 'Ubuntu:style=thin:size=10',
 
     lua_load = '~/.conky/remipassmoilesel/conky_main.lua',
     lua_draw_hook_pre = 'main',
