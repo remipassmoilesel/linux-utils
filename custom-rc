@@ -55,7 +55,7 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 ## ALIASES
 ##
 
-alias k="kubectl "
+#alias k="kubectl" # Provided by oh-my-zsh plugin
 alias ks="kubectl -n kube-system"
 function ka() { kubectl "$@" --all-namespaces ;}
 
@@ -63,10 +63,7 @@ alias k-watch-pods="watch -n 0,5 kubectl get pods"
 alias ks-watch-pods="watch -n 0,5 kubectl get pods -n kube-system"
 alias ka-watch-pods="watch -n 0,5 kubectl get pods --all-namespaces"
 
-if [ -f '/usr/local/lib/python2.7/dist-packages/usr/share/bm/bm.bash' ]; then
-    source /usr/local/lib/python2.7/dist-packages/usr/share/bm/bm.bash
-    alias cm="cdbm"
-fi
+alias kcgc="kubectl config get-contexts"
 
 ##
 ## SDKMAN

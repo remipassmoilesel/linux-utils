@@ -20,6 +20,10 @@
     $ kubectl get secrets     
     $ kubectl get configmaps     
 
+    $ kubectl config view
+    $ kubectl config get-contexts
+    $ kubectl config set-contexts context-name
+
 ## Pods
 
 Afficher les pods:
