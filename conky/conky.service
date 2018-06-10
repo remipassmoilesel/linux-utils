@@ -5,7 +5,7 @@ Description=Conky
 
 [Service]
 Type=simple
-ExecStartPre=/bin/sleep 5
+ExecStartPre=/bin/sleep 3
 ExecStart=/usr/bin/conky
 Environment=DISPLAY=:0
 Restart=always
