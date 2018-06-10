@@ -2864,3 +2864,13 @@ Sauter vers le répertoire le plus utilisé correspondant au pattern 'lin'. Util
 Date: 2018-06-10 13:44
 Installer autojump.
 
+
+# autojump :: jo lin 
+Date: 2018-06-10 14:02
+Ouvrir le gestionnaire de fichiers sur un favoris
+
+
+# autojump :: j pr kub 
+Date: 2018-06-10 14:05
+Ajouter des précisions sur le favoris à atteindre, en cas de chemins proches
+
