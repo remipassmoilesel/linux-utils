@@ -13,7 +13,7 @@ echo
 
 # Install must-have tools, two commands to prevent fail
 PACKAGES=(
-    "byobu vim curl wget ranger"
+    "byobu autojump vim curl wget ranger"
     "git tig git-extras"
     "zsh jq cmatrix"
     "p7zip-full p7zip-rar zip fuse-zip tar xz-utils"
