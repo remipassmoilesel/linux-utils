@@ -22,7 +22,7 @@
 
     $ kubectl config view
     $ kubectl config get-contexts
-    $ kubectl config set-contexts context-name
+    $ kubectl config use-context context-name
 
 ## Pods
 

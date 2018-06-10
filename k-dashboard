@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# dimanche 10 juin 2018, 17:22:20 (UTC+0200)
+
+xdg-open http://127.0.0.1:9001/ui
+
+kubectl proxy --port 9001
+

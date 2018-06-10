@@ -58,14 +58,17 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 #alias k="kubectl" # Provided by oh-my-zsh plugin
 alias ks="kubectl -n kube-system"
 function ka() { kubectl "$@" --all-namespaces ;}
+
 alias kgn="kubectl get namespaces"
 function ksn(){ kubectl config set-context $(kubectl config current-context) --namespace=$1 }
 
 alias k-watch-pods="watch -n 0,5 kubectl get pods"
 alias ks-watch-pods="watch -n 0,5 kubectl get pods -n kube-system"
 alias ka-watch-pods="watch -n 0,5 kubectl get pods --all-namespaces"
-alias kp="kubectl proxy"
+
 alias kcgc="kubectl config get-contexts"
+
+alias kp="kubectl proxy"
 
 ##
 ## SDKMAN
