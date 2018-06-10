@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# vendredi 10 février 2017, 09:33:44 (UTC+0100)
-
-sudo apt-get install php php-mysql libapache2-mod-php php-xml php-mbstring php-apcu php-intl imagemagick inkscape php-gd php-cli 

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# Here are programs that cannot be installed without user interaction
-sudo apt-get -y install steam wireshark wine-development virtualbox-ext-pack tlp tlp-rdw
-
-
-
