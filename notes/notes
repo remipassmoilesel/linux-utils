@@ -278,7 +278,7 @@ class CliHandlers:
 
         notePath = resolveNoteName(noteIdentifier, encrypt)
         if notePath is None:
-            raise Exception(1, "Unable to find note: " + noteIdentifier)
+            raise Exception("Unable to find note: " + noteIdentifier)
 
         if encrypt is True:
             decryptGpg(notePath)
@@ -439,7 +439,9 @@ if __name__ == "__main__":
     try:
         parseArguments()
     except Exception as e:
-        Logger.error(str(e))
+        Logger.error()
+        Logger.error(str(e.args[0]))
+        Logger.error()
 
         if Configuration.DEBUG:
             raise e
