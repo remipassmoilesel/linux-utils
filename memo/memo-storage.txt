@@ -2849,3 +2849,18 @@ Fuzzy finder ! Chercher dans les commandes, fichiers, etc ...
 Date: 2018-06-10 11:32
 Port forwarding vers un pod, un service, etc ... Utile pour debug.
 
+
+# autojump :: autojump -s 
+Date: 2018-06-10 13:43
+Afficher la base de donnée de répertoires fréquemment utilisés.
+
+
+# autojump :: j lin 
+Date: 2018-06-10 13:43
+Sauter vers le répertoire le plus utilisé correspondant au pattern 'lin'. Utilise autojump.
+
+
+# autojump :: sudo apt install autojump 
+Date: 2018-06-10 13:44
+Installer autojump.
+
