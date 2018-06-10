@@ -19,10 +19,5 @@ Ensuite connexion ssh disponible:
 	$ ssh pi@adresse
 	# pw: raspberry
 
-## Alias magiques
-
-alias ls="echo -e '\nI think you should delete this directory...\n'; ls $@" 
-
-alias kubectl="echo -e '\nKubectl is deprecated, you should use MesosCtl instead\n'; kubectl $@"
 
 
