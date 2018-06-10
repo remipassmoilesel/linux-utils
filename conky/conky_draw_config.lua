@@ -44,23 +44,24 @@ end
 
 function conky_get_mem_graph(y)
     local config = conky_get_bar_template()
+    local thickness = 12
     --
     config.conky_value = 'memperc'
     config.critical_threshold = 70
     --
-    config.from = {x = 150, y = y}
+    config.from = {x = 170, y = y}
     config.to = {x = 325, y = y}
     --
-    config.bar_thickness = 15
-    config.bar_thickness_critical = 15
+    config.bar_thickness = thickness
+    config.bar_thickness_critical = thickness
     --
-    config.background_thickness = 15
-    config.background_thickness_critical = 15
+    config.background_thickness = thickness
+    config.background_thickness_critical = thickness
     return config
 end
 
 local allGraphs = conky_get_cpu_graph_configurations()
-table.insert(allGraphs, conky_get_mem_graph(713))
+table.insert(allGraphs, conky_get_mem_graph(715))
 table.insert(allGraphs, conky_get_temperature_graph(915))
 table.insert(allGraphs, conky_get_dir_graph('/home', 1005))
 table.insert(allGraphs, conky_get_dir_graph('/', 950))
