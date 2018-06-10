@@ -1,7 +1,7 @@
 
 function conky_get_cpu_graph_configurations()
 
-    local graphGap = 13
+    local graphGap = 14
 
     local cpuGraphsConfigurations = {}
     local cpuNumber = tonumber(conky_command('grep processor /proc/cpuinfo | wc -l '))
