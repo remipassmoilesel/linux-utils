@@ -1,2 +1,0 @@
-#!/bin/bash
-sudo du -sch .[!.]* * | sort -rh | head -15

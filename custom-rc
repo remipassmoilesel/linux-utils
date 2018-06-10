@@ -69,6 +69,7 @@ alias ka-watch-pods="watch -n 0,5 kubectl get pods --all-namespaces"
 alias kcgc="kubectl config get-contexts"
 
 alias kp="kubectl proxy"
+alias kpf="kubectl port-forward"
 
 ##
 ## SDKMAN

@@ -2845,11 +2845,6 @@ Date: 2018-06-10 00:14
 Fuzzy finder ! Chercher dans les commandes, fichiers, etc ...
 
 
-# k8s :: kubectl port-forward -n   : 
-Date: 2018-06-10 11:32
-Port forwarding vers un pod, un service, etc ... Utile pour debug.
-
-
 # autojump :: autojump -s 
 Date: 2018-06-10 13:43
 Afficher la base de donnée de répertoires fréquemment utilisés.

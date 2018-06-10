@@ -95,5 +95,8 @@ Forward de port vers un pod:
     $ kubectl port-forward -n $namespace $pod_name_or_service $host_port:$target_port 
     $ kubectl port-forward -n spring-k8s-demo gateway-release1-spring-k8s-demo-5ccb7d9f5d-cqg77 8080:8080 
 
+Le port hôte peut être omis, un port au hasard sera choisi:
+
+    $ kubectl port-forward $podname :80
 
 
