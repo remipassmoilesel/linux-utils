@@ -79,7 +79,7 @@ ${voffset 4}3: ${top name 3}${alignr} ${top pid 3} ${top mem 3}
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}MEMORY${font}
 ${hr}
 
-${voffset 4}${memperc}% / ${memmax} ${alignr}${membar 14,160}
+${voffset 4}${memperc}% / ${memmax}
 
 ${voffset 4}TOP USAGE
 ${voffset 4}1: ${top_mem name 1}${alignr} ${top_mem pid 1} ${top_mem mem 1}
