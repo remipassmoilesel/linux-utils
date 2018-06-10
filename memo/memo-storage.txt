@@ -2874,3 +2874,8 @@ Ouvrir le gestionnaire de fichiers sur un favoris
 Date: 2018-06-10 14:05
 Ajouter des précisions sur le favoris à atteindre, en cas de chemins proches
 
+
+# vim :: ^ ou 0 
+Date: 2018-06-10 16:34
+Aller au début d'un ligne
+
