@@ -2879,3 +2879,8 @@ Aller au début d'un ligne
 Date: 2018-06-10 16:57
 Enregistrer un raccourci vers le navigateur Tor
 
+
+# byobu :: byobu-select-profile 
+Date: 2018-06-11 13:17
+Changer la couleur d'un terminal byobu
+
