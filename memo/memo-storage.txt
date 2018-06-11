@@ -2155,12 +2155,12 @@ Date: 2017-09-08 10:09
 Créer une clef ssh
 
 
-# tldr :: sudo npm install -g tldr 
+# default :: sudo npm install -g tldr 
 Date: 2017-09-10 23:29
 Installer tldr, un outil de documentation CLI. Comparable à man
 
 
-# tldr :: tldr tar 
+# default :: tldr tar 
 Date: 2017-09-10 23:29
 Afficher la page tldr de man
 
@@ -2878,4 +2878,9 @@ Aller au début d'un ligne
 # default :: tor-browser_en-US/start-tor-browser.desktop --register-app 
 Date: 2018-06-10 16:57
 Enregistrer un raccourci vers le navigateur Tor
+
+
+# byobu :: byobu-select-profile 
+Date: 2018-06-11 13:17
+Changer la couleur d'un terminal byobu
 

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# lundi 11 juin 2018, 15:05:02 (UTC+0200)
+
+ls $@ | lolcat

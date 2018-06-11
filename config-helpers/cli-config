@@ -15,7 +15,7 @@ echo
 PACKAGES=(
     "byobu autojump vim curl wget ranger"
     "git tig git-extras"
-    "zsh jq cmatrix"
+    "zsh jq cmatrix tree"
     "p7zip-full p7zip-rar zip fuse-zip tar xz-utils"
     "tcpdump htop nmap iputils-tracepath traceroute"
     "sshpass sshfs ncdu gnupg2 mycli pgcli"

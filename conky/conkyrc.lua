@@ -8,7 +8,7 @@ conky.config = {
     total_run_times = 0,
 
     own_window = true,
-    own_window_type = 'panel',
+    own_window_type = 'normal',
     own_window_transparent = true,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     own_window_colour = '000000',
