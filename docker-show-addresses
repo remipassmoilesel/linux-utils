@@ -11,7 +11,7 @@ def execAndGetOuput(command: str):
 
 
 def getContainerIds() -> list:
-    rawOutput = execAndGetOuput('docker ps -aq')
+    rawOutput = execAndGetOuput('docker ps -q')
     allIds = rawOutput.split('\n')
     return list(filter(lambda id: id is not None and len(id) > 0, allIds))
 
@@ -43,7 +43,13 @@ def printContainerDetails(ids: list):
 if __name__ == "__main__":
 
     try:
-        printContainerDetails(getContainerIds())
+        ids = getContainerIds()
+        if ids is not None and len(ids) > 0:
+            printContainerDetails(ids)
+        else:
+            print()
+            print('No containers running !')
+            print()
     except Exception as e:
         print(e)
         raise e
