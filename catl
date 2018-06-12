@@ -1,3 +1,0 @@
-#!/bin/bash
-
-grep if switch-sys | leet
