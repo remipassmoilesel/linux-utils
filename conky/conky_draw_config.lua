@@ -60,10 +60,11 @@ function conky_get_mem_graph(y)
     return config
 end
 
+local offset = 719
 local allGraphs = conky_get_cpu_graph_configurations()
-table.insert(allGraphs, conky_get_mem_graph(715))
-table.insert(allGraphs, conky_get_temperature_graph(915))
-table.insert(allGraphs, conky_get_dir_graph('/home', 1005))
-table.insert(allGraphs, conky_get_dir_graph('/', 950))
+table.insert(allGraphs, conky_get_mem_graph(offset))
+table.insert(allGraphs, conky_get_temperature_graph(offset + 200))
+table.insert(allGraphs, conky_get_dir_graph('/', offset + 235))
+table.insert(allGraphs, conky_get_dir_graph('/home', offset + 290))
 
 elements = allGraphs

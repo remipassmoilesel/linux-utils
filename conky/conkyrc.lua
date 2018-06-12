@@ -1,5 +1,8 @@
-
--- TODO: try lua_graph for network, in order to switch interfaces more easily
+local function interpolate(subject, values)
+    return subject:gsub('(#%b{})', function(value)
+        return values[value:sub(3, -2)] or value
+    end)
+end
 
 conky.config = {
     use_xft = true,
@@ -49,7 +52,7 @@ conky.config = {
     lua_draw_hook_pre = 'main',
 }
 
-conky.text = [[
+conky.text = interpolate([[
 
 ${color1}
 ${voffset 10}
@@ -59,12 +62,12 @@ ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
 ${voffset 2}
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}NETWORK${font}
 ${hr}
-
 ${voffset 4}PUBLIC IP ${alignr}${lua_parse conky_public_address}
 ${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
+${voffset 4}INTERFACE ${alignr}#{netInterface}
 
-${font FontAwesome}${font}  ${downspeed wlp4s0} ${alignr} ${upspeed wlp4s0}  ${font FontAwesome}${font}
-${downspeedgraph wlp4s0 40,160 CCCCCC 0099FF -t}${color} ${upspeedgraph wlp4s0 40,160 CCCCCC 0099FF -t}${color}
+${font FontAwesome}${font}  ${downspeed #{netInterface}} ${alignr} ${upspeed #{netInterface}}  ${font FontAwesome}${font}
+${downspeedgraph #{netInterface} 40,160 CCCCCC 0099FF -t}${color} ${upspeedgraph #{netInterface} 40,160 CCCCCC 0099FF -t}${color}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}
 ${hr}
@@ -98,5 +101,4 @@ ${voffset 6}${alignr} ${fs_free /} Free / ${fs_size /}
 ${voffset 2}${font FontAwesome}${font}  /home
 ${voffset 6}${alignr} ${fs_free /home} Free / ${fs_size /home}
 
-]]
-
+]], { netInterface = 'enp2s0' })
