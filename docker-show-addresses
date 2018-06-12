@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import json
+import subprocess
+
+
+def execAndGetOuput(command: str):
+    result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
+    return result.stdout.decode('utf-8')
+
+
+def getContainerIds() -> list:
+    rawOutput = execAndGetOuput('docker ps -aq')
+    allIds = rawOutput.split('\n')
+    return list(filter(lambda id: id is not None and len(id) > 0, allIds))
+
+
+def getContainerDetails(containerIds: list) -> list:
+    command = 'docker inspect ' + ' '.join(containerIds)
+    result = execAndGetOuput(command)
+    return json.loads(result)
+
+
+def printContainerDetails(ids: list):
+
+    colWidth = 45
+
+    print()
+    print('Container name'.ljust(colWidth) + ' ' + 'Image'.ljust(colWidth) + ' Addresses')
+    print('--------------'.ljust(colWidth) + ' ' + '-----'.ljust(colWidth) + ' ---------')
+    print()
+
+    containerDetails = getContainerDetails(ids)
+    for container in containerDetails:
+        name = container['Name']
+        networks = container['NetworkSettings']['Networks']
+        ipAddresses = list(map(lambda net: net['IPAddress'], networks.values()))
+        image = container['Config']['Image']
+        print(name.ljust(colWidth) + ' ' + image.ljust(colWidth) + ' ' + ', '.join(ipAddresses))
+
+
+if __name__ == "__main__":
+
+    try:
+        printContainerDetails(getContainerIds())
+    except Exception as e:
+        print(e)
+        raise e
+        # exit(1)
