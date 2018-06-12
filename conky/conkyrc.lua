@@ -9,7 +9,6 @@ conky.config = {
     xftalpha = .1,
     update_interval = 0.6,
     total_run_times = 0,
-
     own_window = true,
     own_window_type = 'normal',
     own_window_transparent = true,
@@ -17,24 +16,18 @@ conky.config = {
     own_window_colour = '000000',
     own_window_argb_visual = true,
     own_window_argb_value = 0,
-
     double_buffer = true,
-
     minimum_width = 320,
     maximum_width = 320,
-
     minimum_height = 10,
-
     draw_shades = false,
     draw_outline = false,
     draw_borders = false,
     draw_graph_borders = true,
-
     default_color = 'CCCCCC',
     default_shade_color = '333333',
     default_outline_color = 'black',
     color1 = 'FFFFFF',
-
     alignment = 'top_right',
     gap_x = 25,
     gap_y = 0,
@@ -44,19 +37,16 @@ conky.config = {
     cpu_avg_samples = 4,
     net_avg_samples = 2,
     override_utf8_locale = true,
-
     font = 'Ubuntu:style=thin:size=10',
     xftfont = 'Ubuntu:style=thin:size=10',
-
     lua_load = '~/.conky/remipassmoilesel/conky_main.lua',
     lua_draw_hook_pre = 'main',
 }
 
-conky.text = interpolate([[
+local customConfig = { netInterface = 'enp2s0' }
 
-${color1}
-${voffset 10}
-${alignr}${font Ubuntu:style=Medium:pixelsize=38}${time %H:%M}${font}
+conky.text = interpolate([[
+${color1}${voffset 15}${alignr}${font Ubuntu:style=Medium:pixelsize=38}${time %H:%M}${font}
 ${voffset 2}
 ${alignr}${font Ubuntu:style=Medium:pixelsize=13}${time %A %d %B %Y}${font}
 ${voffset 2}
@@ -101,4 +91,4 @@ ${voffset 6}${alignr} ${fs_free /} Free / ${fs_size /}
 ${voffset 2}${font FontAwesome}${font}  /home
 ${voffset 6}${alignr} ${fs_free /home} Free / ${fs_size /home}
 
-]], { netInterface = 'enp2s0' })
+]], customConfig)

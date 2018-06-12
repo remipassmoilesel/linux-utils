@@ -14,7 +14,6 @@ function conky_get_cpu_graph_template()
         critical_threshold = 70,
         change_color_on_critical = true,
         --
-        center = { x = 155, y = 530 },
         radius = 20,
         --
         start_angle = 210,
