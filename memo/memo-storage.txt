@@ -2889,3 +2889,18 @@ Changer la couleur d'un terminal byobu
 Date: 2018-06-12 10:21
 Interface en ligne de commande de gestion de conteneurs Docker
 
+
+# default :: pylint src 
+Date: 2018-06-12 12:24
+Linter des sources python. Doit être installé avec pip3 pour des sources Python 3
+
+
+# default :: pylint --generate-rcfile > .pylintrc 
+Date: 2018-06-12 12:24
+Créer un fichier .pylintrc
+
+
+# default :: sudo pip3 install mypy; mypy . 
+Date: 2018-06-12 13:04
+Analyse statique de typage sur tous les fichiers python enfant du répertoire courant.
+
