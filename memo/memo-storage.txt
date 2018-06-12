@@ -2884,3 +2884,8 @@ Enregistrer un raccourci vers le navigateur Tor
 Date: 2018-06-11 13:17
 Changer la couleur d'un terminal byobu
 
+
+# docker :: npm i -g dockly; dockly 
+Date: 2018-06-12 10:21
+Interface en ligne de commande de gestion de conteneurs Docker
+
