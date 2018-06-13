@@ -57,7 +57,7 @@ ${voffset 4}PUBLIC IP ${alignr}${lua_parse conky_public_address}
 ${voffset 4}PRIVATE IPs ${alignr}${lua_parse conky_private_addresses}
 ${voffset 4}INTERFACE ${alignr}#{netInterface}
 
-${font FontAwesome}${font}  ${downspeed #{netInterface}} ${alignr} ${upspeed #{netInterface}}  ${font FontAwesome}${font}
+${font FontAwesome}${font}  ${downspeed #{netInterface}} ${alignr} ${upspeed #{netInterface}} ${font FontAwesome}${font}
 ${downspeedgraph #{netInterface} 40,160 CCCCCC 0099FF -t}${color} ${upspeedgraph #{netInterface} 40,160 CCCCCC 0099FF -t}${color}
 
 ${font FontAwesome}${font}  ${font Ubuntu:style=Medium:pixelsize=15}CPU${font}

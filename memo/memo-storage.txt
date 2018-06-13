@@ -464,12 +464,12 @@ Date: 2016-01-15 18:08
 Démarrer stellarium en mode fenetré, réduit les bugs d'affichage
 
 
-# default :: wget url 
+# default :: wget http://url 
 Date: 2016-01-15 18:08
 Télécharger une ressource
 
 
-# default :: wget -c url 
+# default :: wget -c http://url 
 Date: 2016-01-15 18:08
 Reprendre le téléchargement après une interruption.
 
@@ -806,7 +806,7 @@ Lancer une machine docker Eclipse CHE
 
 # configuration :: service mysql start 
 Date: 2016-02-23 14:28
-Démarrer un service
+Démarrer un servicea. Préférer systemctl.
 
 
 # default :: sudo passwd user 
@@ -1519,7 +1519,7 @@ Date: 2016-10-23 18:45
 Afficher l'uuid d'un disque
 
 
-# default :: fortune | lolcat 
+# lolcat :: fortune | lolcat 
 Date: 2016-10-25 19:17
 Affichage console en couleur avec lolcat
 
@@ -1619,7 +1619,7 @@ Date: 2017-01-27 17:37
 Forcer l'activation du clavier numérique
 
 
-# default :: sudo apt install oneko 
+# joke :: sudo apt install oneko 
 Date: 2017-01-27 17:46
 Afficher un chat qui poursuit la souris
 
@@ -1664,7 +1664,7 @@ Date: 2017-02-09 01:43
 Afficher un index seulement d'un fichier JSON
 
 
-# default :: echo 'Hey !' | lolcat -s 65 
+# lolcat :: echo 'Hey !' | lolcat -s 65 
 Date: 2017-02-09 01:47
 Afficher un texte en arc en ciel
 
@@ -1799,9 +1799,10 @@ Date: 2017-06-12 08:49
 Résoudre les problèmes de changements d'agencement de clavier (qwerty/azerty) au démarrage
 
 
-# default :: ~.config/autostart 
+# default :: ~/.config/autostart 
 Date: 2017-06-12 08:59
 Dossier où sont stockées les lanceurs d'applications au démarrage
+Voir aussi les services utilisateur.
 
 
 # default :: ./mvnw spring-boot:run 
@@ -1854,7 +1855,7 @@ Date: 2017-06-23 15:08
 Tester la vitesse de connexion en ligne de commande
 
 
-# default :: nyancat 
+# joke :: nyancat 
 Date: 2017-06-24 09:40
 Le seul, l'unique
 
@@ -2835,7 +2836,7 @@ Date: 2018-06-08 18:55
 Outil de benchmark hardware libre et facile d'utilisation. Liste aussi bcp d'informations sur le système: utilisateurs, réseau, ...
 
 
-# default :: yes "$(seq 231 -1 16)" | while read i; do printf "\x1b[48;5;${i}m\n"; sleep .02; done 
+# joke :: yes "$(seq 231 -1 16)" | while read i; do printf "\x1b[48;5;${i}m\n"; sleep .02; done 
 Date: 2018-06-08 19:00
 Rainbow !
 
@@ -2903,4 +2904,29 @@ Créer un fichier .pylintrc
 # default :: sudo pip3 install mypy; mypy . 
 Date: 2018-06-12 13:04
 Analyse statique de typage sur tous les fichiers python enfant du répertoire courant.
+
+
+# default :: ip r 
+Date: 2018-06-13 11:53
+Afficher les routes en cours, dont l'IP de la gateway après instruction default
+
+
+# vagrant :: vagrant reload --provision 
+Date: 2018-06-13 13:55
+Redémarrer des machines, et appliquer à nouveau les provisionneurs
+
+
+# vagrant :: vagrant provision 
+Date: 2018-06-13 13:55
+Appliquer à nouveau les provisionneurs
+
+
+# vagrant :: vagrant destroy --force 
+Date: 2018-06-13 14:09
+Détruire des machines sans prompt de confirmation
+
+
+# vagrant :: vagrant up --provision 
+Date: 2018-06-13 18:07
+Démarrer les machines et force le provisionnage
 
