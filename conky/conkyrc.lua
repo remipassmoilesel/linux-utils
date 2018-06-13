@@ -43,7 +43,8 @@ conky.config = {
     lua_draw_hook_pre = 'main',
 }
 
-local customConfig = { netInterface = 'enp2s0' }
+-- Put config in a separated file, in order to not update it depending on environment
+local customConfig = { netInterface = 'wlp4s0' }
 
 conky.text = interpolate([[
 ${color1}${voffset 15}${alignr}${font Ubuntu:style=Medium:pixelsize=38}${time %H:%M}${font}

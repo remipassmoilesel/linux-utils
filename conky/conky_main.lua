@@ -1,4 +1,5 @@
 
+-- TODO: list all .lua files from dir
 function importAllFiles()
     local homeDirectory = os.getenv("HOME")
     local filesToImport = {
