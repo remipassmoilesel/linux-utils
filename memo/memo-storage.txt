@@ -464,7 +464,7 @@ Date: 2016-01-15 18:08
 Démarrer stellarium en mode fenetré, réduit les bugs d'affichage
 
 
-# default :: wget http://url
+# default :: wget http://url 
 Date: 2016-01-15 18:08
 Télécharger une ressource
 
@@ -1804,6 +1804,7 @@ Date: 2017-06-12 08:59
 Dossier où sont stockées les lanceurs d'applications au démarrage
 Voir aussi les services utilisateur.
 
+
 # default :: ./mvnw spring-boot:run 
 Date: 2017-06-12 20:50
 Lancer une application Spring Boot
@@ -2923,4 +2924,9 @@ Appliquer à nouveau les provisionneurs
 # vagrant :: vagrant destroy --force 
 Date: 2018-06-13 14:09
 Détruire des machines sans prompt de confirmation
+
+
+# vagrant :: vagrant up --provision 
+Date: 2018-06-13 18:07
+Démarrer les machines et force le provisionnage
 
