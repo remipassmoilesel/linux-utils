@@ -42,6 +42,9 @@ function conky_get_bar_template()
         kind = 'bar_graph',
         change_color_on_critical = true,
         --
+        from = { x = 180, y = 10 },
+        to = { x = 325, y = 10 },
+        --
         background_thickness = 8,
         background_color = template_config.normal_color,
         background_alpha = 0.3,
