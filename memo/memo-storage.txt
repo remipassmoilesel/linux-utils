@@ -2945,3 +2945,13 @@ Afficher tous les commandes et tous les alias d'un système
 Date: 2018-06-14 14:55
 Enlever les branches inutiles pour régler des problèmes de conflits
 
+
+# vagrant :: vagrant snapshot save worker0 worker0-0 
+Date: 2018-06-14 19:00
+Sauvegarder une machine virtuelle
+
+
+# vagrant :: vagrant snapshot restore worker0 worker0-0 
+Date: 2018-06-14 19:01
+Restorer une machine virtuelle
+
