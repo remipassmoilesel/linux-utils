@@ -1,4 +1,4 @@
-# Manipulations réseau GNU/Linux
+# Mémo réseau GNU/Linux
 
 ## Débugger une mauvaise connexion réseau
 
@@ -8,6 +8,16 @@
 	- regarder si une route existe
 	- vérifier que les interfaces soit "up"
 	- vérifier /etc/hosts /etc/network/interfaces /etc/resolv.conf
+
+## CIDR / Masques
+
+	CIDR		Min		Max
+	10.0.0.1/8	10.0.0.0	10.255.255.254
+	10.0.0.1/16	10.0.0.0	10.0.255.254
+	10.0.0.1/24	10.0.0.0	10.0.0.255
+
+	192.168.0.1/24	192.168.0.1	192.168.0.254
+	
 
 ## Manipuler des routes avec l'outil ip
 
