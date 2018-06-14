@@ -2940,3 +2940,8 @@ Valoriser le namespace courant kubernetes
 Date: 2018-06-14 13:34
 Afficher tous les commandes et tous les alias d'un système
 
+
+# git :: git remote prune origin 
+Date: 2018-06-14 14:55
+Enlever les branches inutiles pour régler des problèmes de conflits
+
