@@ -2,6 +2,7 @@
 
 # lundi 2 avril 2018, 19:40:36 (UTC+0200)
 
+set -e
 
 DESTINATION=$1
 REPO_NAME=$2

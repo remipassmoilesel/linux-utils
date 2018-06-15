@@ -2965,3 +2965,13 @@ Créer une clef ssh forte
 Date: 2018-06-15 14:43
 Détruire un dossier avec shred récursivement
 
+
+# default :: qrencode -s 7 -o qr-wifi.png "WIFI:S:test;T:WPA2;P:password;;"; display qr-wifi.png 
+Date: 2018-06-15 20:02
+Afficher un qrcode de connexion au réseau wifi.
+
+
+# default :: display image.png 
+Date: 2018-06-15 20:05
+Afficher une image
+

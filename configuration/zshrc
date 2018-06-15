@@ -52,7 +52,7 @@ ZSH_THEME="tjkirch-emoji"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # plugins=(git)
-plugins=(compleat git python docker gnu-utils npm pip tig kubectl autojump)
+plugins=(compleat git python docker gnu-utils npm tig kubectl autojump pass)
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
