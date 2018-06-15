@@ -2955,3 +2955,8 @@ Sauvegarder une machine virtuelle
 Date: 2018-06-14 19:01
 Restorer une machine virtuelle
 
+
+# ssh :: ssh-keygen -b 4096 
+Date: 2018-06-15 11:50
+Créer une clef ssh forte
+
