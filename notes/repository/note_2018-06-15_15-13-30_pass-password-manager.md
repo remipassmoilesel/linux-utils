@@ -2,7 +2,7 @@
 
 Initialisation:
 
-	$ sudo apt install gnupg2
+	$ sudo apt install gnupg2 xclip
 	$ gpg --gen-key
 	$ pass init user@email
 
