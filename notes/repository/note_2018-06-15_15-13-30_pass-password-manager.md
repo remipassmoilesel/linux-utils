@@ -22,5 +22,7 @@ Générer:
 
 	$ pass generate
 
+Afficher en qrcode:
 
+	$ pass namespace/password-name -q
 
