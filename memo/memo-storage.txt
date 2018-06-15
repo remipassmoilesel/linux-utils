@@ -1544,9 +1544,9 @@ Date: 2016-11-15 13:39
 Invite de commande bluetooth
 
 
-# default :: shred -fv /path/to/file 
+# default :: shred -fvu /path/to/file 
 Date: 2016-11-18 23:34
-Détruire le contenu d'un fichier ou d'un périphérique pour le rendre irrécupérable (ajouter -u pour supprimer ensuite le fichier)
+Détruire le contenu d'un fichier ou d'un périphérique pour le rendre irrécupérable (-u pour supprimer ensuite le fichier)
 
 
 # git :: git checkout master; git rebase refacto/branch 
@@ -2959,4 +2959,9 @@ Restorer une machine virtuelle
 # ssh :: ssh-keygen -b 4096 
 Date: 2018-06-15 11:50
 Créer une clef ssh forte
+
+
+# default :: find <dir> -type f -exec shred -fvu {}; 
+Date: 2018-06-15 14:43
+Détruire un dossier avec shred récursivement
 
