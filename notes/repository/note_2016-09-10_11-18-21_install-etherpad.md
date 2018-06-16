@@ -1,10 +1,15 @@
 # Installer Etherpad
 
+Voir le playbook ansible du projet sysadmin-experiments
+
+## Préparation
+
 Télécharger et installer NodeJS:
 
-    $ cd /opt
-    $ wget https://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.xz
-    $ mv node-v4... nodejs4
+    $ sudo apt install nodejs npm
+    $ sudo npm install -g n
+    $ sudo n latest
+    $ sudo apt remove --purge nodejs npm
 
 Cloner le dépôt Etherpad:
 
@@ -16,14 +21,47 @@ Créer une base de donnée postgres:
     $ sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"  
     $ sudo -u postgres psql -c "create database etherpad"
 
+Créer un utilisateur:
+
+    $ sudo useradd --create-home etherpad
+
+## Configuration
+
 Configurer Etherpad:
 
     $ cd etherpad-lite
     $ cp settings.json.template settings.json
 
-Lancer Etherpad:
+Ajouter un bloc de configuration pour postgres:
 
+	"dbType" : "postgres",
+	"dbSettings" : {
+	    "user"    : "etherpad",
+	    "host"    : "localhost",
+	    "password": "password",
+	    "database": "etherpad",
+	    "charset" : "utf8mb4"
+	}
+
+Configurer l'interface et l'authentification:
+
+	"ip": "127.0.0.1",
+	"requireAuthentication": true,
+	"trustProxy": true,
+	"users": {
+	   "username": {
+	   "password": "password",
+	       "is_admin": true
+	   }
+	},
+
+
+Lancer Etherpad pour essai:
+
+    $ sudo -iu etherpad
     $ bin/run.sh
+
+
 
 Pour installer un proxy Apache HTTPS:
 
@@ -40,5 +78,9 @@ Pour installer un proxy Apache HTTPS:
 
 	  ProxyPass /etherpad/ http://localhost:9001/
 	  ProxyPassReverse /etherpad/ http://localhost:9001/
+
+	  ProxyPass /etherpad/admin http://localhost:9001/admin
+	  ProxyPassReverse /etherpad/admin http://localhost:9001/admin
+
 
 
