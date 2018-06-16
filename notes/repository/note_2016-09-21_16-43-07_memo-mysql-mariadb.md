@@ -10,7 +10,11 @@ Créer un utilisateur:
 
 Changer un mot de passe:
 
-    > SET PASSWORD FOR 'jeffrey'@'localhost' = password_option;
+    > SET PASSWORD FOR 'jeffrey'@'localhost' = PASSWORD('litteral-password');
+
+Afficher les utilisateurs:
+
+   > SELECT user FROM mysql.user;
 
 Créer une base de données:
 

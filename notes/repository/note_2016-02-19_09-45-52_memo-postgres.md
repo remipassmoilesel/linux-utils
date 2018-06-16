@@ -26,6 +26,15 @@ Journaliser les connexions:
 
     $  tail -f /var/log/postgresql/postgresql-9.5-main.log 
 
+## Memo shell PSQL
+
+    \h                  Aide
+    \q                  Quitter
+    \c keycloak         Utiliser une base (USE)
+    \d+ table_name      Décrire une table (DESCRIBE)    
+    \l                  Lister les bases de données
+    \dt                 Lister les tables d'une db
+    \du			Lister tous les utilisateurs
 
 ## Utilisation
 
@@ -35,7 +44,7 @@ Executer une commande directement:
 
 Ouvrir un shell en tant que postgres
 
-    $ sudo -i -u postgres
+    $ sudo -iu postgres
 
 Créer un super user au nom de l'utilisateur courant, sans mot de passe:
     
@@ -45,10 +54,6 @@ Ou en mode interactif:
     
     > createuser --interactive
 
-Retour au shell classique
-    
-    > exit
-    
 Créer une bdd au nom de l'user unix:
     
     $ createdb remipassmoilesel
@@ -73,15 +78,6 @@ Pour supprimer une base de donnée et un utilisateur
 Modifier le mot de passe d'un utilisateur:
 
     $ sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"    
-
-## Shell PSQL
-
-    \h                  Aide
-    \q                  Quitter
-    \c keycloak         Utiliser une base (USE)
-    \d+ table_name      Décrire une table (DESCRIBE)    
-    \l                  Lister les bases de données
-    \dt                 Lister les tables d'une db
 
 ## Divers
 
