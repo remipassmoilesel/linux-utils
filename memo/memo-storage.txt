@@ -2513,7 +2513,7 @@ Modifier un historique git, supprimer, quasher, modifier des commits
 
 # default :: grep -rnw 'word-to-search' directory/ 
 Date: 2017-12-05 16:18
-Chercher dans un répertoire
+Chercher dans un mot exact dans un répertoire, enlever le -w pour chercher une string
 
 
 # git :: git commit -pm 'Commit name' 

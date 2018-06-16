@@ -63,7 +63,7 @@ Lancer Etherpad pour essai:
 
 
 
-Pour installer un proxy Apache HTTPS:
+Pour installer un proxy Apache HTTPS (utiliser de préférence un sous domaine):
 
 	$ sudo a2enmod proxy proxy_http proxy_wstunnel
 	$ vim /etc/apache2/sites-available/xxx.conf
@@ -73,14 +73,9 @@ Pour installer un proxy Apache HTTPS:
 	  ProxyPreserveHost On
 
 	  # Etherpad
-	  ProxyPass /etherpad/p/ http://localhost:9001/p/
-	  ProxyPassReverse /etherpad/p/ http://localhost:9001/p/
+	  ProxyPass / http://localhost:9001/
+	  ProxyPassReverse / http://localhost:9001/
 
-	  ProxyPass /etherpad/ http://localhost:9001/
-	  ProxyPassReverse /etherpad/ http://localhost:9001/
-
-	  ProxyPass /etherpad/admin http://localhost:9001/admin
-	  ProxyPassReverse /etherpad/admin http://localhost:9001/admin
 
 
 
