@@ -16,7 +16,7 @@ class ArgumentParser:
 
         parser.add_argument("-s", "--search",
                             action="store_true",
-                            help="searh a memoy")
+                            help="search a memo")
 
         parser.add_argument("-f", "--filter-category",
                             help="use a category filter")
@@ -26,33 +26,33 @@ class ArgumentParser:
                             help="display availables categories")
 
         parser.add_argument("-c", "--categorize",
-                            help="change categories of specified memo: 'category' 'id'")
+                            help="change categories of specified memo:          $ memo category #id")
 
         parser.add_argument("-a", "--append",
                             action="store_true",
-                            help="append a memo: ['category'] 'header' 'content'")
+                            help="append a memo:                                $ memo [category] command description")
 
         parser.add_argument("-u", "--update",
-                            help="update a memo: 'id' ['category'] 'header' 'content'")
+                            help="update a memo:                                $ memo #id [category] command description")
 
         parser.add_argument("-k", "--delete",
-                            help="delete a memo: 'id'")
+                            help="delete a memo:                                $ memo -d #id")
 
         parser.add_argument("-e", "--edit-all",
                             action="store_true",
-                            help="edit whole memo file")
+                            help="edit whole memo storage with vim              $ memo -e #id")
 
         parser.add_argument("-g", "--graphical-editor",
                             action="store_true",
-                            help="use graphical editor")
+                            help="use graphical editor when editing             $ memo -eg #id")
 
         parser.add_argument("-d", "--display",
                             action="store_true",
-                            help="display all")
+                            help="display all content, for piping               $ memo -d grep -i ssh")
 
         parser.add_argument("-m", "--modify",
                             action="store_true",
-                            help="modify a memo")
+                            help="modify a memo                                 $ memo #id [category] command description")
 
         knownArgs, unknownArgs = parser.parse_known_args()
 
