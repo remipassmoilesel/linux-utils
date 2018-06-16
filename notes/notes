@@ -74,6 +74,10 @@ class Logger:
             print(data)
 
 
+def isLineEmpty(line):
+    return re.search("[a-z0-9]+", line, re.IGNORECASE) is None
+
+
 def displayNote(notePath, lineMax=None, regex=None):
     Logger.printColor("@ Number: " + str(listNotePaths().index(notePath)), Colors.GREEN)
     Logger.info("@ Name: " + notePath.split(os.sep)[-1])
@@ -85,7 +89,7 @@ def displayNote(notePath, lineMax=None, regex=None):
     for line in getLinesFromNote(notePath):
 
         # avoid printing first empty lines
-        if titlePrinted is False and re.search("[a-z0-9]+", line, re.IGNORECASE) is None:
+        if titlePrinted is False and isLineEmpty(line):
             continue
         else:
             titlePrinted = True
@@ -115,6 +119,19 @@ def displayNote(notePath, lineMax=None, regex=None):
         Logger.warning("** Note is empty **")
 
     Logger.info("")
+
+
+def displayNoteCompact(notePath):
+    Logger.printColor("@ Number: " + str(listNotePaths().index(notePath)), Colors.GREEN)
+    Logger.info("@ Name: " + notePath.split(os.sep)[-1])
+
+    for line in getLinesFromNote(notePath):
+        if isLineEmpty(line):
+            continue
+        Logger.printColor(line[0:-1], Colors.BLUE)
+        break
+
+    Logger.info()
 
 
 def resolveNoteName(data, includeEncrypted=False):
@@ -300,7 +317,7 @@ class CliHandlers:
             raise Exception("No notes available in: " + Configuration.NOTE_REPO_PATH)
 
         for noteName in notePaths:
-            displayNote(noteName, Configuration.NUMBER_OF_LINE_ON_LIST)
+            displayNoteCompact(noteName)
 
     def displayNote(self, noteIdentifier):
 
