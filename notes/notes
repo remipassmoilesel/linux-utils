@@ -79,6 +79,7 @@ def isLineEmpty(line):
 
 
 def displayNote(notePath, lineMax=None, regex=None):
+    # FIXME: avoid list all notes for just index
     Logger.printColor("@ Number: " + str(listNotePaths().index(notePath)), Colors.GREEN)
     Logger.info("@ Name: " + notePath.split(os.sep)[-1])
     Logger.info("@ Path: " + notePath)
