@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# dimanche 17 juin 2018, 12:53:02 (UTC+0200)
+
+set -e
+
+IMG_PATH="/tmp/qrcode_$(date +'%Y-%m-%d_%H-%M-%S').png"
+
+echo
+echo "Generating qrcode at location: $IMG_PATH"
+echo 
+
+qrencode -s 7 -o "$IMG_PATH" "$@"
+display $IMG_PATH
+
