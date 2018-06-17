@@ -71,6 +71,8 @@ alias kcgc="kubectl config get-contexts"
 alias kp="kubectl proxy"
 alias kpf="kubectl port-forward"
 
+alias xo="xdg-open"
+
 ##
 ## SDKMAN
 ##
