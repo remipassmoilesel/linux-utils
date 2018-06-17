@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# lundi 2 avril 2018, 19:40:36 (UTC+0200)
+
+set -e
+#set -x
+
+USERNAME=$1
+REPO_NAME=$2
+
+if [[ -z "$USERNAME" ]] ; then
+	echo "You must provide a username."
+	exit 1
+fi
+
+if [[ -z "$REPO_NAME" ]] ; then
+	echo "You must provide a repository name."
+	exit 1
+fi
+
+
+curl -f -u $USERNAME https://api.github.com/user/repos -d "{\"name\":\"$REPO_NAME\"}"
+
+SSH_DEST="git@github.com:$USERNAME/$REPO_NAME.git"
+
+echo 
+echo "Use commands:"
+echo "	git remote rm github; git remote add github $SSH_DEST; git push --set-upstream github master"
+
