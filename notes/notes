@@ -52,10 +52,11 @@ class Note:
 
             return note
 
-    def getContentMatching(self, regex):
-        return list(filter(lambda line: re.search(regex, line, re.IGNORECASE), self.content))
+    def getContentMatching(self, keywords):
+        regexArray = self.__buildSearchRegexArray(keywords)
+        return list(filter(lambda line: self.__isLineMatching(line, regexArray), self.content))
 
-    def display(self, lineMax=None, regex=None):
+    def display(self, lineMax=None, keywords=None):
         Logger.printColor("@ Number: " + str(self.id), Colors.GREEN)
         Logger.info("@ Path: " + self.path)
         Logger.info("")
@@ -64,8 +65,8 @@ class Note:
         Logger.info()
 
         notesLines = []
-        if regex:
-            notesLines = self.getContentMatching(regex)
+        if keywords:
+            notesLines = self.getContentMatching(keywords)
         else:
             notesLines = self.content
 
@@ -125,6 +126,26 @@ class Note:
     def encryptedToClearNotePath(self):
         return self.path[:-len(Configuration.ENCRYPTED_NOTE_EXTENSION)]
 
+    def __isLineMatching(self, line, regexArray) -> bool:
+        for regex in regexArray:
+            if re.search(regex, line, re.IGNORECASE) is not None:
+                return True
+        return False
+
+    def __buildSearchRegexArray(self, keywords):
+        regexPartsArray = []
+        for word in keywords:
+            wordWithoutSpecialChars = re.sub("[^a-z0-9-]", ".?", word, re.IGNORECASE)
+            regexPartsArray.append(wordWithoutSpecialChars)
+
+        separatorPattern = "[-_\s]+"
+        regexArray = [
+            "^(" + "|".join(regexPartsArray) + ")",
+            "(" + "|".join(regexPartsArray) + ")$",
+            "(" + separatorPattern + "|".join(regexPartsArray) + separatorPattern + ")",
+        ]
+        return regexArray
+
 
 class Colors:
     PURPLE = '\033[95m'
@@ -175,6 +196,10 @@ class NotesContainer:
         self.notePaths = []
         self.noteCache = []
 
+    def getAllNotes(self, includeEncrypted: bool):
+        paths = self.getNotePaths(includeEncrypted)
+        return list(map(lambda index, path: self.getNoteFromPath(path, index), enumerate(paths)))
+
     def resolveNotePath(self, query: str, includeEncrypted=False):
         """
         Try to resolve a note name regardless it is a note name, partial name or number.
@@ -203,7 +228,7 @@ class NotesContainer:
                 if re.search(query, path, re.IGNORECASE) is not None:
                     return path
 
-        return None
+        raise Exception("Unable to find note: " + query)
 
     def getNotePaths(self, includeEncrypted=False):
         """
@@ -225,12 +250,12 @@ class NotesContainer:
 
             output.sort()
 
-            # return result
+            if len(output) < 1:
+                raise Exception("No notes available in: " + Configuration.NOTE_REPO_PATH)
+
             return output
         else:
             return self.notePaths
-
-    def getNote(self):
 
     def createNewNote(self, newNoteName: str) -> Note:
         newNotePath = os.path.join(Configuration.NOTE_REPO_PATH, newNoteName)
@@ -269,22 +294,6 @@ class NotesContainer:
             with open(Configuration.TEMPLATE_PATH, 'a') as file:
                 file.close()
 
-
-def buildSearchRegexArray(keywords):
-    regexPartsArray = []
-    for word in keywords:
-        wordWithoutSpecialChars = re.sub("[^a-z0-9-]", ".?", word, re.IGNORECASE)
-        regexPartsArray.append(wordWithoutSpecialChars)
-
-    separatorPattern = "[-_\s]+"
-    regexArray = [
-        "^(" + "|".join(regexPartsArray) + ")",
-        "(" + "|".join(regexPartsArray) + ")$",
-        "(" + separatorPattern + "|".join(regexPartsArray) + separatorPattern + ")",
-    ]
-    return regexArray
-
-
 class CliHandlers:
 
     def __init__(self):
@@ -306,15 +315,12 @@ class CliHandlers:
     def editNote(self, noteIdentifier, graphicalEditor, encrypt):
 
         notePath = self.notes.resolveNotePath(noteIdentifier, encrypt)
-        if notePath is None:
-            raise Exception("Unable to find note: " + noteIdentifier)
-
         note = self.notes.getNoteFromPath(notePath)
 
         if encrypt is True:
             note.decryptGpg()
 
-        note.edit()
+        note.edit(graphicalEditor)
 
         if encrypt is True:
             note.encryptGpg()
@@ -323,21 +329,13 @@ class CliHandlers:
         Note.getNoteFromPath(Configuration.TEMPLATE_PATH).edit(graphicalEditor)
 
     def listNotes(self):
-
         notePaths = self.notes.getNotePaths()
-        if len(notePaths) < 1:
-            raise Exception("No notes available in: " + Configuration.NOTE_REPO_PATH)
-
         for index, notePath in notePaths:
             note = Note.getNoteFromPath(notePath, index)
             note.displayCompact()
 
     def displayNote(self, noteIdentifier):
-
-        notePath = self.notes.resolveNotePath(noteIdentifier, encrypt)
-        if notePath is None:
-            raise Exception("Unable to find note: " + noteIdentifier)
-
+        notePath = self.notes.resolveNotePath(noteIdentifier)
         note = self.notes.getNoteFromPath(notePath)
         note.display()
 
@@ -360,22 +358,13 @@ class CliHandlers:
         Logger.info("Notes from directory: " + Configuration.NOTE_REPO_PATH)
         Logger.info()
 
-        regexArray = buildSearchRegexArray(keywords)
         someWhereFound = False
+        for note in self.notes.getAllNotes(True):
 
-        # TODO: refactor search
-        for path in listNotePaths():
-            for line in getLinesFromNote(path):
-                noteMatch = False
-                for regex in regexArray:
-                    matchLine = re.search(regex, line, re.IGNORECASE)
-                    if matchLine:
-                        displayNote(path, Configuration.NUMBER_OF_LINE_ON_LIST, regex)
-                        noteMatch = True
-                        someWhereFound = True
-                        break
-                if noteMatch:
-                    break
+            matchingContent = note.getContentMatching(keywords)
+            if len(matchingContent) > 0:
+                note.display(lineMax=None, keywords=keywords)
+                someWhereFound = True
 
         if not someWhereFound:
             raise Exception("Nothing found: " + ", ".join(keywords))
@@ -426,12 +415,10 @@ def parseArguments():
     cliHandlers = CliHandlers()
 
     if knownArgs.newnote:
-
         noteSuffix = unknownArgs[0] if len(unknownArgs) > 0 else None
         cliHandlers.createNewNote(noteSuffix, knownArgs.graphicaleditor, knownArgs.encrypt)
 
     elif knownArgs.editnote:
-
         if len(unknownArgs) != 1:
             raise Exception("You must specify a name, a partial name or a number.")
 
@@ -439,15 +426,12 @@ def parseArguments():
         cliHandlers.editNote(noteIdentifier, knownArgs.graphicaleditor, knownArgs.encrypt)
 
     elif knownArgs.edittemplate:
-
         cliHandlers.editTemplate(knownArgs.graphicaleditor)
 
     elif knownArgs.list:
-
         cliHandlers.listNotes()
 
     elif knownArgs.display:
-
         if len(unknownArgs) != 1:
             raise Exception("You must specify a name, a partial name or a number.")
 
@@ -455,11 +439,9 @@ def parseArguments():
         cliHandlers.displayNote(noteIdentifier)
 
     elif knownArgs.displayall:
-
         cliHandlers.displayAll()
 
     elif knownArgs.search:
-
         keywords = unknownArgs
         cliHandlers.searchNote(keywords)
 
