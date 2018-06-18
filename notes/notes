@@ -53,7 +53,7 @@ class Note:
 
             return note
 
-    def getContentMatching(self, keywords):
+    def getContentMatching(self, keywords) -> List[str]:
         regexArray = self.__buildSearchRegexArray(keywords)
         return list(filter(lambda line: self.__isLineMatching(line, regexArray), self.content))
 
@@ -68,10 +68,11 @@ class Note:
         notesLines = []
         if keywords:
             notesLines = self.getContentMatching(keywords)
+            notesLines = self.__highligthMatch(notesLines, keywords)
         else:
             notesLines = self.content
 
-        if lineMax:
+        if lineMax is not None:
             notesLines = notesLines[:lineMax]
 
         if len(notesLines) > 0:
@@ -128,11 +129,22 @@ class Note:
     def isEncrypted(self) -> bool:
         return self.path.endswith(Configuration.ENCRYPTED_NOTE_EXTENSION)
 
-    def __isLineMatching(self, line, regexArray) -> bool:
+    def __isLineMatching(self, line: str, regexArray) -> bool:
         for regex in regexArray:
             if re.search(regex, line, re.IGNORECASE) is not None:
                 return True
         return False
+
+    def __highligthMatch(self, lines: List[str], keywords: List[str]) -> str:
+        regexArray = self.__buildSearchRegexArray(keywords)
+        result = []
+        for line in lines:
+            for regex in regexArray:
+                match = re.search(regex, line, re.IGNORECASE)
+                if match is not None:
+                    line = re.sub(regex, Colors.YELLOW + match.group(1) + Colors.ENDC, line, re.IGNORECASE)
+            result.append(line)
+        return result
 
     def __buildSearchRegexArray(self, keywords):
         regexPartsArray = []
@@ -373,7 +385,7 @@ class CliHandlers:
 
             matchingContent = note.getContentMatching(keywords)
             if len(matchingContent) > 0:
-                note.display(lineMax=None, keywords=keywords)
+                note.display(lineMax=Configuration.NUMBER_OF_LINE_ON_LIST, keywords=keywords)
                 someWhereFound = True
 
         if not someWhereFound:
