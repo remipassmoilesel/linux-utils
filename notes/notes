@@ -82,7 +82,8 @@ class Note:
         Logger.info("")
 
     def displayCompact(self):
-        Logger.info("@ ID: " + str(self.id) + "@ Title: " + self.title)
+        greenId = "@ID: " + Colors.GREEN + str(self.id) + Colors.ENDC
+        Logger.info(greenId + " @Title: " + Colors.BLUE + self.title[:-1])
 
     def edit(self, useGraphicalEditor=False):
         """
@@ -198,7 +199,6 @@ class NotesContainer:
 
     def __init__(self):
         self.notePaths = []
-        self.noteCache = []
 
     def getAllNotes(self):
         paths = self.getNotePaths()
@@ -238,7 +238,7 @@ class NotesContainer:
         """
         Return an ordered list of note paths
         """
-        if self.notePaths is None:
+        if len(self.notePaths) < 1:
 
             # list files from directory
             self.notePaths = []
@@ -333,7 +333,7 @@ class CliHandlers:
 
     def listNotes(self):
         notePaths = self.notes.getNotePaths()
-        for index, notePath in notePaths:
+        for index, notePath in enumerate(notePaths):
             note = Note.getNoteFromPath(notePath, index)
             note.displayCompact()
 
@@ -449,7 +449,7 @@ def parseArguments():
         cliHandlers.searchNote(keywords)
 
     else:
-        Exception("Bad command, please try --help")
+        raise Exception("Bad command, please try --help")
 
 
 if __name__ == "__main__":
