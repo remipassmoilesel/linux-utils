@@ -58,12 +58,9 @@ class Note:
         return list(filter(lambda line: self.__isLineMatching(line, regexArray), self.content))
 
     def display(self, lineMax=None, keywords=None):
-        Logger.printColor("@ Number: " + str(self.id), Colors.GREEN)
-        Logger.info("@ Path: " + self.path)
-        Logger.info("")
-
-        Logger.printColor(self.title, Colors.BLUE + Colors.UNDERLINE)
-        Logger.info()
+        greenId = Colors.GREEN + "@ " + str(self.id) + " " + Colors.ENDC
+        blueTitle = Colors.BLUE + self.title + Colors.ENDC
+        Logger.print(greenId + blueTitle)
 
         notesLines = []
         if keywords:
@@ -214,7 +211,11 @@ class Logger:
 
     @staticmethod
     def printColor(line="", color=Colors.ENDC):
-        print(color + str(line) + Colors.ENDC)
+        Logger.print(color + str(line) + Colors.ENDC)
+
+    @staticmethod
+    def print(line = ""):
+        print(line)
 
     @staticmethod
     def debug(data):
@@ -377,6 +378,8 @@ class CliHandlers:
     def displayNote(self, noteIdentifier):
         notePath = self.notes.resolveNotePath(noteIdentifier)
         note = self.notes.getNoteFromPath(notePath)
+
+        Logger.print()
         note.display()
 
     def displayAll(self):
