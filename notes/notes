@@ -96,11 +96,21 @@ class Note:
         subprocess.call(editCommand, shell=True)
 
     def commit(self, action: str = "Update"):
+
+        if self.isModified() is False:
+            return
+
         commitMessage = action + " " + str(os.path.split(self.path)[-1:][0])
         commitCommand = "git add " + self.path + " && git commit -m '" + commitMessage + "' " + self.path
         self.__shellCommand(commitCommand, Configuration.NOTE_REPO_PATH)
 
+    def isModified(self):
+        completed = subprocess.run("git diff --exit-code --name-only " + self.path,
+                                   shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        return completed.returncode == 1
+
     def encryptGpg(self):
+        # TODO: remove use of symmetric ?
         encryptedNotePath = self.clearToEncryptedNotePath()
         encryptNoteCommand = "gpg --yes --armor --output " \
                              + encryptedNotePath \
@@ -161,8 +171,11 @@ class Note:
         return regexArray
 
     def __shellCommand(self, command, pwd=None):
-        completedProcess = subprocess.run(command, shell=True, stdout=subprocess.PIPE,
-                                          stderr=subprocess.PIPE, cwd=pwd)
+        print(command)
+        completedProcess = subprocess.run(command, shell=True,
+                                          # stdout=subprocess.PIPE,
+                                          # stderr=subprocess.PIPE,
+                                          cwd=pwd)
         if completedProcess.returncode is not 0:
             raise Exception('Error: ' + str(completedProcess.stderr))
 
