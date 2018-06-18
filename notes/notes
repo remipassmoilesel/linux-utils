@@ -331,13 +331,16 @@ class CliHandlers:
     def __init__(self):
         self.notes = NotesContainer()
 
-    def createNewNote(self, noteSuffix, useGraphicalEditor, encrypt):
+    def createNewNote(self, noteSuffix, graphicalEditor, encrypt):
+
+        if encrypt is True and graphicalEditor:
+            raise Exception('Encryption is available only with cli editor')
 
         noteName = self.notes.getNewNoteName(noteSuffix)
         Logger.info("Note have been created: " + noteName)
 
         note: Note = self.notes.createNewNote(noteName)
-        note.edit(useGraphicalEditor)
+        note.edit(graphicalEditor)
 
         if encrypt is True:
             note.encryptGpg()
@@ -345,6 +348,9 @@ class CliHandlers:
         note.commit(action="Create")
 
     def editNote(self, noteIdentifier, graphicalEditor, encrypt):
+
+        if encrypt is True and graphicalEditor:
+            raise Exception('Encryption is available only with cli editor')
 
         notePath = self.notes.resolveNotePath(noteIdentifier)
         note = self.notes.getNoteFromPath(notePath)
