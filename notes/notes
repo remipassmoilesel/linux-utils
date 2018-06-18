@@ -95,8 +95,8 @@ class Note:
         editCommand = editor + " " + self.path
         subprocess.call(editCommand, shell=True)
 
-    def commit(self):
-        commitMessage = "Note " + str(os.path.split(self.path)[-1:][0]) + " updated"
+    def commit(self, action: str = "Update"):
+        commitMessage = action + " " + str(os.path.split(self.path)[-1:][0])
         commitCommand = "git add " + self.path + " && git commit -m '" + commitMessage + "' " + self.path
         self.__shellCommand(commitCommand, Configuration.NOTE_REPO_PATH)
 
@@ -160,7 +160,7 @@ class Note:
         ]
         return regexArray
 
-    def __shellCommand(self, command, pwd = None):
+    def __shellCommand(self, command, pwd=None):
         completedProcess = subprocess.run(command, shell=True, stdout=subprocess.PIPE,
                                           stderr=subprocess.PIPE, cwd=pwd)
         if completedProcess.returncode is not 0:
@@ -312,6 +312,7 @@ class NotesContainer:
             with open(Configuration.TEMPLATE_PATH, 'a') as file:
                 file.close()
 
+
 class CliHandlers:
 
     def __init__(self):
@@ -328,7 +329,7 @@ class CliHandlers:
         if encrypt is True:
             note.encryptGpg()
 
-        note.commit()
+        note.commit(action="Create")
 
     def editNote(self, noteIdentifier, graphicalEditor, encrypt):
 
@@ -342,6 +343,8 @@ class CliHandlers:
 
         if encrypt is True:
             note.encryptGpg()
+
+        note.commit()
 
     def editTemplate(self, graphicalEditor):
         Note.getNoteFromPath(Configuration.TEMPLATE_PATH, -1).edit(graphicalEditor)
