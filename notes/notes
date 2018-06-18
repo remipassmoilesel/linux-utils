@@ -7,6 +7,7 @@ import os
 import re
 import shutil
 import subprocess
+from typing import List
 
 
 class Configuration:
@@ -47,8 +48,8 @@ class Note:
             note = Note()
             note.id = id
             note.path = notePath
-            note.title = fileLines[0]
-            note.content = fileLines[1:]
+            note.title = fileLines[0][:-1]
+            note.content = list(map(lambda line: line[:-1], fileLines[1:]))
 
             return note
 
@@ -73,7 +74,7 @@ class Note:
         if lineMax:
             notesLines = notesLines[:lineMax]
 
-        if notesLines > 0:
+        if len(notesLines) > 0:
             for line in notesLines:
                 print(line)
         else:
@@ -83,7 +84,7 @@ class Note:
 
     def displayCompact(self):
         greenId = "@ID: " + Colors.GREEN + str(self.id) + Colors.ENDC
-        Logger.info(greenId + " @Title: " + Colors.BLUE + self.title[:-1])
+        Logger.info(greenId + " @Title: " + Colors.BLUE + self.title)
 
     def edit(self, useGraphicalEditor=False):
         """
@@ -123,6 +124,9 @@ class Note:
 
     def encryptedToClearNotePath(self):
         return self.path[:-len(Configuration.ENCRYPTED_NOTE_EXTENSION)]
+
+    def isEncrypted(self) -> bool:
+        return self.path.endswith(Configuration.ENCRYPTED_NOTE_EXTENSION)
 
     def __isLineMatching(self, line, regexArray) -> bool:
         for regex in regexArray:
@@ -202,7 +206,7 @@ class NotesContainer:
 
     def getAllNotes(self):
         paths = self.getNotePaths()
-        return list(map(lambda index, path: self.getNoteFromPath(path), enumerate(paths)))
+        return list(map(lambda path: self.getNoteFromPath(path), paths))
 
     def resolveNotePath(self, query: str):
         """
@@ -353,7 +357,7 @@ class CliHandlers:
             note = Note.getNoteFromPath(notePath, index)
             note.displayCompact()
 
-    def searchNote(self, keywords):
+    def searchNote(self, keywords: List[str]):
 
         if len(keywords) < 1:
             raise Exception("You must specify keywords.")
@@ -362,7 +366,10 @@ class CliHandlers:
         Logger.info()
 
         someWhereFound = False
-        for note in self.notes.getAllNotes(True):
+        for note in self.notes.getAllNotes():
+
+            if note.isEncrypted():
+                continue
 
             matchingContent = note.getContentMatching(keywords)
             if len(matchingContent) > 0:
