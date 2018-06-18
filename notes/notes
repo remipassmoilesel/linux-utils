@@ -10,7 +10,7 @@ import subprocess
 
 
 class Configuration:
-    DEBUG = False
+    DEBUG = True
 
     NUMBER_OF_LINE_ON_LIST = 3
     GRAPHICAL_EDITOR = "xdg-open"
@@ -89,11 +89,13 @@ class Note:
         Edit a note, with graphical or non graphical editor
         """
         editor = Configuration.GRAPHICAL_EDITOR if useGraphicalEditor is True else Configuration.CLI_EDITOR
-        subprocess.call(editor + " " + self.path, shell=True)
+        editCommand = editor + " " + self.path
+        subprocess.call(editCommand, shell=True)
 
     def commit(self):
-        commitMessage = "Note " + str(os.path.split(self.path)[:-1]) + " updated"
-        subprocess.call("git commit -m " + commitMessage + " " + self.path, shell=True)
+        commitMessage = "Note " + str(os.path.split(self.path)[-1:][0]) + " updated"
+        commitCommand = "git add " + self.path + " && git commit -m '" + commitMessage + "' " + self.path
+        self.__shellCommand(commitCommand, Configuration.NOTE_REPO_PATH)
 
     def encryptGpg(self):
         encryptedNotePath = self.clearToEncryptedNotePath()
@@ -101,24 +103,19 @@ class Note:
                              + encryptedNotePath \
                              + " --symmetric " \
                              + self.path + " && sync"
+        self.__shellCommand(encryptNoteCommand)
 
-        returnCode = subprocess.call(encryptNoteCommand, shell=True)
-        returnCode += subprocess.call("shred -u " + self.path + " && sync", shell=True)
+        shredCommand = "shred -u " + self.path + " && sync"
+        self.__shellCommand(shredCommand)
 
-        if returnCode is 0:
-            self.path = encryptedNotePath
-        else:
-            raise Exception("/!\ Unable to encrypt note: " + self.path)
+        self.path = encryptedNotePath
 
     def decryptGpg(self):
         clearNotePath = self.encryptedToClearNotePath()
         decryptCommand = "gpg --yes --decrypt --output " + clearNotePath + " " + self.path + " && sync"
-        returnCode = subprocess.call(decryptCommand, shell=True)
+        self.__shellCommand(decryptCommand)
 
-        if returnCode is 0:
-            self.path = clearNotePath
-        else:
-            raise Exception("/!\ Unable to encrypt note: " + self.path)
+        self.path = clearNotePath
 
     def clearToEncryptedNotePath(self):
         return self.path + Configuration.ENCRYPTED_NOTE_EXTENSION
@@ -145,6 +142,13 @@ class Note:
             "(" + separatorPattern + "|".join(regexPartsArray) + separatorPattern + ")",
         ]
         return regexArray
+
+    def __shellCommand(self, command, pwd = None):
+        print(command)
+        completedProcess = subprocess.run(command, shell=True, stdout=subprocess.PIPE,
+                                          stderr=subprocess.PIPE, cwd=pwd)
+        if completedProcess.returncode is not 0:
+            raise Exception('Error: ' + str(completedProcess.stderr))
 
 
 class Colors:
@@ -196,11 +200,11 @@ class NotesContainer:
         self.notePaths = []
         self.noteCache = []
 
-    def getAllNotes(self, includeEncrypted: bool):
-        paths = self.getNotePaths(includeEncrypted)
-        return list(map(lambda index, path: self.getNoteFromPath(path, index), enumerate(paths)))
+    def getAllNotes(self):
+        paths = self.getNotePaths()
+        return list(map(lambda index, path: self.getNoteFromPath(path), enumerate(paths)))
 
-    def resolveNotePath(self, query: str, includeEncrypted=False):
+    def resolveNotePath(self, query: str):
         """
         Try to resolve a note name regardless it is a note name, partial name or number.
         Return None if nothing is found
@@ -211,7 +215,7 @@ class NotesContainer:
 
         # arg is a note number
         if re.search("^[0-9]*$", query):
-            notes = self.getNotePaths(includeEncrypted)
+            notes = self.getNotePaths()
             if int(query) < len(notes):
                 return notes[int(query)]
 
@@ -224,47 +228,46 @@ class NotesContainer:
                 return notePath
 
             # partial name: search
-            for path in self.getNotePaths(includeEncrypted):
+            for path in self.getNotePaths():
                 if re.search(query, path, re.IGNORECASE) is not None:
                     return path
 
         raise Exception("Unable to find note: " + query)
 
-    def getNotePaths(self, includeEncrypted=False):
+    def getNotePaths(self):
         """
         Return an ordered list of note paths
         """
-
         if self.notePaths is None:
 
             # list files from directory
-            output = []
+            self.notePaths = []
             dirList = os.listdir(Configuration.NOTE_REPO_PATH)
 
             # remove uneeded files
             for fname in dirList:
                 if fname != "." and fname != ".." and fname != Configuration.TEMPLATE_NAME:
-                    if (includeEncrypted and fname.endswith(Configuration.ENCRYPTED_NOTE_EXTENSION)) \
-                            or fname.endswith(Configuration.NOTE_EXTENSION):
-                        output.append(os.path.join(Configuration.NOTE_REPO_PATH, fname))
+                    fullPath = os.path.join(Configuration.NOTE_REPO_PATH, fname)
+                    self.notePaths.append(fullPath)
 
-            output.sort()
+            self.notePaths.sort()
 
-            if len(output) < 1:
+            if len(self.notePaths) < 1:
                 raise Exception("No notes available in: " + Configuration.NOTE_REPO_PATH)
 
-            return output
-        else:
-            return self.notePaths
+        return self.notePaths
 
     def createNewNote(self, newNoteName: str) -> Note:
         newNotePath = os.path.join(Configuration.NOTE_REPO_PATH, newNoteName)
         shutil.copy(Configuration.TEMPLATE_PATH, newNotePath)
 
-        noteId = self.getNoteIdFromPath(newNotePath)
+        noteId = self.getNewNoteId()
         note = Note.getNoteFromPath(newNotePath, noteId)
 
         return note
+
+    def getNewNoteId(self):
+        return len(self.getNotePaths())
 
     def getNoteFromPath(self, notePath):
         noteId = self.getNoteIdFromPath(notePath)
@@ -314,7 +317,7 @@ class CliHandlers:
 
     def editNote(self, noteIdentifier, graphicalEditor, encrypt):
 
-        notePath = self.notes.resolveNotePath(noteIdentifier, encrypt)
+        notePath = self.notes.resolveNotePath(noteIdentifier)
         note = self.notes.getNoteFromPath(notePath)
 
         if encrypt is True:
@@ -326,7 +329,7 @@ class CliHandlers:
             note.encryptGpg()
 
     def editTemplate(self, graphicalEditor):
-        Note.getNoteFromPath(Configuration.TEMPLATE_PATH).edit(graphicalEditor)
+        Note.getNoteFromPath(Configuration.TEMPLATE_PATH, -1).edit(graphicalEditor)
 
     def listNotes(self):
         notePaths = self.notes.getNotePaths()
