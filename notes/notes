@@ -364,9 +364,9 @@ class CliHandlers:
 
         notePaths = self.notes.getNotePaths()
 
-        for index, notePath in notePaths:
+        for index, notePath in enumerate(notePaths):
             note = Note.getNoteFromPath(notePath, index)
-            note.displayCompact()
+            note.display()
 
     def searchNote(self, keywords: List[str]):
 
