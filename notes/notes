@@ -58,9 +58,9 @@ class Note:
         return list(filter(lambda line: self.__isLineMatching(line, regexArray), self.content))
 
     def display(self, lineMax=None, keywords=None):
-        greenId = Colors.GREEN + "@ " + str(self.id) + " " + Colors.ENDC
-        blueTitle = Colors.BLUE + self.title + Colors.ENDC
-        Logger.print(greenId + blueTitle)
+        greenId = self.__getGreenId()
+        blueTitle = self.__getBlueTitle()
+        Logger.info(greenId + " " + blueTitle)
         Logger.print()
 
         notesLines = []
@@ -82,8 +82,15 @@ class Note:
         Logger.info("")
 
     def displayCompact(self):
-        greenId = "@ID: " + Colors.GREEN + str(self.id) + Colors.ENDC
-        Logger.info(greenId + " @Title: " + Colors.BLUE + self.title)
+        greenId = self.__getGreenId()
+        blueTitle = self.__getBlueTitle()
+        Logger.info(greenId + " " + blueTitle)
+
+    def __getBlueTitle(self) -> str:
+        return Colors.BLUE + self.title + Colors.ENDC
+
+    def __getGreenId(self) -> str:
+        return Colors.GREEN + "@" + str(self.id).ljust(3) + Colors.ENDC
 
     def edit(self, useGraphicalEditor=False):
         """
