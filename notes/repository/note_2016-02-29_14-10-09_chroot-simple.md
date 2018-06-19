@@ -1,4 +1,4 @@
-Utiliser chroot pour réparer un système
+# Utiliser chroot pour réparer un système
 
 /!\ Les systèmes cibles et sources doivent partager les mêmes architectures et distributions.
 
