@@ -11,7 +11,7 @@ from typing import List
 
 
 class Configuration:
-    DEBUG = True
+    DEBUG = False
 
     NUMBER_OF_LINE_ON_LIST = 5
     GRAPHICAL_EDITOR = "xdg-open"
@@ -247,7 +247,7 @@ class NotesContainer:
             return query
 
         # arg is a note number
-        if re.search("^[0-9]*$", query):
+        if re.search("^[0-9]+$", query):
             notes = self.getNotePaths()
             if int(query) < len(notes):
                 return notes[int(query)]
@@ -399,9 +399,6 @@ class CliHandlers:
 
     def searchNote(self, keywords: List[str]):
 
-        if len(keywords) < 1:
-            raise Exception("You must specify keywords.")
-
         Logger.info("Notes from directory: " + Configuration.NOTE_REPO_PATH)
         Logger.info()
 
@@ -419,6 +416,17 @@ class CliHandlers:
         if not someWhereFound:
             raise Exception("Nothing found: " + ", ".join(keywords))
 
+    def removeNote(self, noteId: str):
+
+        notePath = self.notes.resolveNotePath(noteId)
+        note = self.notes.getNoteFromPath(notePath)
+
+        os.remove(notePath)
+        note.commit('Delete')
+
+        Logger.print('Note deleted: ' + notePath)
+
+
 
 def parseArguments():
     # parse arguments
@@ -426,7 +434,7 @@ def parseArguments():
 
     parser.add_argument("-k", "--encrypt",
                         action="store_true",
-                        help="encrypt with gpg (symetric) after edit")
+                        help="encrypt with gpg (symmetric) after edit")
 
     parser.add_argument("-n", "--newnote",
                         action="store_true",
@@ -459,6 +467,10 @@ def parseArguments():
     parser.add_argument("-g", "--graphicaleditor",
                         action="store_true",
                         help="use graphical editor")
+
+    parser.add_argument("-r", "--remove",
+                        action="store_true",
+                        help="remove note")
 
     knownArgs, unknownArgs = parser.parse_known_args()
 
@@ -493,7 +505,18 @@ def parseArguments():
 
     elif knownArgs.search:
         keywords = unknownArgs
+
+        if len(keywords) < 1:
+            raise Exception("You must specify keywords.")
+
         cliHandlers.searchNote(keywords)
+
+    elif knownArgs.remove:
+        noteId = unknownArgs[0]
+        if re.search("^[0-9]+$", noteId) is None:
+            raise Exception('You must specify a numeric id')
+
+        cliHandlers.removeNote(noteId)
 
     else:
         raise Exception("Bad command, please try --help")
