@@ -263,11 +263,9 @@ class NotesContainer:
         """
         if len(self.notePaths) < 1:
 
-            # list files from directory
             self.notePaths = []
             dirList = os.listdir(Configuration.NOTE_REPO_PATH)
 
-            # remove uneeded files
             for fname in dirList:
                 if fname == "." or fname == ".." or fname == Configuration.TEMPLATE_NAME \
                        or fname.startswith('.'):
