@@ -61,6 +61,7 @@ class Note:
         greenId = self.__getGreenId()
         blueTitle = self.__getBlueTitle()
         Logger.info(greenId + " " + blueTitle)
+        Logger.print('Path: ' + self.path)
         Logger.print()
 
         notesLines = []
@@ -86,12 +87,6 @@ class Note:
         blueTitle = self.__getBlueTitle()
         Logger.info(greenId + " " + blueTitle)
 
-    def __getBlueTitle(self) -> str:
-        return Colors.BLUE + self.title + Colors.ENDC
-
-    def __getGreenId(self) -> str:
-        return Colors.GREEN + "@" + str(self.id).ljust(3) + Colors.ENDC
-
     def edit(self, useGraphicalEditor=False):
         """
         Edit a note, with graphical or non graphical editor
@@ -102,11 +97,14 @@ class Note:
 
     def commit(self, action: str = "Update"):
 
-        if self.isModified() is False:
+        if action == "Update" and self.isModified() is False:
             return
 
+        addCommand = "git add " + self.path
+        self.__shellCommand(addCommand, Configuration.NOTE_REPO_PATH)
+
         commitMessage = action + " " + str(os.path.split(self.path)[-1:][0])
-        commitCommand = "git add " + self.path + " && git commit -m '" + commitMessage + "' " + self.path
+        commitCommand = "git commit -m '" + commitMessage + "' " + self.path
         self.__shellCommand(commitCommand, Configuration.NOTE_REPO_PATH)
 
     def isModified(self):
@@ -115,8 +113,7 @@ class Note:
         return completed.returncode == 1
 
     def encryptGpg(self):
-        # TODO: remove use of symmetric ?
-        encryptedNotePath = self.clearToEncryptedNotePath()
+        encryptedNotePath = self.__clearToEncryptedNotePath()
         encryptNoteCommand = "gpg --yes --armor --output " \
                              + encryptedNotePath \
                              + " --symmetric " \
@@ -129,20 +126,26 @@ class Note:
         self.path = encryptedNotePath
 
     def decryptGpg(self):
-        clearNotePath = self.encryptedToClearNotePath()
+        clearNotePath = self.__encryptedToClearNotePath()
         decryptCommand = "gpg --yes --decrypt --output " + clearNotePath + " " + self.path + " && sync"
         self.__shellCommand(decryptCommand)
 
         self.path = clearNotePath
 
-    def clearToEncryptedNotePath(self):
-        return self.path + Configuration.ENCRYPTED_NOTE_EXTENSION
-
-    def encryptedToClearNotePath(self):
-        return self.path[:-len(Configuration.ENCRYPTED_NOTE_EXTENSION)]
-
     def isEncrypted(self) -> bool:
         return self.path.endswith(Configuration.ENCRYPTED_NOTE_EXTENSION)
+
+    def __clearToEncryptedNotePath(self):
+        return self.path + Configuration.ENCRYPTED_NOTE_EXTENSION
+
+    def __encryptedToClearNotePath(self):
+        return self.path[:-len(Configuration.ENCRYPTED_NOTE_EXTENSION)]
+
+    def __getBlueTitle(self) -> str:
+        return Colors.BLUE + self.title + Colors.ENDC
+
+    def __getGreenId(self) -> str:
+        return Colors.GREEN + "@" + str(self.id).ljust(3) + Colors.ENDC
 
     def __isLineMatching(self, line: str, regexArray) -> bool:
         for regex in regexArray:
@@ -150,7 +153,7 @@ class Note:
                 return True
         return False
 
-    def __highligthMatch(self, lines: List[str], keywords: List[str]) -> str:
+    def __highligthMatch(self, lines: List[str], keywords: List[str]) -> List[str]:
         regexArray = self.__buildSearchRegexArray(keywords)
         result = []
         for line in lines:
@@ -161,7 +164,7 @@ class Note:
             result.append(line)
         return result
 
-    def __buildSearchRegexArray(self, keywords):
+    def __buildSearchRegexArray(self, keywords) -> List:
         regexPartsArray = []
         for word in keywords:
             wordWithoutSpecialChars = re.sub("[^a-z0-9-]", ".?", word, re.IGNORECASE)
@@ -175,7 +178,7 @@ class Note:
         ]
         return regexArray
 
-    def __shellCommand(self, command, pwd=None):
+    def __shellCommand(self, command, pwd=None) -> None:
         completedProcess = subprocess.run(command, shell=True,
                                           stdout=subprocess.PIPE,
                                           stderr=subprocess.PIPE,
