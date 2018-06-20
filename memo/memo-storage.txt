@@ -2990,8 +2990,3 @@ Informations sur le système.
 Date: 2018-06-20 22:42
 test
 
-
-# default :: test 
-Date: 2018-06-20 22:43
-test
-
