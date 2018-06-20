@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import re
 import os
+import re
 
 from Configuration import Configuration
 from Logger import Logger
 from MemoElement import MemoElement
+import subprocess
 
 class MemoContainer:
 
@@ -154,3 +155,19 @@ class MemoContainer:
         memo.id = id
         memo.updateDate()
         self.memoList.append(memo)
+
+    def commit(self):
+        addCommand = "git add " + self.path
+        self.__shellCommand(addCommand, Configuration.MEMO_ROOT)
+
+        commitMessage = "Update " + Configuration.STORAGE_FILE_NAME
+        commitCommand = "git commit -m '" + commitMessage + "' " + Configuration.STORAGE_FILE_PATH
+        self.__shellCommand(commitCommand, Configuration.MEMO_ROOT)
+
+    def __shellCommand(self, command, pwd=None) -> None:
+        completedProcess = subprocess.run(command, shell=True,
+                                          stdout=subprocess.PIPE,
+                                          stderr=subprocess.PIPE,
+                                          cwd=pwd)
+        if completedProcess.returncode is not 0:
+            raise Exception('Error: ' + str(completedProcess.stderr))

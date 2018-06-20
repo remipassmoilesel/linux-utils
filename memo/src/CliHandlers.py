@@ -13,7 +13,7 @@ class CliHandlers:
     def openEditor(self, graphicalEditor=False):
 
         editor = Configuration.GRAPHICAL_EDITOR if graphicalEditor is True else Configuration.CLI_EDITOR
-        subprocess.call(editor + " " + Configuration.MEMO_FILE_PATH, shell=True)
+        subprocess.call(editor + " " + Configuration.STORAGE_FILE_PATH, shell=True)
 
     def exitProgram(code=0, msg=""):
 
@@ -34,6 +34,7 @@ class CliHandlers:
             memo.category = category
             self.container.updateMemo(memo)
             self.container.persistToStorage()
+            self.container.commit()
 
             Logger.success("Category changed.")
             Logger.success()
@@ -47,6 +48,7 @@ class CliHandlers:
 
         self.container.appendMemo(memo)
         self.container.persistToStorage()
+        self.container.commit()
 
         Logger.success("Memo added with success.")
 
@@ -62,6 +64,7 @@ class CliHandlers:
 
         self.container.updateMemo(memo)
         self.container.persistToStorage()
+        self.container.commit()
 
         Logger.success("Memo updated.")
 
@@ -73,6 +76,7 @@ class CliHandlers:
 
         self.container.deleteMemo(memo)
         self.container.persistToStorage()
+        self.container.commit()
 
         Logger.success("Memo deleted.")
 
@@ -129,5 +133,5 @@ class CliHandlers:
     def getAndLoadMemoContainer(self):
 
         container = MemoContainer()
-        container.loadStorageFile(Configuration.MEMO_FILE_PATH)
+        container.loadStorageFile(Configuration.STORAGE_FILE_PATH)
         return container

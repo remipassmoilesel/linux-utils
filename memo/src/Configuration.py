@@ -6,9 +6,9 @@ import os
 class Configuration:
     DEBUG = True
 
-    MEMO_FILE_NAME = "memo-storage.txt"
-    SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
-    MEMO_FILE_PATH = os.path.join(SCRIPT_PATH, '..', MEMO_FILE_NAME)
+    STORAGE_FILE_NAME = "memo-storage.txt"
+    MEMO_ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
+    STORAGE_FILE_PATH = os.path.join(MEMO_ROOT, STORAGE_FILE_NAME)
 
     PROGRAM_DESCRIPTION = '''
 Simple memo utility, useful to store commands.
@@ -30,7 +30,7 @@ Examples:
     Categorize memo:
     $ memo -c k8s 536
 
-All informations are stored in file: ''' + MEMO_FILE_PATH
+All informations are stored in file: ''' + STORAGE_FILE_PATH
 
     GRAPHICAL_EDITOR = "xdg-open"
     CLI_EDITOR = "vim"
