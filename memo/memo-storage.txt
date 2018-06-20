@@ -2975,3 +2975,13 @@ Afficher un qrcode de connexion au réseau wifi.
 Date: 2018-06-15 20:05
 Afficher une image
 
+
+# default :: gradle wrapper 
+Date: 2018-06-19 22:53
+Créer un wrapper gradle
+
+
+# default :: inxi -Fxz 
+Date: 2018-06-20 19:35
+Informations sur le système.
+
