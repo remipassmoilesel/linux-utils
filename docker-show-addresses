@@ -24,20 +24,30 @@ def getContainerDetails(containerIds: list) -> list:
 
 def printContainerDetails(ids: list):
 
-    colWidth = 45
+    colWidth = 55
 
     print()
-    print('Container name'.ljust(colWidth) + ' ' + 'Image'.ljust(colWidth) + ' Addresses')
-    print('--------------'.ljust(colWidth) + ' ' + '-----'.ljust(colWidth) + ' ---------')
+    print('Container name'.ljust(colWidth)
+          + 'Image'.ljust(colWidth)
+          + 'Addresses'.ljust(colWidth)
+          + 'Ports')
+    print('-----'.ljust(colWidth)
+          + '-----'.ljust(colWidth)
+          + '-----'.ljust(colWidth)
+          + '-----'.ljust(colWidth))
     print()
 
     containerDetails = getContainerDetails(ids)
     for container in containerDetails:
         name = container['Name']
+        ports = container['NetworkSettings']['Ports']
         networks = container['NetworkSettings']['Networks']
         ipAddresses = list(map(lambda net: net['IPAddress'], networks.values()))
         image = container['Config']['Image']
-        print(name.ljust(colWidth) + ' ' + image.ljust(colWidth) + ' ' + ', '.join(ipAddresses))
+        print(name.ljust(colWidth)
+              + image.ljust(colWidth)
+              + ', '.join(ipAddresses).ljust(colWidth)
+              + ', '.join(ports.keys()))
 
 
 if __name__ == "__main__":
