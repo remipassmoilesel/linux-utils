@@ -98,6 +98,7 @@ class Note:
     def commit(self, action: str = "Update"):
 
         if action == "Update" and self.isModified() is False:
+            Logger.info('No modifications to commit !')
             return
 
         addCommand = "git add " + self.path
