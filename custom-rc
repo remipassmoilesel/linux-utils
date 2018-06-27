@@ -73,6 +73,9 @@ alias kpf="kubectl port-forward"
 
 alias xo="xdg-open"
 
+alias cl="clear"
+alias re="reset"
+
 ##
 ## SDKMAN
 ##
