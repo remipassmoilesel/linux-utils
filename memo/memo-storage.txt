@@ -2990,3 +2990,8 @@ Informations sur le système.
 Date: 2018-06-21 22:31
 Générer un nombre aléatoire
 
+
+# default :: timedatectl list-timezones 
+Date: 2018-06-27 13:38
+Afficher les fuseaux horaires disponibles
+
