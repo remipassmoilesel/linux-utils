@@ -2995,3 +2995,8 @@ Générer un nombre aléatoire
 Date: 2018-06-27 13:38
 Afficher les fuseaux horaires disponibles
 
+
+# default :: timedatectl set-timezone Europe/Paris 
+Date: 2018-06-27 13:39
+Régler l'heure d'un serveur sur Paris
+
