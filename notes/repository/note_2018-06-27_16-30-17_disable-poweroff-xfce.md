@@ -1,5 +1,6 @@
 # Désactiver les boutons d'arrêt avec XFCE
 
+
 Pour limiter le reboot aux utilisateurs root et remipassmoilesel:
 
 	$ sudo mkdir -p /etc/xdg/xfce4/kiosk/
