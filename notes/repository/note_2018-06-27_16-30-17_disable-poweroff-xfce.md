@@ -13,3 +13,4 @@ Pour limiter l'utilisation en ligne de commande:
 	$ sudo chmod o-x /sbin/shutdown
 	$ sudo chmod o-x /sbin/reboot
 
+Pour lightdm-gtk-greeter, utiliser lightdm-gtk-greeter-settings pour enlever le menu de gestion d'alimentation.
