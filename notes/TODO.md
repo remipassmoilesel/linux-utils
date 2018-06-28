@@ -1,5 +1,8 @@
 # TODO
 
+- Fix commit
+- Fix supression
+
 - Refacto de la mort:
     - Utiliser des objets
     - éviter les listages de note inutiles (displayNotes())
