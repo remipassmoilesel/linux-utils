@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Thu Jun 28 21:16:13 CEST 2018
+
+grep -rnwi "$@" . --color
