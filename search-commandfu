@@ -5,7 +5,7 @@
 QUERY="$@"
 ENCODED=$(echo -n $@ | openssl base64)
 
-URL="http://www.commandlinefu.com/commands/matching/$QUERY/$ENCODED/sort-by/votes/plaintext"
+URL="https://www.commandlinefu.com/commands/matching/$QUERY/$ENCODED/sort-by/votes/plaintext"
 
 echo "$URL"
 echo
