@@ -18,6 +18,13 @@
 
 	192.168.0.1/24	192.168.0.1	192.168.0.254
 	
+## Commandes courantes
+
+Afficher des informations sur les interfaces réseaux:
+
+	$ ip a
+
+(Adresse MAC dans la section link/ether)
 
 ## Manipuler des routes avec l'outil ip
 
