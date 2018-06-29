@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Fri Jun 29 10:48:01 CEST 2018
+
+cd ~/linux-utils
+
+git pull origin master
