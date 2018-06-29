@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Fri Jun 29 16:42:16 CEST 2018
+
+cd ~/linux-utils
+
+git add .
+
+git commit "$@"
+
+git push
