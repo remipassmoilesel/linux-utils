@@ -49,7 +49,7 @@ class Logger:
 
     @staticmethod
     def header(line=""):
-        Logger.printColor(line, Colors.UNDERLINE)
+        Logger.printColor(line, Colors.UNDERLINE + Colors.BLUE)
 
     @staticmethod
     def success(line=""):
@@ -77,10 +77,14 @@ class Logger:
 
 
 def shellCommand(command: str, displayOutput=True) -> None:
-    completedProcess = subprocess.run(command,
-                                        shell=True,
-                                        stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE)
+    if displayOutput:
+        stdout = None
+        stderr = None
+    else:
+        stdout = subprocess.PIPE
+        stderr = subprocess.PIPE
+
+    completedProcess = subprocess.run(command, shell=True, stdout=stdout, stderr=stderr)
     if completedProcess.returncode is not 0:
         raise Exception('Error: ' + str(completedProcess.stderr))
 
@@ -151,8 +155,9 @@ def processHostsFile(path):
                 hostname = None
 
             Logger.info()
-            Logger.info("Processing line " + str(i) + ": ip=" + ip + " hostname=" + str(hostname) + " pwd=" + password
+            Logger.header("Processing line " + str(i) + ": ip=" + ip + " hostname=" + str(hostname) + " pwd=" + password
                         + " identityFile=" + str(identityFile))
+            Logger.info()
 
             if removeOldKnownHost(ip):
                 success += 1
