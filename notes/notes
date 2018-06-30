@@ -520,8 +520,7 @@ def parseArguments():
         if re.search("^[0-9]+$", noteId) is None:
             raise Exception('You must specify a numeric id')
 
-        #cliHandlers.removeNote(noteId)
-        raise Exception('Must be implemented')
+        cliHandlers.removeNote(noteId)
 
     else:
         raise Exception("Bad command, please try --help")
