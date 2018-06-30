@@ -369,7 +369,10 @@ class CliHandlers:
         if encrypt is True:
             note.encryptGpg()
 
-        note.commit()
+        if graphicalEditor is True:
+            Logger.warning('Notes are not committed when graphical editor is used')
+        else:
+            note.commit()
 
     def editTemplate(self, graphicalEditor):
         Note.getNoteFromPath(Configuration.TEMPLATE_PATH, -1).edit(graphicalEditor)
