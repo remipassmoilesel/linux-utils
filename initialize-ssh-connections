@@ -132,8 +132,12 @@ def processHostsFile(path):
         lines = inFile.readlines()
         for l in lines:
 
-            if re.match("\S+", l) == None:
-                Logger.warning("Skipping empty line" + l)
+            if re.match("\S+", l) is None:
+                Logger.warning("Skipping empty line")
+                continue
+
+            if re.match("^#.*", l) is not None:
+                Logger.warning("Skipping comment line")
                 continue
 
             matcher = re.match("^\s*([0-9\.]+)\s+(\S+)\s+(\S+)\s+(\S+)(?:(?:\s+)+(\S+))?", l)
