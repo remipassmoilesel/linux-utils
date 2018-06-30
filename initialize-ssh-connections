@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python3
 # encoding: utf-8
 
 import argparse
@@ -7,9 +7,6 @@ import re
 import subprocess
 from argparse import RawTextHelpFormatter
 
-DEBUG = False
-
-# simple description of script, displayed in help
 PGRM_DESC = '''
 Simple utility used to initialize lot of SSH connection by removing eventual old keys 
 and adding distant keys.
@@ -37,80 +34,111 @@ Usage: initiliaze-ssh-connections -p file.txt
 
 '''
 
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+
+class Colors:
+    PURPLE = '\033[95m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
     ENDC = '\033[0m'
+    UNDERLINE = '\033[4m'
 
-def printClr(line, color):
-    print(color + line + bcolors.ENDC)
 
-def bashCommand(cmd, displayCommand=True):
+class Logger:
 
-    if displayCommand:
-        printClr("Executing command: " + cmd, bcolors.BOLD)
+    @staticmethod
+    def header(line=""):
+        Logger.printColor(line, Colors.UNDERLINE)
 
-    # subprocess.call(cmd, shell=True, executable='/bin/bash')
-    process = subprocess.Popen(cmd, shell=True, executable='/bin/bash', stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    output = ''
+    @staticmethod
+    def success(line=""):
+        Logger.printColor(line, Colors.GREEN)
 
-    # execute synchronously
-    # Poll process for new output until finished
-    for line in iter(process.stdout.readline, ""):
-        if displayCommand:
-            print line
-        output += line
+    @staticmethod
+    def info(line=""):
+        Logger.printColor(line)
 
-    process.wait()
-    exitCode = process.returncode
+    @staticmethod
+    def warning(line=""):
+        Logger.printColor(line, Colors.YELLOW)
 
-    if (exitCode == 0):
-        return output
-    else:
-        raise Exception(cmd, exitCode, output)
+    @staticmethod
+    def error(line=""):
+        Logger.printColor(line, Colors.RED)
 
-def exitProgram(code=0, msg=""):
-    """
-    Exit program and show an optoonnal message
-    """
-    if msg != "":
-        print(msg)
+    @staticmethod
+    def printColor(line="", color=Colors.ENDC):
+        Logger.print(color + str(line) + Colors.ENDC)
 
-    exit(code)
+    @staticmethod
+    def print(line=""):
+        print(line)
 
-def processFile(path):
 
-    errors=0
-    success=0
-    warnings=0
+def shellCommand(command: str, displayOutput=True) -> None:
+    completedProcess = subprocess.run(command,
+                                        shell=True,
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE)
+    if completedProcess.returncode is not 0:
+        raise Exception('Error: ' + str(completedProcess.stderr))
 
-    # load file
+
+def removeOldKnownHost(serverId: str) -> bool:
+    try:
+        shellCommand("ssh-keygen -R " + serverId)
+        Logger.success("Known host removed: " + serverId)
+        return True
+    except:
+        Logger.warning("Known host not removed: " + serverId)
+        return False
+
+
+def scanRemotePublicIdAndAdd(serverId: str) -> bool:
+    try:
+        shellCommand("ssh-keyscan -H " + serverId + " >> ~/.ssh/known_hosts")
+        Logger.success("Known host added: " + serverId)
+        return True
+    except:
+        Logger.error("Known host not added: " + serverId)
+        return False
+
+
+def sendKeyToRemote(user: str, password: str, serverId: str, identityFile: str) -> bool:
+    try:
+        cmd = "sshpass -p " + password + " ssh-copy-id -o PubkeyAuthentication=no -i " + identityFile + " " + user + "@" + serverId
+        shellCommand(cmd)
+        Logger.success("Key sent: " + serverId)
+        return True
+    except:
+        Logger.error("Key not sent: " + serverId)
+        return False
+
+
+def processHostsFile(path):
+    errors = 0
+    success = 0
+    warnings = 0
+
     with open(path, "r") as inFile:
 
         i = 0
 
-        # iterate lines of file
         lines = inFile.readlines()
         for l in lines:
 
             if re.match("\S+", l) == None:
-                printClr("Skipping empty line" + l, bcolors.WARNING)
+                Logger.warning("Skipping empty line" + l)
                 continue
 
-            # parse line
             matcher = re.match("^\s*([0-9\.]+)\s+(\S+)\s+(\S+)\s+(\S+)(?:(?:\s+)+(\S+))?", l)
 
             if matcher == None or len(matcher.groups()) < 4:
-                printClr("Skipping line, invalid format: " + l, bcolors.FAIL)
+                Logger.warning("Skipping line, invalid format: " + l)
                 warnings += 1
                 continue
 
-            # get items
             ip = matcher.group(1)
             hostname = matcher.group(2)
             user = matcher.group(3)
@@ -122,89 +150,69 @@ def processFile(path):
             if hostname == "##no-hostname##":
                 hostname = None
 
-            printClr("Processing line " + str(i) + ": ip=" + ip + " hostname=" + str(hostname)
-                     + " pwd=" + password + " identityFile=" + str(identityFile), bcolors.OKBLUE)
+            Logger.info()
+            Logger.info("Processing line " + str(i) + ": ip=" + ip + " hostname=" + str(hostname) + " pwd=" + password
+                        + " identityFile=" + str(identityFile))
 
-            # remove old known hosts
-            try:
-                bashCommand("ssh-keygen -R " + ip)
-                printClr("Known host removed: " + ip, bcolors.OKGREEN)
+            if removeOldKnownHost(ip):
                 success += 1
-            except:
-                printClr("Known host not removed: " + ip, bcolors.FAIL)
+            else:
                 warnings += 1
 
-            try:
-                if hostname:
-                    bashCommand("ssh-keygen -R " + hostname)
-                    printClr("Known host removed: " + hostname, bcolors.OKGREEN)
-                    success += 1
-            except:
-                printClr("Known host not removed: " + hostname, bcolors.FAIL)
+            if hostname is not None and removeOldKnownHost(hostname):
+                success += 1
+            elif hostname:
                 warnings += 1
 
-            # add keys from distant servers
-            try:
-                bashCommand("ssh-keyscan -H " + ip + " >> ~/.ssh/known_hosts")
-                printClr("Known host added: " + ip, bcolors.OKGREEN)
+            if scanRemotePublicIdAndAdd(ip):
                 success += 1
-            except:
-                printClr("Known host not added: " + ip, bcolors.FAIL)
-                errors += 1
+            else:
+                warnings += 1
 
-            try:
-                if hostname:
-                    bashCommand("ssh-keyscan -H " + hostname + " >> ~/.ssh/known_hosts")
-                    printClr("Known host added: " + hostname, bcolors.OKGREEN)
+            if hostname is not None and scanRemotePublicIdAndAdd(hostname):
+                success += 1
+            elif hostname:
+                warnings += 1
+
+            if identityFile != "##no-send-key##":
+                if sendKeyToRemote(user, password, ip, identityFile):
                     success += 1
-            except:
-                printClr("Known host not added: " + hostname, bcolors.FAIL)
-                errors += 1
+                else:
+                    errors += 1
 
-            # send keys to server
-            try:
-                cmd = "sshpass -p " + password + " ssh-copy-id -o PubkeyAuthentication=no " + user + "@" + ip
-
-                if identityFile != None:
-                    cmd = "sshpass -p " + password + " ssh-copy-id -o PubkeyAuthentication=no -i " + identityFile + " " + user + "@" + ip
-
-                if identityFile != "##no-send-key##":
-                    bashCommand(cmd)
-                    printClr("Key sent: " + ip, bcolors.OKGREEN)
+                if hostname is not None and sendKeyToRemote(user, password, hostname, identityFile):
                     success += 1
-            except:
-                printClr("Key not sent: " + ip, bcolors.FAIL)
-                errors += 1
+                elif hostname:
+                    errors += 1
 
-            i+=1
+            i += 1
 
-    printClr("Success: " + str(success), bcolors.OKBLUE)
-    printClr("Warnings: " + str(warnings), bcolors.WARNING)
-    printClr("Errors: " + str(errors), bcolors.FAIL)
+    Logger.info()
+    Logger.info("End of process: ")
+    Logger.info()
+
+    Logger.success("Success: " + str(success))
+    Logger.warning("Warnings: " + str(warnings))
+    Logger.error("Errors: " + str(errors))
 
     if errors > 0:
-        printClr("Errors have occurred, initialization is not guaranteed!", bcolors.FAIL)
+        Logger.error()
+        Logger.error("Errors have occurred, initialization is not guaranteed!")
+
 
 def checkPrerequisites():
-    list = ['sshpass', "ssh-keygen", "ssh-keyscan"]
-    i = 0
-    for l in list:
+    prerequisitesList = ['sshpass', "ssh-keygen", "ssh-keyscan"]
+    for prerequisite in prerequisitesList:
         try:
-            bashCommand("[[ $(which " + l + ") ]]", False)
-        except:
-            printClr("You must install this tool before: " + l, bcolors.WARNING)
-            i+=1
-
-    if i != 0:
-        printClr("Unable to execute this script without these utilities.", bcolors.FAIL)
-        exitProgram(1)
+            shellCommand("[ $(which " + prerequisite + ") ]", False)
+        except Exception as e:
+            print(e)
+            raise Exception("You must install this tool before: " + prerequisite)
 
 
-if __name__ == "__main__":
-
+def parseArguments():
     checkPrerequisites()
 
-    # parse arguments
     parser = argparse.ArgumentParser(description=PGRM_DESC, formatter_class=RawTextHelpFormatter)
 
     parser.add_argument("-p", "--path",
@@ -212,23 +220,25 @@ if __name__ == "__main__":
 
     knownArgs, unkArgs = parser.parse_known_args()
 
-    if DEBUG:
-        print("knownArgs: ")
-        print(knownArgs)
-        print("")
-
-    # parse a path, remove old keys, scan and add new keys
     if knownArgs.path:
 
-        if os.path.isfile(knownArgs.path) == False:
-            printClr("Not a file: " + knownArgs.path, bcolors.FAIL)
-            exitProgram(1)
+        if os.path.isfile(knownArgs.path) is False:
+            raise Exception("Not a file: " + knownArgs.path)
 
-        processFile(knownArgs.path)
-        exitProgram(0)
+        processHostsFile(knownArgs.path)
 
-    printClr("Invalid command.", bcolors.FAIL)
-    print("")
-    parser.print_help()
-    exitProgram(1)
+    else:
+        raise Exception("Invalid command. Try --help")
 
+
+if __name__ == "__main__":
+
+    try:
+        parseArguments()
+    except Exception as e:
+        Logger.error()
+        Logger.error(str(e.args[0]))
+        Logger.error()
+
+        raise e
+        # exit(1)
