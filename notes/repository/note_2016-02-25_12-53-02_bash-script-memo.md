@@ -1,5 +1,6 @@
 # Memo sur le script bash/zsh
 
+
 ## Flags
 
 A utiliser sans modération:
@@ -12,43 +13,95 @@ A utiliser sans modération:
 
 	set -e 		# faire échouer un script au premier retour non zéro
 
-# Mémo ZSH
 
-Ne pas sauvegarder des commandes en fonction d'une regex:
+## Variables
 
-	# Load regex extension module
-	zmodload zsh/pcre
+/!\ Attention aux espaces
 
-	# Hook executed before saving in history
-	zshaddhistory() { 
-		
-		msg="Command will not be saved in history: $1"
+	VAR="val" 
 
-		[[ $1 -pcre-match "^.*rm.*-rf.*$" ]] && echo $msg && return 1
-		[[ $1 -pcre-match "^.*git.*reset.*$" ]] && echo $msg && return 1
-		
-		return 0
+Variables spéciales:
+
+	echo $# # contient le nombre de paramètres ;
+	echo $0 # contient le nom du script exécuté (ici ./variables.sh) ;
+	echo $1 # contient le premier paramètre ;
+	echo $2 # contient le second paramètre ;
+	echo # + commande shift
+
+
+## Boucles
+
+	# boucles
+	while [ $i -lt 4 ]; do
+		echo $i
+		i=$[$i+1]
+	done
+
+	while true; do
+		eject
+		espeak Yooooooloooooooo
+		sleep 1s;
+	done
+
+
+## Fonctions
+
+	# Attention à l'espace après function 
+
+	# fonction, paramètres et retours
+	function dosomething {
+		OUTPUT="That's done: $@ $1"
+		echo $OUTPUT
 	}
 
-## Divers
+	# executer la fonction avec argument, et récuperer le retour
+	RESULT=$(dosomething "do something today")
+	
+	# ou executer tout simplement
+	dosomething
 
-Alias avec arguments:
 
-	function ka() { kubectl "$@" --all-namespaces ;} 
+## Conditions et tests
 
-Fixer les locales sur Debian:
+Pour les tests toujours préferer [[ à [ (spécifique bash)
 
-	echo -e 'LANG="fr_FR.UTF-8"\nLANGUAGE="fr_FR:fr"\nLC_ALL="fr_FR"\nLC_TYPE="fr_FR.UTF-8"\n' > /etc/default/locale
-	echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
-	dpkg-reconfigure -f noninteractive locales
+Exemple:
 
-Changer un mot de passe sans prompt:
+	if [ -z "$VAR" ]; then
+	
+	fi
+	
+Condition inversée:
+	
+	if ! [ -z "$VAR" ]; then
 
-	echo root:azerty | chpasswd
+    fi
+	
+Opérateurs numériques:
 
-Désactiver les interactions utilisateurs:
+	# Comparer des entiers. Attention aux espaces.
+	if [ "$a" -eq "$b" ]; then
 
-	export DEBIAN_FRONTEND=noninteractive 
+	fi
+
+	-eq: =
+	-ne: !=
+	-gt: >
+	-ge: >=
+	-lt: >
+	-le: >=
+
+Autres:
+
+    -z "string": vrai si non vide
+    -x "string": vrai si est un fichier éxecutable
+    -e "string": vrai si est un fichier 
+    -d "string": vrai si est un répertoire
+
+Voir: http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
+
+
+### Exemples de conditions
 
 Itérer une liste de commandes:
 
@@ -76,15 +129,7 @@ Tester si une commande existe dans une expression conditionnelle:
   		# install foobar here
 	fi
 
-Créer une liste à partir d'une sortie console:
-
-	DOCKER_CTR=($(docker ps -aq))
-
-Conditions et tests:
-
-	Pour les tests toujours préferer [[ à [ (spécifique bash)
-	
-	# Tester si une commande existe
+Tester si une commande existe:
 
 	 if [[ $(which curl) ]]; then
 	    curl -fL --retry 3 --keepalive-time 2 "${url}" -o "${download_path}/${file}"
@@ -95,7 +140,9 @@ Conditions et tests:
 	    exit 4
 	  fi
 
-	# Tester le code de retour d'une commande
+
+Tester le code de retour d'une commande:
+
 	if [[ "$?" -ne "0" ]]; then
 	    echo
 	    echo "Error while sending keys to target."
@@ -103,28 +150,29 @@ Conditions et tests:
 	    exit $?
 	fi
 
-	# Tester si une variable est non vide
+Tester si une variable est non vide:
+
 	if [[ -z "$HEYHEY" ]] ; then
 		echo "$HEYHEY must exist !"
 		exit 1
 	fi
 	
-	# Tester si une variable est non définie, mais peut être vide
+Tester si une variable est non définie, mais peut être vide:
+
 	if [[ -z ${variable+x} ]] ; then
 		echo "$HEYHEY exist"
 	fi
 	
-	# Tester si une variable est indéfinie
+Tester si une variable est indéfinie
+
 	if ! [[ $GH_USER ]] ; then
             echo You must specify a user name.
             echo Example: clone-all-from-github remipassmoilesel
             exit 1
 	fi
 
-	# Tester si une commande existe ou quitter
-	command -v foo >/dev/null 2>&1 || {     echo >&2 "I require foo but it's not installed.  Aborting."; exit 1;}
+Tester si une commande existe:
 
-	# Tester si une commande existe
 	if hash gdate 2>/dev/null; then
 		# gdate existe
 		gdate "$@"
@@ -133,7 +181,8 @@ Conditions et tests:
 		date "$@"
 	fi
 
-	# Tester si un paquet est présent et l'installer au besoin
+Tester si un paquet Debian est présent et l'installer au besoin:
+
 	dpkg -s package &> /dev/null
 
 	if [ $? -ne 0 ]; then
@@ -141,7 +190,8 @@ Conditions et tests:
 			apt-get install package
 	fi
 	
-	# tester si un fichier est executable
+Tester si un fichier est executable
+
 	if [[ -x "$file" ]]
 	then
 		echo "File '$file' is executable"
@@ -149,106 +199,99 @@ Conditions et tests:
 		echo "File '$file' is not executable or found"
 	fi
 
-	# expression ternaire
+Expression ternaire:
+
 	MESSAGE=$([ -z "$@" ] && echo "Alerte !" || echo $@);
 	
-	# tester si root
+Tester si root:
+
 	if [ "$(whoami)" != 'root' ]; then
 			echo "You have no permission to run $0 as non-root user."
 			exit 1;
 	fi
 
-	# tester un fichier 
+Tester si un fichier existe:
+
 	if [ -e "$FILE" ]; then
 		echo "$FILE exist"
 	fi
 
-	# tester un répertoire
+Tester si un répertoire existe:
+
 	if [ -d "$FILE" ]; then
 		echo "$FILE exist"
 	fi
-	
-	# Comparer des entiers. Attention aux espaces.
-	if [ "$a" -eq "$b" ]; then
 
-	fi
+Comparer des chaines
 
-	-eq: =
-	-ne: !=
-	-gt: >
-	-ge: >=
-	-lt: >
-	-le: >=
-
-	# Comparer des chaines
 	if [ "$a" = "$b" ]; then
-
+        echo $a is equal to $b
 	fi
 	if [ "$a" != "$b" ]; then
-
+        echo $a is not equal to $b
 	fi
 
-	# vérifier si une chaine est vide,
+Vérifier si une chaine est vide,
+
 	if [ -z "$VAR" ]; then
 			echo "$VAR is empty"
 			exit 1
 	fi
 
-	# inverser une condition: !
-	if ! [ -z "$VAR" ]; then
-
-	fi
+## Divers
 
 
-	VAR="hello"
-	if [ -n "$VAR" ]; then
-		echo "VAR is not empty"
-	fi
-	
-	# Afficher une date
-	echo `date`;
-	cat << EndOfMessage
-	This is line 1.
-	This is line 2.
-	Line 3.
-	EndOfMessage
-	# Effectuer des calculs
-	echo $((1+1));
+Incrémenter une variable
 
-	# incrémenter une variable
 	export VAR=1
 	echo $((++VAR))
 	
-	# Test. Faux retourne 0 / Vrai retourne 1
-	export VAR=1
-	echo $((VAR==2))
+Alias avec arguments:
 
+	function ka() { kubectl "$@" --all-namespaces ;} 
 
+Fixer les locales sur Debian:
 
-Commandes diverses:
+	echo -e 'LANG="fr_FR.UTF-8"\nLANGUAGE="fr_FR:fr"\nLC_ALL="fr_FR"\nLC_TYPE="fr_FR.UTF-8"\n' > /etc/default/locale
+	echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
+	dpkg-reconfigure -f noninteractive locales
 
-	# Substitution de commande (deux syntaxes similaires)
+Changer un mot de passe sans prompt:
+
+	echo root:azerty | chpasswd
+
+Désactiver les interactions utilisateurs:
+
+	export DEBIAN_FRONTEND=noninteractive 
+
+Créer une liste à partir d'une sortie console:
+
+	DOCKER_CTR=($(docker ps -aq))
+
+Substitution de commande (deux syntaxes similaires):
+
 	export DATE=`date`;
 	export DATE=$(date);
 
-	# chiffre aleatoire entre 2 et 6
+Chiffre aleatoire entre 2 et 6:
+
 	RANDOMNBR=`shuf -i 2-6 -n 1`
 	sleep $RANDOMNBR
 
-	# date formatee
-	date +'%Y-%m-%d_%H-%M-%S'
+Date formatée:
 
-	# créer tous les repertoire du chemin
-	mkdir -p /path/to/dir
+	date +'%Y-%m-%d_%H-%M-%S'
 	
-	# multi ligne
+Multi-ligne:
+
 	cat << EndOfMessage
 	This is line 1.
 	This is line 2.
 	Line 3.
 	EndOfMessage
 
-	# obtenir le chemin du script, ne fonctionne pas si l'appel se fait a partir d'un lien symbolique
+Obtenir le chemin du script courant, ne fonctionne pas si l'appel se fait à partir d'un lien symbolique:
+
 	DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 	
 	# Changer les droits et executer en une commande, sans risque d'échec grâce à "sync"
@@ -257,8 +300,9 @@ Commandes diverses:
 	# Activer / desactiver le mode debuggage
 	set -x
 	set +x
+
 	
-Entrées et sorties:
+## Entrées et sorties
 
 	# Ecrire en bleu
 	echo -e "\e[34mHello\e[0m World"
@@ -291,49 +335,23 @@ Entrées et sorties:
 	fi
 
 
-Variables : 
 
-	VAR="val" # Pas d'espaces !!!
+## Historique ZSH
 
-	# Variables spéciales:
+Ne pas sauvegarder des commandes en fonction d'une regex:
 
-	echo $# # contient le nombre de paramètres ;
-	echo $0 # contient le nom du script exécuté (ici ./variables.sh) ;
-	echo $1 # contient le premier paramètre ;
-	echo $2 # contient le second paramètre ;
-	echo # + commande shift
+	# Load regex extension module
+	zmodload zsh/pcre
 
+	# Hook executed before saving in history
+	zshaddhistory() { 
+		
+		msg="Command will not be saved in history: $1"
 
-Fonctions :
-
-	# Attention à l'espace après function 
-
-	# fonction, paramètres et retours
-	function dosomething {
-		OUTPUT="That's done: $@ $1"
-		echo $OUTPUT
+		[[ $1 -pcre-match "^.*rm.*-rf.*$" ]] && echo $msg && return 1
+		[[ $1 -pcre-match "^.*git.*reset.*$" ]] && echo $msg && return 1
+		
+		return 0
 	}
-
-	# executer la fonction avec argument, et récuperer le retour
-	RESULT=$(dosomething "do something today")
-	
-	# ou executer tout simplement
-	dosomething
-
-
-Boucles : 
-
-	# boucles
-	while [ $i -lt 4 ]; do
-		echo $i
-		i=$[$i+1]
-	done
-
-	while true; do
-		eject
-		espeak Yooooooloooooooo
-		sleep 1s;
-	done
-
 
 
