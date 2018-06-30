@@ -1,4 +1,4 @@
-# Postgres: installation rapide et memo
+# Mémo Postgres
 
 /!\ Attention, lors de la création de base de donnée, si le nom est spécifié entre double quote il faudra 
 spécifier systèmatiquement les double quote et le nom deviendra sensible à la casse
