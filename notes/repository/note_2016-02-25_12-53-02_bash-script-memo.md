@@ -1,5 +1,7 @@
 # Memo sur le script bash/zsh
 
+## Flags
+
 A utiliser sans modération:
 
 	set -o nounset 	# erreur si utilisation d'une variable non déclarée
@@ -9,6 +11,26 @@ A utiliser sans modération:
 	set -x 		# mode debug
 
 	set -e 		# faire échouer un script au premier retour non zéro
+
+# Mémo ZSH
+
+Ne pas sauvegarder des commandes en fonction d'une regex:
+
+	# Load regex extension module
+	zmodload zsh/pcre
+
+	# Hook executed before saving in history
+	zshaddhistory() { 
+		
+		msg="Command will not be saved in history: $1"
+
+		[[ $1 -pcre-match "^.*rm.*-rf.*$" ]] && echo $msg && return 1
+		[[ $1 -pcre-match "^.*git.*reset.*$" ]] && echo $msg && return 1
+		
+		return 0
+	}
+
+## Divers
 
 Alias avec arguments:
 
@@ -312,5 +334,6 @@ Boucles :
 		espeak Yooooooloooooooo
 		sleep 1s;
 	done
+
 
 
