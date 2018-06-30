@@ -57,6 +57,10 @@ class Note:
         regexArray = self.__buildSearchRegexArray(keywords)
         return list(filter(lambda line: self.__isLineMatching(line, regexArray), self.content))
 
+    def hasTitleMatching(self, keywords) -> bool:
+        regexArray = self.__buildSearchRegexArray(keywords)
+        return self.__isLineMatching(self.title, regexArray)
+
     def display(self, lineMax=None, keywords=None):
         greenId = self.__getGreenId()
         blueTitle = self.__getBlueTitle()
@@ -64,7 +68,6 @@ class Note:
         Logger.print('Path: ' + self.path)
         Logger.print()
 
-        notesLines = []
         if keywords:
             notesLines = self.getContentMatching(keywords)
             notesLines = self.__highligthMatch(notesLines, keywords)
@@ -377,11 +380,15 @@ class CliHandlers:
     def editTemplate(self, graphicalEditor):
         Note.getNoteFromPath(Configuration.TEMPLATE_PATH, -1).edit(graphicalEditor)
 
-    def listNotes(self):
+    def listNotes(self, listFilter: List[str] = []):
+        hasFilter = len(listFilter) > 0
         notePaths = self.notes.getNotePaths()
         for index, notePath in enumerate(notePaths):
             note = Note.getNoteFromPath(notePath, index)
-            note.displayCompact()
+            if hasFilter and note.hasTitleMatching(listFilter):
+                note.displayCompact()
+            elif hasFilter is not True:
+                note.displayCompact()
 
     def displayNote(self, noteIdentifier):
         notePath = self.notes.resolveNotePath(noteIdentifier)
@@ -495,7 +502,11 @@ def parseArguments():
         cliHandlers.editTemplate(knownArgs.graphicaleditor)
 
     elif knownArgs.list:
-        cliHandlers.listNotes()
+        listFilter = []
+        if len(unknownArgs) > 0:
+            listFilter = unknownArgs
+
+        cliHandlers.listNotes(listFilter)
 
     elif knownArgs.display:
         if len(unknownArgs) != 1:
