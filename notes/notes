@@ -112,9 +112,9 @@ class Note:
         self.__shellCommand(commitCommand, Configuration.NOTE_REPO_PATH)
 
     def isModified(self):
-        completed = subprocess.run("git diff --exit-code --name-only " + self.path,
+        completed = subprocess.run("git diff HEAD --exit-code --name-only " + self.path,
                                    shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-        return completed.returncode == 1
+        return completed.returncode != 0
 
     def encryptGpg(self):
         encryptedNotePath = self.__clearToEncryptedNotePath()
