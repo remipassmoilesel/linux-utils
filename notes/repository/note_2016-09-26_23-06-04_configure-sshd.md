@@ -1,17 +1,16 @@
-# Configurer SSH / SSHD
+# Mémo SSH / SSHd
 
-## Cas d'erreurs
 
-En cas d'erreur 'too many authentications'
+## Divers
 
-	Cause possible: envoi de trop de clefs de connexion
-	Solution 1: vider son fichier known_host et réessayer.
-	Solution 2: se connecter avec ssh -o PubkeyAuthentication=no root@10.0.2.75 puis 
-		augmenter le MaxAuthTries temporairement
+Compter le nombre de tentatives d'authentification ratées:
 
-		...
-		MaxAuthTries 100
-		...
+	$  grep sshd.\*Failed /var/log/auth.log | wc -l
+
+Changer une passphrase sur une clef:
+
+	$ ssh-keygen -p -f ~/.ssh/id_rsa
+
 
 ## Configurer SSHD
 
@@ -19,8 +18,8 @@ Editer le fichier de configuration:
 
 	$ sudo vim /etc/ssh/sshd_config
 
-	# port d'écoute
-	Port 22 
+	# port d'écoute, le changer de préférence
+	Port 22
 
 	# adresse d'écoute
 	Listen 0.0.0.0
@@ -32,13 +31,42 @@ Editer le fichier de configuration:
 	LoginGraceTime 120
 
 	# interdire le log root 
-	# /!\ toujours interdire
-	PermitRootLogin no
+	# /!\ toujours interdire les mots de passe
+	PermitRootLogin no # prohibit-password
 
 	# connexion sans mot de passe à l'aide de clefs RSA
 	RSAAuthentication yes
 
-## Authentification sans mot de passe
+Pour désactiver l'identification par mot de passe:
+
+	$ sudo vim /etc/ssh/sshd_config
+	
+	ChallengeResponseAuthentication no
+	PasswordAuthentication no
+	UsePAM no
+
+
+## Configuration client
+
+Les dernières versions de SSH supportent l'option Include:
+
+	$ vim ~/.ssh/config
+
+	Include config.d/config_perso
+
+Si les clefs sont dans des sous dossiers de .ssh, elles ne seront pas ajoutées à l'agent SSH. 
+Utiliser l'option AddKeysToAgent pour les ajouter automatiquement: 
+
+	$ vim ~/.ssh/config
+
+	AddKeysToAgent yes
+
+Pour associer une clef à une connexion, ajouter au fichier ".ssh/config":
+
+    Host XX.XX.XX.XX
+        IdentityFile ~/.ssh/keyname
+        Port 443
+	IdentitiesOnly yes # Ne pas présenter d'autres clefs
 
 Pour générer et utiliser une clef RSA, coté client (necessite une authentification avec mot de passe):
 
@@ -66,40 +94,26 @@ Pour utiliser une clef fournie:
 
 	$ ssh user@host -i /path/to/key
 
-Pour associer une clef à une connexion, ajouter au fichier ".ssh/config":
 
-    Host XX.XX.XX.XX
-        IdentityFile ~/.ssh/keyname
-        Port 443
-	IdentitiesOnly yes # Ne pas présenter d'autres clefs
 
-Pour désactiver l'identification par mot de passe:
+## Cas d'erreurs
 
-	$ sudo vim /etc/ssh/sshd_config
+
+### Too many authentication failure
+
+Pas de clefs spécifiées, envoi de toutes les clefs disponible
 	
-	ChallengeResponseAuthentication no
-	PasswordAuthentication no
-	UsePAM no
+Solution: se connecter avec l'option PubKeyAuthentication à no:
+	
+	$ ssh -o PubkeyAuthentication=no root@10.0.2.75 
 
-## Divers
+Ou configurer l'option IdentityFile correctement.
 
-Compter le nombre de tentatives d'authentification ratées:
 
-	$  grep sshd.\*Failed /var/log/auth.log | wc -l
-
-Changer une passphrase sur une clef:
-
-	$ ssh-keygen -p -f ~/.ssh/id_rsa
-
-En cas d'erreur:
-
-	debug1: kex: algorithm: curve25519-sha256@libssh.org
-	debug1: kex: host key algorithm: (no match)
-	Unable to negotiate with 172.17.0.3 port 22: no matching host key type found. Their offer: 
+### Unable to negotiate with 172.17.0.3 port 22
 
 Coté serveur, générer plus de clefs:
 
 	$ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
 	$ sudo ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
 
-	
