@@ -2066,12 +2066,12 @@ Date: 2017-08-12 10:23
 Copier toutes les images d'un répertoire dans un autre répertoire avec un nom aléatoire
 
 
-# ansible :: ansible -m ping all --one-line -u ansible 
+# ansible :: ansible -i inventory.cfg all -m ping --one-line -u ansible 
 Date: 2017-09-18 14:23
 Ping de toutes les machines avec ansible, pour vérification de connexion
 
 
-# ansible :: ansible all -m shell -a "cat /tmp/sent-file.txt" 
+# ansible :: ansible -i inventory.cfg all -m shell -a "cat /tmp/sent-file.txt" 
 Date: 2017-09-18 14:23
 Executer une commande shell ansible adhoc (commandes éxecutées avec sh, utiliser bash-c au besoin)
 
