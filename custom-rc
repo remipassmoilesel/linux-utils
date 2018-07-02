@@ -75,6 +75,7 @@ alias xo="xdg-open"
 
 alias cl="clear"
 alias re="reset"
+alias rh="rehash"
 
 ##
 ## SDKMAN
