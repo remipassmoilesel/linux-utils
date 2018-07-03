@@ -11,6 +11,12 @@ Changer une passphrase sur une clef:
 
 	$ ssh-keygen -p -f ~/.ssh/id_rsa
 
+Désactiver le prompt GUI de mot de passe SSH sous XFCE:
+
+	Désactiver gnome-keyring-ssh
+
+	$ Startup applications > Startup applications > ... 
+
 
 ## Configurer SSHD
 
