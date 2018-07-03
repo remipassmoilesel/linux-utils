@@ -784,7 +784,7 @@ Date: 2016-02-19 19:59
 Ajouter l'utilisateur 'user' au groupe 'group'. Se relogger pour que les changements prennent effet.
 
 
-# configuration :: getent group | grep user 
+# configuration :: getent group | grep $username
 Date: 2016-02-19 20:00
 Afficher tous les groupes de l'utilisateur 'user'
 
