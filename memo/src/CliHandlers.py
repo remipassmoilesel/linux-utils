@@ -14,6 +14,7 @@ class CliHandlers:
 
         editor = Configuration.GRAPHICAL_EDITOR if graphicalEditor is True else Configuration.CLI_EDITOR
         subprocess.call(editor + " " + Configuration.STORAGE_FILE_PATH, shell=True)
+        self.container.commit()
 
     def exitProgram(code=0, msg=""):
 
