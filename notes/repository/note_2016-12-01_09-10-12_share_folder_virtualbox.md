@@ -19,6 +19,7 @@ Créer ou démarrer ensuite la machine virtuelle, et paramétrer un dossier de p
 Installer les additions invité:
 
 	Périphériques > Insérer l'image CD des additions invités
+	
 	$ sudo apt-get install build-essential
 	$ /media/.../.../VBoxLinuxAdditions.run
 	
