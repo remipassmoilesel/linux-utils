@@ -4,7 +4,4 @@
 
 cd ~/linux-utils
 
-git add .
-
-git commit "$@"
-
+git push
