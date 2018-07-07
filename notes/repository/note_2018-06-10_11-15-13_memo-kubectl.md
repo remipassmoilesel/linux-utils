@@ -1,4 +1,4 @@
-# Mémo Kubectl
+# Mémo Kubectl / Helm
 
 ## Commandes générales
 
@@ -23,6 +23,9 @@
     $ kubectl config view
     $ kubectl config get-contexts
     $ kubectl config use-context context-name
+
+    $ helm init
+    $ helm reset
 
 ## Pods
 
