@@ -1,6 +1,29 @@
 # Mémo Kubectl / Helm
 
-## Commandes générales
+## Helm
+
+### Commandes générales
+
+    $ helm init
+    $ helm reset
+
+### Initialisation et destruction
+
+Créer un déploiement tiller sur un cluster:
+
+    $ helm init
+
+Prendre la main sur un pod existant:
+
+    $ helm init --client-only
+
+Détruire un déploiement tiller:
+
+    $ helm reset
+
+## Kubectl
+
+### Commandes générales
 
     $ kubectl apply deploymentname
     $ kubectl apply -f https://...
@@ -27,7 +50,7 @@
     $ helm init
     $ helm reset
 
-## Pods
+### Pods
 
 Afficher les pods:
 
@@ -45,13 +68,13 @@ Obtenir les logs d'un pod:
 
 	$ kubectl logs podname  
 
-## Deployments
+### Deployments
 
 Scaler un deployment
 
     $ kubectl scale deployment --replicas 3 kubernetes-dashboard -n kube-system     
 
-## Services
+### Services
 
 Afficher et décrire un service:
 
@@ -66,15 +89,15 @@ Afficher un déploiement:
 
     $ kubectl describe deployment kubernetes-dashboard -n kube-system
 
-## Configuration
+### Configuration
 
 Afficher la configuration courante:
  
     $ kubectl config view
             
-## Proxy et port forward
+### Proxy et port forward
 
-### Proxy 
+#### Proxy 
 
 Créer un proxy vers l'API Kubernetes:
 
@@ -89,7 +112,7 @@ Créer un proxy vers l'API Kubernetes:
  
 On peut utiliser ensuite le dashboard à l'addresse: http://127.0.0.1:8001/ui/
 
-### Forward
+#### Forward
 
 Forward de port vers un pod:
 
