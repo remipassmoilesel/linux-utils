@@ -784,7 +784,7 @@ Date: 2016-02-19 19:59
 Ajouter l'utilisateur 'user' au groupe 'group'. Se relogger pour que les changements prennent effet.
 
 
-# configuration :: getent group | grep $username
+# configuration :: getent group | grep $username 
 Date: 2016-02-19 20:00
 Afficher tous les groupes de l'utilisateur 'user'
 
@@ -3001,4 +3001,7 @@ Date: 2018-06-27 13:39
 Régler l'heure d'un serveur sur Paris
 
 
+# default :: multitail --follow-all log1.log log2.log log3.log 
+Date: 2018-07-06 17:40
+Suivre plusieurs journaux sur un même terminal
 
