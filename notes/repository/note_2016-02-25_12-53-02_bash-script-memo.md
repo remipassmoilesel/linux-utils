@@ -100,6 +100,14 @@ Autres:
 
 Voir: http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
 
+Simili try catch:
+
+	{
+		# try
+	} || {
+		# catch
+	}
+
 
 ### Exemples de conditions
 
