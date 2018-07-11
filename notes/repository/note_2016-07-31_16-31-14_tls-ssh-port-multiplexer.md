@@ -31,8 +31,12 @@ Exemple de fichier:
 
     DAEMON_OPTS="--user sslh --listen 0.0.0.0:443 --ssh 127.0.0.1:22 --ssl 127.0.0.1:443 --pidfile /var/run/sslh/sslh.pid"
 
-	# Ou avec OpenVPN:
-	DAEMON_OPTS="--user sslh --listen 137.74.161.106:443 --ssh 127.0.0.1:10022 --openvpn 137.74.161.106:1443 --ssl 127.0.0.1:443 --pidfile /var/run/sslh/sslh.pid"
+    # Ou avec OpenVPN:
+    DAEMON_OPTS="--user sslh --listen 137.74.161.106:443 --ssh 127.0.0.1:10022 --openvpn 137.74.161.106:1443 --ssl 127.0.0.1:443 --pidfile /var/run/sslh/sslh.pid"
+
+Appliquer la config:
+
+    $ sudo systemctl sslh restart
 
 En cas de problème de log:
 
