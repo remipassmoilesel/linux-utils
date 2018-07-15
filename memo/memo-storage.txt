@@ -3020,3 +3020,8 @@ Build maven avec profile de build spécifié
 Date: 2018-07-12 15:08
 Afficher les profiles de build actifs
 
+
+# default :: dmesg | grep -i sata | grep 'link up' 
+Date: 2018-07-15 13:20
+Afficher le type de bus SATA en ligne de commande
+
