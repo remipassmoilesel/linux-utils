@@ -2293,7 +2293,7 @@ Changer de contexte kubernetes
 
 # centos :: loadkeys fr 
 Date: 2017-09-26 13:49
-Changer la disposition du clavier pour fr
+Changer la disposition du clavier pour fr. Marche aussi pour Debian.
 
 
 # yum :: yum install epel-release.noarch 
