@@ -1299,11 +1299,6 @@ Date: 2016-05-20 10:05
 Afficher une arborescence de répertoire en ligne de commande, avec tous les fichiers et en couleur.
 
 
-# default :: loadkeys fr 
-Date: 2016-05-22 11:31
-Mettre le clavier en français en ligne de commande
-
-
 # default :: mount -o remount,rw / 
 Date: 2016-05-22 11:32
 Remonter le système de fichier en read/write, pratique pour la commande de secours root
