@@ -2116,9 +2116,9 @@ Date: 2017-08-28 14:50
 Voir la date de dernière connexion d'un utilisateur
 
 
-# default :: journalctl -u etcd 
+# default :: journalctl -bu etcd 
 Date: 2017-08-29 09:08
-Afficher les journaux d'un service
+Afficher les journaux d'un service (-u) et seulement ceux du dernier boot (-b)
 
 
 # git :: git clean -df 
