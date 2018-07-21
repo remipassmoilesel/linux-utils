@@ -6,6 +6,7 @@ Voir Minica: https://github.com/jsha/minica
 
 	$ go get github.com/jsha/minica
 	$ minica --domains foo.com
+	$ minica --ip-addresses 192.168.0.5
 
 ## Avec Openssl
 

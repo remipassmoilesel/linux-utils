@@ -1299,11 +1299,6 @@ Date: 2016-05-20 10:05
 Afficher une arborescence de répertoire en ligne de commande, avec tous les fichiers et en couleur.
 
 
-# default :: loadkeys fr 
-Date: 2016-05-22 11:31
-Mettre le clavier en français en ligne de commande
-
-
 # default :: mount -o remount,rw / 
 Date: 2016-05-22 11:32
 Remonter le système de fichier en read/write, pratique pour la commande de secours root
@@ -2121,9 +2116,9 @@ Date: 2017-08-28 14:50
 Voir la date de dernière connexion d'un utilisateur
 
 
-# default :: journalctl -u etcd 
+# default :: journalctl -bu etcd 
 Date: 2017-08-29 09:08
-Afficher les journaux d'un service
+Afficher les journaux d'un service (-u) et seulement ceux du dernier boot (-b)
 
 
 # git :: git clean -df 
@@ -2298,7 +2293,7 @@ Changer de contexte kubernetes
 
 # centos :: loadkeys fr 
 Date: 2017-09-26 13:49
-Changer la disposition du clavier pour fr
+Changer la disposition du clavier pour fr. Marche aussi pour Debian.
 
 
 # yum :: yum install epel-release.noarch 
