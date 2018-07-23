@@ -3018,5 +3018,5 @@ Afficher les profiles de build actifs
 
 # default :: mvn dependency:purge-local-repository 
 Date: 2018-07-23 14:32
-Purge du dépôt local
+Purge du dépôt local Maven
 
