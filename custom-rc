@@ -77,6 +77,8 @@ alias cl="clear"
 alias re="reset"
 alias rh="rehash"
 
+alias tr="tree -L 2"
+
 ##
 ## SDKMAN
 ##
