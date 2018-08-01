@@ -3020,3 +3020,8 @@ Afficher les profiles de build actifs
 Date: 2018-07-23 14:32
 Purge du dépôt local Maven par rapport aux dépendances utilisées, puis re-construction
 
+
+# byobu :: SHIFT + ALT + left / right / top / bottom 
+Date: 2018-08-01 10:58
+Redimensionner un split byobu
+
