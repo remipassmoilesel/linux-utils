@@ -689,7 +689,7 @@ Date: 2016-02-07 12:15
 Stopper une session screen
 
 
-# byobu :: SHIFT F1 
+# byobu :: F1 
 Date: 2016-02-07 12:21
 Afficher l'aide de la commande byobu. Byobu permet de créer plusieurs terminaux, et de les splitter
 
