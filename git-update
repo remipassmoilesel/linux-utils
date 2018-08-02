@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# jeudi 2 août 2018, 20:53:07 (UTC+0200)
+
+git pull && git push
