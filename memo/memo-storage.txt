@@ -3030,3 +3030,8 @@ Redimensionner un split byobu
 Date: 2018-08-02 12:01
 Mondrian squares ????
 
+
+# default :: su - username 
+Date: 2018-08-02 12:12
+Changer d'utilisateur
+
