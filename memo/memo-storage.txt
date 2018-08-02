@@ -2476,7 +2476,7 @@ Date: 2017-10-28 13:12
 Ugrade de distribution ubuntu
 
 
-# default :: pgcli -h postgres.domain.com -U username -W 
+# default :: pgcli -h 192.168.20.13 -U intentionsachats_rp -d selenee_rp -W
 Date: 2017-11-02 16:15
 Se conencter avec pgcli à une base postgresql
 
