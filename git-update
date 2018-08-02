@@ -4,10 +4,4 @@
 
 set -x
 
-git pull 
-
-echo 
-echo 
-echo 
-
-git push
+git pull && git push
