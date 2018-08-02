@@ -3025,3 +3025,8 @@ Purge du dépôt local Maven par rapport aux dépendances utilisées, puis re-co
 Date: 2018-08-01 10:58
 Redimensionner un split byobu
 
+
+# byobu :: CTRL + SHIFT + F12 
+Date: 2018-08-02 12:01
+Mondrian squares ????
+
