@@ -16,6 +16,10 @@ Remettre à zéro la configuration en cours:
 	itar		Iterate element of array
 	iter		Iterate iterable
 
+## Surround with
+
+	CTRL ALT T (ou CTRL T)
+
 ## Code generation
 
 	ALT inser
