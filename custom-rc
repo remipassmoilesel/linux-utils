@@ -11,10 +11,10 @@ export PATH="$PATH:$HOME/linux-utils/notes/"
 export PATH="$PATH:$HOME/linux-utils/memo/"
 export PATH="$PATH:$HOME/linux-utils/config-helpers/"
 export PATH="$PATH:$HOME/bin/"
-export PATH="$PATH:$HOME/go/bin/"
+export PATH="$PATH:$HOME/.go/bin/"
 export PATH="$PATH:$HOME/npm-root/bin"
 
-export GOPATH=$HOME/go
+export GOPATH=$HOME/.go
 
 ##
 ## EDITOR OPTIONS
