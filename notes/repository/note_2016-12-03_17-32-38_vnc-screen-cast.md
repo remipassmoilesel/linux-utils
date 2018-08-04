@@ -10,14 +10,18 @@ Générer un fichier password:
 
 	$ x11vnc -storepasswd "azerty" ~/.vnc_passwd 
 
-Commencer une session:
+S'accrovher à une session existante:
 
 	$ x11vnc -many -rfbauth ~/.vnc_passwd  
 
 /!\ Ne nécéssite pas les droits ROOT pour caster.
 
-Une session X doit déjà exister pour se connecter. Si elle n'esiste pas, il est possible
-d'utiliser l'option -create - mais c'est un peu brut ...
+Si aucune session n'est disponible, utiliser (si lighdm):
+
+	$ sudo x11vnc -xkb -noxrecord -noxfixes -noxdamage -display :0 -auth /var/run/lightdm/root/:0 -usepw 
+
+Le client VNC le plus stable est vinagre (remina plante si la profondeur de couleur ne correspond pas 
+à celle du serveur)
 
 ## Récupérer une session VNC vec deux tunnels SSH
 
