@@ -59,4 +59,7 @@ Pour arrêter une session:
 
 	$ vncserver -kill :1
 
+## Avec tigervnc
+
+	$ sudo apt install tigervnc-standalone-server
 
