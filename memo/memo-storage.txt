@@ -3045,3 +3045,8 @@ Créer un projet gitlab en ligne de commande, magnifique !
 Date: 2018-08-06 15:01
 Lister les jdk sur un système Ubuntu
 
+
+# default :: sudo update-java-alternatives --set /path/to 
+Date: 2018-08-06 15:01
+Changer de jdk java
+
