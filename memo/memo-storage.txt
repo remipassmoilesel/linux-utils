@@ -3050,3 +3050,8 @@ Lister les jdk sur un système Ubuntu
 Date: 2018-08-06 15:01
 Changer de jdk java
 
+
+# default :: mvn  verify --fail-at-end 
+Date: 2018-08-06 15:21
+Executer tous les tests puis échouer à la fin
+
