@@ -16,6 +16,9 @@ Commencer une session:
 
 /!\ Ne nécéssite pas les droits ROOT pour caster.
 
+Une session X doit déjà exister pour se connecter. Si elle n'esiste pas, il est possible
+d'utiliser l'option -create - mais c'est un peu brut ...
+
 ## Récupérer une session VNC vec deux tunnels SSH
 
 Sur le post où est lancé VNC:
