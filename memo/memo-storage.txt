@@ -3040,3 +3040,8 @@ Changer d'utilisateur
 Date: 2018-08-03 11:54
 Créer un projet gitlab en ligne de commande, magnifique !
 
+
+# default :: update-java-alternatives --list 
+Date: 2018-08-06 15:01
+Lister les jdk sur un système Ubuntu
+
