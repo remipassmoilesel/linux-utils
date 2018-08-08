@@ -24,3 +24,10 @@ Télécharger docker pour windows:
 Docker ne fonctionne pas dans une VM Virtualbox puisque VB ne supporte pas la virtualisation imbriquée.
 
 
+## Intégration bash
+
+Avec une installation Ubuntu, les données se trouvent à peu près par la:
+
+	C:\Users\User\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs
+
+
