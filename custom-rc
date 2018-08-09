@@ -50,7 +50,6 @@ setopt hist_ignore_space     # ignore commands prefixed with space
 
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
-
 ##
 ## ALIASES
 ##
@@ -79,6 +78,12 @@ alias rh="rehash"
 
 alias tr="tree -L 2"
 
+## 
+## MAVEN 
+## 
+
+MAVEN_OPTS="-T 1C -Djava.net.preferIPv4Stack=true"
+
 ##
 ## SDKMAN
 ##
@@ -88,14 +93,13 @@ if [ -d "/home/$USER/.sdkman/bin/sdkman-init.sh" ]; then
 fi
 
 ##
-## SUPP. OPTIONS DEPENDS ON ENV.
+## SUPP. OPTIONS DEPENDING ON LOCAL CONFIG
 ##
 
 if [ -f ~/.custom-rc ]; then
     echo "Sourcing $HOME/.custom-rc"
     source $HOME/.custom-rc
 fi
-
 
 #
 # WOOOOOO !
@@ -109,4 +113,5 @@ if [ "$USER" = "root" ]; then
 fi
 
 cmatrix -b  -C $CMATRIX_COLOR
+
 
