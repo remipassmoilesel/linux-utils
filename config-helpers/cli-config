@@ -56,7 +56,7 @@ git clone https://github.com/remipassmoilesel/oh-my-zsh ~/.oh-my-zsh
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions 
 
 # copy configuration
-cp ~/linux-utils/configuration/zshrc ~/.zshrc
+cp ~/linux-utils/configuration/dot-zshrc ~/.zshrc
 
 zsh
 
