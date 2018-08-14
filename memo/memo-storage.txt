@@ -3055,3 +3055,8 @@ Changer de jdk java
 Date: 2018-08-06 15:21
 Executer tous les tests puis échouer à la fin
 
+
+# default :: journalctl -u docker --no-pager | less 
+Date: 2018-08-14 14:07
+Afficher les journaux avec un meilleur pager
+
