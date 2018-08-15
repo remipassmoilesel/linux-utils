@@ -36,6 +36,11 @@ Journaliser les connexions:
     \dt                 Lister les tables d'une db
     \du			Lister tous les utilisateurs
 
+Lister toutes les tables:
+
+	> select * from information_schema.tables
+
+
 ## Utilisation
 
 Executer une commande directement:
