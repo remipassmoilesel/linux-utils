@@ -108,4 +108,12 @@ Pour installer les drivers JDBC:
 
 ## Erreurs courantes
 
+### ERROR: relation "databasechangelog" does not exist
+
+La table est recherchée dans le mauvais schéma. Voir peut être une instruction précédente:
+
+	SET search_path = ...
+
+... qui ne contient pas le schéma voulu.
+
 
