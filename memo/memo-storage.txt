@@ -2476,7 +2476,7 @@ Date: 2017-10-28 13:12
 Ugrade de distribution ubuntu
 
 
-# default :: pgcli -h 192.168.20.13 -U intentionsachats_rp -d selenee_rp -W
+# default :: pgcli -h 192.168.20.13 -U intentionsachats_rp -d selenee_rp -W 
 Date: 2017-11-02 16:15
 Se conencter avec pgcli à une base postgresql
 
@@ -3034,4 +3034,29 @@ Mondrian squares ????
 # default :: su - username 
 Date: 2018-08-02 12:12
 Changer d'utilisateur
+
+
+# gitlab :: git push --set-upstream git@gitlab.example.com:namespace/nonexistent-project.git master 
+Date: 2018-08-03 11:54
+Créer un projet gitlab en ligne de commande, magnifique !
+
+
+# default :: update-java-alternatives --list 
+Date: 2018-08-06 15:01
+Lister les jdk sur un système Ubuntu
+
+
+# default :: sudo update-java-alternatives --set /path/to 
+Date: 2018-08-06 15:01
+Changer de jdk java
+
+
+# default :: mvn  verify --fail-at-end 
+Date: 2018-08-06 15:21
+Executer tous les tests puis échouer à la fin
+
+
+# default :: journalctl -u docker --no-pager | less 
+Date: 2018-08-14 14:07
+Afficher les journaux avec un meilleur pager
 
