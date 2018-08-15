@@ -106,4 +106,6 @@ Pour installer les drivers JDBC:
 
 	$ sudo apt install libpostgresql-jdbc-java
 
+## Erreurs courantes
+
 
