@@ -105,7 +105,7 @@ fi
 # WOOOOOO !
 #
 
-export ANSIBLE_COW_SELECTION=tux
+# export ANSIBLE_COW_SELECTION=tux
 
 CMATRIX_COLOR=blue
 if [ "$USER" = "root" ]; then
