@@ -3065,3 +3065,8 @@ Afficher les journaux avec un meilleur pager
 Date: 2018-08-16 16:12
 Nettoyage de tous les objets docker non utilisés
 
+
+# less :: -I 
+Date: 2018-08-16 18:23
+Faire en sorte que les recherche soit sensibles/insensibles à la casse
+
