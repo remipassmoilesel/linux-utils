@@ -3060,3 +3060,8 @@ Executer tous les tests puis échouer à la fin
 Date: 2018-08-14 14:07
 Afficher les journaux avec un meilleur pager
 
+
+# default :: docker system prune -af 
+Date: 2018-08-16 16:12
+Nettoyage de tous les objets docker non utilisés
+
