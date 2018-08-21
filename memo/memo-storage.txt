@@ -3070,3 +3070,8 @@ Nettoyage de tous les objets docker non utilisés
 Date: 2018-08-16 18:23
 Faire en sorte que les recherche soit sensibles/insensibles à la casse
 
+
+# default :: curl --cacert=/path/to/pem http://domain 
+Date: 2018-08-21 12:43
+Utiliser un certificat avec curl
+
