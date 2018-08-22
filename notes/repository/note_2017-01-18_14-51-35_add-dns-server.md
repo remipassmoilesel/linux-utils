@@ -81,4 +81,16 @@ Editer:
 
 	$ sudo systemctl restart systemd-resolved.service
 
+## Erreurs
+
+Le domaine est résolu mais ne peut pas être pingué:
+
+	$ sudo vim /etc/nsswitch.conf
+
+	hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4
+	
+	Remplacer par:
+
+	hosts:          files dns
+
 
