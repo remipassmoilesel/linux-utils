@@ -3075,3 +3075,8 @@ Faire en sorte que les recherche soit sensibles/insensibles à la casse
 Date: 2018-08-21 12:43
 Utiliser un certificat avec curl
 
+
+# default :: terraform apply -target vsphere_virtual_machine.vm_name 
+Date: 2018-08-22 15:43
+Appliquer un script terraform mais sur une ressource uniquement
+
