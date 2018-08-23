@@ -3025,3 +3025,8 @@ Afficher les profiles de build actifs
 Date: 2018-07-15 13:20
 Afficher le type de bus SATA en ligne de commande
 
+
+# default :: xfce4-session-logout --logout 
+Date: 2018-08-23 19:47
+Se déconnecter d'XFCE
+
