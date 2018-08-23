@@ -689,7 +689,7 @@ Date: 2016-02-07 12:15
 Stopper une session screen
 
 
-# byobu :: SHIFT F1 
+# byobu :: F1 
 Date: 2016-02-07 12:21
 Afficher l'aide de la commande byobu. Byobu permet de créer plusieurs terminaux, et de les splitter
 
@@ -1297,11 +1297,6 @@ Documentation (Quick documentation)
 # default :: tree -aC 
 Date: 2016-05-20 10:05
 Afficher une arborescence de répertoire en ligne de commande, avec tous les fichiers et en couleur.
-
-
-# default :: loadkeys fr 
-Date: 2016-05-22 11:31
-Mettre le clavier en français en ligne de commande
 
 
 # default :: mount -o remount,rw / 
@@ -2121,9 +2116,9 @@ Date: 2017-08-28 14:50
 Voir la date de dernière connexion d'un utilisateur
 
 
-# default :: journalctl -u etcd 
+# default :: journalctl -bu etcd 
 Date: 2017-08-29 09:08
-Afficher les journaux d'un service
+Afficher les journaux d'un service (-u) et seulement ceux du dernier boot (-b)
 
 
 # git :: git clean -df 
@@ -2217,7 +2212,7 @@ Tirer tous les dépôts git d'un dossier récursivement
 
 
 # docker :: docker exec -u root -ti 4ed4a1411f3d /bin/bash 
-Date: 2017-09-15 11:26
+Date: 2018-07-31 15:13
 Spécifier l'utilisateur pour éxecuter une commande dans un docker
 
 
@@ -2298,7 +2293,7 @@ Changer de contexte kubernetes
 
 # centos :: loadkeys fr 
 Date: 2017-09-26 13:49
-Changer la disposition du clavier pour fr
+Changer la disposition du clavier pour fr. Marche aussi pour Debian.
 
 
 # yum :: yum install epel-release.noarch 
@@ -2481,7 +2476,7 @@ Date: 2017-10-28 13:12
 Ugrade de distribution ubuntu
 
 
-# default :: pgcli -h postgres.domain.com -U username -W 
+# default :: pgcli -h 192.168.20.13 -U intentionsachats_rp -d selenee_rp -W 
 Date: 2017-11-02 16:15
 Se conencter avec pgcli à une base postgresql
 
@@ -3029,4 +3024,69 @@ Afficher le type de bus SATA en ligne de commande
 # default :: xfce4-session-logout --logout 
 Date: 2018-08-23 19:47
 Se déconnecter d'XFCE
+
+
+# default :: mvn dependency:purge-local-repository 
+Date: 2018-07-23 14:32
+Purge du dépôt local Maven par rapport aux dépendances utilisées, puis re-construction
+
+
+# byobu :: SHIFT + ALT + left / right / top / bottom 
+Date: 2018-08-01 10:58
+Redimensionner un split byobu
+
+
+# byobu :: CTRL + SHIFT + F12 
+Date: 2018-08-02 12:01
+Mondrian squares ????
+
+
+# default :: su - username 
+Date: 2018-08-02 12:12
+Changer d'utilisateur
+
+
+# gitlab :: git push --set-upstream git@gitlab.example.com:namespace/nonexistent-project.git master 
+Date: 2018-08-03 11:54
+Créer un projet gitlab en ligne de commande, magnifique !
+
+
+# default :: update-java-alternatives --list 
+Date: 2018-08-06 15:01
+Lister les jdk sur un système Ubuntu
+
+
+# default :: sudo update-java-alternatives --set /path/to 
+Date: 2018-08-06 15:01
+Changer de jdk java
+
+
+# default :: mvn  verify --fail-at-end 
+Date: 2018-08-06 15:21
+Executer tous les tests puis échouer à la fin
+
+
+# default :: journalctl -u docker --no-pager | less 
+Date: 2018-08-14 14:07
+Afficher les journaux avec un meilleur pager
+
+
+# default :: docker system prune -af 
+Date: 2018-08-16 16:12
+Nettoyage de tous les objets docker non utilisés
+
+
+# less :: -I 
+Date: 2018-08-16 18:23
+Faire en sorte que les recherche soit sensibles/insensibles à la casse
+
+
+# default :: curl --cacert=/path/to/pem http://domain 
+Date: 2018-08-21 12:43
+Utiliser un certificat avec curl
+
+
+# default :: terraform apply -target vsphere_virtual_machine.vm_name 
+Date: 2018-08-22 15:43
+Appliquer un script terraform mais sur une ressource uniquement
 

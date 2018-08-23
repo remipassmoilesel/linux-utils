@@ -36,7 +36,7 @@ Dans le cas ou "resolvconf" n'est pas installé, éditer le fichier:
 
 ## Avec resolvonf
 
-Techniquede sioux, rapide mais peu orthodoxe: 
+Technique de sioux, rapide mais peu orthodoxe: 
 
 	$ sudo vim /etc/resolvconf/resolv.conf.d/base
 	
@@ -69,4 +69,28 @@ Il peut être nécessaire de redémarrer.
 Pour tester quels serveurs sont utilisés:
 
 	$ nmcli device show wlp3s0 | grep -i dns
+
+## Avec systemd-resolved
+
+Editer:
+
+	$ vim /etc/systemd/resolved.conf
+	
+	[Resolve]
+	DNS=4.2.2.4 4.2.2.2 209.244.0.4 209.244.0.3
+
+	$ sudo systemctl restart systemd-resolved.service
+
+## Erreurs
+
+Le domaine est résolu mais ne peut pas être pingué:
+
+	$ sudo vim /etc/nsswitch.conf
+
+	hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4
+	
+	Remplacer par:
+
+	hosts:          files dns
+
 

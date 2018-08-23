@@ -20,6 +20,7 @@ A utiliser sans modération:
 
 	VAR="val" 
 
+
 Variables spéciales:
 
 	echo $# # contient le nombre de paramètres ;
@@ -27,6 +28,11 @@ Variables spéciales:
 	echo $1 # contient le premier paramètre ;
 	echo $2 # contient le second paramètre ;
 	echo # + commande shift
+
+
+Substitution pour systemd:
+
+	$ cat ~/.ssh/autossh/${TUNNEL_NAME}/autossh.service | envsubst > /lib/systemd/system/${SERVICE_NAME}
 
 
 ## Boucles

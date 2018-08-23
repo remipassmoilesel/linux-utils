@@ -16,6 +16,10 @@ Remettre à zéro la configuration en cours:
 	itar		Iterate element of array
 	iter		Iterate iterable
 
+## Surround with
+
+	CTRL ALT T (ou CTRL T)
+
 ## Code generation
 
 	ALT inser
@@ -96,3 +100,10 @@ Project structure CTRL+ALT+SHIFT+S
 Project settings -> Facets -> expand Python click on child -> Python Interpreter
 
 Project settings -> Modules -> Expand module -> Python -> Dependencies -> select Python module SDK
+
+
+## Sauts de ligne bizarres
+
+Si le symbole ^M apparait après un reformatage:
+
+	Settings > Code Style > Line Separator > Unix

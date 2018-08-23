@@ -36,6 +36,11 @@ Journaliser les connexions:
     \dt                 Lister les tables d'une db
     \du			Lister tous les utilisateurs
 
+Lister toutes les tables:
+
+	> select * from information_schema.tables
+
+
 ## Utilisation
 
 Executer une commande directement:
@@ -100,5 +105,15 @@ Ajouter un utilisateur et lui donner des droits:
 Pour installer les drivers JDBC:
 
 	$ sudo apt install libpostgresql-jdbc-java
+
+## Erreurs courantes
+
+### ERROR: relation "databasechangelog" does not exist
+
+La table est recherchée dans le mauvais schéma. Voir peut être une instruction précédente:
+
+	SET search_path = ...
+
+... qui ne contient pas le schéma voulu.
 
 

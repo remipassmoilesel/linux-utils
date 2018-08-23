@@ -73,3 +73,11 @@ En cas d'erreurs étranges de dépendances, vérifier que le fichier /etc/apt/so
 Il vaut mieux utiliser un générateur en ligne, notamment pour passer de Debian Stable à Testing.
 
 
+## Erreur avec l'installation de PPA
+
+Executer:
+
+	# echo "deb http://ppa.launchpad.net/deadsnakes/ppa/ubuntu xenial main" > /etc/apt/sources.list.d/python.list
+	# apt-get install add-apt-key && add-apt-key -k hkp://keyserver.ubuntu.com:80 6A755776
+
+Pour trouver l'id de la clef, ajouter la source et faire un APT update.
