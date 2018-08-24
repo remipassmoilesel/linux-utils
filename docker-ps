@@ -27,7 +27,7 @@ def normalizeRight(str: str, maxLength: int) -> str:
 
 
 def normalizeLeft(str: str, maxLength: int) -> str:
-    return str if len(str) < maxLength else '...' + str[len(str) - maxLength - 3:]
+    return str if len(str) < maxLength else '...' + str[-maxLength-3:]
 
 
 def printContainerDetails(ids: list):
