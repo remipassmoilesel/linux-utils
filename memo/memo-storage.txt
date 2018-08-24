@@ -3016,6 +3016,16 @@ Date: 2018-07-12 15:08
 Afficher les profiles de build actifs
 
 
+# default :: dmesg | grep -i sata | grep 'link up' 
+Date: 2018-07-15 13:20
+Afficher le type de bus SATA en ligne de commande
+
+
+# default :: xfce4-session-logout --logout 
+Date: 2018-08-23 19:47
+Se déconnecter d'XFCE
+
+
 # default :: mvn dependency:purge-local-repository 
 Date: 2018-07-23 14:32
 Purge du dépôt local Maven par rapport aux dépendances utilisées, puis re-construction
