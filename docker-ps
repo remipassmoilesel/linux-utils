@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import json
+import subprocess
+
+
+def execAndGetOuput(command: str):
+    result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
+    return result.stdout.decode('utf-8')
+
+
+def getContainerIds() -> list:
+    rawOutput = execAndGetOuput('docker ps -q')
+    allIds = rawOutput.split('\n')
+    return list(filter(lambda id: id is not None and len(id) > 0, allIds))
+
+
+def getContainerDetails(containerIds: list) -> list:
+    command = 'docker inspect ' + ' '.join(containerIds)
+    result = execAndGetOuput(command)
+    return json.loads(result)
+
+
+def normalizeRight(str: str, maxLength: int) -> str:
+    return str if len(str) < maxLength else str[:maxLength - 3] + '...'
+
+
+def normalizeLeft(str: str, maxLength: int) -> str:
+    return str if len(str) < maxLength else '...' + str[len(str) - maxLength - 3:]
+
+
+def printContainerDetails(ids: list):
+    largeColWidth = 35
+    largeColMax = 20
+    thinColWidth = 22
+    thinColMax = 20
+
+    print()
+    print('Container name'.ljust(thinColWidth)
+          + 'Status'.ljust(thinColWidth)
+          + 'Image'.ljust(largeColWidth)
+          + 'Addresses'.ljust(largeColWidth)
+          + 'Ports')
+    print()
+
+    containerDetails = getContainerDetails(ids)
+    for container in containerDetails:
+        name = normalizeRight(container['Name'], thinColMax)
+        status = normalizeRight(container['State']['Status'], thinColMax)
+
+        image: str = container['Config']['Image']
+        image = normalizeLeft(image, largeColMax)
+
+        ipAddresses = ', '.join(
+            list(map(lambda net: net['IPAddress'], container['NetworkSettings']['Networks'].values())))
+        ipAddresses = normalizeRight(ipAddresses, largeColMax)
+
+        ports: str = ', '.join(container['NetworkSettings']['Ports'].keys())
+        ports = normalizeRight(ports, largeColMax)
+
+        print(
+            name.ljust(thinColWidth)
+            + status.ljust(thinColWidth)
+            + image.ljust(largeColWidth)
+            + ipAddresses.ljust(largeColWidth)
+            + ports.ljust(largeColWidth))
+
+
+if __name__ == "__main__":
+
+    try:
+        ids = getContainerIds()
+        if ids is not None and len(ids) > 0:
+            printContainerDetails(ids)
+        else:
+            print()
+            print('No containers running !')
+            print()
+    except Exception as e:
+        print(e)
+        raise e
+        # exit(1)
