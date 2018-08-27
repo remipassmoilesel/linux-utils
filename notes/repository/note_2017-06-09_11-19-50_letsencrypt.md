@@ -7,6 +7,7 @@ Installation du client ACME.
 	$ sudo add-apt-repository ppa:certbot/certbot
 	$ sudo apt update	
 	$ sudo apt-get install python-certbot-apache
+
 	
 ## Créer un certificat et configurer Apache automatiquement
 
@@ -33,6 +34,17 @@ Renouvelement automatique (normalement plus necéssaire, un cron est inclu avec 
 Rediriger tout le traffic vers la connextion sécurisée:
 
 	Redirect / https://example.com/	# Attention au slash de fin
+
+
+## Certificat wildcard
+
+Commande:
+
+    $ certbot certonly --server https://acme-v02.api.letsencrypt.org/directory \
+        --manual -d '*.domain.fr'
+
+Remplir ensuite le challenge DNS.
+
 
 ## En cas d'erreur
 
