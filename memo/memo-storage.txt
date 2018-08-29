@@ -3100,3 +3100,8 @@ Obtenir l'état d'un conteneur, peut permettre de débugger un out of memory
 Date: 2018-08-29 18:00
 Récupérer sa souris à partir de la console vmware
 
+
+# rsync -az -e ssh :: -p 
+Date: 2018-08-29 20:42
+1022 root@host:/path /path
+
