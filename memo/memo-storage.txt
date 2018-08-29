@@ -3095,3 +3095,8 @@ Appliquer un script terraform mais sur une ressource uniquement
 Date: 2018-08-24 14:15
 Obtenir l'état d'un conteneur, peut permettre de débugger un out of memory
 
+
+# vmware :: CTRL + ALT 
+Date: 2018-08-29 18:00
+Récupérer sa souris à partir de la console vmware
+
