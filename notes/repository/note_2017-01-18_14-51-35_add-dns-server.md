@@ -81,6 +81,10 @@ Editer:
 
 	$ sudo systemctl restart systemd-resolved.service
 
+Afficher les serveurs en cours:
+
+	$ systemd-resolve --status
+
 ## Erreurs
 
 Le domaine est résolu mais ne peut pas être pingué:
@@ -93,4 +97,5 @@ Le domaine est résolu mais ne peut pas être pingué:
 
 	hosts:          files dns
 
+Attention, les domaines en .local sont spéciaux et ne devrait pas être utilisés.
 
