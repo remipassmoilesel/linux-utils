@@ -99,3 +99,8 @@ Le domaine est résolu mais ne peut pas être pingué:
 
 Attention, les domaines en .local sont spéciaux et ne devrait pas être utilisés.
 
+Certaines actions sont lentes, comme sudo, connexion ssh, etc ... de manière inexpliquée.
+Peut être localhost et le nom de la machine sont mal résolus. Vérifier que dans /etc/hosts:
+
+	127.0.0.1 localhost hostname
+	127.0.1.1 hostname
