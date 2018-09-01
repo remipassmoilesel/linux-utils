@@ -3016,6 +3016,16 @@ Date: 2018-07-12 15:08
 Afficher les profiles de build actifs
 
 
+# default :: dmesg | grep -i sata | grep 'link up' 
+Date: 2018-07-15 13:20
+Afficher le type de bus SATA en ligne de commande
+
+
+# default :: xfce4-session-logout --logout 
+Date: 2018-08-23 19:47
+Se déconnecter d'XFCE
+
+
 # default :: mvn dependency:purge-local-repository 
 Date: 2018-07-23 14:32
 Purge du dépôt local Maven par rapport aux dépendances utilisées, puis re-construction
@@ -3079,4 +3089,24 @@ Utiliser un certificat avec curl
 # default :: terraform apply -target vsphere_virtual_machine.vm_name 
 Date: 2018-08-22 15:43
 Appliquer un script terraform mais sur une ressource uniquement
+
+
+# default :: docker inspect registration -f '{{json .State}}' | jq 
+Date: 2018-08-24 14:15
+Obtenir l'état d'un conteneur, peut permettre de débugger un out of memory
+
+
+# vmware :: CTRL + ALT 
+Date: 2018-08-29 18:00
+Récupérer sa souris à partir de la console vmware
+
+
+# rsync -az -e ssh :: -p 
+Date: 2018-08-29 20:42
+1022 root@host:/path /path
+
+
+# default :: sudo apt install whois; mkpasswd --method=SHA-512 --rounds=4096 
+Date: 2018-09-01 11:28
+Générer un hash de mot de passe, utilisé par cloudinit
 
