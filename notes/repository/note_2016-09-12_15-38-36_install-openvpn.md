@@ -1,6 +1,6 @@
 # Installer et utiliser OpenVPN
 
-# Utiliser OpenVPN Access Server
+## Utiliser OpenVPN Access Server
 
 La méthode la plus simple. Sur Ubuntu 16.04 64 bits:
 
@@ -20,7 +20,18 @@ Ensuite visiter cnfigurer le serveur avec un navigateur web à l'adresse:
 Définir éventuellement d'autres utilisateurs.
 
 
-# Utiliser OpenVPN AS
+## Ajouter un utilisateur
+
+Dans un terminal, sur le serveur OpenVPN AS:
+
+	$ sudo useradd username
+
+Puis ajouter un utilisateur dans l'interface Admin:
+
+	User Management > User permissions 
+
+
+## Utiliser OpenVPN AS
 
 Visiter l'interface d'administration:
 
@@ -45,7 +56,7 @@ Pour utiliser OpenVPN sur 443 installer sslh puis modifier la configuration .ovp
 	remote vps.net 443 tcp
 
 
-# Ou utiliser et configurer OpenVPN
+## Ou utiliser et configurer OpenVPN
 
 Configurer la génération de certificats:
 
@@ -127,7 +138,7 @@ Démarrer le service:
 	sudo systemctl start openvpn@server 
 
 
-# Configurer un client manuellement
+## Configurer un client manuellement
 
 Générer une clef avec passphrase:
 
