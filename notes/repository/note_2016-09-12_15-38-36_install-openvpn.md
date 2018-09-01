@@ -19,6 +19,9 @@ Ensuite visiter cnfigurer le serveur avec un navigateur web à l'adresse:
 
 Définir éventuellement d'autres utilisateurs.
 
+**Par défaut l'interface admin est exposée sur toutes les interfaces**. Il est possible de
+changer ce réglage dans l'interface admin.
+
 # Utiliser OpenVPN AS
 
 Visiter l'interface d'administration:
