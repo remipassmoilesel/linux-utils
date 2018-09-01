@@ -3105,3 +3105,8 @@ Récupérer sa souris à partir de la console vmware
 Date: 2018-08-29 20:42
 1022 root@host:/path /path
 
+
+# default :: sudo apt install whois; mkpasswd --method=SHA-512 --rounds=4096 
+Date: 2018-09-01 11:28
+Générer un hash de mot de passe, utilisé par cloudinit
+
