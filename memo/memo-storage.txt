@@ -2636,7 +2636,7 @@ Date: 2018-04-13 15:07
 Eviter d'éxécuter le hook de commit
 
 
-# k8s :: minikube delete 
+# k8s :: minikube delete; rm -rf ~/.minikube
 Date: 2018-05-30 17:44
 Supprimer un cluster minikube
 
