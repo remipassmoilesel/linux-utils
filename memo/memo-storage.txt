@@ -2926,7 +2926,7 @@ Date: 2018-06-13 18:07
 Démarrer les machines et force le provisionnage
 
 
-# k8s :: kubectl config set-context minikube --namespace=<insert-namespace-name-here> 
+# k8s :: kubectl config use-context minikube --namespace=<insert-namespace-name-here> 
 Date: 2018-06-14 13:03
 Valoriser le namespace courant kubernetes
 
