@@ -3115,3 +3115,8 @@ Générer un hash de mot de passe, utilisé par cloudinit
 Date: 2018-09-03 12:01
 Analyse de tous les logs de contenurs actifs par regex
 
+
+# default :: mvn dependency:tree -Dverbose 
+Date: 2018-09-03 15:31
+Afficher l'arbre des dépendances maven
+
