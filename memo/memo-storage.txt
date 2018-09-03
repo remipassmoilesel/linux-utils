@@ -2636,7 +2636,7 @@ Date: 2018-04-13 15:07
 Eviter d'éxécuter le hook de commit
 
 
-# k8s :: minikube delete; rm -rf ~/.minikube
+# k8s :: minikube delete; rm -rf ~/.minikube 
 Date: 2018-05-30 17:44
 Supprimer un cluster minikube
 
@@ -3109,4 +3109,9 @@ Date: 2018-08-29 20:42
 # default :: sudo apt install whois; mkpasswd --method=SHA-512 --rounds=4096 
 Date: 2018-09-01 11:28
 Générer un hash de mot de passe, utilisé par cloudinit
+
+
+# default :: for ctr in $(docker ps -q); do docker logs $ctr | grep -ie '.*Started.*seconds.*'; done 
+Date: 2018-09-03 12:01
+Analyse de tous les logs de contenurs actifs par regex
 
