@@ -3111,7 +3111,7 @@ Date: 2018-09-01 11:28
 Générer un hash de mot de passe, utilisé par cloudinit
 
 
-# default :: for ctr in $(docker ps -q); do docker logs $ctr | grep -ie '.*Started.*seconds.*'; done 
+# docker :: for ctr in $(docker ps -q); do docker logs $ctr | grep -ie '.*Started.*seconds.*'; done 
 Date: 2018-09-03 12:01
 Analyse de tous les logs de contenurs actifs par regex
 
