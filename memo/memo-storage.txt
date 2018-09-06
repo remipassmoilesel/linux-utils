@@ -3125,3 +3125,8 @@ Afficher tous les ports TCP sur écoute
 Date: 2018-09-06 11:47
 Afficher tous les ports UDP sur écoute
 
+
+# default :: file -i filename.txt 
+Date: 2018-09-06 17:53
+Obtenir l'encodage d'un fichier
+
