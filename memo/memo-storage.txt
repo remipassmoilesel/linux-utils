@@ -3120,3 +3120,8 @@ Afficher l'arbre des dépendances maven
 Date: 2018-09-06 11:47
 Afficher tous les ports TCP sur écoute
 
+
+# ss :: ss -uln 
+Date: 2018-09-06 11:47
+Afficher tous les ports UDP sur écoute
+
