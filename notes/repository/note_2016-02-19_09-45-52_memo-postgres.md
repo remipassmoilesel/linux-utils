@@ -106,6 +106,20 @@ Pour installer les drivers JDBC:
 
 	$ sudo apt install libpostgresql-jdbc-java
 
+
+## Backup
+
+### Restaurer un backup binaire
+
+Au format archive:
+
+	$ pg_restore -d databasename -h localhost -p 5432 -U username filename.archive
+
+Convertir une archive binaire en fichier sql:
+
+	$ pg_restore -f backup.sql filename.archive
+
+
 ## Erreurs courantes
 
 ### ERROR: relation "databasechangelog" does not exist
