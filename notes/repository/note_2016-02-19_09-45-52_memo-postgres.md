@@ -120,6 +120,11 @@ Convertir une archive binaire en fichier sql:
 	$ pg_restore -f backup.sql filename.archive
 
 
+## Restaurer un backup texte
+
+	$ psql -d databasename -h localhost -p 5432 -U username < filename.sql
+
+
 ## Erreurs courantes
 
 ### ERROR: relation "databasechangelog" does not exist
