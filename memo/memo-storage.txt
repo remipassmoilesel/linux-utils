@@ -1724,11 +1724,6 @@ Date: 2017-04-24 18:03
 Enlever le serveur X et tout GUI du systeme
 
 
-# default :: ss -s 
-Date: 2017-04-26 07:40
-Afficher des stats sur les sockets utilises. Comparable a netstat.
-
-
 # default :: e2fsck -p file.img 
 Date: 2017-04-26 20:54
 Reparer les erreurs d'un systeme de fichier contenu dans une image.
