@@ -3115,3 +3115,8 @@ Analyse de tous les logs de contenurs actifs par regex
 Date: 2018-09-03 15:31
 Afficher l'arbre des dépendances maven
 
+
+# ss :: ss -tln 
+Date: 2018-09-06 11:47
+Afficher tous les ports TCP sur écoute
+
