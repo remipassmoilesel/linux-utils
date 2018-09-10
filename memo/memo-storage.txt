@@ -3096,9 +3096,9 @@ Date: 2018-08-29 18:00
 Récupérer sa souris à partir de la console vmware
 
 
-# rsync -az -e ssh :: -p 
+# rsync :: rsync -az -e 'ssh -p 1022' root@host:/path /path
 Date: 2018-08-29 20:42
-1022 root@host:/path /path
+Utiliser un port différent avec rsync
 
 
 # default :: sudo apt install whois; mkpasswd --method=SHA-512 --rounds=4096 
