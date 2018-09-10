@@ -1679,7 +1679,7 @@ Date: 2017-02-09 11:46
 Parser un fichier XML dans un format utilisable avec un éditeur en ligne (awk, sed, ...)
 
 
-# default :: echo -n  | openssl base64 
+# default :: echo 'azerty' | base64 
 Date: 2017-02-09 12:24
 Encoder une chaine en base 64
 
