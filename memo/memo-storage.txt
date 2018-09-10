@@ -1679,9 +1679,9 @@ Date: 2017-02-09 11:46
 Parser un fichier XML dans un format utilisable avec un éditeur en ligne (awk, sed, ...)
 
 
-# default :: echo 'azerty' | base64 
+# default :: echo -n 'azerty' | base64 
 Date: 2017-02-09 12:24
-Encoder une chaine en base 64
+Encoder une chaine en base 64. Le -n permet de ne pas imprimer de retour à la ligne.
 
 
 # default :: openssl aes-256-cbc -a -salt -in test.txt -out secrets.txt.enc 
@@ -2726,7 +2726,7 @@ Date: 2018-05-01 15:54
 Lister les images d'un dépôt docker
 
 
-# default :: echo 'base64string==' | base64 -d 
+# default :: echo -n 'base64string==' | base64 -d 
 Date: 2018-05-01 16:22
 Décoder une chaine base64, d'authentification par exemple
 
