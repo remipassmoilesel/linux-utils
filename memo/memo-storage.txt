@@ -3096,7 +3096,7 @@ Date: 2018-08-29 18:00
 Récupérer sa souris à partir de la console vmware
 
 
-# rsync :: rsync -az -e 'ssh -p 1022' root@host:/path /path
+# rsync :: rsync -az -e 'ssh -p 1022' root@host:/path /path 
 Date: 2018-08-29 20:42
 Utiliser un port différent avec rsync
 
@@ -3129,4 +3129,9 @@ Afficher tous les ports UDP sur écoute
 # default :: file -i filename.txt 
 Date: 2018-09-06 17:53
 Obtenir l'encodage d'un fichier
+
+
+# npm :: npm -dd run task 
+Date: 2018-09-12 11:10
+Log debug avec NPM
 
