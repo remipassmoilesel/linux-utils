@@ -84,6 +84,18 @@ Modifier le mot de passe d'un utilisateur:
 
     $ sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"    
 
+
+## Remplacer une chaine dans une table
+
+Avec replace:
+
+	UPDATE databasechangelog SET filename = REPLACE(filename,
+                        '../bad/path/',
+                        'src/main/ressources/good/path/'
+                        )
+
+Voir aussi regexp_replace()
+
 ## Divers
 
 Purger postgres:
@@ -134,5 +146,4 @@ La table est recherchée dans le mauvais schéma. Voir peut être une instructio
 	SET search_path = ...
 
 ... qui ne contient pas le schéma voulu.
-
 
