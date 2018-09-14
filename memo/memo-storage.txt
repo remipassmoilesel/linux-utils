@@ -3135,3 +3135,8 @@ Obtenir l'encodage d'un fichier
 Date: 2018-09-12 11:10
 Log debug avec NPM
 
+
+# default :: yum clean all 
+Date: 2018-09-14 17:00
+Clean du cache yum pour forcer sa mise à jour
+
