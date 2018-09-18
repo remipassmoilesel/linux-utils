@@ -7,6 +7,7 @@
     $ helm init
     $ helm reset
 
+
 ### Initialisation et destruction
 
 Créer un déploiement tiller sur un cluster:
@@ -20,6 +21,7 @@ Prendre la main sur un pod existant:
 Détruire un déploiement tiller:
 
     $ helm reset
+
 
 ## Kubectl
 
@@ -50,6 +52,7 @@ Détruire un déploiement tiller:
     $ helm init
     $ helm reset
 
+
 ### Pods
 
 Afficher les pods:
@@ -68,11 +71,13 @@ Obtenir les logs d'un pod:
 
 	$ kubectl logs podname  
 
+
 ### Deployments
 
 Scaler un deployment
 
     $ kubectl scale deployment --replicas 3 kubernetes-dashboard -n kube-system     
+
 
 ### Services
 
@@ -89,11 +94,18 @@ Afficher un déploiement:
 
     $ kubectl describe deployment kubernetes-dashboard -n kube-system
 
+
+## Prune des pods evicted
+
+    $  kubectl get pods --all-namespaces -ojson | jq -r '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | .metadata.name + " " + .metadata.namespace' | xargs -n2 -l bash -c 'kubectl delete pods $0 --namespace=$1'
+
+
 ### Configuration
 
 Afficher la configuration courante:
  
     $ kubectl config view
+
             
 ### Proxy et port forward
 
@@ -111,6 +123,7 @@ Créer un proxy vers l'API Kubernetes:
     }
  
 On peut utiliser ensuite le dashboard à l'addresse: http://127.0.0.1:8001/ui/
+
 
 #### Forward
 
