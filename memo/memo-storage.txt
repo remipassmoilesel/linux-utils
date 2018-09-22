@@ -3145,3 +3145,8 @@ Clean du cache yum pour forcer sa mise à jour
 Date: 2018-09-19 18:01
 Afficher la liste des fichiers modifié entre deux branches
 
+
+# dig :: dig @10.0.0.5 +noall +answer domain.net 
+Date: 2018-09-22 17:15
+Utiliser un serveur spécifique pour demander une adresse ip, et simplifier la réponse
+
