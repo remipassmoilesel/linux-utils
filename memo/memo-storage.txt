@@ -3150,3 +3150,8 @@ Afficher la liste des fichiers modifié entre deux branches
 Date: 2018-09-22 17:15
 Utiliser un serveur spécifique pour demander une adresse ip, et simplifier la réponse
 
+
+# dig :: dig @10.0.0.5 +noall +answer -x 10.20.0.12 
+Date: 2018-09-22 17:37
+Faire une requête DNS inverse, et alléger la réponse
+
