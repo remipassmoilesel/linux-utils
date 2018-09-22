@@ -1549,7 +1549,7 @@ Date: 2017-09-04 13:59
 Déplacer la branche image-mosaic à l'avant de master
 
 
-# default :: dig abc-map.fr 
+# dig :: dig abc-map.fr 
 Date: 2016-11-28 10:40
 Trouver des informations sur un domaine
 
@@ -1589,7 +1589,7 @@ Date: 2016-12-28 11:51
 Créer un fichier image de 12G
 
 
-# default :: dig @80.67.169.12 google.fr 
+# dig :: dig @80.67.169.12 google.fr 
 Date: 2017-01-18 15:22
 Tester la résolution de nom DNS avec le serveur spécifié
 
@@ -2005,7 +2005,7 @@ Date: 2017-07-24 13:05
 Installer les codecs vidéo sur debian (testing)
 
 
-# default :: dig @127.0.0.1 -p 8600 dc1.consul 
+# dig :: dig @127.0.0.1 -p 8600 dc1.consul 
 Date: 2017-07-25 12:23
 Requête DNS vers un serveur spécifique et sur un autre port que 53
 
