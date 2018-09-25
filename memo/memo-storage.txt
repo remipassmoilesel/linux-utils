@@ -2263,7 +2263,7 @@ Afficher les informations d'un certificat avec openssl
 
 # alpine :: apk add iproute2 
 Date: 2017-09-21 12:19
-Ajouter netstat à une installation alpine
+Ajouter netstat et ss à une installation alpine
 
 
 # default :: nproc 
