@@ -77,7 +77,8 @@ Editer:
 	$ vim /etc/systemd/resolved.conf
 	
 	[Resolve]
-	DNS=4.2.2.4 4.2.2.2 209.244.0.4 209.244.0.3
+	DNS=192.168.20.50 192.168.20.51
+	FallbackDNS=8.8.8.8 8.8.4.4
 
 	$ sudo systemctl restart systemd-resolved.service
 
