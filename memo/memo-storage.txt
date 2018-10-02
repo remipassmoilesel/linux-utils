@@ -3128,7 +3128,7 @@ Afficher tous les ports UDP sur écoute
 
 # default :: file -i filename.txt 
 Date: 2018-09-06 17:53
-Obtenir l'encodage d'un fichier
+Obtenir le type et l' encodage / encoding d'un fichier
 
 
 # npm :: npm -dd run task 
@@ -3158,5 +3158,5 @@ Faire une requête DNS inverse, et alléger la réponse
 
 # default :: pip install chardet; chardetect data/sample.csv 
 Date: 2018-10-02 15:22
-Détecter l'encodage / encoding d'un fichier texte
+Détecter l' encodage / encoding d'un fichier texte
 
