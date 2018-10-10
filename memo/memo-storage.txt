@@ -3160,3 +3160,8 @@ Faire une requête DNS inverse, et alléger la réponse
 Date: 2018-10-02 15:22
 Détecter l' encodage / encoding d'un fichier texte
 
+
+# default :: wget --mirror --convert-links --adjust-extension --page-requisites --no-parent http://abc-map.fr 
+Date: 2018-10-10 23:08
+Cloner un site web avec wgetx
+
