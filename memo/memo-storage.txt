@@ -3165,3 +3165,8 @@ Détecter l' encodage / encoding d'un fichier texte
 Date: 2018-10-10 23:08
 Cloner un site web avec wgetx
 
+
+# default :: echo 'Mail body' | mail -s 'Mail subject' -S smtp.test.fr someone@somewhere.fr 
+Date: 2018-10-11 19:08
+Essayer un serveur mail en ligne de commande
+
