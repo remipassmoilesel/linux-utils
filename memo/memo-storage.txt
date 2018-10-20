@@ -3170,3 +3170,8 @@ Cloner un site web avec wgetx
 Date: 2018-10-11 19:08
 Essayer un serveur mail en ligne de commande
 
+
+# default :: sudo ip route add 10.10.0.0/16 via 10.0.0.1 
+Date: 2018-10-20 21:08
+Ajouter une route vers un sous réseau sur un vpn
+
