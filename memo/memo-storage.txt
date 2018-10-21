@@ -3175,3 +3175,8 @@ Essayer un serveur mail en ligne de commande
 Date: 2018-10-20 21:08
 Ajouter une route vers un sous réseau sur un vpn
 
+
+# default :: ip route show table main 
+Date: 2018-10-21 11:28
+Afficher la table principale de route
+
