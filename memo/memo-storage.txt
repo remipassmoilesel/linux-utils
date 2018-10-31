@@ -3180,3 +3180,8 @@ Ajouter une route vers un sous réseau sur un vpn
 Date: 2018-10-21 11:28
 Afficher la table principale de route
 
+
+# default :: mvn liquibase:clearCheckSums 
+Date: 2018-10-31 17:02
+Remettre à zero les sommes de contôle liquibase en cas de 'fausse' modification des changelog
+
