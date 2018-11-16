@@ -119,6 +119,17 @@ Pour installer les drivers JDBC:
 	$ sudo apt install libpostgresql-jdbc-java
 
 
+## Séquences
+
+Lister toutes les séquences:
+
+	> SELECT c.relname FROM pg_class c WHERE c.relkind = 'S';
+
+Modifier la prochaine valeur d'une séquence:
+
+	> SELECT setval('schema_name.sequence_name', 999, true);
+
+
 ## Backup
 
 ### Restaurer un backup binaire
