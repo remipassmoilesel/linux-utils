@@ -3185,3 +3185,8 @@ Afficher la table principale de route
 Date: 2018-10-31 17:02
 Remettre à zero les sommes de contôle liquibase en cas de 'fausse' modification des changelog
 
+
+# default :: sbt -mem 2048 
+Date: 2018-12-01 16:17
+Valoriser la taille de l'espace de mémoire metaspace, dans le but d'éviter les erreurs MetaspaceOutOfMemory
+
