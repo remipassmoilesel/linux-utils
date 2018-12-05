@@ -2951,7 +2951,7 @@ Date: 2018-06-15 11:50
 Créer une clef ssh forte
 
 
-# default :: find <dir> -type f -exec shred -fvu {}; 
+# default :: find <dir> -type f -exec shred -fvu {} \; 
 Date: 2018-06-15 14:43
 Détruire un dossier avec shred récursivement
 
