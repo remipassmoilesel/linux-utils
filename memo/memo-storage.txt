@@ -3190,3 +3190,8 @@ Remettre à zero les sommes de contôle liquibase en cas de 'fausse' modificatio
 Date: 2018-12-01 16:17
 Valoriser la taille de l'espace de mémoire metaspace, dans le but d'éviter les erreurs MetaspaceOutOfMemory
 
+
+# default :: sudo pip install cheat; cheat tar 
+Date: 2018-12-18 11:49
+Cheat sheet interactive en ligne de commande, une pure merveille
+
