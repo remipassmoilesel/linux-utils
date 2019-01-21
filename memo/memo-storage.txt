@@ -3195,3 +3195,8 @@ Valoriser la taille de l'espace de mémoire metaspace, dans le but d'éviter les
 Date: 2018-12-18 11:49
 Cheat sheet interactive en ligne de commande, une pure merveille
 
+
+# default :: python3 -m virtualenv -p python3 .venv 
+Date: 2019-01-21 22:33
+Créer un environement virtuel Python utilisant python 3
+
