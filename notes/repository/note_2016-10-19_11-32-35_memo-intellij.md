@@ -1,4 +1,4 @@
-# Memo intelliJ Idea
+# Memo IntelliJ Idea
 
 Remettre à zéro la configuration en cours:
 
@@ -107,3 +107,8 @@ Project settings -> Modules -> Expand module -> Python -> Dependencies -> select
 Si le symbole ^M apparait après un reformatage:
 
 	Settings > Code Style > Line Separator > Unix
+
+
+## Java: String is not defined
+
+	Project Structure > SDK > Supprimer puis réimporter le JDK
