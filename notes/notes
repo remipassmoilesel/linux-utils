@@ -174,11 +174,8 @@ class Note:
             wordWithoutSpecialChars = re.sub("[^a-z0-9-]", ".?", word, re.IGNORECASE)
             regexPartsArray.append(wordWithoutSpecialChars)
 
-        separatorPattern = "[-_\s]+"
         regexArray = [
-            "^(" + "|".join(regexPartsArray) + ")",
-            "(" + "|".join(regexPartsArray) + ")$",
-            "(" + separatorPattern + "|".join(regexPartsArray) + separatorPattern + ")",
+            "(" + "|".join(regexPartsArray) + ")",
         ]
         return regexArray
 
