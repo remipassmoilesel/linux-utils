@@ -28,7 +28,7 @@ ssh $DESTINATION "
 	echo
 	echo ... creating repertory $REPO_PATH
 	if [ ! -d \"$REPO_PATH\" ]; then
-		mkdir /git/$2
+		mkdir -p /git/$2
 	else
 		echo $REPO_PATH already exist !
 	fi
