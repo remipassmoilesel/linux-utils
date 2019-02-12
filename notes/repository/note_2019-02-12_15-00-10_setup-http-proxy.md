@@ -45,3 +45,10 @@ Coté serveur:
     $ sudo systemctl daemon-reload
     $ sudo systemctl restart docker
     $ systemctl show --property=Environment docker
+    
+
+## SSH
+
+Se connecter via un proxy HTTP:
+
+    $ ssh -v destination -o "ProxyCommand=nc -X connect -x proxy.domain.fr:8090 %h %p"    
