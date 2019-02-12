@@ -1,5 +1,12 @@
 # Utiliser un proxy HTTP d'entreprise
 
+## Remarques diverses
+
+Pour éviter un prompt inutile de mot de passe, utiliser une commande utilisant le proxy avec les identifiants:
+
+    $ sudo apt update
+    
+
 ## Pour APT
 
     $ sudo vim /etc/apt/apt.conf.d/40proxy
@@ -51,4 +58,16 @@ Coté serveur:
 
 Se connecter via un proxy HTTP:
 
-    $ ssh -v destination -o "ProxyCommand=nc -X connect -x proxy.domain.fr:8090 %h %p"    
+    $ ssh -v destination -o "ProxyCommand=nc -X connect -x proxy.domain.fr:8090 %h %p"
+    
+    
+Pour Git:
+
+    $ vim ~/.ssh/config
+    
+    Host host.domain.com
+    	Hostname XX.XX.XX.XX
+    	Port 443
+    	IdentityFile ~/.ssh/id_rsa
+    	IdentitiesOnly yes
+        ProxyCommand nc -X connect -x proxy.intra.fr:8080 %h %p
