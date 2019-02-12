@@ -4,7 +4,9 @@
 
 Pour éviter un prompt inutile de mot de passe, utiliser une commande utilisant le proxy avec les identifiants:
 
-    $ sudo apt update
+    $ curl -v --proxy-anyauth \
+              --proxy-user username:password http://wikipedia.fr \
+              --proxy http://proxy.intra.fr:8080/
     
 
 ## Pour APT
@@ -95,3 +97,8 @@ Configuration globale:
     $ git config --global http.proxy http://proxyUsername:proxyPassword@proxy.server.com:port
     
 Voir: https://gist.github.com/evantoli/f8c23a37eb3558ab8765    
+
+
+## Intellij
+
+CTRL MAJ A > Http proxy
