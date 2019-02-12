@@ -61,13 +61,37 @@ Se connecter via un proxy HTTP:
     $ ssh -v destination -o "ProxyCommand=nc -X connect -x proxy.domain.fr:8090 %h %p"
     
     
-Pour Git:
+Pour Git (dépôt spécifique ou configuration spéciale par SSH):
 
     $ vim ~/.ssh/config
     
-    Host host.domain.com
+    Host domain.proxy
     	Hostname XX.XX.XX.XX
     	Port 443
     	IdentityFile ~/.ssh/id_rsa
     	IdentitiesOnly yes
         ProxyCommand nc -X connect -x proxy.intra.fr:8080 %h %p
+
+
+Configuration exemple pour Github:
+    
+    Host github.proxy
+        Hostname github.com
+        User git
+        IdentityFile ~/.ssh/github.com/id_rsa
+        IdentitiesOnly yes
+        ProxyCommand nc -X connect -x proxy.intra.fr:8080 %h %p
+    
+
+Exemple d'origine github:
+    
+    $ git remote add origin ssh://github.proxy:/remipassmoilesel/linux-utils.git 
+    
+
+## Git
+
+Configuration globale:
+
+    $ git config --global http.proxy http://proxyUsername:proxyPassword@proxy.server.com:port
+    
+Voir: https://gist.github.com/evantoli/f8c23a37eb3558ab8765    
