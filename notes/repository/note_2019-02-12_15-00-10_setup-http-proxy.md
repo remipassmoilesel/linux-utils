@@ -102,3 +102,29 @@ Voir: https://gist.github.com/evantoli/f8c23a37eb3558ab8765
 ## Intellij
 
 CTRL MAJ A > Http proxy
+
+
+## Maven
+
+	$ vim ~/.m2/settings.xml
+
+	<settings>
+	  .
+	  .
+	  <proxies>
+	   <proxy>
+	      <id>example-proxy</id>
+	      <active>true</active>
+	      <protocol>http</protocol>
+	      <host>proxy.example.com</host>
+	      <port>8080</port>
+	      <username>proxyuser</username>
+	      <password>somepassword</password>
+	      <nonProxyHosts>www.google.com|*.example.com</nonProxyHosts>
+	    </proxy>
+	  </proxies>
+	  .
+	  .
+	</settings>
+
+
