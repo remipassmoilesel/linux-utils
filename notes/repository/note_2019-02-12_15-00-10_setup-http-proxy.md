@@ -4,10 +4,10 @@
 
 Pour éviter un prompt inutile de mot de passe, utiliser une commande utilisant le proxy avec les identifiants:
 
-    $ curl -v --proxy-anyauth \
-              --proxy-user username:password http://wikipedia.fr \
-              --proxy http://proxy.intra.fr:8080/
-    
+	$ curl -v --proxy-basic \
+	        --proxy-user GSB427:Heybobhowareyou123 http://wikipedia.fr \
+	        --proxy http://proxy-g2s.intra.groupama.fr:8080/
+   
 
 ## Pour APT
 
