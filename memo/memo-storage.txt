@@ -3200,3 +3200,8 @@ Cheat sheet interactive en ligne de commande, une pure merveille
 Date: 2019-01-21 22:33
 Créer un environement virtuel Python utilisant python 3
 
+
+# default :: saws 
+Date: 2019-02-13 18:25
+Shell interactif pour l'outil en ligne de commande aws
+
