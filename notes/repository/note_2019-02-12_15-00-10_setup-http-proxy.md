@@ -9,12 +9,15 @@ Pour éviter un prompt inutile de mot de passe, utiliser une commande utilisant 
 	        --proxy http://proxy-g2s.intra.groupama.fr:8080/
    
 
+Avec ce type de commande, tous les identifiants peuvent être enlevés.
+
+
 ## Pour APT
 
     $ sudo vim /etc/apt/apt.conf.d/40proxy
     
     Acquire::http::Proxy "http://$USER:$PASSWORD@proxy.intra.fr:8090/";
-    Acquire::https::Proxy "http://$USER:$PASSWORD@proxy.intra.fr:8090/";
+    Acquire::https::Proxy "https://$USER:$PASSWORD@proxy.intra.fr:8090/";
   
     
 ## Global au système (hors exceptions)
@@ -22,8 +25,7 @@ Pour éviter un prompt inutile de mot de passe, utiliser une commande utilisant 
     $ sudo vim /etc/environment
     
     http_proxy=http://$USER:$PASSWORD@proxy.intra.fr:8090/
-    https_proxy=http://$USER:$PASSWORD@proxy.intra.fr:8090/
-    ftp_proxy=http://$USER:$PASSWORD@proxy.intra.fr:8090/
+    https_proxy=https://$USER:$PASSWORD@proxy.intra.fr:8090/
     no_proxy=localhost,127.0.0.1,*intra.fr
     
 
@@ -37,7 +39,7 @@ Coté client:
       "proxies": {
         "default": {
           "httpProxy": "http://$USER:$PASSWORD@proxy.intra.fr:8090/",
-          "httpsProxy": "http://$USER:$PASSWORD@proxy.intra.fr:8090/"
+          "httpsProxy": "https://$USER:$PASSWORD@proxy.intra.fr:8090/"
         }
       }
     }
