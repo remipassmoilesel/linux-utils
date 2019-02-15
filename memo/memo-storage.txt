@@ -3205,3 +3205,8 @@ Créer un environement virtuel Python utilisant python 3
 Date: 2019-02-13 18:25
 Shell interactif pour l'outil en ligne de commande aws
 
+
+# default :: kubectl exec podname bash --v=8 
+Date: 2019-02-15 15:53
+Afficher les requêtes HTTP de kubectl
+
