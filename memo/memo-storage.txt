@@ -3200,3 +3200,8 @@ Cheat sheet interactive en ligne de commande, une pure merveille
 Date: 2019-01-21 22:33
 Créer un environement virtuel Python utilisant python 3
 
+
+# docker :: docker rmi $(docker images | grep stuff_ | tr -s ' ' | cut -d ' ' -f 3)
+Date: 2019-01-21 22:33
+Supprimer des images docker correspondant au tag stuff_.+
+
