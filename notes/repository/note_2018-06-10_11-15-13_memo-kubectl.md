@@ -23,6 +23,11 @@ Détruire un déploiement tiller:
     $ helm reset
 
 
+Attendre qu'un déploiement soit prêt:
+
+    $ helm upgrade --wait --timeout 500 ...
+
+
 ## Kubectl
 
 ### Commandes générales
