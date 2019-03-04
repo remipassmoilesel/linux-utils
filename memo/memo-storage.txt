@@ -3210,3 +3210,8 @@ Supprimer des images docker correspondant au tag stuff_.+
 Date: 2019-03-04 11:57
 Obtenir un token sur une API Oauth2 avec grant type password
 
+
+# default :: cat file.json | jq -c '[.array_name[].nested_field] | unique' 
+Date: 2019-03-04 13:46
+Afficher les valeurs uniques collectées à partir d'une collection d'objets
+
