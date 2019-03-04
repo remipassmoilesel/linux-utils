@@ -3201,7 +3201,12 @@ Date: 2019-01-21 22:33
 Créer un environement virtuel Python utilisant python 3
 
 
-# docker :: docker rmi $(docker images | grep stuff_ | tr -s ' ' | cut -d ' ' -f 3)
+# docker :: docker rmi $(docker images | grep stuff_ | tr -s ' ' | cut -d ' ' -f 3) 
 Date: 2019-01-21 22:33
 Supprimer des images docker correspondant au tag stuff_.+
+
+
+# default :: curl -d 'grant_type=password&username=remipassmoilesel&password=' -X POST https://uri.com/token 
+Date: 2019-03-04 11:57
+Obtenir un token sur une API Oauth2 avec grant type password
 
