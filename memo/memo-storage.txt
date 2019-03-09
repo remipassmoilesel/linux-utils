@@ -3215,3 +3215,8 @@ Obtenir un token sur une API Oauth2 avec grant type password
 Date: 2019-03-04 13:46
 Afficher les valeurs uniques collectées à partir d'une collection d'objets
 
+
+# default :: sudo dmidecode --string system-product-name 
+Date: 2019-03-09 16:10
+Afficher le nom de la carte mère
+
