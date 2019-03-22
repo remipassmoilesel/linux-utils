@@ -78,6 +78,9 @@ alias rh="rehash"
 
 alias tr="tree -L 2"
 
+alias lst="lsd --tree"
+
+
 ## 
 ## MAVEN 
 ## 
