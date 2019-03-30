@@ -1,5 +1,8 @@
 # Caster un bureau sur un Raspberry PI
 
+/!\ Utiliser plutôt TigerVNC !
+
+
 ## Avec X11VNC
 
 Installer le serveur:
