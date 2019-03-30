@@ -1,5 +1,8 @@
 # Prendre le contrôle d'une machine virtuelle Windows avec TightVNC
 
+/!\ Utiliser plutôt TigerVNC !
+
+
 ## Machine hôte
 
 Créer une machine virtuelle Windows 7
