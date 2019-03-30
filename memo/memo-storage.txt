@@ -1144,11 +1144,6 @@ Date: 2016-04-18 10:05
 Redémarrer Cinnamon
 
 
-# vim :: CTRL + W + flêches 
-Date: 2016-04-18 10:18
-Se déplacer de split en split
-
-
 # vim :: :! wc % 
 Date: 2016-04-18 10:27
 Executer une commande shell
