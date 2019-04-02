@@ -2596,11 +2596,6 @@ Date: 2018-02-07 13:12
 Restaurer un fichier effacé
 
 
-# default :: sudo apt install vinagre 
-Date: 2018-02-12 20:34
-Client VNC qui tient la route !
-
-
 # zsh :: git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions 
 Date: 2018-02-12 19:42
 Installer un plugin de suggestions sur shell zsh
@@ -3209,4 +3204,29 @@ Shell interactif pour l'outil en ligne de commande aws
 # default :: kubectl exec podname bash --v=8 
 Date: 2019-02-15 15:53
 Afficher les requêtes HTTP de kubectl
+
+
+# docker :: docker rmi $(docker images | grep stuff_ | tr -s ' ' | cut -d ' ' -f 3) 
+Date: 2019-01-21 22:33
+Supprimer des images docker correspondant au tag stuff_.+
+
+
+# default :: curl -d 'grant_type=password&username=remipassmoilesel&password=' -X POST https://uri.com/token 
+Date: 2019-03-04 11:57
+Obtenir un token sur une API Oauth2 avec grant type password
+
+
+# default :: cat file.json | jq -c '[.array_name[].nested_field] | unique' 
+Date: 2019-03-04 13:46
+Afficher les valeurs uniques collectées à partir d'une collection d'objets
+
+
+# default :: sudo dmidecode --string system-product-name 
+Date: 2019-03-09 16:10
+Afficher le nom de la carte mère
+
+
+# default :: journalctl -u kubelet -n 150 -f 
+Date: 2019-03-19 22:52
+Afficher et suivre les derniers logs d'un service
 
