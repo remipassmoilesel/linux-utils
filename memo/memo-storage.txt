@@ -3221,7 +3221,3 @@ Date: 2019-03-19 22:52
 Afficher et suivre les derniers logs d'un service
 
 
-# default :: commandlinefu 
-Date: 2019-04-23 10:43
-Sert à ça
-
