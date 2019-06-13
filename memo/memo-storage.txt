@@ -3230,3 +3230,8 @@ Tunnel HTTP/HTTPS public vers localhost
 Date: 2019-06-13 19:33
 Voir les logs d'un pod mort
 
+
+# default :: stern <pod-name> 
+Date: 2019-06-13 19:34
+Voir les logs d'un pod Kubernetes
+
