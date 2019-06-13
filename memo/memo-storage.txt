@@ -3225,3 +3225,8 @@ Afficher et suivre les derniers logs d'un service
 Date: 2019-06-06 22:54
 Tunnel HTTP/HTTPS public vers localhost
 
+
+# default :: kubectl logs -f <pod-name> -p 
+Date: 2019-06-13 19:33
+Voir les logs d'un pod mort
+
