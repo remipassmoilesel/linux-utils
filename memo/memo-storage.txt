@@ -3245,3 +3245,8 @@ Voir les logs d'un pod mort
 Date: 2019-06-13 19:34
 Voir les logs d'un pod Kubernetes
 
+
+# default :: echo line.txt | sort | uniq -c 
+Date: 2019-09-10 23:17
+Dédoublonner des lignes de texte, sort est indispensable avant le uniq
+
