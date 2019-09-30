@@ -5,8 +5,8 @@
 Pour éviter un prompt inutile de mot de passe, utiliser une commande utilisant le proxy avec les identifiants:
 
 	$ curl -v --proxy-basic \
-	        --proxy-user GSB427:Heybobhowareyou123 http://wikipedia.fr \
-	        --proxy http://proxy-g2s.intra.groupama.fr:8080/
+	        --proxy-user username:password http://wikipedia.fr \
+	        --proxy http://proxy-url.net/
    
 
 Avec ce type de commande, tous les identifiants peuvent être enlevés.
