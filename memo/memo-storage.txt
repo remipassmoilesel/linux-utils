@@ -3250,3 +3250,8 @@ Voir les logs d'un pod Kubernetes
 Date: 2019-09-10 23:17
 Dédoublonner des lignes de texte, sort est indispensable avant le uniq
 
+
+# default :: curl --upload-file ./hello.txt https://transfer.sh/hello.txt 
+Date: 2019-10-08 22:16
+Transférer un fichier en ligne de commande
+
