@@ -32,6 +32,11 @@ Attendre qu'un déploiement soit prêt:
 
 ### Commandes générales
 
+Lister tous les types de ressources et leur raccourcis:
+
+    $ kubectl api-resources
+
+
     $ kubectl apply deploymentname
     $ kubectl apply -f https://...
     $ kubectl apply -f path/to/local
