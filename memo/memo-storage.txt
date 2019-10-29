@@ -3255,3 +3255,8 @@ Dédoublonner des lignes de texte, sort est indispensable avant le uniq
 Date: 2019-10-08 22:16
 Transférer un fichier en ligne de commande
 
+
+# default :: npm i -g cloc; cloc . 
+Date: 2019-10-28 23:20
+Compte de ligne de code en ligne de commande
+
