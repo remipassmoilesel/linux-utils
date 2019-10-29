@@ -2,7 +2,7 @@
 
 Install minimum tools:
 
-	$ curl https://raw.githubusercontent.com/remipassmoilesel/linux-utils/master/config-helpers/cli-config | bash
+	$ curl https://raw.githubusercontent.com/remipassmoilesel/linux-utils/master/configuration/helpers/cli-config | bash
 
 Install more tools:
 	
