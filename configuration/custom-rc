@@ -6,12 +6,13 @@
 ## PATH OPTIONS
 ##
 
-export PATH="$PATH:$HOME/linux-utils/"
-export PATH="$PATH:$HOME/linux-utils/notes/"
-export PATH="$PATH:$HOME/linux-utils/memo/"
-export PATH="$PATH:$HOME/linux-utils/config-helpers/"
-export PATH="$PATH:$HOME/bin/"
-export PATH="$PATH:$HOME/.go/bin/"
+export PATH="$PATH:$HOME/linux-utils"
+export PATH="$PATH:$HOME/linux-utils/notes"
+export PATH="$PATH:$HOME/linux-utils/memo"
+export PATH="$PATH:$HOME/linux-utils/configuration/helpers"
+export PATH="$PATH:$HOME/linux-utils/bin"
+export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:$HOME/.go/bin"
 export PATH="$PATH:$HOME/npm-root/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 
@@ -83,9 +84,9 @@ alias tr="tree -L 2"
 alias lst="lsd --tree"
 
 
-## 
-## MAVEN 
-## 
+##
+## MAVEN
+##
 
 MAVEN_OPTS="-T 1C -Djava.net.preferIPv4Stack=true"
 
