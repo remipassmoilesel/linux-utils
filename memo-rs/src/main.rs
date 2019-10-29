@@ -1,12 +1,18 @@
+use ::std::process;
 
-mod argument_parser;
 use argument_parser::parse_arguments;
+use logger::Logger;
+
+mod logger;
+mod argument_parser;
 
 fn main() {
-    println!("Hello, world!");
     let parse_result = parse_arguments();
     match parse_result {
-        Ok(command) => println!("{:?}", command),
-        Err(e) => eprintln!("{:?}", e)
+        Ok(command) => Logger::info(format!("{:?}", command)),
+        Err(error) => {
+            Logger::error(format!("{}", error));
+            process::exit(1);
+        }
     }
 }

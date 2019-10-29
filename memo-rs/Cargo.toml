@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 docopt = "1.1.0"
 serde = "1.0.102"
+colored = "1.8.0"

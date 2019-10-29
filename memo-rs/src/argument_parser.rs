@@ -30,27 +30,36 @@ struct CommandLineArgs {
 
 #[derive(Debug)]
 pub enum MemoCommand {
-    AddMemo { command: String, description: String },
-    Search { pattern: String },
+    AddMemo {
+        command: String,
+        description: String,
+    },
+    Search {
+        pattern: String,
+    },
     Edit,
 }
 
 pub fn parse_arguments() -> Result<MemoCommand, String> {
-    let args: Result<CommandLineArgs, Error> = Docopt::new(USAGE)
-        .and_then(|d| d.deserialize());
+    let args: Result<CommandLineArgs, Error> = Docopt::new(USAGE).and_then(|d| d.deserialize());
 
     match args {
         Ok(args) => build_command(args),
-        Err(error) => Err(error.to_string())
+        Err(error) => Err(error.to_string()),
     }
 }
 
 fn build_command(args: CommandLineArgs) -> Result<MemoCommand, String> {
     if (args.cmd_add) {
-        return Ok(MemoCommand::AddMemo { command: args.arg_command.clone(), description: args.arg_description.clone() });
+        return Ok(MemoCommand::AddMemo {
+            command: args.arg_command.clone(),
+            description: args.arg_description.clone(),
+        });
     }
     if (args.cmd_search) {
-        return Ok(MemoCommand::Search { pattern: args.arg_pattern });
+        return Ok(MemoCommand::Search {
+            pattern: args.arg_pattern,
+        });
     }
     if (args.cmd_edit) {
         return Ok(MemoCommand::Edit);
