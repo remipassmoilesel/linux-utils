@@ -1,7 +1,6 @@
 use docopt::{Docopt, Error};
 use serde::Deserialize;
 
-use crate::argument_parser::MemoCommand::AddMemo;
 use crate::commands::MemoCommand;
 
 const USAGE: &'static str = "
@@ -41,23 +40,23 @@ pub fn parse_arguments() -> Result<MemoCommand, String> {
 
 fn build_command(args: CommandLineArgs) -> Result<MemoCommand, String> {
     let category =  Option::from(args.flag_category);
-    
-    if (args.cmd_add) {
+
+    if args.cmd_add {
         return Ok(MemoCommand::AddMemo {
-            command: args.arg_command.clone(),
+            title: args.arg_command.clone(),
             description: args.arg_description.clone(),
             category,
         });
     }
 
-    if (args.cmd_search) {
+    if args.cmd_search {
         return Ok(MemoCommand::Search {
             pattern: args.arg_pattern,
             category,
         });
     }
 
-    if (args.cmd_edit) {
+    if args.cmd_edit {
         return Ok(MemoCommand::Edit);
     }
     Err(String::from("Bad command"))
