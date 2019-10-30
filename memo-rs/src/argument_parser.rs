@@ -2,13 +2,14 @@ use docopt::{Docopt, Error};
 use serde::Deserialize;
 
 use crate::argument_parser::MemoCommand::AddMemo;
+use crate::commands::MemoCommand;
 
 const USAGE: &'static str = "
 Memo 🚀 🚀 🚀
 
 Usage:
-  memo add <command> <description>
-  memo search <pattern>
+  memo add <command> <description> [--category=<cat>]
+  memo search <pattern> [--category=<cat>]
   memo edit
   memo help
 
@@ -26,18 +27,7 @@ struct CommandLineArgs {
     cmd_edit: bool,
     cmd_search: bool,
     cmd_help: bool,
-}
-
-#[derive(Debug)]
-pub enum MemoCommand {
-    AddMemo {
-        command: String,
-        description: String,
-    },
-    Search {
-        pattern: String,
-    },
-    Edit,
+    flag_category: String,
 }
 
 pub fn parse_arguments() -> Result<MemoCommand, String> {
@@ -50,17 +40,23 @@ pub fn parse_arguments() -> Result<MemoCommand, String> {
 }
 
 fn build_command(args: CommandLineArgs) -> Result<MemoCommand, String> {
+    let category =  Option::from(args.flag_category);
+    
     if (args.cmd_add) {
         return Ok(MemoCommand::AddMemo {
             command: args.arg_command.clone(),
             description: args.arg_description.clone(),
+            category,
         });
     }
+
     if (args.cmd_search) {
         return Ok(MemoCommand::Search {
             pattern: args.arg_pattern,
+            category,
         });
     }
+
     if (args.cmd_edit) {
         return Ok(MemoCommand::Edit);
     }
