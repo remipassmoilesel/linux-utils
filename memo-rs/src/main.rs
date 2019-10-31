@@ -15,7 +15,7 @@ mod storage;
 
 fn main() {
     let config = get_config();
-    let mut storage = MemoStorage::new(config.clone());
+    let storage = MemoStorage::new(config.clone());
     let mut command_handler = CommandHandler::new(config.clone(), storage);
     let parse_result = parse_arguments();
     match parse_result {

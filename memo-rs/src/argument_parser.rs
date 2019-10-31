@@ -39,7 +39,10 @@ pub fn parse_arguments() -> Result<MemoCommand, String> {
 }
 
 fn build_command(args: CommandLineArgs) -> Result<MemoCommand, String> {
-    let category =  Option::from(args.flag_category);
+    let category = match !String::is_empty(&args.flag_category) {
+        true => Some(args.flag_category),
+        false => None,
+    };
 
     if args.cmd_add {
         return Ok(MemoCommand::AddMemo {
