@@ -41,6 +41,7 @@ impl CommandHandler {
             category: category.unwrap_or(String::from("default")),
             date: Utc::now()
         };
+        self.storage.load();
         self.storage.add(new_memo);
         self.storage.persist();
     }
