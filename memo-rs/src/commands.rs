@@ -1,6 +1,7 @@
 use crate::config::Config;
-use crate::storage::{Memo, MemoStorage};
-use chrono::{Utc};
+use crate::short_memo::short_memo::ShortMemo;
+use crate::storage::MemoStorage;
+use chrono::Utc;
 
 #[derive(Debug)]
 pub enum MemoCommand {
@@ -28,18 +29,22 @@ impl CommandHandler {
 
     pub fn apply_command(&mut self, command: MemoCommand) {
         match command {
-            MemoCommand::AddMemo { title, description, category } => self.add(title, description, category),
+            MemoCommand::AddMemo {
+                title,
+                description,
+                category,
+            } => self.add(title, description, category),
             MemoCommand::Search { pattern, category } => self.search(pattern, category),
             MemoCommand::Edit => self.edit_storage(),
         }
     }
 
     fn add(&mut self, title: String, description: String, category: Option<String>) {
-        let new_memo = Memo {
+        let new_memo = ShortMemo {
             title,
             description,
             category: category.unwrap_or(String::from("default")),
-            date: Utc::now()
+            date: Utc::now(),
         };
         self.storage.load();
         self.storage.add(new_memo);
@@ -50,4 +55,3 @@ impl CommandHandler {
 
     fn edit_storage(&self) {}
 }
-

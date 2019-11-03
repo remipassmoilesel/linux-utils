@@ -9,8 +9,9 @@ use crate::storage::MemoStorage;
 
 mod argument_parser;
 mod commands;
-mod logger;
 mod config;
+mod logger;
+mod short_memo;
 mod storage;
 
 fn main() {
@@ -31,6 +32,6 @@ fn get_config() -> Config {
     let config = Config::new();
     match config {
         Ok(config) => return config,
-        _ => process::exit(1)
+        _ => process::exit(1),
     }
 }
