@@ -20,7 +20,10 @@ fn main() {
     let mut command_handler = CommandHandler::new(config.clone(), storage);
     let parse_result = parse_arguments();
     match parse_result {
-        Ok(command) => command_handler.apply_command(command),
+        Ok(command) => match command_handler.apply_command(command) {
+            Err(err) => Logger::error(format!("{:?}", err)),
+            Ok(()) => (),
+        },
         Err(error) => {
             Logger::error(format!("{}", error));
             process::exit(1);

@@ -1,7 +1,7 @@
 use docopt::{Docopt, Error};
 use serde::Deserialize;
 
-use crate::commands::MemoCommand;
+use crate::commands::Command;
 
 const USAGE: &'static str = "
 Memo 🚀 🚀 🚀
@@ -29,7 +29,7 @@ struct CommandLineArgs {
     flag_category: String,
 }
 
-pub fn parse_arguments() -> Result<MemoCommand, String> {
+pub fn parse_arguments() -> Result<Command, String> {
     let args: Result<CommandLineArgs, Error> = Docopt::new(USAGE).and_then(|d| d.deserialize());
 
     match args {
@@ -38,14 +38,14 @@ pub fn parse_arguments() -> Result<MemoCommand, String> {
     }
 }
 
-fn build_command(args: CommandLineArgs) -> Result<MemoCommand, String> {
+fn build_command(args: CommandLineArgs) -> Result<Command, String> {
     let category = match !String::is_empty(&args.flag_category) {
         true => Some(args.flag_category),
         false => None,
     };
 
     if args.cmd_add {
-        return Ok(MemoCommand::AddMemo {
+        return Ok(Command::AddMemo {
             title: args.arg_command.clone(),
             description: args.arg_description.clone(),
             category,
@@ -53,14 +53,14 @@ fn build_command(args: CommandLineArgs) -> Result<MemoCommand, String> {
     }
 
     if args.cmd_search {
-        return Ok(MemoCommand::Search {
+        return Ok(Command::Search {
             pattern: args.arg_pattern,
             category,
         });
     }
 
     if args.cmd_edit {
-        return Ok(MemoCommand::Edit);
+        return Ok(Command::Edit);
     }
     Err(String::from("Bad command"))
 }

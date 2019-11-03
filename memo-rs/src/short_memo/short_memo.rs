@@ -30,26 +30,26 @@ impl ShortMemo {
             .split("\n")
             .filter(|l| !String::is_empty(&l.to_string()))
             .collect();
+
         if block_lines.len() < 2 {
             return Err(MemoParseError::InvalidFormat(
                 "Not enough lines".to_string(),
             ));
         }
 
-        let first_line = Regex::new(r" *# *(\S+) *:: *(\S+) *")?;
-        let second_line = Regex::new(r" *Date: *(.+)")?;
+        let line1 = Regex::new(r" *# *(\S+) *:: *(\S+) *").unwrap()
+            .captures(block_lines.get(0).unwrap());
+        let line2 = Regex::new(r" *Date: *(.+)").unwrap()
+            .captures(block_lines.get(1).unwrap());
 
-        let captures_l0 = first_line.captures(block_lines.get(0).unwrap());
-        let captures_l1 = second_line.captures(block_lines.get(1).unwrap());
-
-        if captures_l0.is_none() || captures_l1.is_none() {
+        if line1.is_none() || line2.is_none() {
             return Err(MemoParseError::InvalidFormat(
                 "First two lines are invalid".to_string(),
             ));
         }
 
-        let captures_l0 = captures_l0.unwrap();
-        let captures_l1 = captures_l1.unwrap();
+        let captures_l0 = line1.unwrap();
+        let captures_l1 = line2.unwrap();
 
         let category = captures_l0
             .get(1)

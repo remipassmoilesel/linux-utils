@@ -31,7 +31,7 @@ impl MemoStorage {
         self.memos.push(memo);
     }
 
-    pub fn load(&mut self) -> Result<(), io::Error> {
+    pub fn load(&mut self) -> Result<&Vec<ShortMemo>, io::Error> {
         let file_content: String = fs::read_to_string(&self.config.storage_file)?;
         let blocks = file_content
             .split("\n\n")
@@ -42,13 +42,13 @@ impl MemoStorage {
                 Err(e) => (), // TODO: handle error
             };
         }
-        Ok(())
+        Ok(&self.memos)
     }
 
     pub fn persist(&self) -> Result<(), io::Error> {
         let mut file = File::create(&self.config.storage_file)?;
         for memo in self.memos.iter() {
-            writeln!(file, "{}", memo.serialize().clone())?;
+            writeln!(file, "{}", memo.serialize())?;
         }
         Ok(())
     }
