@@ -18,7 +18,12 @@ Avec ce type de commande, tous les identifiants peuvent être enlevés.
     
     Acquire::http::Proxy "http://$USER:$PASSWORD@proxy.intra.fr:8090/";
     Acquire::https::Proxy "https://$USER:$PASSWORD@proxy.intra.fr:8090/";
-  
+
+
+Pour importer une clef:
+
+    $ sudo apt-key adv --keyserver keyserver.ubuntu.com --keyserver-options http-proxy=http://localhost:3128 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
+
     
 ## Global au système (hors exceptions)
 
