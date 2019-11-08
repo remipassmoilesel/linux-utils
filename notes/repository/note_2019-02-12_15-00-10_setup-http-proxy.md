@@ -23,6 +23,7 @@ Avec ce type de commande, tous les identifiants peuvent être enlevés.
 Pour importer une clef:
 
     $ sudo apt-key adv --keyserver keyserver.ubuntu.com --keyserver-options http-proxy=http://localhost:3128 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
+    $ wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xB1998361219BD9C9" | apt-key add -
 
     
 ## Global au système (hors exceptions)
