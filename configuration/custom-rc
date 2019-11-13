@@ -62,7 +62,7 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 #alias k="kubectl" # Provided by oh-my-zsh plugin
 alias ks="kubectl -n kube-system"
 function ka() { kubectl "$@" --all-namespaces ;}
-
+alias k-pods-nodes="kubectl get pod -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName --all-namespaces"
 alias kgn="kubectl get namespaces"
 function ksn(){ kubectl config set-context $(kubectl config current-context) --namespace=$1 }
 
