@@ -8,7 +8,7 @@
 # Small script to set up a shell withmust-have tools
 
 
-cat << EndOfMessage
+cat << Banner
 
 ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗    ██╗   ██╗████████╗██╗██╗     ███████╗
 ██║     ██║████╗  ██║██║   ██║╚██╗██╔╝    ██║   ██║╚══██╔══╝██║██║     ██╔════╝
@@ -17,7 +17,7 @@ cat << EndOfMessage
 ███████╗██║██║ ╚████║╚██████╔╝██╔╝ ██╗    ╚██████╔╝   ██║   ██║███████╗███████║
 ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝     ╚═════╝    ╚═╝   ╚═╝╚══════╝╚══════╝
 
-EndOfMessage
+Banner
 
 echo
 echo "Running script for user $USER"
@@ -53,10 +53,10 @@ sudo chsh $USER -s /bin/zsh
 git clone https://github.com/remipassmoilesel/oh-my-zsh ~/.oh-my-zsh
 
 # install autocomplete plugin
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions 
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 
 # copy zsh configuration
-cp ~/linux-utils/configuration/dot-zshrc ~/.zshrc
+cp ~/linux-utils/configuration/dot-files/dot-zshrc ~/.zshrc
 
 sudo pip install cheat
 
