@@ -3260,3 +3260,8 @@ Transférer un fichier en ligne de commande
 Date: 2019-10-28 23:20
 Compte de ligne de code en ligne de commande
 
+
+# default :: git commit --amend --date="now" 
+Date: 2019-11-18 09:29
+Modifier la date d'un commit git
+
