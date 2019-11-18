@@ -5,7 +5,7 @@ use logger::Logger;
 
 use crate::commands::CommandHandler;
 use crate::config::Config;
-use crate::storage::MemoStorage;
+use crate::storage::ShortMemoStorage;
 
 mod argument_parser;
 mod commands;
@@ -16,7 +16,7 @@ mod storage;
 
 fn main() {
     let config = get_config();
-    let storage = MemoStorage::new(config.clone());
+    let storage = ShortMemoStorage::new(config.clone());
     let mut command_handler = CommandHandler::new(config.clone(), storage);
     let parse_result = parse_arguments();
     match parse_result {

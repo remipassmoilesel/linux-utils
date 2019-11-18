@@ -14,14 +14,14 @@ use crate::config::Config;
 use crate::logger::Logger;
 use crate::short_memo::short_memo::ShortMemo;
 
-pub struct MemoStorage {
+pub struct ShortMemoStorage {
     config: Config,
     memos: Vec<ShortMemo>,
 }
 
-impl MemoStorage {
-    pub fn new(config: Config) -> MemoStorage {
-        MemoStorage {
+impl ShortMemoStorage {
+    pub fn new(config: Config) -> ShortMemoStorage {
+        ShortMemoStorage {
             config,
             memos: vec![],
         }

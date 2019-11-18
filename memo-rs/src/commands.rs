@@ -4,7 +4,7 @@ use chrono::Utc;
 
 use crate::config::Config;
 use crate::short_memo::short_memo::ShortMemo;
-use crate::storage::MemoStorage;
+use crate::storage::ShortMemoStorage;
 
 #[derive(Debug)]
 pub enum Command {
@@ -33,11 +33,11 @@ impl From<std::io::Error> for CommandError {
 
 pub struct CommandHandler {
     config: Config,
-    storage: MemoStorage,
+    storage: ShortMemoStorage,
 }
 
 impl CommandHandler {
-    pub fn new(config: Config, storage: MemoStorage) -> CommandHandler {
+    pub fn new(config: Config, storage: ShortMemoStorage) -> CommandHandler {
         CommandHandler { config, storage }
     }
 
