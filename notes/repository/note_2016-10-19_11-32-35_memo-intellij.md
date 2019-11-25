@@ -1,4 +1,4 @@
-# Memo IntelliJ Idea
+
 
 Remettre à zéro la configuration en cours:
 
@@ -112,3 +112,11 @@ Si le symbole ^M apparait après un reformatage:
 ## Java: String is not defined
 
 	Project Structure > SDK > Supprimer puis réimporter le JDK
+
+
+## Désactiver les improts Java wildcard
+
+  CTRL MAJ A > Settings > Editor > Code style > Java > Imports
+
+  Class count to use import *: 99
+  Names count to use static import with *: 99
