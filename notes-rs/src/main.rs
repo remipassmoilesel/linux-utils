@@ -5,20 +5,17 @@ use logger::Logger;
 
 use crate::commands::CommandHandler;
 use crate::config::Config;
-use crate::storage::ShortMemoStorage;
 
 mod argument_parser;
 mod commands;
 mod config;
 mod logger;
-mod short_memo;
-mod storage;
+mod note;
 
 fn main() {
     let config = get_config();
-    let storage = ShortMemoStorage::new(config.clone());
-    let mut command_handler = CommandHandler::new(config.clone(), storage);
-    let parse_result = parse_arguments();
+    let mut command_handler = CommandHandler::new(config.clone());
+    let parse_result = parse_arguments(std::env::args());
     match parse_result {
         Ok(command) => match command_handler.apply_command(command) {
             Err(err) => Logger::error(format!("{:?}", err)),

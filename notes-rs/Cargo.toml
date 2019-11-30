@@ -2,7 +2,7 @@
 name = "notes-rs"
 version = "0.1.0"
 authors = ["Rémi Passmoilesel <r.passmoilesel@protonmail.com>"]
-edition = "2019"
+edition = "2018"
 
 [dependencies]
 docopt = "1.1.0"

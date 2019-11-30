@@ -1,23 +1,69 @@
 use std::error::Error;
+use std::fs;
+use std::path::PathBuf;
 
 use chrono::Utc;
 
 use crate::config::Config;
-use crate::short_memo::short_memo::ShortMemo;
-use crate::storage::ShortMemoStorage;
+use std::fs::ReadDir;
 
 #[derive(Debug)]
 pub enum Command {
-    AddMemo {
-        title: String,
-        description: String,
-        category: Option<String>,
-    },
-    Search {
-        pattern: String,
-        category: Option<String>,
-    },
-    Edit,
+    NewNote { title: String },
+    EditNote { id: i32 },
+    Search { pattern: String },
+}
+
+pub struct CommandHandler {
+    config: Config,
+}
+
+impl CommandHandler {
+    pub fn new(config: Config) -> CommandHandler {
+        CommandHandler { config }
+    }
+
+    pub fn apply_command(&mut self, command: Command) -> Result<(), CommandError> {
+        match command {
+            Command::NewNote { title } => self.new_note(title),
+            Command::EditNote { id } => self.edit_note(id),
+            Command::Search { pattern } => self.search(pattern),
+        }
+    }
+
+    fn new_note(&self, title: String) -> Result<(), CommandError> {
+        let now = Utc::now().format("%Y-%m-%d_%H-%M-%S");
+        let note_name = format!("note_{}_{}.md", now, title);
+        let mut note_path = self.config.storage_directory.clone();
+        note_path.push(note_name);
+        self.edit_file(note_path);
+        Ok(())
+    }
+
+    fn edit_note(&self, _id: i32) -> Result<(), CommandError> {
+        // TODO: implement
+        let _files: Vec<ReadDir> = fs::read_dir(&self.config.storage_directory).into_iter().collect();
+
+        Ok(())
+    }
+
+    fn search(&mut self, _pattern: String) -> Result<(), CommandError> {
+        // TODO: implement
+        Ok(())
+    }
+
+    fn edit_file(&self, file_path: PathBuf) -> Result<(), CommandError> {
+        let exit_status = std::process::Command::new("vim")
+            .args(file_path.to_str())
+            .status()?;
+        match exit_status.success() {
+            true => Ok(()),
+            false => Err(CommandError::GenericError(format!(
+                "Exited with code {}",
+                exit_status.code().unwrap_or(-1)
+            ))),
+        }
+    }
 }
 
 #[derive(Debug, PartialEq)]
@@ -28,68 +74,5 @@ pub enum CommandError {
 impl From<std::io::Error> for CommandError {
     fn from(error: std::io::Error) -> CommandError {
         CommandError::GenericError(String::from(error.description()))
-    }
-}
-
-pub struct CommandHandler {
-    config: Config,
-    storage: ShortMemoStorage,
-}
-
-impl CommandHandler {
-    pub fn new(config: Config, storage: ShortMemoStorage) -> CommandHandler {
-        CommandHandler { config, storage }
-    }
-
-    pub fn apply_command(&mut self, command: Command) -> Result<(), CommandError> {
-        match command {
-            Command::AddMemo {
-                title,
-                description,
-                category,
-            } => self.add(title, description, category),
-
-            Command::Search { pattern, category } => self.search(pattern, category),
-
-            Command::Edit => self.edit_storage(),
-        }
-    }
-
-    fn add(
-        &mut self,
-        title: String,
-        description: String,
-        category: Option<String>,
-    ) -> Result<(), CommandError> {
-        let new_memo = ShortMemo {
-            title,
-            description,
-            category: category.unwrap_or(String::from("default")),
-            date: Utc::now(),
-        };
-        self.storage.load()?;
-        self.storage.add(new_memo);
-        self.storage.persist();
-
-        Ok(())
-    }
-
-    fn search(&mut self, pattern: String, category: Option<String>) -> Result<(), CommandError> {
-        let memos = self.storage.load()?;
-        // TODO: implement
-        Ok(())
-    }
-
-    fn edit_storage(&self) -> Result<(), CommandError> {
-        let exit_status = std::process::Command::new("vim")
-            .args(&[self.config.storage_file.to_str().unwrap()])
-            .status()?;
-        match exit_status.success() {
-            true => Ok(()),
-            false => Err(CommandError::GenericError(format!(
-                "Exited with code {}",
-                exit_status.code().unwrap_or(-1)
-            ))),
-        }
     }
 }
