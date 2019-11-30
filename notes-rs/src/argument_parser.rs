@@ -64,3 +64,26 @@ fn build_command(args: CommandLineArgs) -> Result<Command, String> {
     }
     Err(String::from("Bad command"))
 }
+
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn build_command() {
+        env::set_var("MEMO_STORAGE_PATH", "/path/to/file.txt");
+        let config = Config::new();
+        assert_eq!(config.unwrap().storage_file, PathBuf::from("/path/to/file.txt"))
+    }
+
+    #[test]
+    fn should_return_path_from_home() {
+        env::remove_var("MEMO_STORAGE_PATH");
+        let config = Config::new();
+        let path_str: String = config.unwrap().storage_file.to_str().unwrap().to_string();
+        assert!(path_str.starts_with("/home"));
+        assert!(path_str.ends_with(".memo-storage.txt"));
+    }
+}
