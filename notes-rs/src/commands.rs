@@ -1,16 +1,18 @@
 use std::error::Error;
 use std::fs;
+use std::fs::{DirEntry, ReadDir};
 use std::path::PathBuf;
 
 use chrono::Utc;
 
 use crate::config::Config;
-use std::fs::ReadDir;
+use crate::shell::{ShellError, ShellHelper};
 
 #[derive(Debug)]
 pub enum Command {
+    List,
     NewNote { title: String },
-    EditNote { id: i32 },
+    EditNote { id: usize },
     Search { pattern: String },
 }
 
@@ -25,10 +27,16 @@ impl CommandHandler {
 
     pub fn apply_command(&mut self, command: Command) -> Result<(), CommandError> {
         match command {
+            Command::List => self.list_notes(),
             Command::NewNote { title } => self.new_note(title),
             Command::EditNote { id } => self.edit_note(id),
             Command::Search { pattern } => self.search(pattern),
         }
+    }
+
+    fn list_notes(&self)-> Result<(), CommandError>  {
+        // TODO: implement
+        Ok(())
     }
 
     fn new_note(&self, title: String) -> Result<(), CommandError> {
@@ -40,10 +48,13 @@ impl CommandHandler {
         Ok(())
     }
 
-    fn edit_note(&self, _id: i32) -> Result<(), CommandError> {
-        // TODO: implement
-        let _files: Vec<ReadDir> = fs::read_dir(&self.config.storage_directory).into_iter().collect();
-
+    fn edit_note(&self, id: usize) -> Result<(), CommandError> {
+        let files: Vec<DirEntry> = fs::read_dir(&self.config.storage_directory).unwrap()
+            .filter(|entry| entry.is_ok())
+            .map(|entry| entry.unwrap())
+            .into_iter().collect();
+        let to_edit = files.get(id).unwrap();
+        self.edit_file(to_edit.path());
         Ok(())
     }
 
@@ -53,16 +64,8 @@ impl CommandHandler {
     }
 
     fn edit_file(&self, file_path: PathBuf) -> Result<(), CommandError> {
-        let exit_status = std::process::Command::new("vim")
-            .args(file_path.to_str())
-            .status()?;
-        match exit_status.success() {
-            true => Ok(()),
-            false => Err(CommandError::GenericError(format!(
-                "Exited with code {}",
-                exit_status.code().unwrap_or(-1)
-            ))),
-        }
+        ShellHelper::execute(format!("vim {}", file_path.to_str().unwrap()))?;
+        Ok(())
     }
 }
 
@@ -74,5 +77,12 @@ pub enum CommandError {
 impl From<std::io::Error> for CommandError {
     fn from(error: std::io::Error) -> CommandError {
         CommandError::GenericError(String::from(error.description()))
+    }
+}
+
+impl From<ShellError> for CommandError {
+    fn from(error: ShellError) -> CommandError {
+        let ShellError::GenericError { message } = error;
+        CommandError::GenericError(message)
     }
 }

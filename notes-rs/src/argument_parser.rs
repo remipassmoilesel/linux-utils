@@ -1,13 +1,15 @@
+use std::env::Args;
+
 use docopt::{Docopt, Error};
 use serde::Deserialize;
 
 use crate::commands::Command;
-use std::env::Args;
 
 const USAGE: &'static str = "
 Notes 🚀 🚀 🚀
 
 Usage:
+  notes list
   notes new <title>
   notes edit <id>
   notes search <pattern>
@@ -20,13 +22,14 @@ Options:
 
 #[derive(Debug, Deserialize)]
 struct CommandLineArgs {
+    cmd_list: bool,
     cmd_new: bool,
     cmd_edit: bool,
     cmd_search: bool,
     cmd_help: bool,
     arg_title: String,
     arg_pattern: String,
-    arg_id: i32,
+    arg_id: usize,
 }
 
 pub fn parse_arguments(args: Args) -> Result<Command, String> {
@@ -40,6 +43,10 @@ pub fn parse_arguments(args: Args) -> Result<Command, String> {
 }
 
 fn build_command(args: CommandLineArgs) -> Result<Command, String> {
+    if args.cmd_list {
+        return Ok(Command::List);
+    }
+
     if args.cmd_new {
         return Ok(Command::NewNote {
             title: args.arg_title.clone(),

@@ -11,6 +11,7 @@ mod commands;
 mod config;
 mod logger;
 mod note;
+mod shell;
 
 fn main() {
     let config = get_config();
