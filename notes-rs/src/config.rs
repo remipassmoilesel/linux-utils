@@ -1,37 +1,38 @@
 extern crate dirs;
 
 use std::env;
-
 use std::path::PathBuf;
+
+use crate::default_error::DefaultError;
 
 pub const NOTES_STORAGE_DIRECTORY: &str = "NOTES_STORAGE_DIRECTORY";
 
 #[derive(Debug, Clone)]
 pub struct Config {
     pub storage_directory: PathBuf,
+    pub template_path: PathBuf,
 }
 
 impl Config {
-    pub fn new() -> Result<Config, String> {
-        match Config::get_storage_path() {
-            Ok(path) => Ok(Config {
-                storage_directory: path,
-            }),
-            Err(e) => Err(e),
+    pub fn new() -> Config {
+        let storage_directory = Config::get_storage_path();
+        let mut template_path = storage_directory.clone();
+        template_path.push(".template");
+
+        Config {
+            storage_directory,
+            template_path,
         }
     }
 
-    fn get_storage_path() -> Result<PathBuf, String> {
+    fn get_storage_path() -> PathBuf {
         let env_path = env::var(NOTES_STORAGE_DIRECTORY).map(|path_str| PathBuf::from(path_str));
         let mut alternative = dirs::home_dir().unwrap_or(PathBuf::from("/tmp"));
         alternative.push(".notes");
 
         match env_path {
-            Ok(path) => return Ok(path),
-            _ => {
-
-                Ok(alternative)
-            }
+            Ok(repository_path) => repository_path,
+            _ => alternative
         }
     }
 }

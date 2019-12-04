@@ -4,6 +4,7 @@ use docopt::{Docopt, Error};
 use serde::Deserialize;
 
 use crate::commands::Command;
+use crate::default_error::DefaultError;
 
 const USAGE: &'static str = "
 Notes 🚀 🚀 🚀
@@ -32,17 +33,17 @@ struct CommandLineArgs {
     arg_id: usize,
 }
 
-pub fn parse_arguments(args: Args) -> Result<Command, String> {
+pub fn parse_arguments(args: Args) -> Result<Command, DefaultError> {
     let parser = Docopt::new(USAGE).unwrap().argv(args);
     let args: Result<CommandLineArgs, Error> = parser.deserialize();
 
     match args {
         Ok(args) => build_command(args),
-        Err(error) => Err(error.to_string()),
+        Err(error) => Err(DefaultError { message: error.to_string() }),
     }
 }
 
-fn build_command(args: CommandLineArgs) -> Result<Command, String> {
+fn build_command(args: CommandLineArgs) -> Result<Command, DefaultError> {
     if args.cmd_list {
         return Ok(Command::List);
     }
@@ -63,7 +64,7 @@ fn build_command(args: CommandLineArgs) -> Result<Command, String> {
         });
     }
 
-    Err(String::from("Bad command"))
+    Err(DefaultError { message: String::from("Bad command") })
 }
 
 #[cfg(test)]

@@ -1,13 +1,16 @@
+use core::fmt;
 use std::error::Error;
+use std::fmt::Display;
 use std::fs;
 use std::fs::{DirEntry, File};
+use std::io::Write;
 use std::path::PathBuf;
 
 use chrono::Utc;
 
 use crate::config::Config;
-use crate::shell::{ShellError, ShellHelper};
-use std::io::Write;
+use crate::shell::ShellHelper;
+use crate::default_error::DefaultError;
 
 #[derive(Debug)]
 pub enum Command {
@@ -26,8 +29,9 @@ impl CommandHandler {
         CommandHandler { config }
     }
 
-    pub fn apply_command(&mut self, command: Command) -> Result<(), CommandError> {
+    pub fn apply_command(& self, command: Command) -> Result<(), DefaultError> {
         self.ensure_note_repo_exists();
+        self.ensure_note_template_exists();
 
         match command {
             Command::List => self.list_notes(),
@@ -37,21 +41,24 @@ impl CommandHandler {
         }
     }
 
-    fn list_notes(&self)-> Result<(), CommandError>  {
+    fn list_notes(&self) -> Result<(), DefaultError> {
         // TODO: implement
         Ok(())
     }
 
-    fn new_note(&self, title: String) -> Result<(), CommandError> {
+    fn new_note(&self, title: String) -> Result<(), DefaultError> {
         let now = Utc::now().format("%Y-%m-%d_%H-%M-%S");
         let note_name = format!("note_{}_{}.md", now, title);
         let mut note_path = self.config.storage_directory.clone();
         note_path.push(note_name);
+
+        fs::copy("foo.txt", &note_path)?;
+
         self.edit_file(note_path);
         Ok(())
     }
 
-    fn edit_note(&self, id: usize) -> Result<(), CommandError> {
+    fn edit_note(&self, id: usize) -> Result<(), DefaultError> {
         let files: Vec<DirEntry> = fs::read_dir(&self.config.storage_directory).unwrap()
             .filter(|entry| entry.is_ok())
             .map(|entry| entry.unwrap())
@@ -61,43 +68,26 @@ impl CommandHandler {
         Ok(())
     }
 
-    fn search(&mut self, _pattern: String) -> Result<(), CommandError> {
+    fn search(&self, _pattern: String) -> Result<(), DefaultError> {
         // TODO: implement
         Ok(())
     }
 
-    fn edit_file(&self, file_path: PathBuf) -> Result<(), CommandError> {
+    fn edit_file(&self, file_path: PathBuf) -> Result<(), DefaultError> {
         ShellHelper::execute(format!("vim {}", file_path.to_str().unwrap()))?;
         Ok(())
     }
 
-    fn ensure_note_repo_exists(&self) -> Result<(), CommandError> {
+    fn ensure_note_repo_exists(&self) -> Result<(), DefaultError> {
         fs::create_dir_all(&self.config.storage_directory)?;
-        let mut template = self.config.storage_directory.clone();
-        template.push(".template");
-        if !template.exists() {
-            let mut file = File::create(&template)?;
-            file.write_all(b" # Title \n\n\n Here we go !\n\n")?;
-        }
         Ok(())
     }
 
-}
-
-#[derive(Debug, PartialEq)]
-pub enum CommandError {
-    GenericError(String), // TODO: improve
-}
-
-impl From<std::io::Error> for CommandError {
-    fn from(error: std::io::Error) -> CommandError {
-        CommandError::GenericError(String::from(error.description()))
-    }
-}
-
-impl From<ShellError> for CommandError {
-    fn from(error: ShellError) -> CommandError {
-        let ShellError::GenericError { message } = error;
-        CommandError::GenericError(message)
+    fn ensure_note_template_exists(&self) -> Result<(), DefaultError> {
+        if !self.config.template_path.exists() {
+            let mut file = File::create(&self.config.template_path)?;
+            file.write_all(b" # Title \n\n\n Here we go !\n\n")?;
+        }
+        Ok(())
     }
 }
