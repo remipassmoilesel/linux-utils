@@ -26,6 +26,8 @@ impl CommandHandler {
     }
 
     pub fn apply_command(&mut self, command: Command) -> Result<(), CommandError> {
+        self.ensure_note_repo_exists();
+
         match command {
             Command::List => self.list_notes(),
             Command::NewNote { title } => self.new_note(title),
@@ -65,6 +67,11 @@ impl CommandHandler {
 
     fn edit_file(&self, file_path: PathBuf) -> Result<(), CommandError> {
         ShellHelper::execute(format!("vim {}", file_path.to_str().unwrap()))?;
+        Ok(())
+    }
+
+    fn ensure_note_repo_exists(&self) -> Result<(), CommandError> {
+        fs::create_dir_all(&self.config.storage_directory)?;
         Ok(())
     }
 }
