@@ -1,12 +1,13 @@
 use std::error::Error;
 use std::fs;
-use std::fs::{DirEntry, ReadDir};
+use std::fs::{DirEntry, File};
 use std::path::PathBuf;
 
 use chrono::Utc;
 
 use crate::config::Config;
 use crate::shell::{ShellError, ShellHelper};
+use std::io::Write;
 
 #[derive(Debug)]
 pub enum Command {
@@ -72,8 +73,15 @@ impl CommandHandler {
 
     fn ensure_note_repo_exists(&self) -> Result<(), CommandError> {
         fs::create_dir_all(&self.config.storage_directory)?;
+        let mut template = self.config.storage_directory.clone();
+        template.push(".template");
+        if !template.exists() {
+            let mut file = File::create(&template)?;
+            file.write_all(b" # Title \n\n\n Here we go !\n\n")?;
+        }
         Ok(())
     }
+
 }
 
 #[derive(Debug, PartialEq)]
