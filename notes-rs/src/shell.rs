@@ -15,7 +15,7 @@ impl ShellHelper {
         let status_code = shell_command.status()?;
         match status_code.success() {
             true => Ok(()),
-            false => Err(DefaultError { message: format!("Exited with code {}", status_code.code().unwrap_or(-1)) }),
+            false => Err(DefaultError::new(format!("Exited with code {}", status_code.code().unwrap_or(-1)))),
         }
     }
 }

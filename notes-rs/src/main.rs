@@ -1,3 +1,4 @@
+#![feature(backtrace)]
 use ::std::process;
 
 use argument_parser::parse_arguments;
@@ -18,7 +19,7 @@ mod default_error;
 fn main() {
     let result = parse_and_apply_command();
     if result.is_err() {
-        terminate(result.unwrap_err().message)
+        terminate(result.unwrap_err())
     }
 }
 
@@ -30,7 +31,8 @@ fn parse_and_apply_command() -> Result<(), DefaultError> {
     Ok(())
 }
 
-fn terminate(message: String) {
-    Logger::error(format!("{}", message));
+fn terminate(error: DefaultError) {
+    Logger::error(format!("{}", error));
+    Logger::error(format!("{}", error.backtrace.unwrap_or("".to_string())));
     process::exit(1);
 }

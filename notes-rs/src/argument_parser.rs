@@ -39,7 +39,7 @@ pub fn parse_arguments(args: Args) -> Result<Command, DefaultError> {
 
     match args {
         Ok(args) => build_command(args),
-        Err(error) => Err(DefaultError { message: error.to_string() }),
+        Err(error) => Err(DefaultError::new(error.to_string())),
     }
 }
 
@@ -64,7 +64,7 @@ fn build_command(args: CommandLineArgs) -> Result<Command, DefaultError> {
         });
     }
 
-    Err(DefaultError { message: String::from("Bad command") })
+    Err(DefaultError::new(String::from("Bad command")))
 }
 
 #[cfg(test)]

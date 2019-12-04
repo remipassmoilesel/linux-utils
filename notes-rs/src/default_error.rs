@@ -1,10 +1,21 @@
-use std::fmt::Display;
 use core::fmt;
+use std::backtrace::Backtrace;
 use std::error::Error;
+use std::fmt::Display;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug)]
 pub struct DefaultError {
     pub message: String,
+    pub backtrace: Option<String>,
+}
+
+impl DefaultError {
+    pub fn new(message: String) -> DefaultError {
+        DefaultError {
+            message,
+            backtrace: None,
+        }
+    }
 }
 
 impl Display for DefaultError {
@@ -15,6 +26,6 @@ impl Display for DefaultError {
 
 impl From<std::io::Error> for DefaultError {
     fn from(error: std::io::Error) -> DefaultError {
-        DefaultError { message: String::from(error.description()) }
+        DefaultError { message: String::from(error.description()), backtrace: error.backtrace().map(|bt| format!("{:?}", error.backtrace())) }
     }
 }
