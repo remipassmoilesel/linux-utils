@@ -1,5 +1,5 @@
 use core::fmt;
-use std::backtrace::Backtrace;
+
 use std::error::Error;
 use std::fmt::Display;
 

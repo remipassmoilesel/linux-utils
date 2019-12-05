@@ -4,10 +4,10 @@ use docopt::{Docopt, Error};
 use serde::Deserialize;
 
 use crate::commands::Command;
-use crate::config::Config;
+
 use crate::helpers::default_error::DefaultError;
-use crate::helpers::shell::ShellHelper;
-use crate::note::Note;
+
+
 
 const USAGE: &'static str = "
 Notes 🚀 🚀 🚀

@@ -1,7 +1,5 @@
 extern crate regex;
 
-
-use std::io::prelude::*;
 use std::path::PathBuf;
 
 const DATE_FORMAT: &'static str = "%Y-%m-%d %H:%M";
@@ -47,11 +45,11 @@ impl Note {
         })
     }
 
-    pub fn contains(&self, needle: &String) -> bool {
+    pub fn contains(&self, _needle: &String) -> bool {
         true
     }
 
-    pub fn search_and_print(&self, needle: &String) -> () {
+    pub fn search_and_print(&self, _needle: &String) -> () {
         println!("{}", self.title);
         println!("{}", self.content.join("\ns"));
         ()

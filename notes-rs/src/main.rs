@@ -25,7 +25,7 @@ fn parse_and_apply_command() -> Result<(), DefaultError> {
     let config = Config::new();
     let command_handler = CommandHandler::new(config.clone());
     let command = ArgumentParser::new().parse_arguments(std::env::args())?;
-    let command_result = command_handler.apply_command(command)?;
+    let _command_result = command_handler.apply_command(command)?;
     Ok(())
 }
 

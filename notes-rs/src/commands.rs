@@ -1,14 +1,13 @@
-use core::fmt;
-use std::error::Error;
-use std::fmt::Display;
 use std::fs;
 use std::fs::{DirEntry, File};
 use std::io::Write;
 use std::path::PathBuf;
 
 use chrono::Utc;
-use crate::helpers::default_error::DefaultError;
+
 use crate::config::Config;
+use crate::helpers::default_error::DefaultError;
+
 use crate::helpers::shell::ShellHelper;
 use crate::note::Note;
 
@@ -30,8 +29,8 @@ impl CommandHandler {
     }
 
     pub fn apply_command(&self, command: Command) -> Result<(), DefaultError> {
-        self.ensure_note_repo_exists();
-        self.ensure_note_template_exists();
+        self.ensure_note_repo_exists()?;
+        self.ensure_note_template_exists()?;
 
         match command {
             Command::NewNote { title } => self.new_note(title),
@@ -47,7 +46,7 @@ impl CommandHandler {
         let mut note_path = self.config.storage_directory.clone();
         note_path.push(note_name);
         fs::copy(&self.config.template_path, &note_path)?;
-        self.edit_file(&note_path);
+        self.edit_file(&note_path)?;
         Ok(())
     }
 
@@ -65,7 +64,7 @@ impl CommandHandler {
     fn edit_note(&self, id: usize) -> Result<(), DefaultError> {
         let notes: Vec<Note> = self.get_note_list();
         let to_edit = notes.get(id).unwrap();
-        self.edit_file(&to_edit.path);
+        self.edit_file(&to_edit.path)?;
         Ok(())
     }
 
@@ -94,8 +93,7 @@ impl CommandHandler {
     }
 
     fn edit_file(&self, file_path: &PathBuf) -> Result<(), DefaultError> {
-        ShellHelper::execute(format!("vim {}", file_path.to_str().unwrap()))?;
-        Ok(())
+        ShellHelper::execute(format!("vim {}", file_path.to_str().unwrap()))
     }
 
     fn ensure_note_repo_exists(&self) -> Result<(), DefaultError> {
