@@ -30,7 +30,7 @@ impl Config {
 
         match env_path {
             Ok(repository_path) => repository_path,
-            _ => alternative
+            _ => alternative,
         }
     }
 }

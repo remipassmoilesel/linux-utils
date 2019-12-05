@@ -7,6 +7,7 @@ use chrono::Utc;
 
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
+use crate::helpers::log::Log;
 use crate::helpers::shell::ShellHelper;
 use crate::note::Note;
 
@@ -50,8 +51,18 @@ impl CommandHandler {
 
     fn search(&self, needle: String) -> Result<(), DefaultError> {
         let mut notes: Vec<Note> = self.get_note_list();
-        notes.sort_by(|a, b| b.score(&needle).cmp(&a.score(&needle)));
-        notes.iter().for_each(|note| note.search_and_print(&needle));
+        let mut scored: Vec<(usize, &Note)> = notes
+            .iter()
+            .map(|note| (note.score(&needle), note))
+            .filter(|(score, _)| score.ne(&0))
+            .collect();
+        scored.sort_by(|(score_a, _), (score_b, _)| score_b.cmp(&score_a));
+        scored
+            .iter()
+            .for_each(|(score, note)| note.search_and_print(&needle, score));
+        if scored.is_empty() {
+            Log::info(format!("Nothing found for: {}", needle));
+        }
         Ok(())
     }
 
@@ -70,13 +81,23 @@ impl CommandHandler {
     }
 
     fn get_note_list(&self) -> Vec<Note> {
-        let dir_entries: Vec<DirEntry> = fs::read_dir(&self.config.storage_directory).unwrap().filter_map(Result::ok).collect();
+        let dir_entries: Vec<DirEntry> = fs::read_dir(&self.config.storage_directory)
+            .unwrap()
+            .filter_map(Result::ok)
+            .collect();
 
-        let res = dir_entries.iter()
+        let res = dir_entries
+            .iter()
             .map(|file| {
-                let id = dir_entries.iter().position(|x| x.path() == file.path()).unwrap();
+                let id = dir_entries
+                    .iter()
+                    .position(|x| x.path() == file.path())
+                    .unwrap();
                 let path: PathBuf = file.path();
-                let content = fs::read_to_string(file.path()).unwrap_or(format!("Error while reading file: {}", path.to_str().unwrap()));
+                let content = fs::read_to_string(file.path()).unwrap_or(format!(
+                    "Error while reading file: {}",
+                    path.to_str().unwrap()
+                ));
                 (id, path, content)
             })
             .map(|(id, path, content)| Note::from(id, path, content))
@@ -97,7 +118,7 @@ impl CommandHandler {
     fn ensure_note_template_exists(&self) -> Result<(), DefaultError> {
         if !self.config.template_path.exists() {
             let mut file = File::create(&self.config.template_path)?;
-            file.write_all(b"# Title\n\n\nHere we go !\n\n")?;
+            file.write_all(b"# Note template\n\nHere we go !\n\n")?;
         }
         Ok(())
     }

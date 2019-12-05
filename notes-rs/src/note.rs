@@ -2,6 +2,7 @@ extern crate regex;
 
 use std::path::PathBuf;
 
+use crate::helpers::log::Log;
 use regex::Regex;
 
 const DATE_FORMAT: &'static str = "%Y-%m-%d %H:%M";
@@ -51,27 +52,34 @@ impl Note {
         let re = Regex::new(needle).unwrap();
         let match_in_title = match re.is_match(&self.title) {
             true => 4,
-            false => 0
+            false => 0,
         };
-        let match_in_body: usize = self.content.iter()
+        let match_in_body: usize = self
+            .content
+            .iter()
             .map(|line| match re.is_match(line) {
                 true => 1,
-                false => 0
+                false => 0,
             })
             .sum();
         match_in_title + match_in_body
     }
 
-    pub fn search_and_print(&self, _needle: &String) -> () {
+    pub fn search_and_print(&self, needle: &String, score: &usize) -> () {
         use colored::*;
-        println!("{}", self.title.blue());
-        println!("{}", self.content.join("\n"));
+        Log::log(format!("{}", self.title.blue()));
+        Log::log(format!("{}", self.content.join("\n")));
+        Log::log(format!("Score: {}", score.to_string().dimmed()));
         ()
     }
 
     pub fn print_as_list(&self) -> () {
         use colored::*;
-        println!("{}: {}", self.id.to_string(), self.title);
+        Log::log(format!(
+            " - {} - {}",
+            self.id.to_string().green(),
+            self.title
+        ));
         ()
     }
 }
@@ -80,5 +88,5 @@ impl Note {
 mod tests {
     use super::*;
 
-// TODO: test
+    // TODO: test
 }

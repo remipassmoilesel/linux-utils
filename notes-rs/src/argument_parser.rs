@@ -7,8 +7,6 @@ use crate::commands::Command;
 
 use crate::helpers::default_error::DefaultError;
 
-
-
 const USAGE: &'static str = "
 Notes 🚀 🚀 🚀
 
@@ -69,7 +67,9 @@ impl ArgumentParser {
         }
 
         if args.cmd_search {
-            return Ok(Command::Search { needle: args.arg_needle });
+            return Ok(Command::Search {
+                needle: args.arg_needle,
+            });
         }
 
         Err(DefaultError::new(String::from("Bad command")))

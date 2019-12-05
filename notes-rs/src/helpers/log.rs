@@ -2,9 +2,12 @@ extern crate colored;
 
 use colored::*;
 
-pub struct Logger;
+pub struct Log;
 
-impl Logger {
+impl Log {
+    pub fn log(message: String) {
+        println!("{}", message);
+    }
 
     pub fn info(message: String) {
         print!("{}\n", String::from(message).blue());

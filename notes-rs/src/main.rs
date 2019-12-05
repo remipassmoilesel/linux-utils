@@ -6,12 +6,12 @@ use crate::argument_parser::ArgumentParser;
 use crate::commands::CommandHandler;
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
-use crate::helpers::logger::Logger;
+use crate::helpers::log::Log;
 
-mod helpers;
 mod argument_parser;
 mod commands;
 mod config;
+mod helpers;
 mod note;
 
 fn main() {
@@ -30,7 +30,7 @@ fn parse_and_apply_command() -> Result<(), DefaultError> {
 }
 
 fn terminate(error: DefaultError) {
-    Logger::error(format!("{}", error));
-    Logger::error(format!("{}", error.backtrace.unwrap_or("".to_string())));
+    Log::error(format!("{}", error));
+    Log::error(format!("{}", error.backtrace.unwrap_or("".to_string())));
     process::exit(1);
 }
