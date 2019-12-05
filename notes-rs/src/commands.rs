@@ -7,7 +7,6 @@ use chrono::Utc;
 
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
-
 use crate::helpers::shell::ShellHelper;
 use crate::note::Note;
 
@@ -46,26 +45,20 @@ impl CommandHandler {
         let mut note_path = self.config.storage_directory.clone();
         note_path.push(note_name);
         fs::copy(&self.config.template_path, &note_path)?;
-        self.edit_file(&note_path)?;
-        Ok(())
+        self.edit_file(&note_path)
     }
 
     fn search(&self, needle: String) -> Result<(), DefaultError> {
-        let notes: Vec<Note> = self.get_note_list();
-
-        for note in notes {
-            if note.contains(&needle) {
-                note.search_and_print(&needle);
-            }
-        }
+        let mut notes: Vec<Note> = self.get_note_list();
+        notes.sort_by(|a, b| b.score(&needle).cmp(&a.score(&needle)));
+        notes.iter().for_each(|note| note.search_and_print(&needle));
         Ok(())
     }
 
     fn edit_note(&self, id: usize) -> Result<(), DefaultError> {
         let notes: Vec<Note> = self.get_note_list();
         let to_edit = notes.get(id).unwrap();
-        self.edit_file(&to_edit.path)?;
-        Ok(())
+        self.edit_file(&to_edit.path)
     }
 
     fn list_notes(&self) -> Result<(), DefaultError> {
@@ -104,7 +97,7 @@ impl CommandHandler {
     fn ensure_note_template_exists(&self) -> Result<(), DefaultError> {
         if !self.config.template_path.exists() {
             let mut file = File::create(&self.config.template_path)?;
-            file.write_all(b" # Title\n\n\nHere we go !\n\n")?;
+            file.write_all(b"# Title\n\n\nHere we go !\n\n")?;
         }
         Ok(())
     }

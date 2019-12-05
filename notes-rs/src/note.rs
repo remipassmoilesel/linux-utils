@@ -2,6 +2,8 @@ extern crate regex;
 
 use std::path::PathBuf;
 
+use regex::Regex;
+
 const DATE_FORMAT: &'static str = "%Y-%m-%d %H:%M";
 
 // TODO: add date
@@ -45,18 +47,31 @@ impl Note {
         })
     }
 
-    pub fn contains(&self, _needle: &String) -> bool {
-        true
+    pub fn score(&self, needle: &String) -> usize {
+        let re = Regex::new(needle).unwrap();
+        let match_in_title = match re.is_match(&self.title) {
+            true => 4,
+            false => 0
+        };
+        let match_in_body: usize = self.content.iter()
+            .map(|line| match re.is_match(line) {
+                true => 1,
+                false => 0
+            })
+            .sum();
+        match_in_title + match_in_body
     }
 
     pub fn search_and_print(&self, _needle: &String) -> () {
-        println!("{}", self.title);
-        println!("{}", self.content.join("\ns"));
+        use colored::*;
+        println!("{}", self.title.blue());
+        println!("{}", self.content.join("\n"));
         ()
     }
 
     pub fn print_as_list(&self) -> () {
-        println!("{}: {}", self.id, self.title);
+        use colored::*;
+        println!("{}: {}", self.id.to_string(), self.title);
         ()
     }
 }
