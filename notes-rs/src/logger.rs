@@ -10,6 +10,10 @@ impl Logger {
         print!("{}\n", String::from(message).blue());
     }
 
+    pub fn warn(message: String) {
+        print!("{}\n", String::from(message).yellow());
+    }
+
     pub fn dimmed(message: String) {
         print!("{}\n", String::from(message).dimmed());
     }

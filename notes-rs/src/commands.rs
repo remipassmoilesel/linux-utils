@@ -10,6 +10,7 @@ use chrono::Utc;
 
 use crate::config::Config;
 use crate::default_error::DefaultError;
+use crate::note::Note;
 use crate::shell::ShellHelper;
 
 #[derive(Debug)]
@@ -17,7 +18,7 @@ pub enum Command {
     List,
     NewNote { title: String },
     EditNote { id: usize },
-    Search { pattern: String },
+    Search { needle: String },
 }
 
 pub struct CommandHandler {
@@ -34,19 +35,11 @@ impl CommandHandler {
         self.ensure_note_template_exists();
 
         match command {
-            Command::List => self.list_notes(),
             Command::NewNote { title } => self.new_note(title),
+            Command::Search { needle } => self.search(needle),
             Command::EditNote { id } => self.edit_note(id),
-            Command::Search { pattern } => self.search(pattern),
+            Command::List => self.list_notes(),
         }
-    }
-
-    fn list_notes(&self) -> Result<(), DefaultError> {
-        let files = self.get_note_list();
-        for (index, file) in files.iter().enumerate() {
-            println!("{} {}", index, file.file_name().to_str().unwrap())
-        }
-        Ok(())
     }
 
     fn new_note(&self, title: String) -> Result<(), DefaultError> {
@@ -55,31 +48,53 @@ impl CommandHandler {
         let mut note_path = self.config.storage_directory.clone();
         note_path.push(note_name);
         fs::copy(&self.config.template_path, &note_path)?;
-        self.edit_file(note_path);
+        self.edit_file(&note_path);
+        Ok(())
+    }
+
+    fn search(&self, needle: String) -> Result<(), DefaultError> {
+        let notes: Vec<Note> = self.get_note_list();
+
+        for note in notes {
+            if note.contains(&needle) {
+                note.search_and_print(&needle);
+            }
+        }
         Ok(())
     }
 
     fn edit_note(&self, id: usize) -> Result<(), DefaultError> {
-        let files: Vec<DirEntry> = self.get_note_list();
-        let to_edit = files.get(id).unwrap();
-        self.edit_file(to_edit.path());
+        let notes: Vec<Note> = self.get_note_list();
+        let to_edit = notes.get(id).unwrap();
+        self.edit_file(&to_edit.path);
         Ok(())
     }
 
-    fn search(&self, _pattern: String) -> Result<(), DefaultError> {
-        // TODO: implement
+    fn list_notes(&self) -> Result<(), DefaultError> {
+        let files = self.get_note_list();
+        for file in files {
+            file.print_as_list();
+        }
         Ok(())
     }
 
-    fn get_note_list(&self) -> Vec<DirEntry> {
-        let res: Vec<DirEntry> = fs::read_dir(&self.config.storage_directory).unwrap()
-            .filter(|entry| entry.is_ok())
-            .map(|entry| entry.unwrap())
-            .into_iter().collect();
+    fn get_note_list(&self) -> Vec<Note> {
+        let dir_entries: Vec<DirEntry> = fs::read_dir(&self.config.storage_directory).unwrap().filter_map(Result::ok).collect();
+
+        let res = dir_entries.iter()
+            .map(|file| {
+                let id = dir_entries.iter().position(|x| x.path() == file.path()).unwrap();
+                let path: PathBuf = file.path();
+                let content = fs::read_to_string(file.path()).unwrap_or(format!("Error while reading file: {}", path.to_str().unwrap()));
+                (id, path, content)
+            })
+            .map(|(id, path, content)| Note::from(id, path, content))
+            .filter_map(Result::ok)
+            .collect();
         res
     }
 
-    fn edit_file(&self, file_path: PathBuf) -> Result<(), DefaultError> {
+    fn edit_file(&self, file_path: &PathBuf) -> Result<(), DefaultError> {
         ShellHelper::execute(format!("vim {}", file_path.to_str().unwrap()))?;
         Ok(())
     }

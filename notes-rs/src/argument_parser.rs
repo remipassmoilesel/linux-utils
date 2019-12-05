@@ -13,7 +13,7 @@ Usage:
   notes list
   notes new <title>
   notes edit <id>
-  notes search <pattern>
+  notes search <needle>
   notes help
 
 Options:
@@ -29,7 +29,7 @@ struct CommandLineArgs {
     cmd_search: bool,
     cmd_help: bool,
     arg_title: String,
-    arg_pattern: String,
+    arg_needle: String,
     arg_id: usize,
 }
 
@@ -59,9 +59,7 @@ fn build_command(args: CommandLineArgs) -> Result<Command, DefaultError> {
     }
 
     if args.cmd_search {
-        return Ok(Command::Search {
-            pattern: args.arg_pattern,
-        });
+        return Ok(Command::Search { needle: args.arg_needle });
     }
 
     Err(DefaultError::new(String::from("Bad command")))

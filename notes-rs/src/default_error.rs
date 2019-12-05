@@ -26,6 +26,6 @@ impl Display for DefaultError {
 
 impl From<std::io::Error> for DefaultError {
     fn from(error: std::io::Error) -> DefaultError {
-        DefaultError { message: String::from(error.description()), backtrace: error.backtrace().map(|bt| format!("{:?}", error.backtrace())) }
+        DefaultError { message: String::from(error.description()), backtrace: error.backtrace().map(|bt| format!("{:?}", bt)) }
     }
 }
