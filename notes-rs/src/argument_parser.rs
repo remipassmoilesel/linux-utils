@@ -4,7 +4,10 @@ use docopt::{Docopt, Error};
 use serde::Deserialize;
 
 use crate::commands::Command;
-use crate::default_error::DefaultError;
+use crate::config::Config;
+use crate::helpers::default_error::DefaultError;
+use crate::helpers::shell::ShellHelper;
+use crate::note::Note;
 
 const USAGE: &'static str = "
 Notes 🚀 🚀 🚀
@@ -33,36 +36,44 @@ struct CommandLineArgs {
     arg_id: usize,
 }
 
-pub fn parse_arguments(args: Args) -> Result<Command, DefaultError> {
-    let parser = Docopt::new(USAGE).unwrap().argv(args);
-    let args: Result<CommandLineArgs, Error> = parser.deserialize();
+pub struct ArgumentParser;
 
-    match args {
-        Ok(args) => build_command(args),
-        Err(error) => Err(DefaultError::new(error.to_string())),
-    }
-}
-
-fn build_command(args: CommandLineArgs) -> Result<Command, DefaultError> {
-    if args.cmd_list {
-        return Ok(Command::List);
+impl ArgumentParser {
+    pub fn new() -> ArgumentParser {
+        ArgumentParser
     }
 
-    if args.cmd_new {
-        return Ok(Command::NewNote {
-            title: args.arg_title.clone(),
-        });
+    pub fn parse_arguments(&self, args: Args) -> Result<Command, DefaultError> {
+        let parser = Docopt::new(USAGE).unwrap().argv(args);
+        let args: Result<CommandLineArgs, Error> = parser.deserialize();
+
+        match args {
+            Ok(args) => self.build_command(args),
+            Err(error) => Err(DefaultError::new(error.to_string())),
+        }
     }
 
-    if args.cmd_edit {
-        return Ok(Command::EditNote { id: args.arg_id });
-    }
+    fn build_command(&self, args: CommandLineArgs) -> Result<Command, DefaultError> {
+        if args.cmd_list {
+            return Ok(Command::List);
+        }
 
-    if args.cmd_search {
-        return Ok(Command::Search { needle: args.arg_needle });
-    }
+        if args.cmd_new {
+            return Ok(Command::NewNote {
+                title: args.arg_title.clone(),
+            });
+        }
 
-    Err(DefaultError::new(String::from("Bad command")))
+        if args.cmd_edit {
+            return Ok(Command::EditNote { id: args.arg_id });
+        }
+
+        if args.cmd_search {
+            return Ok(Command::Search { needle: args.arg_needle });
+        }
+
+        Err(DefaultError::new(String::from("Bad command")))
+    }
 }
 
 #[cfg(test)]

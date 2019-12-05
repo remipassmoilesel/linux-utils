@@ -1,8 +1,8 @@
 use std::error::Error;
 use std::process::Command;
 
-use crate::default_error::DefaultError;
-use crate::logger::Logger;
+use crate::helpers::default_error::DefaultError;
+use crate::helpers::logger::Logger;
 
 pub struct ShellHelper;
 

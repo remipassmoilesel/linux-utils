@@ -7,11 +7,10 @@ use std::io::Write;
 use std::path::PathBuf;
 
 use chrono::Utc;
-
+use crate::helpers::default_error::DefaultError;
 use crate::config::Config;
-use crate::default_error::DefaultError;
+use crate::helpers::shell::ShellHelper;
 use crate::note::Note;
-use crate::shell::ShellHelper;
 
 #[derive(Debug)]
 pub enum Command {

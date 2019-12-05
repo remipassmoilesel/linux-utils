@@ -3,9 +3,6 @@ extern crate dirs;
 use std::env;
 use std::path::PathBuf;
 
-use crate::default_error::DefaultError;
-use crate::logger::Logger;
-
 pub const NOTES_STORAGE_DIRECTORY: &str = "NOTES_STORAGE_DIRECTORY";
 
 #[derive(Debug, Clone)]
