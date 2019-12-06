@@ -59,7 +59,9 @@ impl CommandHandler {
         scored.sort_by(|(score_a, _), (score_b, _)| score_b.cmp(&score_a));
         scored
             .iter()
-            .for_each(|(score, note)| note.search_and_print(&needle, score));
+            .map(|(score, note)| note.search(&needle, score))
+            .for_each(|search_result| println!("{}", search_result));
+
         if scored.is_empty() {
             Log::info(format!("Nothing found for: {}", needle));
         }

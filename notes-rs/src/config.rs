@@ -43,23 +43,21 @@ mod tests {
     fn should_return_path_from_env_var() {
         env::set_var(NOTES_STORAGE_DIRECTORY, "/path/to/dir");
         let config = Config::new();
-        assert_eq!(
-            config.unwrap().storage_directory,
-            PathBuf::from("/path/to/dir")
-        )
+        assert_eq!(config.storage_directory, PathBuf::from("/path/to/dir"))
     }
 
     #[test]
     fn should_return_path_from_home() {
         env::remove_var(NOTES_STORAGE_DIRECTORY);
         let config = Config::new();
-        let path_str: String = config
-            .unwrap()
-            .storage_directory
-            .to_str()
-            .unwrap()
-            .to_string();
-        assert!(path_str.starts_with("/home"));
-        assert!(path_str.ends_with(".notes"));
+        let path_str: String = config.storage_directory.to_str().unwrap().to_string();
+        assert!(
+            path_str.starts_with("/home"),
+            format!("Path must start with /home {}", path_str)
+        );
+        assert!(
+            path_str.ends_with(".notes"),
+            format!("Path must end with .notes {}", path_str)
+        );
     }
 }

@@ -2,8 +2,9 @@ extern crate regex;
 
 use std::path::PathBuf;
 
+use regex::{Regex, RegexBuilder};
+
 use crate::helpers::log::Log;
-use regex::Regex;
 
 const DATE_FORMAT: &'static str = "%Y-%m-%d %H:%M";
 
@@ -49,7 +50,7 @@ impl Note {
     }
 
     pub fn score(&self, needle: &String) -> usize {
-        let re = Regex::new(needle).unwrap();
+        let re = self.build_needle_regex(needle);
         let match_in_title = match re.is_match(&self.title) {
             true => 4,
             false => 0,
@@ -65,12 +66,12 @@ impl Note {
         match_in_title + match_in_body
     }
 
-    pub fn search_and_print(&self, needle: &String, score: &usize) -> () {
+    pub fn search(&self, needle: &String, score: &usize) -> String {
         use colored::*;
-        Log::log(format!("{}", self.title.blue()));
-        Log::log(format!("{}", self.content.join("\n")));
-        Log::log(format!("Score: {}", score.to_string().dimmed()));
-        ()
+        let title = format!("{}", self.title.blue());
+        let content = format!("{}", self.content.join("\n"));
+        let score = format!("Score: {}", score.to_string().dimmed());
+        format!("{}\n{}\n{}\n", title, content, score)
     }
 
     pub fn print_as_list(&self) -> () {
@@ -82,11 +83,28 @@ impl Note {
         ));
         ()
     }
+
+    fn build_needle_regex(&self, needle: &String) -> Regex {
+        RegexBuilder::new(&format!(".*{}.*", needle))
+            .case_insensitive(true)
+            .build()
+            .unwrap()
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    // TODO: test
+    #[test]
+    pub fn score() -> () {
+        let note = Note::from(
+            0,
+            PathBuf::from("/tmp/note-1.txt"),
+            "# SSH\nA note about SSH\n".to_string(),
+        )
+        .ok()
+        .unwrap();
+        assert_eq!(note.score(&"ssh".to_string()), 5);
+    }
 }
