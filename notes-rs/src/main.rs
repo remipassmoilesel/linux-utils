@@ -8,7 +8,7 @@ use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
 use crate::helpers::log::Log;
 use crate::repository::Repository;
-use crate::usage::SMALL_BANNER;
+
 
 mod argument_parser;
 mod commands;

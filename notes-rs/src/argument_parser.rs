@@ -1,6 +1,6 @@
 use std::env::Args;
 
-use docopt::{Docopt, Error};
+use docopt::{Docopt};
 use serde::Deserialize;
 
 use crate::commands::Command;

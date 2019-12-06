@@ -1,14 +1,12 @@
 use std::fs;
-use std::fs::{DirEntry, File};
-use std::io::Write;
-use std::path::PathBuf;
+
+
 
 use chrono::Utc;
 
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
 use crate::helpers::log::Log;
-use crate::helpers::shell::ShellHelper;
 use crate::note::Note;
 use crate::repository::Repository;
 use crate::usage::USAGE;
