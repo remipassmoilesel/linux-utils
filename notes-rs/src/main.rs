@@ -8,12 +8,14 @@ use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
 use crate::helpers::log::Log;
 use crate::usage::SMALL_BANNER;
+use crate::repository::Repository;
 
 mod argument_parser;
 mod commands;
 mod config;
 mod helpers;
 mod note;
+mod repository;
 mod usage;
 
 fn main() {
@@ -26,9 +28,14 @@ fn main() {
 
 fn parse_and_apply_command() -> Result<(), DefaultError> {
     let config = Config::new();
-    let command_handler = CommandHandler::new(config.clone());
+
+    let repository = Repository::new(config.clone());
+    repository.init_repo()?;
+
+    let command_handler = CommandHandler::new(config.clone(), repository);
     let command = ArgumentParser::new().parse_arguments(std::env::args())?;
-    let _command_result = command_handler.apply_command(command)?;
+    command_handler.apply_command(command)?;
+
     Ok(())
 }
 

@@ -11,6 +11,7 @@ use crate::helpers::log::Log;
 use crate::helpers::shell::ShellHelper;
 use crate::note::Note;
 use crate::usage::USAGE;
+use crate::repository::Repository;
 
 #[derive(Debug)]
 pub enum Command {
@@ -23,17 +24,15 @@ pub enum Command {
 
 pub struct CommandHandler {
     config: Config,
+    repository: Repository,
 }
 
 impl CommandHandler {
-    pub fn new(config: Config) -> CommandHandler {
-        CommandHandler { config }
+    pub fn new(config: Config, repository: Repository) -> CommandHandler {
+        CommandHandler { config, repository }
     }
 
     pub fn apply_command(&self, command: Command) -> Result<(), DefaultError> {
-        self.ensure_note_repo_exists()?;
-        self.ensure_note_template_exists()?;
-
         match command {
             Command::NewNote { title } => self.new_note(title),
             Command::Search { needle } => self.search(needle),
@@ -49,11 +48,11 @@ impl CommandHandler {
         let mut note_path = self.config.storage_directory.clone();
         note_path.push(note_name);
         fs::copy(&self.config.template_path, &note_path)?;
-        self.edit_file(&note_path)
+        self.repository.edit_file(&note_path)
     }
 
     fn search(&self, needle: String) -> Result<(), DefaultError> {
-        let notes: Vec<Note> = self.get_note_list();
+        let notes: Vec<Note> = self.repository.get_note_list();
         let mut scored: Vec<(usize, &Note)> = notes
             .iter()
             .map(|note| (note.score(&needle), note))
@@ -72,13 +71,13 @@ impl CommandHandler {
     }
 
     fn edit_note(&self, id: usize) -> Result<(), DefaultError> {
-        let notes: Vec<Note> = self.get_note_list();
+        let notes: Vec<Note> = self.repository.get_note_list();
         let to_edit = notes.get(id).unwrap();
-        self.edit_file(&to_edit.path)
+        self.repository.edit_file(&to_edit.path)
     }
 
     fn list_notes(&self) -> Result<(), DefaultError> {
-        let files = self.get_note_list();
+        let files = self.repository.get_note_list();
         for file in files {
             Log::log(format!("{}", file.format_for_list()));
         }
@@ -91,46 +90,4 @@ impl CommandHandler {
         Ok(())
     }
 
-    fn get_note_list(&self) -> Vec<Note> {
-        let dir_entries: Vec<DirEntry> = fs::read_dir(&self.config.storage_directory)
-            .unwrap()
-            .filter_map(Result::ok)
-            .collect();
-
-        let res = dir_entries
-            .iter()
-            .map(|file| {
-                let id = dir_entries
-                    .iter()
-                    .position(|x| x.path() == file.path())
-                    .unwrap();
-                let path: PathBuf = file.path();
-                let content = fs::read_to_string(file.path()).unwrap_or(format!(
-                    "Error while reading file: {}",
-                    path.to_str().unwrap()
-                ));
-                (id, path, content)
-            })
-            .map(|(id, path, content)| Note::from(id, path, content))
-            .filter_map(Result::ok)
-            .collect();
-        res
-    }
-
-    fn edit_file(&self, file_path: &PathBuf) -> Result<(), DefaultError> {
-        ShellHelper::execute(format!("vim {}", file_path.to_str().unwrap()))
-    }
-
-    fn ensure_note_repo_exists(&self) -> Result<(), DefaultError> {
-        fs::create_dir_all(&self.config.storage_directory)?;
-        Ok(())
-    }
-
-    fn ensure_note_template_exists(&self) -> Result<(), DefaultError> {
-        if !self.config.template_path.exists() {
-            let mut file = File::create(&self.config.template_path)?;
-            file.write_all(b"# Note template\n\nHere we go !\n\n")?;
-        }
-        Ok(())
-    }
 }
