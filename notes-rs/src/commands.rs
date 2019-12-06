@@ -50,7 +50,7 @@ impl CommandHandler {
     }
 
     fn search(&self, needle: String) -> Result<(), DefaultError> {
-        let mut notes: Vec<Note> = self.get_note_list();
+        let notes: Vec<Note> = self.get_note_list();
         let mut scored: Vec<(usize, &Note)> = notes
             .iter()
             .map(|note| (note.score(&needle), note))

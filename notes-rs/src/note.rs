@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use regex::{Regex, RegexBuilder};
 
-use crate::helpers::log::Log;
+
 
 const DATE_FORMAT: &'static str = "%Y-%m-%d %H:%M";
 
@@ -72,7 +72,7 @@ impl Note {
         let title = format!("{}", self.title.blue());
         let matching_lines: Vec<String> = self.content
             .iter()
-            .map(|mut line| {
+            .map(|line| {
                 match needle_regex.captures(line) {
                     Some(captures) => {
                         let matched = captures.get(1).map_or("", |m| m.as_str());
