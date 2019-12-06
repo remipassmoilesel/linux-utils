@@ -50,15 +50,15 @@ impl Note {
     }
 
     pub fn score(&self, needle: &String) -> usize {
-        let re = self.build_needle_regex(needle);
-        let match_in_title = match re.is_match(&self.title) {
+        let needle_regex = self.build_needle_regex(needle);
+        let match_in_title = match needle_regex.is_match(&self.title) {
             true => 4,
             false => 0,
         };
         let match_in_body: usize = self
             .content
             .iter()
-            .map(|line| match re.is_match(line) {
+            .map(|line| match needle_regex.is_match(line) {
                 true => 1,
                 false => 0,
             })
@@ -68,10 +68,25 @@ impl Note {
 
     pub fn format_for_search(&self, needle: &String, score: &usize) -> String {
         use colored::*;
+        let needle_regex = self.build_needle_regex(needle);
         let title = format!("{}", self.title.blue());
-        let content = format!("{}", self.content.join("\n"));
-        let score = format!("Score: {}", score.to_string().dimmed());
-        format!("{}\n{}\n{}\n", title, content, score)
+        let matching_lines: Vec<String> = self.content
+            .iter()
+            .map(|mut line| {
+                match needle_regex.captures(line) {
+                    Some(captures) => {
+                        let matched = captures.get(1).map_or("", |m| m.as_str());
+                        let highlighted = matched.yellow();
+                        line.replace(matched, &highlighted.to_string())
+                    }
+                    None => "".to_string(),
+                }
+            })
+            .filter(|line| !line.is_empty())
+            .collect();
+
+        let score = format!("(Score: {})", score.to_string()).dimmed();
+        format!("\n- {} - {} {} \n\n{}", self.id, title, score, matching_lines.join("\n"))
     }
 
     pub fn format_for_list(&self) -> String {
@@ -80,7 +95,7 @@ impl Note {
     }
 
     fn build_needle_regex(&self, needle: &String) -> Regex {
-        RegexBuilder::new(&format!(".*{}.*", needle))
+        RegexBuilder::new(&format!("({})", needle))
             .case_insensitive(true)
             .build()
             .unwrap()
