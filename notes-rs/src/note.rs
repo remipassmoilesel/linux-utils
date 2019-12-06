@@ -4,8 +4,6 @@ use std::path::PathBuf;
 
 use regex::{Regex, RegexBuilder};
 
-
-
 const DATE_FORMAT: &'static str = "%Y-%m-%d %H:%M";
 
 // TODO: add date

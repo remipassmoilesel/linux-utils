@@ -6,20 +6,7 @@ use serde::Deserialize;
 use crate::commands::Command;
 
 use crate::helpers::default_error::DefaultError;
-
-const USAGE: &'static str = "
-
-Usage:
-  notes list
-  notes new <title>
-  notes edit <id>
-  notes search <needle>
-  notes help
-
-Options:
-  -h --help     Show this screen.
-  --version     Show version.
-";
+use crate::usage::USAGE;
 
 #[derive(Debug, Deserialize)]
 struct CommandLineArgs {
@@ -67,6 +54,10 @@ impl ArgumentParser {
             });
         }
 
-        Err(DefaultError::new(String::from("Bad command")))
+        if args.cmd_help {
+            return Ok(Command::Help);
+        }
+
+        Err(DefaultError::new(String::from("Bad command, try: $ notes help")))
     }
 }

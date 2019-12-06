@@ -7,12 +7,14 @@ use crate::commands::CommandHandler;
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
 use crate::helpers::log::Log;
+use crate::usage::SMALL_BANNER;
 
 mod argument_parser;
 mod commands;
 mod config;
 mod helpers;
 mod note;
+mod usage;
 
 fn main() {
     Log::small_banner();

@@ -10,6 +10,7 @@ use crate::helpers::default_error::DefaultError;
 use crate::helpers::log::Log;
 use crate::helpers::shell::ShellHelper;
 use crate::note::Note;
+use crate::usage::USAGE;
 
 #[derive(Debug)]
 pub enum Command {
@@ -17,6 +18,7 @@ pub enum Command {
     NewNote { title: String },
     EditNote { id: usize },
     Search { needle: String },
+    Help,
 }
 
 pub struct CommandHandler {
@@ -37,6 +39,7 @@ impl CommandHandler {
             Command::Search { needle } => self.search(needle),
             Command::EditNote { id } => self.edit_note(id),
             Command::List => self.list_notes(),
+            Command::Help => self.help(),
         }
     }
 
@@ -79,6 +82,12 @@ impl CommandHandler {
         for file in files {
             Log::log(format!("{}", file.format_for_list()));
         }
+        Ok(())
+    }
+
+    fn help(&self) -> Result<(), DefaultError> {
+        Log::banner();
+        Log::log(format!("{}", USAGE.to_string()));
         Ok(())
     }
 

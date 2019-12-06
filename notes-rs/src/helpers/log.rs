@@ -1,12 +1,18 @@
 extern crate colored;
 
 use colored::*;
+use crate::usage::{SMALL_BANNER, BANNER};
 
 pub struct Log;
 
 impl Log {
-    pub fn small_banner() {
-        println!("{}", "\nNotes 🚀 🚀 🚀\n".green());
+
+    pub fn small_banner(){
+        println!("{}", SMALL_BANNER.green())
+    }
+
+    pub fn banner(){
+        println!("{}", BANNER.green())
     }
 
     pub fn log(message: String) {
