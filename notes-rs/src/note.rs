@@ -2,8 +2,9 @@ extern crate regex;
 
 use std::path::PathBuf;
 
-use crate::helpers::formatter::Formatter;
 use regex::{Regex, RegexBuilder};
+
+use crate::helpers::formatter::Formatter;
 
 const DATE_FORMAT: &'static str = "%Y-%m-%d %H:%M";
 
@@ -69,7 +70,9 @@ impl Note {
         let needle_regex = self.build_needle_regex(needle);
         let id = Formatter::note_id(&self.id);
         let title = Formatter::note_title(&self.title);
-        let matching_lines: Vec<String> = self
+        let formatted_score = Formatter::note_score(score);
+
+        let mut matching_lines: Vec<String> = self
             .content
             .iter()
             .map(|line| match needle_regex.captures(line) {
@@ -82,12 +85,19 @@ impl Note {
             .filter(|line| !line.is_empty())
             .collect();
 
-        let score = Formatter::note_score(score);
+        if score > 0 && matching_lines.len() < 1 {
+            let len = match self.content.len() < 4 {
+                true => self.content.len(),
+                false => 4,
+            };
+            matching_lines = self.content[0..len].to_vec();
+        }
+
         format!(
-            "{} {} {} \n\n{}",
+            "\n{} {} {} \n\n{}",
             id,
             title,
-            score,
+            formatted_score,
             matching_lines.join("\n")
         )
     }
@@ -119,8 +129,8 @@ mod tests {
             PathBuf::from("/tmp/note-1.txt"),
             "# SSH\nA note about SSH\n".to_string(),
         )
-        .ok()
-        .unwrap();
+            .ok()
+            .unwrap();
         assert_eq!(note.score(&"ssh".to_string()), 5);
     }
 }
