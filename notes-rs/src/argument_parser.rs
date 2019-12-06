@@ -8,7 +8,6 @@ use crate::commands::Command;
 use crate::helpers::default_error::DefaultError;
 
 const USAGE: &'static str = "
-Notes 🚀 🚀 🚀
 
 Usage:
   notes list
@@ -43,12 +42,8 @@ impl ArgumentParser {
 
     pub fn parse_arguments(&self, args: Args) -> Result<Command, DefaultError> {
         let parser = Docopt::new(USAGE).unwrap().argv(args);
-        let args: Result<CommandLineArgs, Error> = parser.deserialize();
-
-        match args {
-            Ok(args) => self.build_command(args),
-            Err(error) => Err(DefaultError::new(error.to_string())),
-        }
+        let args: CommandLineArgs = parser.deserialize()?;
+        self.build_command(args)
     }
 
     fn build_command(&self, args: CommandLineArgs) -> Result<Command, DefaultError> {

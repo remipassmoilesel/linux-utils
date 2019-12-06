@@ -32,3 +32,12 @@ impl From<std::io::Error> for DefaultError {
         }
     }
 }
+
+impl From<docopt::Error> for DefaultError {
+    fn from(error: docopt::Error) -> DefaultError {
+        DefaultError {
+            message: error.to_string(),
+            backtrace: error.backtrace().map(|bt| format!("{:?}", bt)),
+        }
+    }
+}

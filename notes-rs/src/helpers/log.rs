@@ -5,6 +5,10 @@ use colored::*;
 pub struct Log;
 
 impl Log {
+    pub fn small_banner() {
+        println!("{}", "\nNotes 🚀 🚀 🚀\n".green());
+    }
+
     pub fn log(message: String) {
         println!("{}", message);
     }

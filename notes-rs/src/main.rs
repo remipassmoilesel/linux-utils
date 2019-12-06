@@ -15,6 +15,7 @@ mod helpers;
 mod note;
 
 fn main() {
+    Log::small_banner();
     let result = parse_and_apply_command();
     if result.is_err() {
         terminate(result.unwrap_err())
