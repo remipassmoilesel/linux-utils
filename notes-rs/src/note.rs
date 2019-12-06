@@ -3,6 +3,7 @@ extern crate regex;
 use std::path::PathBuf;
 
 use regex::{Regex, RegexBuilder};
+use crate::helpers::formatter::Formatter;
 
 const DATE_FORMAT: &'static str = "%Y-%m-%d %H:%M";
 
@@ -64,18 +65,17 @@ impl Note {
         match_in_title + match_in_body
     }
 
-    pub fn format_for_search(&self, needle: &String, score: &usize) -> String {
-        use colored::*;
+    pub fn format_for_search(&self, needle: &String, score: usize) -> String {
         let needle_regex = self.build_needle_regex(needle);
-        let title = format!("{}", self.title.blue());
+        let id = Formatter::note_id(&self.id);
+        let title = Formatter::note_title(&self.title);
         let matching_lines: Vec<String> = self.content
             .iter()
             .map(|line| {
                 match needle_regex.captures(line) {
                     Some(captures) => {
                         let matched = captures.get(1).map_or("", |m| m.as_str());
-                        let highlighted = matched.yellow();
-                        line.replace(matched, &highlighted.to_string())
+                        Formatter::note_matches(line, matched)
                     }
                     None => "".to_string(),
                 }
@@ -83,13 +83,12 @@ impl Note {
             .filter(|line| !line.is_empty())
             .collect();
 
-        let score = format!("(Score: {})", score.to_string()).dimmed();
-        format!("\n- {} - {} {} \n\n{}", self.id, title, score, matching_lines.join("\n"))
+        let score = Formatter::note_score(score);
+        format!("{} {} {} \n\n{}", id, title, score, matching_lines.join("\n"))
     }
 
     pub fn format_for_list(&self) -> String {
-        use colored::*;
-        format!(" - {} - {}", self.id.to_string().green(), self.title)
+        format!(" - {} - {}", Formatter::note_id(&self.id), Formatter::note_title(&self.title))
     }
 
     fn build_needle_regex(&self, needle: &String) -> Regex {

@@ -62,7 +62,7 @@ impl CommandHandler {
         scored.sort_by(|(score_a, _), (score_b, _)| score_b.cmp(&score_a));
         scored
             .iter()
-            .map(|(score, note)| note.format_for_search(&needle, score))
+            .map(|(score, note)| note.format_for_search(&needle, *score))
             .for_each(|search_result| Log::log(format!("{}", search_result)));
 
         if scored.is_empty() {
