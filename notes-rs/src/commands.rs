@@ -59,8 +59,8 @@ impl CommandHandler {
         scored.sort_by(|(score_a, _), (score_b, _)| score_b.cmp(&score_a));
         scored
             .iter()
-            .map(|(score, note)| note.search(&needle, score))
-            .for_each(|search_result| println!("{}", search_result));
+            .map(|(score, note)| note.format_for_search(&needle, score))
+            .for_each(|search_result| Log::log(format!("{}", search_result)));
 
         if scored.is_empty() {
             Log::info(format!("Nothing found for: {}", needle));
@@ -77,7 +77,7 @@ impl CommandHandler {
     fn list_notes(&self) -> Result<(), DefaultError> {
         let files = self.get_note_list();
         for file in files {
-            file.print_as_list();
+            Log::log(format!("{}", file.format_for_list()));
         }
         Ok(())
     }

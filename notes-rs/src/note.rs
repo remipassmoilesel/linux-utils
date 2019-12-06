@@ -66,7 +66,7 @@ impl Note {
         match_in_title + match_in_body
     }
 
-    pub fn search(&self, needle: &String, score: &usize) -> String {
+    pub fn format_for_search(&self, needle: &String, score: &usize) -> String {
         use colored::*;
         let title = format!("{}", self.title.blue());
         let content = format!("{}", self.content.join("\n"));
@@ -74,14 +74,9 @@ impl Note {
         format!("{}\n{}\n{}\n", title, content, score)
     }
 
-    pub fn print_as_list(&self) -> () {
+    pub fn format_for_list(&self) -> String {
         use colored::*;
-        Log::log(format!(
-            " - {} - {}",
-            self.id.to_string().green(),
-            self.title
-        ));
-        ()
+        format!(" - {} - {}", self.id.to_string().green(), self.title)
     }
 
     fn build_needle_regex(&self, needle: &String) -> Regex {
@@ -103,8 +98,8 @@ mod tests {
             PathBuf::from("/tmp/note-1.txt"),
             "# SSH\nA note about SSH\n".to_string(),
         )
-        .ok()
-        .unwrap();
+            .ok()
+            .unwrap();
         assert_eq!(note.score(&"ssh".to_string()), 5);
     }
 }
