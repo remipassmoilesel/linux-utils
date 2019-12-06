@@ -13,7 +13,6 @@ pub struct Repository {
 }
 
 impl Repository {
-
     pub fn new(config: Config) -> Repository {
         Repository { config }
     }

@@ -1,10 +1,8 @@
-
 use colored::*;
 
 pub struct Formatter;
 
 impl Formatter {
-
     pub fn note_id(id: &usize) -> String {
         format!("@{}", id.to_string()).green().to_string()
     }
@@ -19,7 +17,8 @@ impl Formatter {
     }
 
     pub fn note_score(score: usize) -> String {
-        format!("(Score: {})", score.to_string()).dimmed().to_string()
+        format!("(Score: {})", score.to_string())
+            .dimmed()
+            .to_string()
     }
-
 }

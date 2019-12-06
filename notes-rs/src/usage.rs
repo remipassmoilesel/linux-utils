@@ -1,4 +1,3 @@
-
 pub const USAGE: &'static str = "
 Usage:
   notes list
@@ -23,4 +22,3 @@ pub const BANNER: &'static str = "
 ╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚══════╝╚══════╝
 
     Clean all the brains !";
-

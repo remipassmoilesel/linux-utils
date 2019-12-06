@@ -10,8 +10,8 @@ use crate::helpers::default_error::DefaultError;
 use crate::helpers::log::Log;
 use crate::helpers::shell::ShellHelper;
 use crate::note::Note;
-use crate::usage::USAGE;
 use crate::repository::Repository;
+use crate::usage::USAGE;
 
 #[derive(Debug)]
 pub enum Command {
@@ -89,5 +89,4 @@ impl CommandHandler {
         Log::log(format!("{}", USAGE.to_string()));
         Ok(())
     }
-
 }

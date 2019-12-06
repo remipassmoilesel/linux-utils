@@ -58,6 +58,8 @@ impl ArgumentParser {
             return Ok(Command::Help);
         }
 
-        Err(DefaultError::new(String::from("Bad command, try: $ notes help")))
+        Err(DefaultError::new(String::from(
+            "Bad command, try: $ notes help",
+        )))
     }
 }
