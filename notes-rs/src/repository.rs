@@ -5,21 +5,25 @@ use std::path::PathBuf;
 
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
-use crate::helpers::shell::ShellHelper;
+use crate::helpers::shell::Shell;
 use crate::note::Note;
+use crate::helpers::git::Git;
 
 pub struct Repository {
     config: Config,
+    shell: Shell,
+    git: Git,
 }
 
 impl Repository {
-    pub fn new(config: Config) -> Repository {
-        Repository { config }
+    pub fn new(config: Config, shell: Shell, git: Git) -> Repository {
+        Repository { config, shell, git }
     }
 
     pub fn init_repo(&self) -> Result<(), DefaultError> {
         self.ensure_note_repo_exists()?;
-        self.ensure_note_template_exists()
+        self.ensure_note_template_exists()?;
+        self.git.init()
     }
 
     pub fn get_note_list(&self) -> Vec<Note> {
@@ -49,7 +53,7 @@ impl Repository {
     }
 
     pub fn edit_file(&self, file_path: &PathBuf) -> Result<(), DefaultError> {
-        ShellHelper::execute(format!("vim {}", file_path.to_str().unwrap()))
+        self.shell.execute(format!("$EDITOR {}", file_path.to_str().unwrap()))
     }
 
     fn ensure_note_repo_exists(&self) -> Result<(), DefaultError> {
