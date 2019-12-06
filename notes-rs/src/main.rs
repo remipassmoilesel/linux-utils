@@ -31,7 +31,7 @@ fn parse_and_apply_command() -> Result<(), DefaultError> {
     let config = Config::new();
 
     let shell = Shell::new(config.clone());
-    let git = Git::new(config.clone(), shell.clone());
+    let git = Git::new(shell.clone());
     let repository = Repository::new(config.clone(), shell.clone(), git);
     repository.init_repo()?;
 

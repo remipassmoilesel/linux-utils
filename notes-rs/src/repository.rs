@@ -30,6 +30,7 @@ impl Repository {
         let dir_entries: Vec<DirEntry> = fs::read_dir(&self.config.storage_directory)
             .unwrap()
             .filter_map(Result::ok)
+            .filter(|file| file.file_name() != ".git")
             .collect();
 
         let res = dir_entries
@@ -54,7 +55,9 @@ impl Repository {
 
     pub fn edit_file(&self, file_path: &PathBuf) -> Result<(), DefaultError> {
         self.shell
-            .execute(format!("$EDITOR {}", file_path.to_str().unwrap()))
+            .execute(format!("$EDITOR {}", file_path.to_str().unwrap()))?;
+        self.git
+            .commit(format!("Editing note {}", file_path.to_str().unwrap()))
     }
 
     pub fn push_repo(&self) -> Result<(), DefaultError> {
