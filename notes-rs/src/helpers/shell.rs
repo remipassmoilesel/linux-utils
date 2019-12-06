@@ -1,6 +1,5 @@
-
-use std::path::{PathBuf};
-use std::process::{Command};
+use std::path::PathBuf;
+use std::process::Command;
 
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
@@ -21,15 +20,24 @@ impl Shell {
     }
 
     pub fn execute_silent(&self, command: String) -> Result<(), DefaultError> {
-        self.execute_internal(format!("{}  > /dev/null", command), &self.config.storage_directory, false)
+        self.execute_internal(
+            format!("{}  > /dev/null", command),
+            &self.config.storage_directory,
+            false,
+        )
     }
 
-    fn execute_internal(&self, command: String, current_dir: &PathBuf, log_command: bool) -> Result<(), DefaultError> {
+    fn execute_internal(
+        &self,
+        command: String,
+        current_dir: &PathBuf,
+        log_command: bool,
+    ) -> Result<(), DefaultError> {
         let mut shell_command = Command::new("sh");
         shell_command.args(&["-c", command.as_str()]);
 
         if log_command {
-            Log::dimmed(format!(" $ {}", command));
+            Log::dimmed(format!("\n$ {}\n", command));
         }
 
         shell_command.current_dir(current_dir);

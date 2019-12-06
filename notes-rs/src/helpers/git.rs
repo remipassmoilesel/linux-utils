@@ -18,7 +18,8 @@ impl Git {
 
     pub fn commit(&self, message: &String) -> Result<(), DefaultError> {
         // TODO: add only note path
-        self.shell.execute(format!("git add -A && commit -m '{}'", message))
+        self.shell
+            .execute(format!("git add -A && commit -m '{}'", message))
     }
 
     pub fn push(&self) -> Result<(), DefaultError> {

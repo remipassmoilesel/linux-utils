@@ -6,11 +6,10 @@ use crate::argument_parser::ArgumentParser;
 use crate::commands::CommandHandler;
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
-use crate::helpers::log::Log;
-use crate::repository::Repository;
-use crate::helpers::shell::Shell;
 use crate::helpers::git::Git;
-
+use crate::helpers::log::Log;
+use crate::helpers::shell::Shell;
+use crate::repository::Repository;
 
 mod argument_parser;
 mod commands;

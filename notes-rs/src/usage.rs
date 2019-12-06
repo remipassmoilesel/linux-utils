@@ -1,9 +1,12 @@
+// This is a Docopt usage, please read: https://github.com/docopt/docopt.rs
 pub const USAGE: &'static str = "
 Usage:
   notes list
   notes new <title>
   notes edit <id>
   notes search <needle>
+  notes push
+  notes pull
   notes help
 
 Options:

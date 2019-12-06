@@ -1,6 +1,6 @@
 use std::env::Args;
 
-use docopt::{Docopt};
+use docopt::Docopt;
 use serde::Deserialize;
 
 use crate::commands::Command;
@@ -14,6 +14,8 @@ struct CommandLineArgs {
     cmd_new: bool,
     cmd_edit: bool,
     cmd_search: bool,
+    cmd_push: bool,
+    cmd_pull: bool,
     cmd_help: bool,
     arg_title: String,
     arg_needle: String,
@@ -52,6 +54,14 @@ impl ArgumentParser {
             return Ok(Command::Search {
                 needle: args.arg_needle,
             });
+        }
+
+        if args.cmd_pull {
+            return Ok(Command::Push);
+        }
+
+        if args.cmd_push {
+            return Ok(Command::Pull);
         }
 
         if args.cmd_help {

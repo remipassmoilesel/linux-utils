@@ -5,9 +5,9 @@ use std::path::PathBuf;
 
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
+use crate::helpers::git::Git;
 use crate::helpers::shell::Shell;
 use crate::note::Note;
-use crate::helpers::git::Git;
 
 pub struct Repository {
     config: Config,
@@ -53,7 +53,16 @@ impl Repository {
     }
 
     pub fn edit_file(&self, file_path: &PathBuf) -> Result<(), DefaultError> {
-        self.shell.execute(format!("$EDITOR {}", file_path.to_str().unwrap()))
+        self.shell
+            .execute(format!("$EDITOR {}", file_path.to_str().unwrap()))
+    }
+
+    pub fn push_repo(&self) -> Result<(), DefaultError> {
+        self.git.push()
+    }
+
+    pub fn pull_repo(&self) -> Result<(), DefaultError> {
+        self.git.pull()
     }
 
     fn ensure_note_repo_exists(&self) -> Result<(), DefaultError> {

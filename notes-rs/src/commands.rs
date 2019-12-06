@@ -1,7 +1,5 @@
 use std::fs;
 
-
-
 use chrono::Utc;
 
 use crate::config::Config;
@@ -17,6 +15,8 @@ pub enum Command {
     NewNote { title: String },
     EditNote { id: usize },
     Search { needle: String },
+    Pull,
+    Push,
     Help,
 }
 
@@ -36,6 +36,8 @@ impl CommandHandler {
             Command::Search { needle } => self.search(needle),
             Command::EditNote { id } => self.edit_note(id),
             Command::List => self.list_notes(),
+            Command::Pull => self.push_repo(),
+            Command::Push => self.pull_repo(),
             Command::Help => self.help(),
         }
     }
@@ -79,6 +81,18 @@ impl CommandHandler {
         for file in files {
             Log::log(format!("{}", file.format_for_list()));
         }
+        Ok(())
+    }
+
+    fn pull_repo(&self) -> Result<(), DefaultError> {
+        Log::pull_banner();
+        self.repository.pull_repo();
+        Ok(())
+    }
+
+    fn push_repo(&self) -> Result<(), DefaultError> {
+        Log::push_banner();
+        self.repository.push_repo();
         Ok(())
     }
 

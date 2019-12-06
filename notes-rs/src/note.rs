@@ -129,8 +129,8 @@ mod tests {
             PathBuf::from("/tmp/note-1.txt"),
             "# SSH\nA note about SSH\n".to_string(),
         )
-            .ok()
-            .unwrap();
+        .ok()
+        .unwrap();
         assert_eq!(note.score(&"ssh".to_string()), 5);
     }
 }

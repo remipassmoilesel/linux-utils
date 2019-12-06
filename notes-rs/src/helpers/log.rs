@@ -1,7 +1,8 @@
 extern crate colored;
 
-use crate::usage::{BANNER, SMALL_BANNER};
 use colored::*;
+
+use crate::usage::{BANNER, SMALL_BANNER};
 
 pub struct Log;
 
@@ -11,6 +12,14 @@ impl Log {
     }
 
     pub fn banner() {
+        println!("{}", BANNER.green())
+    }
+
+    pub fn pull_banner() {
+        println!("{}", BANNER.green())
+    }
+
+    pub fn push_banner() {
         println!("{}", BANNER.green())
     }
 
