@@ -48,7 +48,7 @@ impl CommandHandler {
         let mut note_path = self.config.storage_directory.clone();
         note_path.push(note_name);
         fs::copy(&self.config.template_path, &note_path)?;
-        self.repository.edit_file(&note_path)
+        self.repository.edit_note(&note_path)
     }
 
     fn search(&self, needle: String) -> Result<(), DefaultError> {
@@ -73,7 +73,7 @@ impl CommandHandler {
     fn edit_note(&self, id: usize) -> Result<(), DefaultError> {
         let notes: Vec<Note> = self.repository.get_note_list();
         let to_edit = notes.get(id).unwrap();
-        self.repository.edit_file(&to_edit.path)
+        self.repository.edit_note(&to_edit.path)
     }
 
     fn list_notes(&self) -> Result<(), DefaultError> {

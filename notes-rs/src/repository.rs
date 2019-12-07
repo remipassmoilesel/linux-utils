@@ -53,11 +53,12 @@ impl Repository {
         res
     }
 
-    pub fn edit_file(&self, file_path: &PathBuf) -> Result<(), DefaultError> {
+    pub fn edit_note(&self, path: &PathBuf) -> Result<(), DefaultError> {
         self.shell
-            .execute(format!("$EDITOR {}", file_path.to_str().unwrap()))?;
+            .execute(format!("$EDITOR {}", path.to_str().unwrap()))?;
+        self.git.add(path);
         self.git
-            .commit(format!("Editing note {}", file_path.to_str().unwrap()))
+            .commit(format!("Updated note {}", path.file_name().unwrap().to_str().unwrap()))
     }
 
     pub fn push_repo(&self) -> Result<(), DefaultError> {

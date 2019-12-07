@@ -1,6 +1,7 @@
 use crate::config::Config;
 use crate::helpers::default_error::DefaultError;
 use crate::helpers::shell::Shell;
+use std::path::PathBuf;
 
 pub struct Git {
     shell: Shell,
@@ -15,10 +16,14 @@ impl Git {
         self.shell.execute_silent(format!("git init"))
     }
 
-    pub fn commit(&self, message: String) -> Result<(), DefaultError> {
-        // TODO: add only note path
+    pub fn add(&self, path: &PathBuf) -> Result<(), DefaultError> {
         self.shell
-            .execute(format!("git add -A && commit -m '{}'", message))
+            .execute(format!("git add '{}'", path.to_str().unwrap()))
+    }
+
+    pub fn commit(&self, message: String) -> Result<(), DefaultError> {
+        self.shell
+            .execute(format!("git commit -m '{}'", message))
     }
 
     pub fn push(&self) -> Result<(), DefaultError> {
