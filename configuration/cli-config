@@ -47,6 +47,10 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup install nightly
 rustup default nightly
 
+# Notes
+cd $HOME && git clone https://github.com/remipassmoilesel/.notes-repository
+cargo install notes
+
 # Get utilities and scripts
 git clone https://github.com/remipassmoilesel/linux-utils ~/linux-utils/
 
