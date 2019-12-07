@@ -4,8 +4,8 @@
 # Path
 #
 
-export PATH="$PATH:$HOME/linux-utils/configuration/helpers"
 export PATH="$PATH:$HOME/linux-utils/bin"
+export PATH="$PATH:$HOME/linux-utils/notes-rs/target/release"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/.go/bin"
 export PATH="$PATH:$HOME/npm-root/bin"
