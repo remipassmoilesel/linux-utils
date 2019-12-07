@@ -1,4 +1,0 @@
-# Title of note
-
-Content
-
