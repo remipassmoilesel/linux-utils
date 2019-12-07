@@ -15,7 +15,7 @@ impl Config {
     pub fn new() -> Config {
         let storage_directory = Config::get_storage_path();
         let mut template_path = storage_directory.clone();
-        template_path.push(".template");
+        template_path.push(".template.md");
 
         Config {
             storage_directory,

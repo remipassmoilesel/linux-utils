@@ -4,7 +4,6 @@
 # Path
 #
 
-export PATH="$PATH:$HOME/linux-utils"
 export PATH="$PATH:$HOME/linux-utils/configuration/helpers"
 export PATH="$PATH:$HOME/linux-utils/bin"
 export PATH="$PATH:$HOME/bin"
@@ -18,6 +17,10 @@ export GOPATH="$HOME/.go"
 # Default editor
 
 export EDITOR=vim
+
+# Notes !
+
+export NOTES_STORAGE_DIRECTORY="$HOME/linux-utils/notes-repository"
 
 # Aliases
 
@@ -68,8 +71,8 @@ export MAVEN_OPTS="-T 1C -Djava.net.preferIPv4Stack=true"
 
 # Sdkman
 
-if [[ -d "/home/${USER}/.sdkman/bin/sdkman-init.sh" ]]; then
-    source "/home/${USER}/.sdkman/bin/sdkman-init.sh"
+if [[ -d "${HOME}/.sdkman/bin/sdkman-init.sh" ]]; then
+    source "${HOME}/.sdkman/bin/sdkman-init.sh"
 fi
 
 # Supplementary presets if presents on this system
