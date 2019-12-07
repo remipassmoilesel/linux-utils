@@ -25,7 +25,7 @@ echo
 
 # Install must-have tools, two commands to prevent fail
 PACKAGES=(
-    "byobu autojump vim curl wget ranger"
+    "byobu vim curl wget ranger"
     "git tig git-extras python-pip"
     "zsh jq cmatrix tree"
     "p7zip-full p7zip-rar zip fuse-zip tar xz-utils"
@@ -42,11 +42,15 @@ for pkg in "${PACKAGES[@]}"; do
   sudo apt install -y $pkg || :
 done
 
+# Rust !
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustup default nightly
+
 # Get utilities and scripts
 git clone https://github.com/remipassmoilesel/linux-utils ~/linux-utils/
 
-# change shell before installing oh my zsh
-sudo chsh $USER -s /bin/zsh
+# Change shell before installing oh my zsh
+sudo chsh ${USER} -s /bin/zsh
 
 # install oh my zsh
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -57,8 +61,6 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 
 # copy zsh configuration
 cp ~/linux-utils/configuration/dot-files/dot-zshrc ~/.zshrc
-
-sudo pip install cheat
 
 zsh
 

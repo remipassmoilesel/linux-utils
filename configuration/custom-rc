@@ -1,14 +1,10 @@
 #!/bin/bash
 
-# set -x
-
-##
-## PATH OPTIONS
-##
+#
+# Path
+#
 
 export PATH="$PATH:$HOME/linux-utils"
-export PATH="$PATH:$HOME/linux-utils/notes"
-export PATH="$PATH:$HOME/linux-utils/memo"
 export PATH="$PATH:$HOME/linux-utils/configuration/helpers"
 export PATH="$PATH:$HOME/linux-utils/bin"
 export PATH="$PATH:$HOME/bin"
@@ -19,108 +15,77 @@ export PATH="$PATH:/opt/maven/bin"
 
 export GOPATH="$HOME/.go"
 
-export MEMO_STORAGE_PATH="$HOME/linux-utils/memo-rs/memo-storage.txt"
-
-##
-## EDITOR OPTIONS
-##
+# Default editor
 
 export EDITOR=vim
 
-##
-## HISTORY OPTIONS
-##
+# Aliases
 
-export HISTTIMEFORMAT='%d %H:%M '
-export PROMPT_COMMAND='history -a'
-
-# see https://github.com/dvorka/hstr/blob/master/README.md
-if type "hh" > /dev/null; then
-	export HISTFILE=~/.zsh_history  # ensure history file visibility
-	export HH_CONFIG=hicolor        # get more colors
-	bindkey -s "\C-r" "\eqhh\n"     # bind hh to Ctrl-r (for Vi mode check doc)
-fi
-
-# see https://github.com/zsh-users/zsh-autosuggestions
-if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
-setopt hist_ignore_all_dups  # ignore duplicate entries
-setopt hist_ignore_space     # ignore commands prefixed with space
-
-##
-## GIT OPTIONS AND ALIASES
-##
-
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-
-##
-## ALIASES
-##
-
-#alias k="kubectl" # Provided by oh-my-zsh plugin
+alias k="kubectl"
 alias ks="kubectl -n kube-system"
 function ka() { kubectl "$@" --all-namespaces ;}
 alias k-pods-nodes="kubectl get pod -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName --all-namespaces"
 alias kgn="kubectl get namespaces"
 function ksn(){ kubectl config set-context $(kubectl config current-context) --namespace=$1 }
-
 alias k-watch-pods="watch -n 0,5 kubectl get pods"
 alias ks-watch-pods="watch -n 0,5 kubectl get pods -n kube-system"
 alias ka-watch-pods="watch -n 0,5 kubectl get pods --all-namespaces"
-
 alias kcgc="kubectl config get-contexts"
-
 alias kp="kubectl proxy"
 alias kpf="kubectl port-forward"
-
 alias xo="xdg-open"
-
 alias cl="clear"
 alias re="reset"
 alias rh="rehash"
-
 alias tr="tree -L 2"
-
 alias lst="lsd --tree"
 
+# History options
 
-##
-## MAVEN
-##
+export HISTTIMEFORMAT='%d %H:%M '
+export PROMPT_COMMAND='history -a'
 
-MAVEN_OPTS="-T 1C -Djava.net.preferIPv4Stack=true"
+setopt hist_ignore_all_dups  # ignore duplicate entries
+setopt hist_ignore_space     # ignore commands prefixed with space
 
-##
-## SDKMAN
-##
+# Zsh auto suggestions, see https://github.com/zsh-users/zsh-autosuggestions
 
-if [ -d "/home/$USER/.sdkman/bin/sdkman-init.sh" ]; then
-    source "/home/$USER/.sdkman/bin/sdkman-init.sh"
+if [[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-##
-## SUPP. OPTIONS DEPENDING ON LOCAL CONFIG
-##
+# Git options and aliases
 
-if [ -f ~/.custom-rc ]; then
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+# Ansible
+
+export ANSIBLE_NOCOWS=1
+
+# Maven
+
+export MAVEN_OPTS="-T 1C -Djava.net.preferIPv4Stack=true"
+
+# Sdkman
+
+if [[ -d "/home/${USER}/.sdkman/bin/sdkman-init.sh" ]]; then
+    source "/home/${USER}/.sdkman/bin/sdkman-init.sh"
+fi
+
+# Supplementary presets if presents on this system
+
+if [[ -f ~/.custom-rc ]]; then
     echo "Sourcing $HOME/.custom-rc"
     source $HOME/.custom-rc
 fi
 
-#
 # WOOOOOO !
-#
-
-# export ANSIBLE_COW_SELECTION=random
-export ANSIBLE_NOCOWS=1
 
 CMATRIX_COLOR=blue
-if [ "$USER" = "root" ]; then
+if [[ "${USER}" = "root" ]]; then
 	CMATRIX_COLOR=red
 fi
 
-cmatrix -b  -C $CMATRIX_COLOR
+cmatrix -b  -C ${CMATRIX_COLOR}
 
 
