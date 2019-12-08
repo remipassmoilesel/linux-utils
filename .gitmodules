@@ -1,3 +1,6 @@
 [submodule "notes"]
 	path = notes
 	url = git@github.com:remipassmoilesel/notes.git
+[submodule "notes-repository"]
+	path = notes-repository
+	url = git@github.com:remipassmoilesel/notes-repository.git
