@@ -25,12 +25,10 @@ echo
 
 # Install must-have tools, two commands to prevent fail
 PACKAGES=(
-    "byobu vim curl wget ranger"
-    "git tig git-extras python-pip"
-    "zsh jq cmatrix tree"
+    "byobu vim curl wget ranger ncdu gnupg2 aptitude zsh jq cmatrix tree"
+    "git tig git-extras python-pip sshpass sshfs mycli pgcli"
     "p7zip-full p7zip-rar zip fuse-zip tar xz-utils"
     "tcpdump htop nmap iputils-tracepath traceroute"
-    "sshpass sshfs ncdu gnupg2 mycli pgcli aptitude"
 );
 
 sudo apt-get update

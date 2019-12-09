@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd ~/linux-utils && git pull
+git submodule update
