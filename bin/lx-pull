@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
-cd ~/linux-utils && git pull
-git submodule update
+cd ~/linux-utils
+git pull $1 $2
+git submodule foreach "git pull $1 $2"
