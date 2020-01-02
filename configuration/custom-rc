@@ -1,28 +1,27 @@
 #!/bin/bash
 
-#
 # Path
-#
-
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/linux-utils/bin"
 export PATH="$PATH:$HOME/npm-root/bin"
 export PATH="$PATH:$HOME/.go/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:/opt/maven/bin"
+export PATH=$HOME/.n/bin:$PATH
 
+# N: https://github.com/tj/n
+export N_PREFIX=$HOME/.n
+
+# Go
 export GOPATH="$HOME/.go"
 
 # Default editor
-
 export EDITOR=vim
 
 # Notes !
-
 export NOTES_STORAGE_DIRECTORY="$HOME/linux-utils/notes-repository"
 
 # Aliases
-
 alias k="kubectl"
 alias ks="kubectl -n kube-system"
 function ka() { kubectl "$@" --all-namespaces ;}
@@ -41,44 +40,37 @@ alias re="reset"
 alias rh="rehash"
 alias tr="tree -L 2"
 alias lst="lsd --tree"
+alias df="df -h"
 
 # History options
-
 export HISTTIMEFORMAT='%d %H:%M '
 export PROMPT_COMMAND='history -a'
-
 setopt hist_ignore_all_dups  # ignore duplicate entries
 setopt hist_ignore_space     # ignore commands prefixed with space
 
 # Zsh auto suggestions, see https://github.com/zsh-users/zsh-autosuggestions
-
 if [[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
 	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 # Git options and aliases
-
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 # Ansible
-
 export ANSIBLE_NOCOWS=1
 
 # Sdkman
-
 if [[ -d "${HOME}/.sdkman/bin/sdkman-init.sh" ]]; then
     source "${HOME}/.sdkman/bin/sdkman-init.sh"
 fi
 
-# Supplementary presets if presents on this system
-
+# Local presets
 if [[ -f ~/.custom-rc ]]; then
     echo "Sourcing $HOME/.custom-rc"
     source $HOME/.custom-rc
 fi
 
 # WOOOOOO !
-
 CMATRIX_COLOR=blue
 if [[ "${USER}" = "root" ]]; then
 	CMATRIX_COLOR=red
