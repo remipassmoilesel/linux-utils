@@ -6,6 +6,7 @@ export PATH="$PATH:$HOME/linux-utils/bin"
 export PATH="$PATH:$HOME/.go/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:/opt/maven/bin"
+export PATH="$PATH:/opt/sbt/bin"
 export PATH="$PATH:$HOME/.n/bin"
 
 # N: https://github.com/tj/n

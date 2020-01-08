@@ -2,4 +2,6 @@
 
 cd ~/linux-utils
 git pull $1 $2
-git submodule foreach "git pull $1 $2"
+git checkout $2 
+
+git submodule foreach "git pull $1 $2 && git checkout $2"
