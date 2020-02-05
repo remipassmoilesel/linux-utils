@@ -2,4 +2,4 @@
 
 # dimanche 11 mars 2018, 23:43:32 (UTC+0100)
 
-wget https://www.gnu.org/licenses/gpl-3.0.txt
+wget https://www.gnu.org/licenses/gpl-3.0.txt -O LICENSE
