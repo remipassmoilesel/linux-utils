@@ -56,7 +56,7 @@ git submodule update
 sudo chsh ${USER} -s /bin/zsh
 
 # install oh my zsh
-REPO=remipassmoilesel/ohmyzsh BRANCH=develop sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+REPO=remipassmoilesel/ohmyzsh BRANCH=develop sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 
 # install autocomplete plugin
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
