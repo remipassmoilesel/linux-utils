@@ -1,6 +1,3 @@
-[submodule "notes"]
-	path = notes
-	url = ../notes.git
 [submodule "notes-repository"]
 	path = notes-repository
 	url = ../notes-repository.git
