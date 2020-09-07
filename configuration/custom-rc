@@ -19,9 +19,6 @@ export GOROOT="/usr/lib/go"
 # Default editor
 export EDITOR=vim
 
-# Notes !
-export NOTES_STORAGE_DIRECTORY="$HOME/linux-utils/notes-repository"
-
 # Aliases
 alias k="kubectl"
 alias ks="kubectl -n kube-system"
