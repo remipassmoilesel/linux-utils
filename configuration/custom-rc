@@ -41,6 +41,9 @@ alias tr="tree -L 2"
 alias lst="lsd --tree"
 alias df="df -h"
 
+# WTF is that shit ?
+unalias gsd 	# Waste repositories, from oh-my-zsh git plugin
+
 # History options
 export HISTTIMEFORMAT='%d %H:%M '
 export PROMPT_COMMAND='history -a'
