@@ -23,6 +23,8 @@ echo
 echo "Running script for user $USER"
 echo
 
+set -x
+
 # Install must-have tools, two commands to prevent fail
 
 sudo pacman -Syu byobu vim curl wget ranger ncdu zsh pass jq cmatrix tree \
