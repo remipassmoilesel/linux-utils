@@ -25,34 +25,38 @@ echo
 
 set -x
 
-# Install must-have tools
+# Tools
 
+cd ~
 sudo pacman -Syu byobu vim curl wget ranger ncdu zsh pass jq cmatrix tree \
                 git tig git-extras python-pip nmap z base-devel
 
 
 # Yay
 
+cd /tmp
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 
 
 # Better git diff
-
+cd ~
 yay -S git-delta-bin
 
 
 # Rust
-
+cd ~
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup install nightly
 rustup default nightly
 
 cargo install notes
 
+
 # Own utilities and scripts
 
+cd ~
 git clone https://github.com/remipassmoilesel/notes-repository ~/.notes
 git clone https://github.com/remipassmoilesel/linux-utils ~/linux-utils/
 
