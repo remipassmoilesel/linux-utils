@@ -1,0 +1,18 @@
+[core]
+    pager = delta --light
+
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[user]
+	email = r.passmoilesel@protonmail.com
+	name = Rémi de Passmoilesel
+
+[pull]
+	rebase = false
+
+[init]
+	defaultBranch = master
+
+[delta]
+    line-numbers = true

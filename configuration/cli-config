@@ -25,30 +25,53 @@ echo
 
 set -x
 
-# Install must-have tools, two commands to prevent fail
+# Install must-have tools
 
 sudo pacman -Syu byobu vim curl wget ranger ncdu zsh pass jq cmatrix tree \
-                git tig git-extras python-pip nmap z
+                git tig git-extras python-pip nmap z base-devel
 
-# Rust !
+
+# Yay
+
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+
+
+# Better git diff
+
+yay -S git-delta-bin
+
+
+# Rust
+
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup install nightly
 rustup default nightly
 
 cargo install notes
 
-# Get utilities and scripts
+# Own utilities and scripts
+
 git clone https://github.com/remipassmoilesel/notes-repository ~/.notes
 git clone https://github.com/remipassmoilesel/linux-utils ~/linux-utils/
 
-# Change shell before installing oh my zsh
+
+# Change shell, before installing oh my zsh
+
 sudo chsh ${USER} -s /bin/zsh
 
-# install oh my zsh
+
+# Oh my zsh
+
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# copy zsh configuration
+
+# Configuration
+
 cp ~/linux-utils/configuration/dot-files/dot-zshrc ~/.zshrc
+cp ~/linux-utils/configuration/dot-files/dot-vimrc ~/.vimrc
+cp ~/linux-utils/configuration/dot-files/dot-gitconfig ~/.gitconfig
 
 zsh
 
