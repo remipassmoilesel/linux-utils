@@ -8,6 +8,7 @@ export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:/opt/maven/bin"
 export PATH="$PATH:/opt/sbt/bin"
 export PATH="$PATH:$HOME/.n/bin"
+export PATH="$PATH:$HOME/.yarn/bin"
 
 # N: https://github.com/tj/n
 export N_PREFIX=$HOME/.n
