@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Needs package alsa-utils
+
+DATE=$(date '+%Y-%m-%d %H:%M:%S')
+
+arecord -vv -fdat "record-${DATE}.wav"
