@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+while true
+do
+    bash -c "$1"
+    sleep 1
+    echo "Iterating '$1'"
+done
