@@ -70,6 +70,10 @@ if [[ -f ~/.custom-rc ]]; then
     source $HOME/.custom-rc
 fi
 
+# Oh my zsh fix
+git config --global --add oh-my-zsh.hide-status 1
+git config --global --add oh-my-zsh.hide-dirty 1
+
 # WOOOOOO !
 CMATRIX_COLOR=blue
 if [[ "${USER}" = "root" ]]; then
