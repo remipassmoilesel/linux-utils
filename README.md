@@ -2,5 +2,5 @@
 
 Setup a shell as I like: 
 
-	$ curl https://raw.githubusercontent.com/remipassmoilesel/linux-utils/master/configuration/cli-config | bash
+	$ curl https://raw.githubusercontent.com/remipassmoilesel/linux-utils/master/configuration/setup.sh | bash
 

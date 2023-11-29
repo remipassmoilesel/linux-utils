@@ -6,7 +6,6 @@ export PATH="$PATH:$HOME/linux-utils/bin"
 export PATH="$PATH:$HOME/.go/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:/opt/maven/bin"
-export PATH="$PATH:/opt/sbt/bin"
 export PATH="$PATH:$HOME/.n/bin"
 export PATH="$PATH:$HOME/.yarn/bin"
 
@@ -39,7 +38,8 @@ alias tr="tree -L 2"
 alias lst="lsd --tree"
 alias df="df -h"
 
-unalias gsd 	# Can waste repositories, from oh-my-zsh git plugin
+# These aliases can waste repositories, from oh-my-zsh git plugin
+unalias gsd
 unalias gm
 
 # History options
@@ -53,9 +53,6 @@ if [[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
 	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-# Git options and aliases
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-
 # Ansible
 export ANSIBLE_NOCOWS=1
 
@@ -65,16 +62,16 @@ if [[ -d "${HOME}/.sdkman/bin/sdkman-init.sh" ]]; then
 fi
 
 # Local presets
-if [[ -f ~/.custom-rc ]]; then
-    echo "Sourcing $HOME/.custom-rc"
-    source $HOME/.custom-rc
+if [[ -f ~/.shell-rc ]]; then
+    echo "Sourcing $HOME/.shell-rc"
+    source $HOME/.shell-rc
 fi
 
-# Oh my zsh fix
-git config --global --add oh-my-zsh.hide-status 1
-git config --global --add oh-my-zsh.hide-dirty 1
+# Node JS runtime managers
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
+export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-# WOOOOOO !
+# File system protection against children and cats
 CMATRIX_COLOR=blue
 if [[ "${USER}" = "root" ]]; then
 	CMATRIX_COLOR=red

@@ -73,9 +73,12 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 # Configuration
 
-cp ~/linux-utils/configuration/dot-files/dot-zshrc ~/.zshrc
-cp ~/linux-utils/configuration/dot-files/dot-vimrc ~/.vimrc
-cp ~/linux-utils/configuration/dot-files/dot-gitconfig ~/.gitconfig
+rm ~/.zshrc
+ln -s ~/linux-utils/configuration/dot-files/dot-zshrc ~/.zshrc
+rm ~/.vimrc
+ln -s ~/linux-utils/configuration/dot-files/dot-vimrc ~/.vimrc
+rm ~/.gitconfig
+ln -s ~/linux-utils/configuration/dot-files/dot-gitconfig ~/.gitconfig
 
 zsh
 
