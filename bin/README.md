@@ -2,12 +2,9 @@
 
 AKA a third of my brain :)
 
-
 Misc notes on GNU/Linux availables here:
 
 https://github.com/remipassmoilesel/linux-utils/tree/master/notes-repository
-
-
 
 Usage:
 
@@ -33,7 +30,7 @@ Bookmarked commands !
 
 Register and execute commands
 
-Examples: 
+Examples:
         $ bcomm help
         $ cd project && bcomm register "npm run compile-watch"
         $ cd project && bcomm register "npm run gulp-watch"
@@ -74,32 +71,30 @@ optional arguments:
 
 ```
 
-
 ## search-commandfu
 
 Search online command examples on commandfu.com
 
-	$ search-commandfu grep                                                                                                                                                             
-	
-		http://www.commandlinefu.com/commands/matching/grep/Z3JlcA==/sort-by/votes/plaintext
+    $ search-commandfu grep
 
-		# commandlinefu.com - questions/comments: tech@commandlinefu.com
+    	http://www.commandlinefu.com/commands/matching/grep/Z3JlcA==/sort-by/votes/plaintext
 
-		# a function to find the fastest DNS server
-		curl -s http://public-dns.info/nameserver/br.csv| cut -d, -f1 | xargs -i timeout 1 ping -c1 -w 1 {} | grep time | sed -u "s/.* from \([^:]*\).*time=\([^ ]*\).*/\2\t\1/g" | sort -n | head -n1
+    	# commandlinefu.com - questions/comments: tech@commandlinefu.com
 
-		# Find the package that installed a command
-		whatinstalled () { local cmdpath=$(realpath -eP $(which -a $1 | grep -E "^/" | tail -n 1) 2>/dev/null) && [ -x "$cmdpath" ] && dpkg -S $cmdpath 2>/dev/null | grep -E ": $cmdpath\$" | cut -d ":
-		" -f 1; }
+    	# a function to find the fastest DNS server
+    	curl -s http://public-dns.info/nameserver/br.csv| cut -d, -f1 | xargs -i timeout 1 ping -c1 -w 1 {} | grep time | sed -u "s/.* from \([^:]*\).*time=\([^ ]*\).*/\2\t\1/g" | sort -n | head -n1
 
-		# Search some text from all files inside a directory
-		grep -Hrn "text" .
+    	# Find the package that installed a command
+    	whatinstalled () { local cmdpath=$(realpath -eP $(which -a $1 | grep -E "^/" | tail -n 1) 2>/dev/null) && [ -x "$cmdpath" ] && dpkg -S $cmdpath 2>/dev/null | grep -E ": $cmdpath\$" | cut -d ":
+    	" -f 1; }
 
-		# find all active IP addresses in a network
-		nmap -sP 192.168.1.0/24; arp-scan --localnet  | grep "192.168.1.[0-9]* *ether"
+    	# Search some text from all files inside a directory
+    	grep -Hrn "text" .
 
-		....
+    	# find all active IP addresses in a network
+    	nmap -sP 192.168.1.0/24; arp-scan --localnet  | grep "192.168.1.[0-9]* *ether"
 
+    	....
 
 ## git-backup
 
@@ -133,7 +128,7 @@ Interactive chroot script, allow to repair a broken Debian/derivated system.
 Usage:
 
 ```
-	$ sudo switch-sys  
+	$ sudo switch-sys
 
 	Switch sys !
 
@@ -145,7 +140,7 @@ Usage:
 	├─sdb2   8:18   0  32,6G  0 part /
 	├─sdb3   8:19   0   8,4G  0 part [SWAP]
 	└─sdb4   8:20   0    78G  0 part /home
-	sr0     11:0    1  1024M  0 rom  
+	sr0     11:0    1  1024M  0 rom
 
 	Nom de la partition cible: (ex: sda1, q = quit)
 	...
@@ -155,7 +150,6 @@ Usage:
 ## backup-sys
 
 Interactive script to backup and compress a whole GNU/Linux system with RSYNC
-
 
 ```
 	$ sudo backup-sys
@@ -184,7 +178,6 @@ Usage:
 	  -d, --display         montrer les commandes et paquets du fichier
 ```
 
-
 ## extract-ip
 
 Extract IP adresses from stdin.
@@ -202,7 +195,7 @@ Display stats on Java sources.
 Usage:
 
 ```
-	$ git-stats-java    
+	$ git-stats-java
 
 	Statistiques:
 	2467 fichiers
