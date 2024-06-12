@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+then
+      echo "You must specify a reference. E.g: git-count-changes main"
+      exit 1
+fi
+
+git diff $1 --name-only | wc -l
