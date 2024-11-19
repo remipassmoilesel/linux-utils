@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# mar. 19 nov. 2024 16:19:07 CET
+
+git add -A
+git commit -m "Wip"
