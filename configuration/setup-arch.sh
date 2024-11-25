@@ -7,7 +7,6 @@
 
 # Small script to set up a shell with must-have tools
 
-
 cat << Banner
 
 ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗    ██╗   ██╗████████╗██╗██╗     ███████╗
@@ -24,6 +23,7 @@ echo "Running script for user $USER"
 echo
 
 set -x
+set -e
 
 # Tools
 
