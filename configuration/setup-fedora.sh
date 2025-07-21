@@ -24,7 +24,8 @@ set -e
 
 cd ~
 sudo dnf install byobu vim curl wget ranger ncdu zsh pass jq cmatrix tree \
-                git tig git-extras python-pip nmap z htop @development-tools
+                git tig git-extras python-pip nmap z htop @development-tools \
+                make automake gcc gcc-c++ kernel-devel
 
 # Own utilities and scripts
 
