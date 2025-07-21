@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# jeudi 22 08 2016, 08:59:10 (UTC+0200)
-
-# If you like to live dangerously:
-# curl https://raw.githubusercontent.com/remipassmoilesel/linux-utils/master/config-helpers/cli-config | bash
-
 # Small script to set up a shell with must-have tools
 
 cat << Banner
