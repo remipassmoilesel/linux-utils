@@ -3,6 +3,7 @@
 # Path
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/linux-utils/bin"
+export PATH="$PATH:$HOME/.go/bin"
 
 # Default editor
 export EDITOR=vim
